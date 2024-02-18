@@ -37,14 +37,14 @@ if (process.env.NODE_ENV !== 'production') {
   transports.push(
     new winston.transports.Console({
       format: winston.format.combine(winston.format.colorize({ all: true }), format),
-      level: 'debug',
+      level: 'info',
     })
   );
 } else {
   transports.push(
     new winston.transports.Console({
       format,
-      level: 'info',
+      level: 'debug',
     })
   );
 }
