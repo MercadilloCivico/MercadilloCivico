@@ -1,0 +1,20 @@
+# Dependency directories
+node_modules/
+
+# dotenv environment variables file
+.env
+.env.development
+.env.production
+.env.test
+
+dist
+
+# package-lock.json
+package-lock.json
+
+# VSCode files
+.vscode
+
+**/.vite
+
+extra/

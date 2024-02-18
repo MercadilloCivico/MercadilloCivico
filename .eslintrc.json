@@ -1,0 +1,47 @@
+{
+  "root": true,
+  "ignorePatterns": ["node_modules/", "dist/", "*.lock.json"],
+  "overrides": [
+    {
+      "files": ["front/**/*.{js,jsx}"],
+      "env": { "browser": true, "es2020": true },
+      "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:react-hooks/recommended",
+        "plugin:prettier/recommended"
+      ],
+      "parserOptions": { "ecmaVersion": "latest", "sourceType": "module" },
+      "settings": { "react": { "version": "18.2" } },
+      "plugins": ["react-refresh", "prettier"],
+      "rules": {
+        "react/jsx-no-target-blank": "off",
+        "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
+        "prettier/prettier": ["error"]
+      }
+    },
+    {
+      "files": ["back/**/*.{js,jsx}"],
+      "env": {
+        "node": true,
+        "es6": true,
+        "mocha": true
+      },
+      "extends": ["airbnb/base", "plugin:prettier/recommended"],
+      "settings": {
+        "import/resolver": {
+          "node": {
+            "moduleDirectory": ["src", "node_modules"]
+          }
+        }
+      },
+      "rules": {
+        "no-underscore-dangle": 0,
+        "no-param-reassign": 0,
+        "import/no-unresolved": 0,
+        "prettier/prettier": ["error"]
+      }
+    }
+  ]
+}

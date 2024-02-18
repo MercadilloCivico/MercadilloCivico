@@ -1,0 +1,4 @@
+node_modules
+back/node_modules
+front/node_modules
+*.lock.json
