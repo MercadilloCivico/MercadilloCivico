@@ -1,5 +1,5 @@
 const express = require('express');
-const { helmet } = require('helmet');
+const helmet = require('helmet');
 const routes = require('./routes/index');
 const corsConfig = require('./config/cors.config');
 const errorCatcher = require('./config/error.config');
