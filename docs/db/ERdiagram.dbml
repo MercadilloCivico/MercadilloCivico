@@ -1,0 +1,112 @@
+table Proveedor {
+  id uuid  [ref:> Usuario.id]
+  company_name String
+  pedidos Pedidos[]
+  location string
+}
+
+Table Proveedor_puntoDeVenta{
+  puntoDeVenta_id uuid [ref:> Proveedor.id]
+  provedor_id int [ref:> PuntoDeVenta.id]
+}
+
+table Usuario {
+  id uuid [primary key]
+  firstName String
+  secondName String
+  lastName String
+  password String
+  email String 
+  rol String 
+  googleId String
+  disabled Boolean 
+  img string
+  suscritoBlog bool
+}
+
+table PuntoDeVenta {
+  id int [primary key]
+  name String
+  address String
+  img string
+}
+
+Table productos {
+  id integer [primary key]
+  nombre varchar
+  descripcion text
+  imagen varchar
+  proveedor_id integer 
+  marca varchar
+  disabled bool
+  calificacion array
+}
+
+
+table proveedor_productos{
+  proveedor_id uuid [ref: > Proveedor.id]
+producto_id int [ref: > productos.id]
+}
+ 
+table puntoDeVenta_Productos{
+  id uuid [primary key]  
+  produnto_id int [ref:> productos.id]
+ PuntoDeVenta_id int [ref: >PuntoDeVenta.id]
+  stock int
+  stockMin int
+  stockMax int
+  precio decimal
+
+}
+
+Table pedidosProveedor {
+  id integer [primary key]
+  nombreDelProveedeor string [ref:> productos.proveedor_id]
+  fecha_pedido timestamp
+  productos_en_pedido text
+  estado_pedido varchar
+  fecha_entrega timestamp
+}
+
+Table resenas {
+  id integer [primary key]
+  comentario text
+  calificacion integer
+  producto_resenado_id integer [ref: > productos.id]
+  usuario_resena_id integer [ref: > Usuario.id]
+}
+
+
+
+Table productos_vendidos {
+ id uuid [primary key]
+  usuario_id uuid [ref: >Usuario.id]
+  fecha_agregado datetime
+  productos array
+  total decimal
+}
+
+
+Table favoritos {
+  id uuid [primary key]
+  usuario_id uuid [ref: > Usuario.id]
+  producto_id uuid [ref: > productos.id]
+}
+
+Table carrito_de_comprasActivo {
+  id uuid [primary key]
+
+  producto_id int [ref: > productos.id]
+  usuario_id integer [ref: > Usuario.id]
+estado bool
+  cantidad int
+  total decimal
+}
+
+Table carrito_de_comprasInvitado {
+  id uuid [primary key]
+  producto_id int [ref: > productos.id]
+estado bool
+  cantidad int
+  total decimal
+}
