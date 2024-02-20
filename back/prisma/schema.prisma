@@ -9,3 +9,46 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model Usuario {
+  id             String    @id @db.Uuid
+  first_name     String
+  second_name    String?
+  last_name      String
+  email          String   @unique
+  password       String?
+  photo          String?
+  google_id      String?
+  rol            String   @default("user")
+  proveedor      Proveedor?
+  subscribe_blog Boolean @default(true)
+  disabled       Boolean  @default(false)
+}
+
+model Proveedor {
+  id           Int       @id @default(autoincrement())
+  name_prov    String
+  usuario      Usuario   @relation(fields: [user_id], references: [id])
+  user_id      String    @db.Uuid @unique
+  productos    Producto[]
+  puntos_de_venta Punto_De_Venta[]
+}
+
+model Producto {
+  id            String    @id @db.Uuid
+  name          String
+  description   String?
+  image         String
+  calification  Int       @default(5)
+  proveedor     Proveedor @relation(fields: [proveedor_id], references: [id])
+  proveedor_id  Int
+  marca         String
+  disabled      Boolean   @default(false)
+}
+
+model Punto_De_Venta {
+  id String @id @db.Uuid
+  company_name String
+  address String
+  image String
+  provedores Proveedor[]
+}

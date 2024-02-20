@@ -8,6 +8,7 @@
     "lint": "eslint ./src --ext .js"
   },
   "dependencies": {
+    "@prisma/client": "^5.9.1",
     "axios": "^1.6.2",
     "cloudinary": "^2.0.1",
     "cors": "^2.8.5",
