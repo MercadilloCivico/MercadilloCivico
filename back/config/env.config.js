@@ -11,8 +11,14 @@ if (!['development', 'production'].includes(environment)) {
   process.exit(1);
 }
 
-const { PORT, DATABASE_URL, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } =
-  process.env;
+const {
+  PORT,
+  DATABASE_URL,
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET,
+  SECRET_JWT,
+} = process.env;
 
 module.exports = {
   PORT,
@@ -20,4 +26,5 @@ module.exports = {
   CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
+  SECRET_JWT,
 };
