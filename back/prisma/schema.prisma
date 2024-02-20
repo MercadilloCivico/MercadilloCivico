@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model Usuario {
-  id             String    @id @db.Uuid
+  id             String   @id @db.Uuid @default(uuid())
   first_name     String
   second_name    String?
   last_name      String
@@ -20,6 +20,10 @@ model Usuario {
   google_id      String?
   rol            String   @default("user")
   proveedor      Proveedor?
+  carrito        Carrito_de_Compras?
+  compras        Historial_Compras[]
+  resenas        Resena[]
+  favorites      Producto[]
   subscribe_blog Boolean @default(true)
   disabled       Boolean  @default(false)
 }
@@ -34,7 +38,7 @@ model Proveedor {
 }
 
 model Producto {
-  id            String    @id @db.Uuid
+  id            String    @id @db.Uuid @default(uuid())
   name          String
   description   String?
   image         String
@@ -42,13 +46,62 @@ model Producto {
   proveedor     Proveedor @relation(fields: [proveedor_id], references: [id])
   proveedor_id  Int
   marca         String
+  resenas       Resena[]
+  carrito       Carrito_de_Compras[]
+  h_compras     Historial_Compras[]
+  inventario    Inventario[]
+  favorites     Usuario[]
   disabled      Boolean   @default(false)
 }
 
 model Punto_De_Venta {
-  id String @id @db.Uuid
+  id String @id @db.Uuid @default(uuid())
   company_name String
   address String
   image String
   provedores Proveedor[]
+  inventario Inventario[]
+}
+
+model Resena {
+  id Int @id @default(autoincrement())
+  coment String
+  calification Int
+  producto Producto @relation(fields: [producto_id], references: [id])
+  producto_id String @db.Uuid
+  usuario Usuario @relation(fields: [usuario_id], references: [id])
+  usuario_id String
+}
+
+model Carrito_de_Compras {
+  id Int @id @default(autoincrement())
+  productos Producto[]
+  usuario Usuario @relation(fields: [user_id], references: [id])
+  user_id String @db.Uuid @unique
+}
+
+model Inventario {
+  id Int @id @default(autoincrement())
+  punto Punto_De_Venta @relation(fields: [punto_id], references: [id])
+  punto_id String
+  producto Producto @relation(fields: [producto_id], references: [id])
+  producto_id String
+  cantidad Int @default(1)
+}
+
+model Pedidos_Proveedor {
+  id Int @id @default(autoincrement())
+  nombre_prov String
+  productos String
+  fecha_inicio DateTime @default(now())
+  fecha_entregado DateTime?
+  estado String @default("pendiente")
+}
+
+model Historial_Compras {
+  id Int @id @default(autoincrement())
+  usuario Usuario @relation(fields: [user_id], references: [id])
+  user_id String
+  productos Producto[]
+  fecha DateTime @default(now())
 }
