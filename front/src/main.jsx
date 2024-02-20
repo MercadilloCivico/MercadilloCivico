@@ -4,13 +4,16 @@ import App from './App.jsx';
 import './index.css';
 import CustomStore from './store/StoreProvider.jsx';
 import { StyledEngineProvider } from '@mui/styled-engine';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <CustomStore>
     <React.StrictMode>
-      <StyledEngineProvider injectFirst>
-        <App />
-      </StyledEngineProvider>
+      <BrowserRouter>
+        <StyledEngineProvider injectFirst>
+          <App />
+        </StyledEngineProvider>
+      </BrowserRouter>
     </React.StrictMode>
   </CustomStore>
 );
