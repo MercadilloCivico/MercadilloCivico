@@ -1,0 +1,11 @@
+.active {
+    height: 100px;
+    overflow: auto;
+    transition: 0.2s;
+}
+
+.hidden {
+    height: 0px;
+    overflow: hidden;
+    transition: 0.2s;
+}
