@@ -7,6 +7,7 @@ const corsConfig = require('./config/cors.config');
 const errorCatcher = require('./config/error.config');
 const passport = require('./config/passportSetup');
 const { methodLogger } = require('./config/logger.config');
+const { SECRET_COOKIE } = require('./config/env.config');
 
 const app = express();
 
@@ -14,10 +15,51 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 app.use(helmet());
+// ambiente de desarrollo modificar en produccion
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        // 'trusted-scripts.com', dominio cliente
+        'http://localhost:5173',
+        'http://localhost:3001',
+        // 'cdn.jsdelivr.net', adquirir cuando el cliente lo desee
+        'apis.google.com', // Permitir scripts de Google Auth
+        'cdnjs.cloudflare.com', // Permitir scripts de Material-UI
+      ],
+      styleSrc: [
+        "'self'",
+        'cdn.jsdelivr.net',
+        'fonts.googleapis.com', // Permitir estilos de Google Fonts
+        'cdn.materialdesignicons.com', // Permitir estilos de Material Design Icons
+      ],
+      imgSrc: [
+        "'self'",
+        'data:',
+        'res.cloudinary.com', // Permitir imágenes de Cloudinary
+        'www.google.com', // Permitir imágenes de Google Auth
+        'http://localhost:5173',
+        'http://localhost:3001',
+      ],
+    },
+  })
+);
+app.disable('x-powered-by');
+app.use(helmet.noSniff());
+
 app.use(express.json());
 app.use(upload.single('image'));
 app.use(passport.initialize());
-app.use(cookieParser());
+app.use(
+  cookieParser(SECRET_COOKIE, {
+    httpOnly: true,
+    sameSite: 'Strict',
+    // secure: true,
+  })
+);
+
 app.use(methodLogger);
 app.use(corsConfig);
 app.use('/api', routes);

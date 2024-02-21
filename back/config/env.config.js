@@ -22,6 +22,7 @@ const {
   SECRET_JWT,
   CLIENT_ID,
   CLIENT_SECRET,
+  SECRET_COOKIE,
 } = process.env;
 
 module.exports = {
@@ -35,4 +36,5 @@ module.exports = {
   SECRET_JWT,
   CLIENT_ID,
   CLIENT_SECRET,
+  SECRET_COOKIE,
 };
