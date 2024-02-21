@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const login = require('../controllers/authController');
+const { login, logout } = require('../controllers/authController');
 const middleware = require('../../middleware/authGoogle');
 const register = require('../controllers/registerController');
 
@@ -14,5 +14,6 @@ router.get('/auth/google/callback', middleware.authenticateGoogleCallback);
 
 router.post('/login', login);
 router.post('/register', register);
+router.post('/logout', logout);
 
 module.exports = router;

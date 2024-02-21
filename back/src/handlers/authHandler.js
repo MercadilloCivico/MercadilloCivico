@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const prisma = require('../../db_connection');
 const { SECRET_JWT } = require('../../config/env.config');
 // const { logger } = require('../../config/logger.config');
+const validTokens = new Set();
 
 async function authHandler(email, password) {
   try {
@@ -22,6 +23,7 @@ async function authHandler(email, password) {
     }
     if (passwordMatch) {
       const token = jwt.sign({ access: true }, SECRET_JWT, { expiresIn: '1h' });
+      validTokens.add(token);
       return token;
     }
     throw new Error('Usuario o contraseña incorrecta');
@@ -32,4 +34,16 @@ async function authHandler(email, password) {
   }
 }
 
-module.exports = authHandler;
+async function logoutHandler(token) {
+  try {
+    validTokens.delete(token);
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+module.exports = {
+  authHandler,
+  logoutHandler,
+  validTokens,
+};
