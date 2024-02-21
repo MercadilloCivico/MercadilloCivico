@@ -30,11 +30,20 @@ model Usuario {
 
 model Proveedor {
   id           Int       @id @default(autoincrement())
-  name_prov    String
+  name_prov    String?
   usuario      Usuario   @relation(fields: [user_id], references: [id])
   user_id      String    @db.Uuid @unique
-  productos    Producto[]
+  productos    ProductoProveedor[]
   puntos_de_venta Punto_De_Venta[]
+}
+
+model ProductoProveedor {
+  provedor Proveedor @relation(fields: [proveedor_id], references: [id])
+  proveedor_id Int
+  producto Producto @relation(fields: [producto_id], references: [id])
+  producto_id String
+  costo Decimal
+  @@id([proveedor_id,producto_id])
 }
 
 model Producto {
@@ -43,8 +52,7 @@ model Producto {
   description   String?
   image         String
   calification  Int       @default(5)
-  proveedor     Proveedor @relation(fields: [proveedor_id], references: [id])
-  proveedor_id  Int
+  proveedor     ProductoProveedor[]
   marca         String
   resenas       Resena[]
   carrito       Carrito_de_Compras[]
@@ -82,11 +90,14 @@ model Carrito_de_Compras {
 
 model Inventario {
   id Int @id @default(autoincrement())
-  punto Punto_De_Venta @relation(fields: [punto_id], references: [id])
-  punto_id String
+  punto Punto_De_Venta @relation(fields: [punto_de_venta_id], references: [id])
+  punto_de_venta_id String
   producto Producto @relation(fields: [producto_id], references: [id])
   producto_id String
-  cantidad Int @default(1)
+  stock_min Int
+  stock Int
+  stock_max Int
+  precio_final Decimal
 }
 
 model Pedidos_Proveedor {
