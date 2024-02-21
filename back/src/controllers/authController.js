@@ -1,6 +1,6 @@
 // const { logger } = require('../../config/logger.config');
 // eslint-disable-next-line import/no-useless-path-segments
-const authHandler = require('../../src/handlers/authHandler');
+const { authHandler, logoutHandler } = require('../../src/handlers/authHandler');
 
 async function login(req, res) {
   try {
@@ -19,4 +19,18 @@ async function login(req, res) {
   }
 }
 
-module.exports = login;
+async function logout(req, res) {
+  try {
+    const token = req.cookies.sessionToken;
+    await logoutHandler(token);
+    res.clearCookie('sessionToken');
+    res.status(200).json({ message: 'Cierre de sesión exitoso' });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: 'Error en el logout' });
+  }
+}
+
+module.exports = {
+  login,
+  logout,
+};
