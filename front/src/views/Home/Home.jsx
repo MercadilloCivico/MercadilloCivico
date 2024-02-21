@@ -1,6 +1,5 @@
 import LogoHome from '../../assets/img/logo-full.svg';
-
-function Landing() {
+function Home() {
   return (
     <div className='bg-pearl-bush-200 w-[320px] h-[1200px] relative'>
       <h1 className='hidden text-cabbage-pont-950'>Mercadillo Civíco</h1>
@@ -45,4 +44,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default Home;
