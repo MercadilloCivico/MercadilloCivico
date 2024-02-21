@@ -17,7 +17,7 @@ model Usuario {
   email          String   @unique
   password       String?
   photo          String?
-  google_id      String?
+  google_id      String?  @unique
   rol            String   @default("user")
   proveedor      Proveedor?
   carrito        Carrito_de_Compras?
