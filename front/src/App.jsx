@@ -4,12 +4,15 @@ import Footer from './components/Footer/Footer.jsx';
 import Home from './views/Home/Home.jsx';
 import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
+import Nav from './components/Nav/Nav.jsx';
+import Favorites from './views/Favorites/Favorites.jsx';
 //import { Button } from '@mui/material';
 //import Card from './components/Card/Card.jsx';
 
 function App() {
   return (
     <div className=''>
+      <Nav />
       {/**
        * 
        <p className='text-3xl '>Mercadillo Cívico</p>
@@ -33,6 +36,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/Store' element={<Store />} />
         <Route path='/Contact' element={<Contact />} />
+        <Route path='/Favorites' element={<Favorites />} />
       </Routes>
 
       <Footer />

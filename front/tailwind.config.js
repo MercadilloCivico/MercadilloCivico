@@ -63,7 +63,19 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.custom-transparent-bg': {
+          backgroundColor: 'transparent',
+        },
+        '.custom-width': {
+          width: '17em',
+        },
+      };
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    },
+  ],
   corePlugins: {
     preflight: false,
   },
