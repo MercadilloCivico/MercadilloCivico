@@ -69,6 +69,9 @@ export default {
         '.custom-transparent-bg': {
           backgroundColor: 'transparent',
         },
+        '.custom-width': {
+          width: '17em',
+        },
       };
       addUtilities(newUtilities, ['responsive', 'hover']);
     },

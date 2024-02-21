@@ -11,12 +11,12 @@ const Nav = () => {
 
   return (
     <div>
-      <header className='bg-pearl-bush-100 flex h-12 w-full fixed items-center justify-between top-0 left-0'>
+      <header className='bg-pearl-bush-100 flex h-12 w-full fixed items-center justify-between top-0 left-0 shadow-md'>
         <button
-          className='custom-transparent-bg border-none p-1 cursor-pointer'
+          className='custom-transparent-bg border-none p-1 cursor-pointer lg:hidden'
           onClick={toggleMenu}>
           <svg
-            className='h-6 w-6 text-cabbage-pont-300'
+            className='h-6 w-6 text-cabbage-pont-400 hover:text-cabbage-pont-600'
             fill='none'
             viewBox='0 0 24 24'
             stroke='currentColor'>
@@ -33,10 +33,24 @@ const Nav = () => {
             <img className='h-full w-full object-contain' src={LogoMC} alt='Logo' />
           </div>
         </Link>
+        <ul className='hidden lg:flex space-x-20'>
+          <Link to='/' className='text-cabbage-pont-400 hover:text-cabbage-pont-600'>
+            <li>Inicio</li>
+          </Link>
+          <Link to='/store' className='text-cabbage-pont-400 hover:text-cabbage-pont-600'>
+            <li>Tienda</li>
+          </Link>
+          <Link to='/contact' className='text-cabbage-pont-400 hover:text-cabbage-pont-600'>
+            <li>Contacto</li>
+          </Link>
+          <Link to='/favorites' className='text-cabbage-pont-400 hover:text-cabbage-pont-600'>
+            <li>Favoritos</li>
+          </Link>
+        </ul>
         <div className='flex space-x-4'>
           <button className='custom-transparent-bg border-none cursor-pointer'>
             <svg
-              className='h-6 w-6 text-cabbage-pont-300'
+              className='h-6 w-6 text-cabbage-pont-400 hover:text-cabbage-pont-600'
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'>
@@ -50,7 +64,7 @@ const Nav = () => {
           </button>
           <button className='custom-transparent-bg border-none pr-2 cursor-pointer'>
             <svg
-              className='h-6 w-6 text-cabbage-pont-300'
+              className='h-6 w-6 text-cabbage-pont-400 hover:text-cabbage-pont-600'
               viewBox='0 0 24 24'
               fill='none'
               stroke='currentColor'
@@ -67,13 +81,13 @@ const Nav = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className='fixed inset-0 bg-pearl-bush-100 bg-opacity-90 flex items-center justify-center'>
-          <div className='bg-pearl-bush-200 p-8 rounded shadow-lg'>
+        <div className='fixed inset-0 bg-pearl-bush-100 flex items-center justify-center'>
+          <header className='bg-pearl-bush-100 flex h-12 w-full fixed items-center justify-between top-0 left-0 shadow-md'>
             <button
-              className='custom-transparent-bg border-none p-1 cursor-pointer'
+              className='custom-transparent-bg border-none p-1 cursor-pointer top-0 left-0'
               onClick={toggleMenu}>
               <svg
-                className='h-6 w-6 text-cabbage-pont-300'
+                className='h-6 w-6 text-cabbage-pont-400 hover:text-cabbage-pont-600'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'>
@@ -85,24 +99,44 @@ const Nav = () => {
                 />
               </svg>
             </button>
-            <ul className='flex flex-col items-center mt-6 space-y-4'>
-              <li>
-                <Link to='/' onClick={toggleMenu} className='text-cabbage-pont-300'>
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to='/store' onClick={toggleMenu} className='text-cabbage-pont-300'>
-                  Store
-                </Link>
-              </li>
-              <li>
-                <Link to='/contact' onClick={toggleMenu} className='text-cabbage-pont-300'>
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
+          </header>
+          <ul className='flex flex-col items-center mt-6 space-y-4'>
+            <li>
+              <Link
+                to='/'
+                onClick={toggleMenu}
+                className='text-cabbage-pont-400 text-2xl hover:text-cabbage-pont-600'>
+                Inicio
+              </Link>
+            </li>
+            <hr className='custom-width border-cabbage-pont-600' />
+            <li>
+              <Link
+                to='/store'
+                onClick={toggleMenu}
+                className='text-cabbage-pont-400 text-2xl hover:text-cabbage-pont-600'>
+                Tienda
+              </Link>
+            </li>
+            <hr className='custom-width border-cabbage-pont-600' />
+            <li>
+              <Link
+                to='/contact'
+                onClick={toggleMenu}
+                className='text-cabbage-pont-400 text-2xl hover:text-cabbage-pont-600'>
+                Contacto
+              </Link>
+            </li>
+            <hr className='custom-width border-cabbage-pont-600' />
+            <li>
+              <Link
+                to='/favorites'
+                onClick={toggleMenu}
+                className='text-cabbage-pont-400 text-2xl hover:text-cabbage-pont-600'>
+                Favoritos
+              </Link>
+            </li>
+          </ul>
         </div>
       )}
     </div>
