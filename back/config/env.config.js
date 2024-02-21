@@ -14,6 +14,8 @@ if (!['development', 'production'].includes(environment)) {
 const {
   PORT,
   DATABASE_URL,
+  GOOGLE_EMAIL,
+  GOOGLE_PASS,
   CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
@@ -23,6 +25,8 @@ const {
 module.exports = {
   PORT,
   DATABASE_URL,
+  GOOGLE_EMAIL,
+  GOOGLE_PASS,
   CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,

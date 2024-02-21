@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Footer from './components/Footer/Footer.jsx';
-import Home from './views/Home.jsx/Home.jsx';
+import Home from './views/Home/Home.jsx';
 import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
 import Nav from './components/Nav/Nav.jsx';

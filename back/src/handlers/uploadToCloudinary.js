@@ -1,5 +1,5 @@
-const cloudinary = require('../config/cloudinary.config');
-const { CLOUDINARY_API_KEY } = require('../config/env.config');
+const cloudinary = require('../../config/cloudinary.config');
+const { CLOUDINARY_API_KEY } = require('../../config/env.config');
 
 const uploadToCloudinary = async (file) => {
   return new Promise((resolve, reject) => {
