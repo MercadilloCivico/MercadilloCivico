@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const prisma = require('../../db_connection');
+const { SECRET_JWT } = require('../../config/env.config');
 // const { logger } = require('../../config/logger.config');
 
 async function authHandler(email, password) {
@@ -20,7 +21,7 @@ async function authHandler(email, password) {
       throw new Error('usuario o contraseña incorrecta');
     }
     if (passwordMatch) {
-      const token = jwt.sign({ access: true }, 'secret', { expiresIn: '1h' });
+      const token = jwt.sign({ access: true }, SECRET_JWT, { expiresIn: '1h' });
       return token;
     }
     throw new Error('Usuario o contraseña incorrecta');

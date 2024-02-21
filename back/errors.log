@@ -6,3 +6,77 @@
 2024-02-20 11:28:12 error: GET / 500 11ms
 2024-02-20 18:14:33 error: POST /api/login 500 4ms
 2024-02-20 18:18:52 error: POST /api/login 500 10ms
+2024-02-20 22:59:31 error: [object Object]
+2024-02-20 22:59:31 error: POST /api/auth/google 500 8ms
+2024-02-20 23:19:43 error: [object Object]
+2024-02-20 23:19:43 error: GET / 500 7ms
+2024-02-20 23:20:20 error: [object Object]
+2024-02-20 23:20:20 error: GET / 500 3ms
+2024-02-20 23:20:28 error: [object Object]
+2024-02-20 23:20:28 error: GET / 500 3ms
+2024-02-20 23:22:31 error: [object Object]
+2024-02-20 23:22:31 error: GET / 500 7ms
+2024-02-20 23:23:41 error: [object Object]
+2024-02-20 23:23:41 error: GET / 500 7ms
+2024-02-20 23:32:11 error: undefined
+2024-02-20 23:32:11 error: [object Object]
+2024-02-20 23:32:11 error: GET / 500 7ms
+2024-02-20 23:33:16 error: undefined
+2024-02-20 23:33:16 error: [object Object]
+2024-02-20 23:33:16 error: GET / 500 6ms
+2024-02-20 23:33:43 error: [object Object]
+2024-02-20 23:33:43 error: GET / 500 7ms
+2024-02-20 23:34:51 error: [object Object]
+2024-02-20 23:34:51 error: GET / 500 7ms
+2024-02-20 23:36:04 error: [object Object]
+2024-02-20 23:36:04 error: GET / 500 3ms
+2024-02-20 23:40:29 error: [object Object]
+2024-02-20 23:40:29 error: GET / 500 7ms
+2024-02-20 23:40:37 error: [object Object]
+2024-02-20 23:40:37 error: GET / 500 2ms
+2024-02-20 23:40:44 error: [object Object]
+2024-02-20 23:40:44 error: GET / 500 3ms
+2024-02-20 23:40:52 error: [object Object]
+2024-02-20 23:40:52 error: GET / 500 3ms
+2024-02-20 23:42:17 error: [object Object]
+2024-02-20 23:42:17 error: GET / 500 2ms
+2024-02-20 23:42:39 error: [object Object]
+2024-02-20 23:42:39 error: GET / 500 6ms
+2024-02-20 23:44:22 error: [object Object]
+2024-02-20 23:44:22 error: GET / 500 6ms
+2024-02-20 23:46:07 error: [object Object]
+2024-02-20 23:46:07 error: GET / 500 7ms
+2024-02-20 23:50:08 error: [object Object]
+2024-02-20 23:50:08 error: GET / 500 3ms
+2024-02-20 23:50:23 error: [object Object]
+2024-02-20 23:50:23 error: GET / 500 2ms
+2024-02-20 23:52:07 error: [object Object]
+2024-02-20 23:52:07 error: GET / 500 3ms
+2024-02-20 23:52:36 error: [object Object]
+2024-02-20 23:52:36 error: GET / 500 3ms
+2024-02-20 23:54:15 error: [object Object]
+2024-02-20 23:54:15 error: GET / 500 2ms
+2024-02-20 23:54:42 error: [object Object]
+2024-02-20 23:54:42 error: GET / 500 2ms
+2024-02-20 23:56:45 error: [object Object]
+2024-02-20 23:56:45 error: GET / 500 6ms
+2024-02-20 23:58:48 error: [object Object]
+2024-02-20 23:58:48 error: GET / 500 5ms
+2024-02-21 00:00:02 error: [object Object]
+2024-02-21 00:00:02 error: GET / 500 5ms
+2024-02-21 00:17:14 error: [object Object]
+2024-02-21 00:17:14 error: GET / 500 5ms
+2024-02-21 00:37:39 error: [object Object]
+2024-02-21 00:37:39 error: GET / 500 5ms
+2024-02-21 00:53:01 error: [object Object]
+2024-02-21 00:53:01 error: GET / 500 6ms
+2024-02-21 00:56:52 error: [object Object]
+2024-02-21 00:56:52 error: GET / 500 7ms
+2024-02-21 00:59:14 error: [object Object]
+2024-02-21 00:59:14 error: GET / 500 6ms
+2024-02-21 01:01:14 error: [object Object]
+2024-02-21 01:01:14 error: GET / 500 3ms
+2024-02-21 01:01:51 error: [object Object]
+2024-02-21 01:01:51 error: GET / 500 3ms
+2024-02-21 01:03:17 error: [object Object]
+2024-02-21 01:03:17 error: GET / 500 7ms

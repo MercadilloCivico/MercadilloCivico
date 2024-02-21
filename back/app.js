@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const routes = require('./src/routes/index');
 const corsConfig = require('./config/cors.config');
 const errorCatcher = require('./config/error.config');
-const passport = require('./middleware/LocalAuth');
+const passport = require('./config/passportSetup');
 const { methodLogger } = require('./config/logger.config');
 
 const app = express();

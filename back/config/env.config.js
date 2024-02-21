@@ -20,6 +20,8 @@ const {
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
   SECRET_JWT,
+  CLIENT_ID,
+  CLIENT_SECRET,
 } = process.env;
 
 module.exports = {
@@ -31,4 +33,6 @@ module.exports = {
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
   SECRET_JWT,
+  CLIENT_ID,
+  CLIENT_SECRET,
 };
