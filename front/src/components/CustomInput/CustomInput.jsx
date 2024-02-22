@@ -10,7 +10,7 @@ const CustomInput = ({
 }) => {
   return (
     <TextField
-      className=' bg-pearl-bush-100 text-hippie-green-700 placeholder-hippie-green-300 border-tuscany-600 focus:border-hippie-green-600 hover:border-tuscany-200'
+      className=' bg-pearl-bush-100 text-tuscany-600 placeholder-hippie-green-300 border-tuscany-600 focus:border-hippie-green-600 hover:border-tuscany-200'
       variant={variant}
       placeholder={placeholder}
       onChange={onChange}
@@ -18,12 +18,12 @@ const CustomInput = ({
       InputProps={{
         startAdornment: StartIcon ? (
           <InputAdornment position='start'>
-            <StartIcon className='text-hippie-green-600 text-3xl' />
+            <StartIcon className='text-tuscany-600 text-3xl' />
           </InputAdornment>
         ) : null,
         endAdornment: EndIcon ? (
           <InputAdornment position='end'>
-            <EndIcon className='text-hippie-green-600 text-3xl' />
+            <EndIcon className='text-tuscany-600 text-3xl' />
           </InputAdornment>
         ) : null,
       }}
