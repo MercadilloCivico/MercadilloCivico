@@ -1,6 +1,6 @@
 // const { logger } = require('../../config/logger.config');
 // eslint-disable-next-line import/no-useless-path-segments
-const { authHandler, logoutHandler } = require('../../src/handlers/authHandler');
+const { authHandler, logoutHandler } = require('../../handlers/Usuario/authHandler');
 
 async function login(req, res) {
   try {

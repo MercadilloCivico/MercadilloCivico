@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-const prisma = require('../../db_connection');
-const uploadToCloudinary = require('./uploadToCloudinary');
+const prisma = require('../../../db_connection');
+const uploadToCloudinary = require('../uploadToCloudinary');
 
 const registerHandler = async (firstName, lastName, email, password, secondName, photo) => {
   try {

@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-const prisma = require('../../db_connection');
-const sendRecoveryEmail = require('../utils/mails');
+const prisma = require('../../../db_connection');
+const sendRecoveryEmail = require('../../utils/mails');
 
 const putEmailValidator = async (email) => {
   try {
