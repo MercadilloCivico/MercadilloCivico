@@ -6,8 +6,7 @@ import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
 import Nav from './components/Nav/Nav.jsx';
 import Favorites from './views/Favorites/Favorites.jsx';
-//import { Button } from '@mui/material';
-//import Card from './components/Card/Card.jsx';
+
 import { ThemeProvider, createTheme } from '@mui/material';
 import Detail from './views/Detail/Detail.jsx';
 
@@ -17,7 +16,16 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#568a3f',
+            borderColor: '#c55d38',
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused': {
+            color: '#c55d38',
           },
         },
       },
@@ -31,26 +39,6 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className=''>
         {isDetailPage ? null : <Nav />}
-
-        {/**
-       * 
-       <p className='text-3xl '>Mercadillo Cívico</p>
-       <Button variant='contained' className=''>
-         Comprar
-       </Button>
-       <Card
-        product={{
-          name: 'Pack agua mineral 900 ml. 9 unidades',
-          price: '11.999',
-          provider: 'Manzanas Proovedor',
-          stock: 'Último disponible!',
-          variant: 'Normal',
-          weight: '340g',
-          calories: '250',
-        }}
-        />
-      */}
-
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/Store' element={<Store />} />

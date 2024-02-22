@@ -1,5 +1,4 @@
 import CustomInput from '../../components/CustomInput/CustomInput';
-import { LuSettings2 } from 'react-icons/lu';
 import { IoSearch } from 'react-icons/io5';
 
 const Store = () => {
@@ -7,9 +6,9 @@ const Store = () => {
     <>
       <div>Store</div>
       <CustomInput
+        label={'Busca tu producto...'}
         placeholder='Busca tu producto...'
-        startIcon={IoSearch}
-        endIcon={LuSettings2}
+        endIcon={IoSearch}
         variant='outlined'
       />
     </>
