@@ -1,4 +1,4 @@
-const putEmailValidator = require('../handlers/putEmailValidator');
+const putEmailValidator = require('../../handlers/Usuario/putEmailValidator');
 
 const contraseñaOlvidada = async (req, res) => {
   try {

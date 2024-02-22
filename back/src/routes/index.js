@@ -1,11 +1,11 @@
 const { Router } = require('express');
-const { login, logout } = require('../controllers/authController');
+const { login, logout } = require('../controllers/Usuario/authController');
 const middleware = require('../../middleware/authGoogle');
-const deleteUser = require('../controllers/deleteUserController');
-const register = require('../controllers/registerController');
-const contraseñaOlvidada = require('../controllers/contraseñaOlvidada');
-const recuperarContrasenia = require('../controllers/recuperarContraseña');
-const putContrasenia = require('../controllers/putContraseña');
+const deleteUser = require('../controllers/Usuario/deleteUserController');
+const register = require('../controllers/Usuario/registerController');
+const contraseñaOlvidada = require('../controllers/Usuario/contraseñaOlvidada');
+const recuperarContrasenia = require('../controllers/Usuario/recuperarContraseña');
+const putUsuario = require('../controllers/Usuario/putUsuarioController');
 
 const router = Router();
 
@@ -22,10 +22,12 @@ router.post('/register', register);
 router.post('/logout', logout);
 
 // Delete
+
 router.delete('/disable/user', deleteUser);
 
 // Put
+
 router.put('/forgot/password', contraseñaOlvidada);
-router.put('/change/password', putContrasenia);
+router.put('/update/user', putUsuario);
 
 module.exports = router;
