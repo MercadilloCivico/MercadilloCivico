@@ -10,7 +10,7 @@ import Favorites from './views/Favorites/Favorites.jsx';
 import { ThemeProvider, createTheme } from '@mui/material';
 import Detail from './views/Detail/Detail.jsx';
 
-const theme = createTheme({
+export const theme = createTheme({
   components: {
     MuiOutlinedInput: {
       styleOverrides: {
