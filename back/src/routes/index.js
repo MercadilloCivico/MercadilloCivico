@@ -6,6 +6,7 @@ const register = require('../controllers/registerController');
 const contraseñaOlvidada = require('../controllers/contraseñaOlvidada');
 const recuperarContrasenia = require('../controllers/recuperarContraseña');
 const putContrasenia = require('../controllers/putContraseña');
+const postProduct = require('../controllers/postProductController');
 
 const router = Router();
 
@@ -20,6 +21,7 @@ router.get('/forgot/password', recuperarContrasenia);
 router.post('/login', login);
 router.post('/register', register);
 router.post('/logout', logout);
+router.post('/postProduct', postProduct);
 
 // Delete
 router.delete('/disable/user', deleteUser);
