@@ -6,6 +6,7 @@ const CustomInput = ({
   startIcon: StartIcon,
   endIcon: EndIcon,
   variant,
+  label,
 }) => {
   return (
     <TextField
@@ -13,6 +14,7 @@ const CustomInput = ({
       variant={variant}
       placeholder={placeholder}
       onChange={onChange}
+      label={label}
       InputProps={{
         startAdornment: StartIcon ? (
           <InputAdornment position='start'>
