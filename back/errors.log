@@ -86,3 +86,15 @@
 2024-02-21 17:38:50 error: undefined
 2024-02-21 17:59:25 error: undefined
 2024-02-21 18:01:21 error: undefined
+2024-02-22 00:36:57 error: [object Object]
+2024-02-22 00:36:57 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=$2b$11$frSBaSUZMdJhr05MPIpOJOxaan0cDkI2peKEi6bBOuXnBAt6CZ/JS 500 9ms
+2024-02-22 00:39:36 error: [object Object]
+2024-02-22 00:39:36 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=$2b$11$1PzTnwc6hMC1W3qP9cExUudI/7bPeqiN7AxHjWUC6Y88CybzlzvJa 500 7ms
+2024-02-22 00:41:46 error: [object Object]
+2024-02-22 00:41:46 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=482643 500 6ms
+2024-02-22 00:42:42 error: [object Object]
+2024-02-22 00:42:42 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=535873 500 3ms
+2024-02-22 00:43:46 error: [object Object]
+2024-02-22 00:43:46 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=896532 500 7ms
+2024-02-22 00:50:30 error: [object Object]
+2024-02-22 00:50:30 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=597921 500 7ms
