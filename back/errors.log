@@ -80,3 +80,9 @@
 2024-02-21 01:01:51 error: GET / 500 3ms
 2024-02-21 01:03:17 error: [object Object]
 2024-02-21 01:03:17 error: GET / 500 7ms
+2024-02-21 20:16:22 error: [object Object]
+2024-02-21 20:16:22 error: GET /api/disable/user 500 214ms
+2024-02-21 17:38:29 error: undefined
+2024-02-21 17:38:50 error: undefined
+2024-02-21 17:59:25 error: undefined
+2024-02-21 18:01:21 error: undefined

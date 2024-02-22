@@ -8,12 +8,27 @@ import Nav from './components/Nav/Nav.jsx';
 import Favorites from './views/Favorites/Favorites.jsx';
 //import { Button } from '@mui/material';
 //import Card from './components/Card/Card.jsx';
+import { ThemeProvider, createTheme } from '@mui/material';
 
+const theme = createTheme({
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#568a3f',
+          },
+        },
+      },
+    },
+  },
+});
 function App() {
   return (
-    <div className=''>
-      <Nav />
-      {/**
+    <ThemeProvider theme={theme}>
+      <div className=''>
+        <Nav />
+        {/**
        * 
        <p className='text-3xl '>Mercadillo Cívico</p>
        <Button variant='contained' className=''>
@@ -32,15 +47,16 @@ function App() {
         />
       */}
 
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/Store' element={<Store />} />
-        <Route path='/Contact' element={<Contact />} />
-        <Route path='/Favorites' element={<Favorites />} />
-      </Routes>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/Store' element={<Store />} />
+          <Route path='/Contact' element={<Contact />} />
+          <Route path='/Favorites' element={<Favorites />} />
+        </Routes>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 
