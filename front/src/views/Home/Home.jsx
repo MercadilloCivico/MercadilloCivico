@@ -1,5 +1,5 @@
 import LogoHome from '../../assets/img/logo-full.svg';
-
+import CustomButton from '../../components/CustomButton/CustomButton';
 function Home() {
   return (
     <>
@@ -11,8 +11,7 @@ function Home() {
         forma segura y confiable
       </p>
 
-      <button className='mb-10 w-[180px] h-[50px] bg-pearl-bush-800'>Acceder</button>
-
+      <CustomButton text='Acceder' />
       <div className=''>
         <p className='text-pearl-bush-950 m-auto my-5 max-w-[600px] p-1 mt-[150px]'>
           Lorem ipsum dolor sit amet consectetur. Sollicitudin in nulla nisi vulputate a. Habitasse
