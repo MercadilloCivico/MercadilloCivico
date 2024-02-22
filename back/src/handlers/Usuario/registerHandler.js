@@ -7,8 +7,17 @@ const registerHandler = async (firstName, lastName, email, password, secondName,
     const repeatEmail = await prisma.usuario.findFirst({
       where: { email },
     });
-    if (repeatEmail)
-      throw new Error('El email ya se encuentra registrado, por favor inicie sesión');
+    if (repeatEmail) {
+      if (repeatEmail.disabled) {
+        await prisma.usuario.update({
+          where: { id: repeatEmail.id },
+          data: { disabled: false },
+        });
+        throw new Error('Su cuenta vinculada al email ha sido reactivada, por favor inicie sesión');
+      } else {
+        throw new Error('El email ya se encuentra registrado, por favor inicie sesión');
+      }
+    }
     const hashPassword = await bcrypt.hash(password, 11);
     let secureUrl;
     if (photo) {
