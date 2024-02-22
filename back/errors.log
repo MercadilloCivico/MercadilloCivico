@@ -98,3 +98,4 @@
 2024-02-22 00:43:46 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=896532 500 7ms
 2024-02-22 00:50:30 error: [object Object]
 2024-02-22 00:50:30 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=597921 500 7ms
+2024-02-22 15:16:23 error: POST /api/postProduct 500 29ms

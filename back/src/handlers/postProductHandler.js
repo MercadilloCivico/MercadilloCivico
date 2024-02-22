@@ -4,7 +4,14 @@ const prisma = new PrismaClient();
 
 const upoloadToCloudinary = require('./uploadToCloudinary');
 
-const postProductHandler = async (name, description, image, calification, marca) => {
+const postProductHandler = async (
+  name,
+  description,
+  image,
+  calification,
+  marca,
+  proveedoresCostos
+) => {
   try {
     // Subir la imagen a cloudinary
     let imageURL;
@@ -20,6 +27,14 @@ const postProductHandler = async (name, description, image, calification, marca)
         image: imageURL || '',
         calification,
         marca,
+        proveedor: {
+          createMany: {
+            data: proveedoresCostos.map((objeto) => ({
+              proveedor_id: objeto.proveedor_id,
+              costo: objeto.costo,
+            })),
+          },
+        },
       },
     });
 
