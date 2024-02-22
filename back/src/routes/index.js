@@ -3,9 +3,6 @@ const { login, logout } = require('../controllers/authController');
 const middleware = require('../../middleware/authGoogle');
 const deleteUser = require('../controllers/deleteUserController');
 const register = require('../controllers/registerController');
-const contraseñaOlvidada = require('../controllers/contraseñaOlvidada');
-const recuperarContrasenia = require('../controllers/recuperarContraseña');
-const putContrasenia = require('../controllers/putContraseña');
 
 const router = Router();
 
@@ -13,7 +10,6 @@ const router = Router();
 
 router.get('/auth/google', middleware.authenticateGoogle);
 router.get('/auth/google/callback', middleware.authenticateGoogleCallback);
-router.get('/forgot/password', recuperarContrasenia);
 
 // Post
 
@@ -22,10 +18,7 @@ router.post('/register', register);
 router.post('/logout', logout);
 
 // Delete
-router.delete('/disable/user', deleteUser);
 
-// Put
-router.put('/forgot/password', contraseñaOlvidada);
-router.put('/change/password', putContrasenia);
+router.delete('/disable/user', deleteUser);
 
 module.exports = router;

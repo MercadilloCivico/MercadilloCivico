@@ -32,11 +32,7 @@ model Proveedor {
   id           Int       @id @default(autoincrement())
   name_prov    String?
   usuario      Usuario   @relation(fields: [user_id], references: [id])
-  user_id      String    @db.Uuid @unique //que tiene que ver??
-  email  String
-  ubicacion String
-  tel String
-  camaraDeComercio String
+  user_id      String    @db.Uuid @unique
   productos    ProductoProveedor[]
   puntos_de_venta Punto_De_Venta[]
 }
@@ -45,7 +41,7 @@ model ProductoProveedor {
   provedor Proveedor @relation(fields: [proveedor_id], references: [id])
   proveedor_id Int
   producto Producto @relation(fields: [producto_id], references: [id])
-  producto_id String @db.Uuid
+  producto_id String
   costo Decimal
   @@id([proveedor_id,producto_id])
 }
@@ -61,7 +57,7 @@ model Producto {
   resenas       Resena[]
   carrito       Carrito_de_Compras[]
   h_compras     Historial_Compras[]
-  inventario    Inventario[] //revisar casilla
+  inventario    Inventario[]
   favorites     Usuario[]
   disabled      Boolean   @default(false)
 }
@@ -74,6 +70,7 @@ model Punto_De_Venta {
   provedores Proveedor[]
   inventario Inventario[]
 }
+
 model Resena {
   id Int @id @default(autoincrement())
   coment String
@@ -81,7 +78,7 @@ model Resena {
   producto Producto @relation(fields: [producto_id], references: [id])
   producto_id String @db.Uuid
   usuario Usuario @relation(fields: [usuario_id], references: [id])
-  usuario_id String @db.Uuid
+  usuario_id String
 }
 
 model Carrito_de_Compras {
@@ -94,9 +91,9 @@ model Carrito_de_Compras {
 model Inventario {
   id Int @id @default(autoincrement())
   punto Punto_De_Venta @relation(fields: [punto_de_venta_id], references: [id])
-  punto_de_venta_id String @db.Uuid
+  punto_de_venta_id String
   producto Producto @relation(fields: [producto_id], references: [id])
-  producto_id String @db.Uuid
+  producto_id String
   stock_min Int
   stock Int
   stock_max Int
@@ -115,7 +112,7 @@ model Pedidos_Proveedor {
 model Historial_Compras {
   id Int @id @default(autoincrement())
   usuario Usuario @relation(fields: [user_id], references: [id])
-  user_id String @db.Uuid
+  user_id String
   productos Producto[]
   fecha DateTime @default(now())
 }
