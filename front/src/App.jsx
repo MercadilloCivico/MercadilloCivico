@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useMatch } from 'react-router-dom';
 import Footer from './components/Footer/Footer.jsx';
 import Home from './views/Home/Home.jsx';
 import Store from './views/Store/Store.jsx';
@@ -9,6 +9,7 @@ import Favorites from './views/Favorites/Favorites.jsx';
 //import { Button } from '@mui/material';
 //import Card from './components/Card/Card.jsx';
 import { ThemeProvider, createTheme } from '@mui/material';
+import Detail from './views/Detail/Detail.jsx';
 
 const theme = createTheme({
   components: {
@@ -24,10 +25,13 @@ const theme = createTheme({
   },
 });
 function App() {
+  const isDetailPage = useMatch('/Detail/:id');
+
   return (
     <ThemeProvider theme={theme}>
       <div className=''>
-        <Nav />
+        {isDetailPage ? null : <Nav />}
+
         {/**
        * 
        <p className='text-3xl '>Mercadillo Cívico</p>
@@ -52,9 +56,10 @@ function App() {
           <Route path='/Store' element={<Store />} />
           <Route path='/Contact' element={<Contact />} />
           <Route path='/Favorites' element={<Favorites />} />
+          <Route path='/Detail/:id' element={<Detail />} />
         </Routes>
 
-        <Footer />
+        {isDetailPage ? null : <Footer />}
       </div>
     </ThemeProvider>
   );
