@@ -8,19 +8,40 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 const Detail = () => {
   const [isFav, setIsFav] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const producto = {
+  const [producto, setProducto] = useState({
     name: 'Manzana',
     proveedor: 'Proveedor',
     rating: '4.5',
     ratings: '100',
     price: '100',
-    stock: '100',
+    stock: 10,
+    cantidad: 0,
     description:
       'Esta es una descripcion de mas de 100 caracteres, solo se van a mostrar 100, y en caso de clickear "leer mas" se mostrara la descricpion completa, y el boton pasara a llamarse leer menos para revertir el cambio. En caso de que esta descricpion dea de menos de 100 caracteres, el boton no se rendderizara. ',
-  };
+  });
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
+  };
+
+  const agregarProducto = () => {
+    if (producto.stock > 0) {
+      setProducto((prevProducto) => ({
+        ...prevProducto,
+        cantidad: prevProducto.cantidad + 1,
+        stock: prevProducto.stock - 1,
+      }));
+    }
+  };
+
+  const quitarProducto = () => {
+    if (producto.cantidad > 0) {
+      setProducto((prevProducto) => ({
+        ...prevProducto,
+        cantidad: prevProducto.cantidad - 1,
+        stock: prevProducto.stock + 1,
+      }));
+    }
   };
 
   return (
@@ -60,15 +81,40 @@ const Detail = () => {
               <ul className='text-start'>
                 <li className='text-[#2F2D2C] font-bold text-lg'>{producto.name}</li>
                 <li className='text-cabbage-pont-400 font-medium'>{producto.proveedor}</li>
-                <li className='text-cabbage-pont-400 text-[.8em] font-medium'>
-                  Stock: {producto.stock}
-                </li>
+                {producto.stock === 0 && (
+                  <span className='text-[#792823] text-[.8em] md:text-[1em]'>NO DISPONIBLE</span>
+                )}
               </ul>
             </div>
-            <div className='flex justify-center'>
-              <TiStarFullOutline className='h-[1.2em] w-[1.2em] text-[#ffe87f]' />
-              <span className='text-[#2F2D2C] text-lg font-semibold'>{producto.rating}</span>
-              <span className='text-cabbage-pont-700 text-[0.9em] font-medium md:hidden'>{`(${producto.ratings})`}</span>
+            <div className='flex flex-col justify-center items-center'>
+              <div className='flex flex-row justify-center'>
+                <TiStarFullOutline className='h-[1.2em] w-[1.2em] text-[#ffe87f]' />
+                <span className='text-[#2F2D2C] text-lg font-semibold'>{producto.rating}</span>
+                <span className='text-cabbage-pont-700 text-[0.9em] font-medium md:hidden'>{`(${producto.ratings})`}</span>
+              </div>
+              <div className='flex flex-row justify-center'>
+                <button
+                  onClick={quitarProducto}
+                  className={`${
+                    producto.cantidad === 0
+                      ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
+                      : 'cursor-pointer'
+                  } bg-tuscany-100 rounded-full w-6 h-6 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold ml-4`}
+                  disabled={producto.cantidad === 0}>
+                  -
+                </button>
+                <span className='mx-4 text-tuscany-950 font-bold'>{producto.cantidad}</span>
+                <button
+                  onClick={agregarProducto}
+                  className={`${
+                    producto.stock === 0
+                      ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
+                      : 'cursor-pointer'
+                  } bg-tuscany-100 rounded-full w-6 h-6 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+                  disabled={producto.stock === 0}>
+                  +
+                </button>
+              </div>
             </div>
           </div>
           <hr className='border-[#EEE3D6] mt-2 mb-2' />
