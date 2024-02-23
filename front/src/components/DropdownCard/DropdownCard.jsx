@@ -8,20 +8,54 @@ import { useState } from 'react';
 import style from './DropdownCard.module.css';
 import PropTypes from 'prop-types';
 
-export default function Card({ name, price, img, description, rating }) {
+export default function Card({ lazyImg, name, price, img, description, rating }) {
+  // Eventualmente recibirá también el id de producto
+  // lazyImg será un downscale de la img real, se mostrará de fondo mientras carga la imágen real
+
   let [active, setActive] = useState(false);
   let [isFav, setIsFav] = useState(false);
+
+  // Traído de CartItem
+  //#############################################################
+
+  const [producto, setProducto] = useState({
+    name: 'Manzana',
+    proveedor: 'Proveedor',
+    price: '100',
+    stock: 15,
+    cantidad: 1,
+  });
+
+  const agregarProducto = () => {
+    if (producto.cantidad < producto.stock) {
+      setProducto((prevProducto) => ({ ...prevProducto, cantidad: prevProducto.cantidad + 1 }));
+    }
+  };
+
+  const quitarProducto = () => {
+    if (producto.cantidad > 1) {
+      setProducto((prevProducto) => ({ ...prevProducto, cantidad: prevProducto.cantidad - 1 }));
+    }
+  };
+
+  //################################################################
+
   return (
-    <div className='relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950'>
+    <div className='relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030]'>
       <div className='flex'>
         <div
           className={`relative h-[120px] w-[120px] flex-shrink-0 bg-cover`}
-          style={{ backgroundImage: `url(${img})` }}>
+          style={{ backgroundImage: `url(${lazyImg})`, backgroundPosition: 'center' }}>
+          <img
+            className='w-full h-full object-cover absolute z-1 left-0'
+            src={img}
+            alt={name}
+            title={name}></img>
           <div
             onClick={() => {
               setIsFav(!isFav);
             }}
-            className='absolute m-1 flex items-center font-semibold bg-[#00000062] backdrop-blur-[3px] px-1 rounded-tl-xl rounded-br-xl space-x-1'>
+            className='absolute z-2 m-1 flex items-center font-semibold bg-[#00000062] backdrop-blur-[3px] px-1 rounded-tl-xl rounded-br-xl space-x-1'>
             <TiStarFullOutline className='w-[20px] h-[20px] text-[#ffe87f]' />
             <span className='text-[#ffffff]'>{rating}</span>
           </div>
@@ -45,17 +79,17 @@ export default function Card({ name, price, img, description, rating }) {
         </div>
 
         <div className='bg-tuscany-300 h-[100%] w-[100%]'>
-          <div className='flex bg-pearl-bush-100 items-center rounded-br-lg h-[70px]'>
+          <div className='flex bg-pearl-bush-100 items-center rounded-br-lg h-[70px] hover:bg-pearl-bush-200 transition hover:cursor-pointer'>
             <ul
-              className='flex mx-2 w-full flex-col'
+              className='flex mx-2 w-full flex-col '
               onClick={() => {
                 alert('Mostrar detalles del producto');
               }}>
               <li>
-                <span className='text-base line-clamp-1'>{name}</span>
+                <span className='text-base line-clamp-1 text-left'>{name}</span>
               </li>
               <li>
-                <span className='text-2xl font-semibold line-clamp-1 '>${price}</span>
+                <span className='text-2xl font-semibold line-clamp-1 text-left'>${price}</span>
               </li>
             </ul>
 
@@ -68,16 +102,38 @@ export default function Card({ name, price, img, description, rating }) {
             </div>
           </div>
 
-          <div
-            className='flex items-center bg-tuscany-300 h-[50px]'
-            onClick={() => {
-              setActive(!active);
-            }}>
-            <div className='flex items-center mx-2 space-x-2 w-[100%] text-sm text-pearl-bush-800'>
-              <span>Descripción</span>
+          <div className='flex items-center bg-tuscany-300 h-[50px]'>
+            <div className='flex items-center mx-2 space-x-2 text-sm text-pearl-bush-800'>
+              <button
+                onClick={quitarProducto}
+                className={`${
+                  producto.cantidad === 1
+                    ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer'
+                } bg-tuscany-100 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+                disabled={producto.cantidad === 1}>
+                -
+              </button>
+              <span className='mx-2 text-tuscany-950 font-bold text-[.8em]'>
+                {producto.cantidad}
+              </span>
+              <button
+                onClick={agregarProducto}
+                className={`${
+                  producto.cantidad === producto.stock
+                    ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer'
+                } bg-tuscany-100 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+                disabled={producto.cantidad === producto.stock}>
+                +
+              </button>
             </div>
-            <div className='flex flex-shrink-0 items-center justify-center w-[40px] h-[40px] mx-2'>
-              <IoIosArrowDown className=' w-[25px] h-[25px]' />
+            <div
+              className='flex items-center justify-center w-full h-[40px]'
+              onClick={() => {
+                setActive(!active);
+              }}>
+              <IoIosArrowDown className='absolute w-[25px] h-[25px] right-4' />
             </div>
           </div>
         </div>

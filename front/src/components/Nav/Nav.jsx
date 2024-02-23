@@ -13,12 +13,12 @@ const Nav = () => {
   return (
     <>
       {/* div que hace ocupar espacio físico a la nav y no se muestre encima de otro componente */}
-      <div className='w-full h-12'></div>
+      <div className='w-full h-[55px]'></div>
 
       <div>
-        <header className='bg-pearl-bush-100 flex h-12 w-full fixed items-center justify-between top-0 left-0 shadow-md z-10'>
+        <header className='bg-pearl-bush-100 flex h-[55px] w-full fixed items-center justify-between top-0 left-0 shadow-md z-10'>
           <button
-            className='custom-transparent-bg border-none p-1 cursor-pointer lg:hidden'
+            className='custom-transparent-bg border-none p-1 cursor-pointer lg:hidden flex items-center'
             onClick={toggleMenu}>
             <svg
               className='h-6 w-6 text-cabbage-pont-400 hover:text-cabbage-pont-600'
@@ -53,7 +53,7 @@ const Nav = () => {
             </Link>
           </ul>
           <div className='flex space-x-4'>
-            <button className='custom-transparent-bg border-none cursor-pointer'>
+            <button className='custom-transparent-bg border-none cursor-pointer flex items-center'>
               <svg
                 className='h-6 w-6 text-cabbage-pont-400 hover:text-cabbage-pont-600'
                 fill='none'
@@ -67,7 +67,7 @@ const Nav = () => {
                 />
               </svg>
             </button>
-            <button className='custom-transparent-bg border-none pr-2 cursor-pointer'>
+            <button className='custom-transparent-bg border-none pr-2 cursor-pointer flex items-center'>
               <svg
                 className='h-6 w-6 text-cabbage-pont-400 hover:text-cabbage-pont-600'
                 viewBox='0 0 24 24'

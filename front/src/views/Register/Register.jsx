@@ -2,7 +2,8 @@ import Logo from '../../assets/img/logo-simple.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validacion from './validacion';
-
+import CustomInput from '../../components/CustomInput/CustomInput';
+import CustomButton from '../../components/CustomButton/CustomButton';
 function Register() {
   const navigate = useNavigate();
   // Estado para los datos del formulario y los errores de validación
@@ -67,48 +68,76 @@ function Register() {
   };
 
   return (
-    <div className='h-full w-full bg-pearl-bush-200'>
-      <img src={Logo} alt='Mercadillo Cívico' className='w-[150px] mt-[60px] mb-1' />
-      <form onSubmit={handleSubmit} className='bg-tuscany-100 mx-10 rounded-md'>
+    <div className='min-w-[350px] bg-pearl-bush-200 p-10'>
+      <img src={Logo} alt='Mercadillo Cívico' className='w-[240px] p-1' />
+      <form
+        onSubmit={handleSubmit}
+        className='bg-tuscany-100 rounded-md max-w-[700px] mx-auto py-8'>
         <p className='text-pearl-bush-950 text-base'>Ingresa tus datos para registrarte</p>
-        <div className='flex flex-col items-center'>
-          <label className='text-pearl-bush-950'>Nombre</label>
-          <input type='text' value={register.name} onChange={handleInput} name='name' />
-          <div>{errors.name}</div>
-        </div>
-        <div className='flex flex-col items-center'>
-          <label className='text-pearl-bush-950'>Apellido</label>
-          <input type='text' value={register.lastname} onChange={handleInput} name='lastname' />
-          <div>{errors.lastname}</div>
-        </div>
-        <div className='flex flex-col items-center'>
-          <label className='text-pearl-bush-950'>Correo electronico</label>
-          <input type='mail' value={register.mail} onChange={handleInput} name='mail' />
-          <div>{errors.mail}</div>
-        </div>
-        <div className='flex flex-col items-center'>
-          <label className='text-pearl-bush-950'>Contraseña</label>
-          <input type='password' value={register.password} onChange={handleInput} name='password' />
-          <div>{errors.password}</div>
-        </div>
-        <div className='flex flex-col items-center'>
-          <label className='text-pearl-bush-950'>Repetir Contraseña</label>
-          <input
+        <br />
+
+        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
+          <CustomInput
+            label='Nombre'
+            placeholder='Nombre'
+            name='name'
+            type='text'
+            value={register.name}
             onChange={handleInput}
-            value={register.repeatPassword}
-            type='password'
-            name='repeatPassword'
+            // maxLength={15}
           />
-          <div>{errors.repeatPassword}</div>
+          <div className='text-pearl-bush-950'>{errors.name}</div>
         </div>
-        {/* <div className='flex flex-col items-center'>
-          <label className='text-pearl-bush-950'>Foto de Perfil</label>
-          <input type='file' value={register.image} onChange={handleInput} name='image' />
-          <div>{errors.image}</div>
-        </div> */}
-        <div>
-          <button type='submit'>Registrar</button>
+        <br />
+        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
+          <CustomInput
+            label='Apellido'
+            placeholder='Apellido'
+            name='lastname'
+            type='text'
+            value={register.lastname}
+            onChange={handleInput}
+          />
+          <div className='text-pearl-bush-950'>{errors.lastname}</div>
         </div>
+        <br />
+        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
+          <CustomInput
+            label='Correo electronico'
+            placeholder='Correo electronico'
+            name='mail'
+            type='mail'
+            value={register.mail}
+            onChange={handleInput}
+          />
+          <div className='text-pearl-bush-950'>{errors.mail}</div>
+        </div>
+        <br />
+        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
+          <CustomInput
+            label='Contraseña'
+            placeholder='Contraseña'
+            name='password'
+            type='password'
+            value={register.password}
+            onChange={handleInput}
+          />
+          <div className='text-pearl-bush-950'>{errors.password}</div>
+        </div>
+        <br />
+        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
+          <CustomInput
+            label='Repetir Contraseña'
+            placeholder='Repetir Contraseña'
+            name='repeatPassword'
+            type='password'
+            value={register.repeatPassword}
+            onChange={handleInput}
+          />
+          <div className='text-pearl-bush-950'>{errors.repeatPassword}</div>
+        </div>
+        <br />
+        <CustomButton type='submit' text='Registrar' />
       </form>
     </div>
   );
