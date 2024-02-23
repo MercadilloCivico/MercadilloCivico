@@ -4,6 +4,7 @@ import { TiHeartOutline } from 'react-icons/ti';
 import { TiHeartFullOutline } from 'react-icons/ti';
 import { TiStarFullOutline } from 'react-icons/ti';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import Review from '../../components/Review/Review';
 
 const Detail = () => {
   const [isFav, setIsFav] = useState(false);
@@ -142,6 +143,9 @@ const Detail = () => {
             <CustomButton text='Comprar' />
           </div>
         </div>
+      </div>
+      <div className='mx-1'>
+        <Review />
       </div>
     </div>
   );
