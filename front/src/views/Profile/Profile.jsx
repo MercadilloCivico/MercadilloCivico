@@ -2,14 +2,17 @@ import { FaUser } from 'react-icons/fa6';
 import { MdEdit } from 'react-icons/md';
 
 import { TextField } from '@mui/material';
-import { useState, useEffect } from 'react';
+import CustomTabs from './CustomTabs.jsx';
+
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton.jsx';
 
 export default function Profile() {
   let [editMode, setEditMode] = useState(false);
 
   // Copia de la Data original sin modificar, para saber si se cambió algo, o para restaurar al cancelar.
-  let unmodifiedData = {
+  let [oldData, setOldData] = useState({
     imgPreview: '',
     imgUrl:
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
@@ -20,7 +23,7 @@ export default function Profile() {
     state: 'Un distrito',
     birth: 'Objeto Date',
     joined: '2023/05/21',
-  };
+  });
 
   // Estado con la Data actualizada en caso de querer actualizar
   let [formData, setFormData] = useState({
@@ -36,10 +39,6 @@ export default function Profile() {
     joined: '2023/05/21',
   });
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
   function handleChange(e) {
     if (e.target.name === 'img') {
       const imgPreview = e.target.files[0];
@@ -51,19 +50,21 @@ export default function Profile() {
         reader.readAsDataURL(imgPreview);
       }
     }
+
+    // NOTA: Lento. optimizar después
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
   function handleSave() {
     // Esta función guardará la información actualizada y subirá la imágen a la nube, para luego guardarla como su url en la base de datos
     // También se debe optimizar la imágen y recortarla con la relación de aspecto 1:1
-    unmodifiedData = formData;
+    setOldData(formData);
     setEditMode(false);
     alert('Se guardaron los datos');
   }
 
   function handleCancel() {
-    setFormData(unmodifiedData);
+    setFormData(oldData);
     setEditMode(false);
   }
 
@@ -71,7 +72,7 @@ export default function Profile() {
     <div className='text-pearl-bush-950'>
       {/* Header container */}
       <div>
-        <div className='w-screen h-[150px] bg-pearl-bush-950 relative'>
+        <div className='max-w-[1280px] mx-auto h-[150px] bg-pearl-bush-950 relative'>
           {!editMode && (
             <CustomButton
               onClick={() => {
@@ -81,7 +82,7 @@ export default function Profile() {
               className='absolute right-0'
             />
           )}
-          <div className='bottom-[calc(-75px+15%)] mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
+          <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-100 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
             {editMode && (
               <>
                 <input
@@ -104,9 +105,9 @@ export default function Profile() {
                         Si hay una imagen existente se renderiza. Si se seleccionó una imágen para subir, se renderizará la preview en su lugar. Else, se renderiza un placeholder
                         */}
             {formData.imgUrl && !formData.imgPreview ? (
-              <img className='w-full h-full' src={formData.imgUrl}></img>
+              <img className='w-full h-full object-cover' src={formData.imgUrl}></img>
             ) : formData.imgPreview ? (
-              <img className='w-full h-full' src={formData.imgPreview}></img>
+              <img className='w-full h-full object-cover' src={formData.imgPreview}></img>
             ) : (
               <FaUser className='w-full h-full p-2' />
             )}
@@ -118,7 +119,7 @@ export default function Profile() {
 
       {editMode ? (
         <div className='mt-[calc(75px)] flex flex-col justify-center'>
-          <ul className='flex flex-wrap justify-around max-w-[900px]'>
+          <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
             <TextField
               onChange={handleChange}
               name='name'
@@ -186,7 +187,7 @@ export default function Profile() {
 
           {/* Botones al editar*/}
           <div>
-            {JSON.stringify(formData) !== JSON.stringify(unmodifiedData) ? (
+            {JSON.stringify(formData) !== JSON.stringify(oldData) ? (
               <CustomButton onClick={handleSave} text='Guardar' className='my-5 mx-1' />
             ) : (
               <CustomButton
@@ -200,7 +201,7 @@ export default function Profile() {
           </div>
         </div>
       ) : (
-        <div className='w-full max-w-[900px] mt-[75px]'>
+        <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
           <ul>
             <li className='my-3'>
               <span>{formData.name}</span>
@@ -224,6 +225,16 @@ export default function Profile() {
               <span>{formData.joined}</span>
             </li>
           </ul>
+        </div>
+      )}
+
+      {!editMode && (
+        <div>
+          {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
+          <CustomTabs></CustomTabs>
+
+          {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
+          <Outlet />
         </div>
       )}
     </div>

@@ -8,20 +8,28 @@ import { useState } from 'react';
 import style from './DropdownCard.module.css';
 import PropTypes from 'prop-types';
 
-export default function Card({ name, price, img, description, rating }) {
+export default function Card({ lazyImg, name, price, img, description, rating }) {
+  // Eventualmente recibirá también el id de producto
+  // lazyImg será un downscale de la img real, se mostrará de fondo mientras carga la imágen real
+
   let [active, setActive] = useState(false);
   let [isFav, setIsFav] = useState(false);
   return (
-    <div className='relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950'>
+    <div className='relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030]'>
       <div className='flex'>
         <div
           className={`relative h-[120px] w-[120px] flex-shrink-0 bg-cover`}
-          style={{ backgroundImage: `url(${img})` }}>
+          style={{ backgroundImage: `url(${lazyImg})`, backgroundPosition: 'center' }}>
+          <img
+            className='w-full h-full object-cover absolute z-1 left-0'
+            src={img}
+            alt={name}
+            title={name}></img>
           <div
             onClick={() => {
               setIsFav(!isFav);
             }}
-            className='absolute m-1 flex items-center font-semibold bg-[#00000062] backdrop-blur-[3px] px-1 rounded-tl-xl rounded-br-xl space-x-1'>
+            className='absolute z-2 m-1 flex items-center font-semibold bg-[#00000062] backdrop-blur-[3px] px-1 rounded-tl-xl rounded-br-xl space-x-1'>
             <TiStarFullOutline className='w-[20px] h-[20px] text-[#ffe87f]' />
             <span className='text-[#ffffff]'>{rating}</span>
           </div>
@@ -45,17 +53,17 @@ export default function Card({ name, price, img, description, rating }) {
         </div>
 
         <div className='bg-tuscany-300 h-[100%] w-[100%]'>
-          <div className='flex bg-pearl-bush-100 items-center rounded-br-lg h-[70px]'>
+          <div className='flex bg-pearl-bush-100 items-center rounded-br-lg h-[70px] hover:bg-pearl-bush-200 transition hover:cursor-pointer'>
             <ul
-              className='flex mx-2 w-full flex-col'
+              className='flex mx-2 w-full flex-col '
               onClick={() => {
                 alert('Mostrar detalles del producto');
               }}>
               <li>
-                <span className='text-base line-clamp-1'>{name}</span>
+                <span className='text-base line-clamp-1 text-left'>{name}</span>
               </li>
               <li>
-                <span className='text-2xl font-semibold line-clamp-1 '>${price}</span>
+                <span className='text-2xl font-semibold line-clamp-1 text-left'>${price}</span>
               </li>
             </ul>
 
