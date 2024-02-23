@@ -1,11 +1,11 @@
 import './App.css';
 import { Routes, Route, useMatch } from 'react-router-dom';
-import Footer from './components/Footer/Footer.jsx';
 import Home from './views/Home/Home.jsx';
 import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
 import Nav from './components/Nav/Nav.jsx';
 import Favorites from './views/Favorites/Favorites.jsx';
+import Profile from './views/Profile/Profile.jsx';
 
 import { ThemeProvider, createTheme } from '@mui/material';
 import Detail from './views/Detail/Detail.jsx';
@@ -45,9 +45,8 @@ function App() {
           <Route path='/Contact' element={<Contact />} />
           <Route path='/Favorites' element={<Favorites />} />
           <Route path='/Detail/:id' element={<Detail />} />
+          <Route path='/User/:id' element={<Profile />} />
         </Routes>
-
-        {isDetailPage ? null : <Footer />}
       </div>
     </ThemeProvider>
   );

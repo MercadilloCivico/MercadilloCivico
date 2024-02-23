@@ -2,7 +2,7 @@ import { TiSocialLinkedin } from 'react-icons/ti';
 
 export default function Footer() {
   return (
-    <footer className='bg-pearl-bush-200 text-pearl-bush-950 w-screen p-2'>
+    <footer className='bg-pearl-bush-200 text-pearl-bush-950 w-screen p-2 '>
       <div className='container mx-auto text-center'>
         <p className='text-sm space-y-5 my-1'>
           &copy; Mercadillo Cívico® 2024. Todos los derechos reservados.
