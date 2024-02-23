@@ -1,6 +1,6 @@
 function validacion({ name, lastname, mail, password, repeatPassword }) {
   const onlyLetters = /^[A-Za-zÁáÉéÍíÓóÚúÑñ]{1,15}$/;
-  // const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
   const errors = {};
 
   // Validación del nombre
@@ -40,6 +40,9 @@ function validacion({ name, lastname, mail, password, repeatPassword }) {
     errors.password = 'La contraseña es obligatoria';
   } else if (password.length < 6) {
     errors.password = 'La contraseña debe tener al menos 6 caracteres';
+  } else if (!strongPassword.test(password)) {
+    errors.password =
+      'La contraseña debe tener al menos una mayúscula, una minúscula, un número y un caracter especial';
   }
   // Validación de la repetición de contraseña
   if (!repeatPassword.trim()) {

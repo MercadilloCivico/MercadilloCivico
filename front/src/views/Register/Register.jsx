@@ -2,7 +2,6 @@ import Logo from '../../assets/img/logo-simple.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validacion from './validacion';
-import ValidationPassword from '../../../../back/src/utils/validationPassword';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 function Register() {
@@ -20,7 +19,7 @@ function Register() {
 
   // Maneja cambios en los campos del formulario
   const handleInput = (e) => {
-    console.log(e.target.name, e.target.value);
+    // console.log(e.target.name, e.target.value);
     const { name, value } = e.target;
     if (name === 'image') {
       // Si el campo es una imagen, actualiza el estado con el archivo seleccionado
@@ -37,56 +36,40 @@ function Register() {
       });
     }
     setErrors(validacion({ ...register, [e.target.name]: e.target.value }));
-    console.log('setErrors: ', setErrors);
   };
 
   // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-    const passwordError = ValidationPassword(register.password);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      password: passwordError,
-    }));
-    // Validación de errores usando la función de validación local
-    const localErrors = validacion(register);
-    setErrors(localErrors);
-    // Verificar si hay errores
-    const hasErrors = Object.keys(localErrors).some((error) => error) || passwordError;
-
-    if (!hasErrors) {
-      console.log('Datos del formulario: ', register);
-      setRegister({
-        name: '',
-        lastname: '',
-        mail: '',
-        password: '',
-        repeatPassword: '',
-        image: null,
-      });
-      navigate('/login');
-    } else {
-      alert('Hay errores en el formulario. Por favor, revisa los datos y vuelve a intentarlo');
+    const errors = {}; // Inicializa un objeto para almacenar errores
+    // Valida que todos los campos estén completos
+    for (const key in register) {
+      if (register[key] === '') {
+        // Agrega mensaje de error para campo vacío
+        return alert('Todos los campos son obligatorios');
+      }
     }
+    setErrors(errors); // Actualiza el estado con los errores encontrados
+    // Si no hay errores, procede con el envío del formulario
+    if (Object.keys(errors).length === 0) {
+      // Muestra los datos del formulario en la consola
+      console.log('datos del formulario: ', register);
+    }
+    // Limpia el estado del formulario después del envío
+    setRegister({
+      name: '',
+      lastname: '',
+      mail: '',
+      password: '',
+      repeatPassword: '',
+      image: null,
+    });
+    navigate('/home');
   };
-
-  // function handleChange(e) {
-  //   if (e.target.name === 'image') {
-  //     const imgPreview = e.target.files[0];
-  //     if (e.target.files[0]) {
-  //       const reader = new FileReader();
-  //       reader.onload = (e) => {
-  //         setRegister({ ...register, imgPreview: e.target.result });
-  //       };
-  //       reader.readAsDataURL(imgPreview);
-  //     }
-  //   }
-  //   setRegister({ ...register, [e.target.name]: e.target.value });
-  // }
 
   return (
     <div className='min-w-[350px] bg-pearl-bush-200 p-10'>
-      <img src={Logo} alt='Mercadillo Cívico' className='w-[150px] mt-[60px] mb-1' />
+      <img src={Logo} alt='Mercadillo Cívico' className='w-[240px] p-1' />
       <form
         onSubmit={handleSubmit}
         className='bg-tuscany-100 rounded-md max-w-[700px] mx-auto py-8'>
@@ -115,7 +98,7 @@ function Register() {
             value={register.lastname}
             onChange={handleInput}
           />
-          <div className='text-pearl-bush-950'>{errors.name}</div>
+          <div className='text-pearl-bush-950'>{errors.lastname}</div>
         </div>
         <br />
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
@@ -123,11 +106,11 @@ function Register() {
             label='Correo electronico'
             placeholder='Correo electronico'
             name='mail'
-            type='text'
+            type='mail'
             value={register.mail}
             onChange={handleInput}
           />
-          <div className='text-pearl-bush-950'>{errors.name}</div>
+          <div className='text-pearl-bush-950'>{errors.mail}</div>
         </div>
         <br />
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
@@ -135,11 +118,11 @@ function Register() {
             label='Contraseña'
             placeholder='Contraseña'
             name='password'
-            type='text'
+            type='password'
             value={register.password}
             onChange={handleInput}
           />
-          <div className='text-pearl-bush-950'>{errors.name}</div>
+          <div className='text-pearl-bush-950'>{errors.password}</div>
         </div>
         <br />
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
@@ -147,27 +130,13 @@ function Register() {
             label='Repetir Contraseña'
             placeholder='Repetir Contraseña'
             name='repeatPassword'
-            type='text'
+            type='password'
             value={register.repeatPassword}
             onChange={handleInput}
           />
-          <div className='text-pearl-bush-950'>{errors.name}</div>
+          <div className='text-pearl-bush-950'>{errors.repeatPassword}</div>
         </div>
         <br />
-        {/* <div className='relative'>
-          <input
-            name='image'
-            id='image'
-            onChange={handleChange}
-            type='file'
-            className='hidden absolute'
-          />
-          <label
-            for='image'
-            className='text-tuscany-200 absolute m-1 bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#3f3f3f50] hover:bg-[#00000050] transition border-none hover:cursor-pointer'>
-            <MdEdit className='w-full h-full' />
-          </label>
-        </div> */}
         <CustomButton type='submit' text='Registrar' />
       </form>
     </div>
