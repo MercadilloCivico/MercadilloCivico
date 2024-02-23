@@ -9,6 +9,7 @@ import Profile from './views/Profile/Profile.jsx';
 
 import { ThemeProvider, createTheme } from '@mui/material';
 import Detail from './views/Detail/Detail.jsx';
+import Cart from './views/Cart/Cart.jsx';
 
 export const theme = createTheme({
   components: {
@@ -34,11 +35,13 @@ export const theme = createTheme({
 });
 function App() {
   const isDetailPage = useMatch('/Detail/:id');
+  const isCartPage = useMatch('/Cart');
 
   return (
     <ThemeProvider theme={theme}>
       <div className=''>
-        {isDetailPage ? null : <Nav />}
+        {!isDetailPage && !isCartPage && <Nav />}
+
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/Store' element={<Store />} />
@@ -46,6 +49,7 @@ function App() {
           <Route path='/Favorites' element={<Favorites />} />
           <Route path='/Detail/:id' element={<Detail />} />
           <Route path='/User/:id' element={<Profile />} />
+          <Route path='Cart' element={<Cart />} />
         </Routes>
       </div>
     </ThemeProvider>
