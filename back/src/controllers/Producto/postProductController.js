@@ -1,4 +1,4 @@
-const postProductHandler = require('../handlers/postProductHandler');
+const postProductHandler = require('../../handlers/Producto/postProductHandler');
 
 const postProduct = async (req, res) => {
   try {

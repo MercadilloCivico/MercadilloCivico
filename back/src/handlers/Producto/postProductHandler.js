@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const upoloadToCloudinary = require('./uploadToCloudinary');
+const upoloadToCloudinary = require('../uploadToCloudinary');
 
 const postProductHandler = async (
   name,

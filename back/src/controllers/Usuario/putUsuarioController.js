@@ -36,7 +36,7 @@ const putUsuario = async (req, res) => {
       validationImage(photo);
       const secureUrl = uploadToCloudinary(photo);
       dataToUpdate.photo = secureUrl;
-      eliminaPhotoUtil(decoded.id);
+      eliminaPhotoUtil(decoded.id, 'Usuario');
     }
 
     // Actualizar usuario en la base de datos
