@@ -1,4 +1,4 @@
-const { authHandler } = require('../handlers/authHandler');
+const { authHandler } = require('../../handlers/Usuario/authHandler');
 
 const recuperarContrasenia = async (req, res) => {
   try {

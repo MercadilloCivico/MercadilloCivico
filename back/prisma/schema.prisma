@@ -32,11 +32,12 @@ model Proveedor {
   id           Int       @id @default(autoincrement())
   name_prov    String?
   usuario      Usuario   @relation(fields: [user_id], references: [id])
-  user_id      String    @db.Uuid @unique //que tiene que ver??
-  email  String
+  user_id      String    @db.Uuid @unique
   ubicacion String
   tel String
   camaraDeComercio String
+  certificadoBancario String
+  active Boolean?
   productos    ProductoProveedor[]
   puntos_de_venta Punto_De_Venta[]
 }
@@ -61,7 +62,7 @@ model Producto {
   resenas       Resena[]
   carrito       Carrito_de_Compras[]
   h_compras     Historial_Compras[]
-  inventario    Inventario[] //revisar casilla
+  inventario    Inventario[]
   favorites     Usuario[]
   disabled      Boolean   @default(false)
 }
@@ -70,7 +71,10 @@ model Punto_De_Venta {
   id String @id @db.Uuid @default(uuid())
   company_name String
   address String
-  image String
+  postal_code String?
+  contact_email String?
+  contact_tel String?
+  image String?
   provedores Proveedor[]
   inventario Inventario[]
 }

@@ -1,4 +1,4 @@
-const deleteUserHandler = require('../handlers/deleteUserHandler');
+const deleteUserHandler = require('../../handlers/Usuario/deleteUserHandler');
 
 const deleteUser = async (req, res) => {
   try {
