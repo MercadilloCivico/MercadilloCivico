@@ -14,6 +14,32 @@ export default function Card({ lazyImg, name, price, img, description, rating })
 
   let [active, setActive] = useState(false);
   let [isFav, setIsFav] = useState(false);
+
+  // Traído de CartItem
+  //#############################################################
+
+  const [producto, setProducto] = useState({
+    name: 'Manzana',
+    proveedor: 'Proveedor',
+    price: '100',
+    stock: 15,
+    cantidad: 1,
+  });
+
+  const agregarProducto = () => {
+    if (producto.cantidad < producto.stock) {
+      setProducto((prevProducto) => ({ ...prevProducto, cantidad: prevProducto.cantidad + 1 }));
+    }
+  };
+
+  const quitarProducto = () => {
+    if (producto.cantidad > 1) {
+      setProducto((prevProducto) => ({ ...prevProducto, cantidad: prevProducto.cantidad - 1 }));
+    }
+  };
+
+  //################################################################
+
   return (
     <div className='relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030]'>
       <div className='flex'>
@@ -76,16 +102,38 @@ export default function Card({ lazyImg, name, price, img, description, rating })
             </div>
           </div>
 
-          <div
-            className='flex items-center bg-tuscany-300 h-[50px]'
-            onClick={() => {
-              setActive(!active);
-            }}>
-            <div className='flex items-center mx-2 space-x-2 w-[100%] text-sm text-pearl-bush-800'>
-              <span>Descripción</span>
+          <div className='flex items-center bg-tuscany-300 h-[50px]'>
+            <div className='flex items-center mx-2 space-x-2 text-sm text-pearl-bush-800'>
+              <button
+                onClick={quitarProducto}
+                className={`${
+                  producto.cantidad === 1
+                    ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer'
+                } bg-tuscany-100 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+                disabled={producto.cantidad === 1}>
+                -
+              </button>
+              <span className='mx-2 text-tuscany-950 font-bold text-[.8em]'>
+                {producto.cantidad}
+              </span>
+              <button
+                onClick={agregarProducto}
+                className={`${
+                  producto.cantidad === producto.stock
+                    ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer'
+                } bg-tuscany-100 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+                disabled={producto.cantidad === producto.stock}>
+                +
+              </button>
             </div>
-            <div className='flex flex-shrink-0 items-center justify-center w-[40px] h-[40px] mx-2'>
-              <IoIosArrowDown className=' w-[25px] h-[25px]' />
+            <div
+              className='flex items-center justify-center w-full h-[40px]'
+              onClick={() => {
+                setActive(!active);
+              }}>
+              <IoIosArrowDown className='absolute w-[25px] h-[25px] right-4' />
             </div>
           </div>
         </div>
