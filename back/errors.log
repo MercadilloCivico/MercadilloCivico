@@ -110,7 +110,82 @@
 2024-02-22 17:37:54 error: [object Object]
 2024-02-22 17:37:54 error: PATCH /api/update/user/4a30d5e7-5a78-4347-98e6-4e1662abeaf6 500 48ms
 
+<<<<<<< Updated upstream
 2024-02-23 15:34:45 error: [object Object]
 2024-02-23 15:34:45 error: DELETE /api/productLogic/a0e5d80a-4066-4c06-b8e8-b0e846743b27 500 15ms
 2024-02-23 15:41:48 error: [object Object]
 2024-02-23 15:41:48 error: DELETE /api/productLogic/a0e5d80a-4066-4c06-b8e8-b0e846743b27 500 17ms
+=======
+2024-02-22 21:27:27 error: POST /api/postProduct 500 3ms
+2024-02-22 21:30:10 error: POST /api/postProduct 500 1ms
+2024-02-22 21:30:26 error: POST /api/postProduct 500 1ms
+2024-02-22 21:30:58 error: POST /api/postProduct 500 4ms
+2024-02-22 21:31:18 error: POST /api/postProduct 500 5ms
+2024-02-22 21:32:14 error: POST /api/postProduct 500 5ms
+2024-02-22 21:33:31 error: POST /api/postProduct 500 1ms
+2024-02-22 21:34:31 error: POST /api/postProduct 500 1ms
+2024-02-22 21:36:10 error: POST /api/postProduct 500 70ms
+2024-02-22 22:29:56 error: POST /api/proveedor 500 2ms
+2024-02-22 22:30:29 error: POST /api/proveedor 500 5ms
+2024-02-22 22:33:54 error: POST /api/proveedor 500 5ms
+2024-02-22 22:34:22 error: POST /api/proveedor 500 5ms
+2024-02-22 22:36:25 error: POST /api/proveedor 500 5ms
+2024-02-22 22:56:47 error: POST /api/proveedor 500 4ms
+2024-02-22 22:57:23 error: POST /api/proveedor 500 6ms
+2024-02-22 22:59:21 error: POST /api/proveedor 500 4ms
+2024-02-22 22:59:52 error: POST /api/proveedor 500 4ms
+2024-02-22 23:00:18 error: POST /api/proveedor 500 3ms
+2024-02-22 23:00:52 error: POST /api/proveedor 500 6ms
+2024-02-22 23:01:15 error: POST /api/proveedor 500 4ms
+2024-02-22 23:04:49 error: POST /api/proveedor 500 4ms
+2024-02-22 23:05:19 error: POST /api/proveedor 500 4ms
+2024-02-22 23:05:32 error: POST /api/proveedor 500 5ms
+2024-02-22 23:06:12 error: POST /api/proveedor 500 4ms
+2024-02-22 23:06:24 error: POST /api/proveedor 500 1ms
+2024-02-22 23:06:34 error: POST /api/proveedor 500 4ms
+2024-02-22 23:06:50 error: POST /api/proveedor 500 6ms
+2024-02-22 23:07:04 error: POST /api/proveedor 500 5ms
+2024-02-22 23:07:17 error: POST /api/proveedor 500 4ms
+2024-02-22 23:07:58 error: POST /api/proveedor 500 3ms
+2024-02-22 23:08:24 error: POST /api/proveedor 500 4ms
+2024-02-22 23:08:44 error: POST /api/proveedor 500 4ms
+2024-02-22 23:09:18 error: POST /api/proveedor 500 4ms
+2024-02-22 23:09:40 error: POST /api/proveedor 500 4ms
+2024-02-22 23:10:13 error: POST /api/proveedor 500 4ms
+2024-02-22 23:11:28 error: POST /api/proveedor 500 689ms
+2024-02-22 23:13:12 error: POST /api/proveedor 500 6ms
+2024-02-23 00:34:09 error: POST /api/proveedor 500 44ms
+2024-02-23 00:37:44 error: POST /api/proveedor 500 36ms
+2024-02-23 00:40:00 error: POST /api/proveedor 500 139ms
+2024-02-23 00:43:35 error: POST /api/proveedor 500 1834ms
+2024-02-23 00:54:27 error: POST /api/proveedor 500 34ms
+2024-02-23 00:55:01 error: POST /api/proveedor 500 34ms
+2024-02-23 00:55:13 error: POST /api/proveedor 500 34ms
+2024-02-23 00:55:31 error: POST /api/proveedor 500 137ms
+2024-02-23 00:55:44 error: POST /api/proveedor 500 34ms
+2024-02-23 00:56:31 error: POST /api/proveedor 500 2151ms
+2024-02-23 00:58:28 error: POST /api/proveedor 500 3ms
+2024-02-23 00:58:56 error: POST /api/proveedor 500 1895ms
+2024-02-23 01:14:43 error: [object Object]
+2024-02-23 01:14:43 error: GET /api/proveedor/1 500 8ms
+2024-02-23 01:15:22 error: GET /api/proveedor/1 500 35ms
+2024-02-23 01:21:32 error: GET /api/proveedor?name=ate&name=ate 500 35ms
+2024-02-23 01:22:00 error: GET /api/proveedor/?name=ate&name=ate 500 3ms
+2024-02-23 01:22:17 error: GET /api/proveedor/:id?name=ate&name=ate 500 2ms
+2024-02-23 01:23:01 error: GET /api/proveedor/:id?name=ate&name=ate&name=ate 500 37ms
+2024-02-23 01:38:59 error: DELETE /api/proveedor/1 500 34ms
+2024-02-23 01:41:09 error: DELETE /api/proveedor/1 500 34ms
+2024-02-23 01:42:35 error: DELETE /api/proveedor/2 500 37ms
+2024-02-23 01:47:41 error: DELETE /api/proveedor/2 500 2ms
+2024-02-23 01:49:30 error: DELETE /api/proveedor/4 500 3ms
+2024-02-23 01:49:30 error: DELETE /api/proveedor/4 500 1ms
+2024-02-23 01:58:35 error: DELETE /api/proveedor/9 500 3ms
+2024-02-23 16:46:31 error: POST /api/proveedor 500 2140ms
+2024-02-23 16:49:41 error: DELETE /api/proveedor/1 500 35ms
+2024-02-23 16:57:31 error: DELETE /api/proveedor/15 500 34ms
+2024-02-23 16:57:34 error: DELETE /api/proveedor/16 500 2ms
+2024-02-23 16:58:01 error: POST /api/proveedor 500 2118ms
+2024-02-23 17:03:43 error: POST /api/proveedor 500 2246ms
+2024-02-23 17:05:11 error: POST /api/proveedor 500 1938ms
+2024-02-23 17:06:13 error: POST /api/proveedor 500 1927ms
+>>>>>>> Stashed changes
