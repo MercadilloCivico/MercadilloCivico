@@ -1,5 +1,6 @@
 import LogoHome from '../../assets/img/logo-full.svg';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import Footer from '../../components/Footer/Footer.jsx';
 function Home() {
   return (
     <>
@@ -47,6 +48,8 @@ function Home() {
           nisi vulputate a. Habitasse tellus non enim cras morbi pulvinar congue euismod id.
         </p>
       </div>
+
+      <Footer />
     </>
   );
 }

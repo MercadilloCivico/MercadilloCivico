@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const prisma = require('../../db_connection');
+const prisma = require('../../../db_connection');
 
 const deleteUserHandler = async (email, password) => {
   try {
