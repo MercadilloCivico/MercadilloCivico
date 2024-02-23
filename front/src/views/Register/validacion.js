@@ -8,6 +8,8 @@ function validacion({ name, lastname, mail, password, repeatPassword }) {
     errors.name = 'El nombre es obligatorio';
   } else if (name.length < 3) {
     errors.name = 'El nombre debe tener al menos 3 caracteres';
+  } else if (name.length > 15) {
+    errors.name = 'El nombre debe tener menos de 15 caracteres';
   } else if (!onlyLetters.test(name)) {
     errors.name = 'El nombre solo puede contener letras';
   } else if (!name.length) {
@@ -36,8 +38,8 @@ function validacion({ name, lastname, mail, password, repeatPassword }) {
   // Validación de la contraseña
   if (!password.trim()) {
     errors.password = 'La contraseña es obligatoria';
-  } else if (password.length < 8) {
-    errors.password = 'La contraseña debe tener al menos 8 caracteres';
+  } else if (password.length < 6) {
+    errors.password = 'La contraseña debe tener al menos 6 caracteres';
   }
   // Validación de la repetición de contraseña
   if (!repeatPassword.trim()) {
