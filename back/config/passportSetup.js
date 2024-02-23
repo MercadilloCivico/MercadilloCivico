@@ -4,6 +4,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { ExtractJwt, Strategy: JWTStrategy } = require('passport-jwt');
 const { SECRET_JWT, CLIENT_ID, CLIENT_SECRET } = require('./env.config');
 const prisma = require('../db_connection');
+const CarritoHandler = require('../src/handlers/Carrito/carritoHandler');
 
 passport.use(
   new GoogleStrategy(
@@ -29,6 +30,7 @@ passport.use(
               photo: profile.photos[0].value, // Obtener la URL de la foto de perfil del perfil de Google
             },
           });
+          await CarritoHandler.post(user.id);
         }
         return done(null, user);
       } catch (error) {
