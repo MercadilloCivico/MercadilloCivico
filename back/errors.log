@@ -98,3 +98,15 @@
 2024-02-22 00:43:46 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=896532 500 7ms
 2024-02-22 00:50:30 error: [object Object]
 2024-02-22 00:50:30 error: GET /api/forgot/password?email=mateogarzon1002@gmail.com&password=597921 500 7ms
+2024-02-22 15:16:23 error: POST /api/postProduct 500 29ms
+2024-02-22 17:11:02 error: [object Object]
+2024-02-22 17:11:02 error: PATCH /api/update/user/4a30d5e7-5a78-4347-98e6-4e1662abeaf6 500 93ms
+2024-02-22 17:13:39 error: [object Object]
+2024-02-22 17:13:39 error: PATCH /api/update/user/4a30d5e7-5a78-4347-98e6-4e1662abeaf6 500 100ms
+2024-02-22 17:13:42 error: [object Object]
+2024-02-22 17:13:42 error: PATCH /api/update/user/4a30d5e7-5a78-4347-98e6-4e1662abeaf6 500 11ms
+2024-02-22 17:18:18 error: [object Object]
+2024-02-22 17:18:18 error: PATCH /api/update/user/4a30d5e7-5a78-4347-98e6-4e1662abeaf6 500 107ms
+2024-02-22 17:37:54 error: [object Object]
+2024-02-22 17:37:54 error: PATCH /api/update/user/4a30d5e7-5a78-4347-98e6-4e1662abeaf6 500 48ms
+

@@ -1,5 +1,5 @@
-const registerHandler = require('../handlers/registerHandler');
-const ValidationPassword = require('../utils/validationPassword');
+const registerHandler = require('../../handlers/Usuario/registerHandler');
+const ValidationPassword = require('../../utils/validations/validationPassword');
 
 const register = async (req, res) => {
   try {
