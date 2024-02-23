@@ -1,14 +1,17 @@
 const prisma = require('../../db_connection');
 const deleteCloudinary = require('../handlers/deleteCloudinary');
 
-const eliminaPhotoUtil = async (id) => {
+const eliminaPhotoUtil = async (id, model) => {
   try {
-    const user = prisma.usuario.findUnique({
+    const register = prisma[model].findUnique({
       where: {
         id,
       },
     });
-    await deleteCloudinary(user.photo);
+    if (model === 'Usuario') {
+      return await deleteCloudinary(register.photo);
+    }
+    return await deleteCloudinary(register.image);
   } catch (error) {
     throw new Error(error);
   }
