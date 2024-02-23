@@ -10,6 +10,7 @@ const register = require('../controllers/Usuario/registerController');
 const putUsuario = require('../controllers/Usuario/putUsuarioController');
 const FavoriteControllers = require('../controllers/Usuario/favoritesController');
 const PuntoDeVentaController = require('../controllers/PuntoDeVenta/puntoVentaController');
+const CarritoController = require('../controllers/Carrito/carritoController');
 
 const router = Router();
 
@@ -20,6 +21,7 @@ router.get('/auth/google/callback', middleware.authenticateGoogleCallback);
 router.get('/forgot/password', recuperarContrasenia);
 router.get('/favorites/:id?', FavoriteControllers.get);
 router.get('/punto_de_venta/:id?', PuntoDeVentaController.get);
+router.get('/carrito_de_compras/:id?', CarritoController.get);
 
 // Post
 
@@ -35,6 +37,7 @@ router.post('/punto_de_venta', PuntoDeVentaController.post);
 router.delete('/disable/user', deleteUser);
 router.delete('/favorites/:id');
 router.delete('/punto_de_venta/:id', PuntoDeVentaController.delete);
+router.put('carrito_de_compras/limpiar', CarritoController.limpiarCarrito);
 router.delete('/productoLogic/:id', ProductController.logicDelete);
 router.delete('/productoTrue/:id', ProductController.trueDelete);
 
@@ -42,7 +45,11 @@ router.delete('/productoTrue/:id', ProductController.trueDelete);
 
 router.put('/forgot/password', contraseñaOlvidada);
 router.put('/update/user', putUsuario);
-router.put('/punto_de_venta/:id', PuntoDeVentaController.put);
-router.put('/punto_de_venta/:id', PuntoDeVentaController.addProveedor);
+router.put('/punto_de_venta/edit/:id', PuntoDeVentaController.put);
+router.put('/punto_de_venta/add/:id', PuntoDeVentaController.addProveedor);
+router.put('/punto_de_venta/remove/:id', PuntoDeVentaController.removeProveedor);
+router.put('carrito_de_compras/add', CarritoController.addProducto);
+router.put('carrito_de_compras/remove', CarritoController.removeProducto);
+router.put('carrito_de_compras/cantidad', CarritoController.actualizarCantidad);
 
 module.exports = router;
