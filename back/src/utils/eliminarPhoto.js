@@ -8,7 +8,7 @@ const eliminaPhotoUtil = async (id, model) => {
         id,
       },
     });
-    if (model === 'Usuario') {
+    if (model === 'usuario') {
       return await deleteCloudinary(register.photo);
     }
     return await deleteCloudinary(register.image);
