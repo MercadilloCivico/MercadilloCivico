@@ -1,6 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
-
-const prisma = new PrismaClient();
+const prisma = require('../db_connection');
 
 const validateProductFields = async (req, res, next) => {
   const { name, marca, proveedoresCostos } = req.body;

@@ -37,7 +37,9 @@ model Proveedor {
   tel String
   camaraDeComercio String
   certificadoBancario String
-  active Boolean?
+  publicIdCamara String
+  publicIdCertificado String
+  active Boolean? @default(false)
   productos    ProductoProveedor[]
   puntos_de_venta Punto_De_Venta[]
 }
