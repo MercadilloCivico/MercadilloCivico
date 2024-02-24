@@ -1,3 +1,4 @@
+const { FRONT_URL } = require('../../../config/env.config');
 const { authHandler } = require('../../handlers/Usuario/authHandler');
 
 const recuperarContrasenia = async (req, res) => {
@@ -10,10 +11,10 @@ const recuperarContrasenia = async (req, res) => {
         httpOnly: true,
         maxAge: 3600000,
       });
-      res.redirect('http://localhost:5173/');
+      res.redirect(`${FRONT_URL}/Nueva`);
     }
   } catch (error) {
-    res.redirect('http://localhost:5173/');
+    res.redirect(`${FRONT_URL}`);
     res.status(500).json({ message: error.message, error: 'Error en el login' });
   }
 };
