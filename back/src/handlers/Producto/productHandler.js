@@ -3,6 +3,8 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const upoloadToCloudinary = require('../uploadToCloudinary');
+const validationImage = require('../../utils/validations/validationImage');
+const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
 
 class ProductHandler {
   static async post(name, description, image, calification, marca, proveedoresCostos) {
@@ -86,6 +88,59 @@ class ProductHandler {
 
       return {
         message: 'El producto se ha eliminado exitosamente',
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  static async put(id, name, description, image, calification, marca, proveedoresCostos) {
+    try {
+      const updatedData = {};
+
+      if (name) updatedData.name = name;
+      if (description) updatedData.description = description;
+      if (calification) updatedData.calification = calification;
+      if (marca) updatedData.marca = marca;
+
+      if (proveedoresCostos) {
+        //! Actualiza la relación existente entre el proveedor y el producto, esto es muy importante
+        await Promise.all(
+          proveedoresCostos.map((proveedorCosto) =>
+            prisma.productoProveedor.update({
+              where: {
+                proveedor_id_producto_id: {
+                  proveedor_id: proveedorCosto.proveedor_id,
+                  producto_id: id,
+                },
+              },
+              data: {
+                costo: proveedorCosto.costo,
+              },
+            })
+          )
+        );
+      }
+
+      if (image) {
+        validationImage(image);
+        eliminaPhotoUtil(id, 'Producto');
+        const secureUrl = await upoloadToCloudinary(image);
+        updatedData.image = secureUrl;
+      }
+
+      await prisma.producto.update({
+        where: {
+          id,
+        },
+        data: updatedData,
+        include: {
+          proveedor: true,
+        },
+      });
+
+      return {
+        message: 'Producto actualizado exitosamente',
       };
     } catch (error) {
       throw new Error(error);

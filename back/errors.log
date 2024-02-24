@@ -114,3 +114,9 @@
 2024-02-23 15:34:45 error: DELETE /api/productLogic/a0e5d80a-4066-4c06-b8e8-b0e846743b27 500 15ms
 2024-02-23 15:41:48 error: [object Object]
 2024-02-23 15:41:48 error: DELETE /api/productLogic/a0e5d80a-4066-4c06-b8e8-b0e846743b27 500 17ms
+2024-02-23 20:55:45 error: PUT /api/producto/ddc294c1-07d3-44f7-9900-3f99263bd8c8 500 15ms
+2024-02-23 20:58:36 error: PUT /api/producto/ddc294c1-07d3-44f7-9900-3f99263bd8c8 500 33ms
+2024-02-23 21:17:56 error: PUT /api/producto/ddc294c1-07d3-44f7-9900-3f99263bd8c8 500 7ms
+2024-02-23 21:25:42 error: PUT /api/producto/ddc294c1-07d3-44f7-9900-3f99263bd8c8 500 8ms
+2024-02-23 21:26:32 error: PUT /api/producto/ddc294c1-07d3-44f7-9900-3f99263bd8c8 500 36ms
+2024-02-23 21:30:13 error: PUT /api/producto/ddc294c1-07d3-44f7-9900-3f99263bd8c8 500 13ms

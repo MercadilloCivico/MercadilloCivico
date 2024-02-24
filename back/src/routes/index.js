@@ -44,5 +44,6 @@ router.put('/forgot/password', contraseñaOlvidada);
 router.put('/update/user', putUsuario);
 router.put('/punto_de_venta/:id', PuntoDeVentaController.put);
 router.put('/punto_de_venta/:id', PuntoDeVentaController.addProveedor);
+router.put('/producto/:id', ProductController.put);
 
 module.exports = router;

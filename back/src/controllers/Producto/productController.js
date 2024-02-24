@@ -54,6 +54,31 @@ class ProductController {
       res.status(500).json({ message: error.message, error: 'Error al eliminar el producto' });
     }
   }
+
+  static async put(req, res) {
+    try {
+      const { name, description, calification, marca, proveedoresCostos } = req.body;
+
+      let image;
+      if (req.file) {
+        image = req.file;
+      }
+      const { id } = req.params;
+      if (!id) throw new Error('Se necesita el id del producto para actualizarlo');
+      const response = await ProductHandler.put(
+        id,
+        name,
+        description,
+        image,
+        calification,
+        marca,
+        proveedoresCostos
+      );
+      res.status(200).json(response);
+    } catch (error) {
+      res.status(500).json({ message: error.message, error: 'Error al actualizar el producto' });
+    }
+  }
 }
 
 module.exports = ProductController;
