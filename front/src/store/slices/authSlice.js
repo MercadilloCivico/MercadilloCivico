@@ -4,7 +4,7 @@ import {
   logout,
   register,
   resetPassword,
-  googleAuthCallback,
+  googleAuth,
   createNewPassword,
 } from '../thunks/authThunks';
 
@@ -99,15 +99,15 @@ export const authSlice = createSlice({
         state.error = action.payload;
       })
       // Google Auth Callback
-      .addCase(googleAuthCallback.pending, (state) => {
+      .addCase(googleAuth.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(googleAuthCallback.fulfilled, (state, action) => {
+      .addCase(googleAuth.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.user = action.payload.user;
         state.token = action.payload.token;
       })
-      .addCase(googleAuthCallback.rejected, (state, action) => {
+      .addCase(googleAuth.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       });
