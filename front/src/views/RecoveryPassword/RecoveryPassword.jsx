@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomInput from '../../components/CustomInput/CustomInput';
 
 function RecoveryPassword() {
   // Estado para el email, el mensaje de error y el estado de carga
@@ -39,16 +41,19 @@ function RecoveryPassword() {
   };
 
   return (
-    <div>
+    <div className='max-w-[600px] mx-auto bg-tuscany-100 p-20 rounded-md'>
       <form onSubmit={handleSubmit} className='flex flex-col'>
-        <input
+        <CustomInput
+          label='Email'
+          name='email'
           type='email'
-          placeholder='Email'
+          placeholder='Ingresa tu correo'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        {errorEmail && <p style={{ color: 'red' }}>{errorEmail}</p>}
-        <button type='submit'>Recuperar contraseña</button>
+        {errorEmail && <p>{errorEmail}</p>}
+        <br />
+        <CustomButton type='submit' text='Enviar' className='w-[200px] self-center' />
         {loading && <p>Cargando...</p>}
       </form>
     </div>
