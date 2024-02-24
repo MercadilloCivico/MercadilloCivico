@@ -17,49 +17,55 @@ const CarritoController = require('../controllers/Carrito/carritoController');
 
 const router = Router();
 
-// Get
+// user/auth
 
 router.get('/auth/google', middleware.authenticateGoogle);
 router.get('/auth/google/callback', middleware.authenticateGoogleCallback);
 router.get('/forgot/password', recuperarContrasenia);
-router.get('/favorites/:id?', FavoriteControllers.get);
-router.get('/punto_de_venta/:id?', PuntoDeVentaController.get);
-router.get('/proveedor/:id?', ProveedoresController.getAll);
-router.get('/carrito_de_compras/:id?', CarritoController.get);
-router.get('/product/:id?', ProductController.get);
-
-// Post
-
-router.post('/login', login);
 router.post('/register', register);
+router.post('/login', login);
 router.post('/logout', logout);
-router.post('/postProduct', validateProductFields, ProductController.post);
-router.post('/favorites/:id', FavoriteControllers.addFav);
-router.post('/punto_de_venta', PuntoDeVentaController.post);
-router.post('/proveedor', validateProveedores, ProveedoresController.post);
-// Delete
-
+router.put('/forgot/password', contraseñaOlvidada);
+router.put('/update/user', putUsuario);
 router.delete('/disable/user', deleteUser);
-router.delete('/favorites/:id');
-router.delete('/punto_de_venta/:id', PuntoDeVentaController.delete);
-router.put('carrito_de_compras/limpiar', CarritoController.limpiarCarrito);
+
+// products
+
+router.get('/product/:id?', ProductController.get);
+router.post('/postProduct', validateProductFields, ProductController.post);
 router.delete('/productoLogic/:id', ProductController.logicDelete);
 router.delete('/productoTrue/:id', ProductController.trueDelete);
 
-router.delete('/proveedor/:id', ProveedoresController.delete);
-// Put
+// favorites
 
-router.put('/forgot/password', contraseñaOlvidada);
-router.put('/update/user', putUsuario);
+router.get('/favorites/:id?', FavoriteControllers.get);
+router.post('/favorites/:id', FavoriteControllers.addFav);
+router.delete('/favorites/:id');
+
+// proveedores
+
+router.get('/proveedor/:id?', ProveedoresController.getAll);
+router.post('/proveedor', validateProveedores, ProveedoresController.post);
+router.put('/proveedor/:id', ProveedoresController.put);
+router.delete('/proveedor/:id', ProveedoresController.delete);
+
+// carrito
+
+router.get('/carrito_de_compras/:id?', CarritoController.get);
+router.put('/carrito_de_compras/limpiar', CarritoController.limpiarCarrito);
+router.put('/carrito_de_compras/add', CarritoController.addProducto);
+router.put('/carrito_de_compras/remove', CarritoController.removeProducto);
+router.put('/carrito_de_compras/cantidad', CarritoController.actualizarCantidad);
+
+// punto de venta
+
+router.get('/punto_de_venta/:id?', PuntoDeVentaController.get);
+router.post('/punto_de_venta', PuntoDeVentaController.post);
 router.put('/punto_de_venta/:id', PuntoDeVentaController.put);
 router.put('/punto_de_venta/:id', PuntoDeVentaController.addProveedor);
-router.put('/proveedor/:id', ProveedoresController.put);
 router.put('/punto_de_venta/edit/:id', PuntoDeVentaController.put);
 router.put('/punto_de_venta/add/:id', PuntoDeVentaController.addProveedor);
 router.put('/punto_de_venta/remove/:id', PuntoDeVentaController.removeProveedor);
-router.put('carrito_de_compras/add', CarritoController.addProducto);
-router.put('carrito_de_compras/remove', CarritoController.removeProducto);
-router.put('carrito_de_compras/cantidad', CarritoController.actualizarCantidad);
-router.put('/producto/:id', ProductController.put);
+router.delete('/punto_de_venta/:id', PuntoDeVentaController.delete);
 
 module.exports = router;
