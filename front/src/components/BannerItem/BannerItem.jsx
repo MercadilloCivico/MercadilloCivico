@@ -3,7 +3,7 @@ import { Chip } from '@mui/material';
 const BannerItem = ({ backgroundImage, chipLabel, description }) => {
   return (
     <div
-      className='relative w-full pb-[25%] overflow-hidden rounded-lg bg-cover bg-center min-h-32'
+      className='relative w-full pb-[25%] overflow-hidden sm:rounded-lg  bg-cover bg-center min-h-32 '
       style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className='absolute top-0 left-0 m-4'>
         <Chip
