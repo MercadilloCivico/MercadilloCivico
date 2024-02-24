@@ -41,7 +41,7 @@ export default function Card({ lazyImg, name, price, img, description, rating })
   //################################################################
 
   return (
-    <div className='relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030]'>
+    <div className='relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030]'>
       <div className='flex'>
         <div
           className={`relative h-[120px] w-[120px] flex-shrink-0 bg-cover`}
@@ -79,7 +79,7 @@ export default function Card({ lazyImg, name, price, img, description, rating })
         </div>
 
         <div className='bg-tuscany-300 h-[100%] w-[100%]'>
-          <div className='flex bg-pearl-bush-100 items-center rounded-br-lg h-[70px] hover:bg-pearl-bush-200 transition hover:cursor-pointer'>
+          <div className='flex bg-tuscany-100 items-center rounded-br-lg h-[70px] hover:bg-pearl-bush-200 transition hover:cursor-pointer'>
             <ul
               className='flex mx-2 w-full flex-col '
               onClick={() => {
@@ -98,7 +98,7 @@ export default function Card({ lazyImg, name, price, img, description, rating })
               onClick={() => {
                 alert('Agregar producto al carrito de compras');
               }}>
-              <TbShoppingBagPlus class='w-[25px] h-[25px] text-tuscany-200' />
+              <TbShoppingBagPlus class='w-[25px] h-[25px] text-tuscany-100' />
             </div>
           </div>
 

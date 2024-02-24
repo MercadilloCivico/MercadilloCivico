@@ -17,7 +17,7 @@ const Nav = () => {
       <div className='flex w-full h-[55px]'></div>
 
       <div className='flex w-full text-tuscany-950 font-semibold text-lg'>
-        <header className='bg-pearl-bush-100 flex h-[55px] w-full fixed items-center justify-between top-0 left-0 shadow-md z-10'>
+        <header className='bg-pearl-bush-200 flex h-[55px] w-full fixed items-center justify-between top-0 left-0 shadow-md z-10'>
           {/* NAV START */}
           {/* Responsive Menu Button */}
           <button
