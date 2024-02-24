@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const prisma = require('../../../db_connection');
 const uploadToCloudinary = require('../uploadToCloudinary');
+const CarritoHandler = require('../Carrito/carritoHandler');
+const validationImage = require('../../utils/validations/validationImage');
 
 const registerHandler = async (firstName, lastName, email, password, secondName, photo) => {
   try {
@@ -21,9 +23,10 @@ const registerHandler = async (firstName, lastName, email, password, secondName,
     const hashPassword = await bcrypt.hash(password, 11);
     let secureUrl;
     if (photo) {
+      validationImage(photo);
       secureUrl = await uploadToCloudinary(photo);
     }
-    await prisma.usuario.create({
+    const newUser = await prisma.usuario.create({
       data: {
         first_name: firstName,
         second_name: secondName,
@@ -33,6 +36,7 @@ const registerHandler = async (firstName, lastName, email, password, secondName,
         photo: secureUrl || '',
       },
     });
+    await CarritoHandler.post(newUser.id);
     return {
       registradoExitosamente: true,
     };

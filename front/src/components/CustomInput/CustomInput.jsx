@@ -10,6 +10,8 @@ const CustomInput = ({
   value,
   name,
   error = '',
+  className,
+  type,
 }) => {
   const handleChange = (event) => {
     onChange({
@@ -22,7 +24,7 @@ const CustomInput = ({
 
   return (
     <TextField
-      className='bg-pearl-bush-100 text-tuscany-600 placeholder-hippie-green-300 border-tuscany-600 focus:border-hippie-green-600 hover:border-tuscany-200'
+      className={`bg-pearl-bush-100 text-tuscany-600 placeholder-hippie-green-300 border-tuscany-600 focus:border-hippie-green-600 hover:border-tuscany-200 ${className}`}
       variant={variant}
       placeholder={placeholder}
       value={value}
@@ -31,6 +33,7 @@ const CustomInput = ({
       name={name}
       error={!!error}
       helperText={error}
+      type={type}
       InputProps={{
         startAdornment: StartIcon ? (
           <InputAdornment position='start'>

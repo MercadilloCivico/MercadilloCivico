@@ -88,6 +88,19 @@ class PuntoDeVentaController {
       return res.status(400).json({ error: error.message });
     }
   }
+
+  static async removeProveedor(req, res) {
+    try {
+      const { id } = req.params;
+      const { provId } = req.query;
+      if (!id || !provId)
+        throw new Error('Se debe recibir el id del punto y del proveedor para realizar la acción');
+      const response = await PuntoDeVentaHandlers.removeProveedores(id, provId);
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }
 
 module.exports = PuntoDeVentaController;

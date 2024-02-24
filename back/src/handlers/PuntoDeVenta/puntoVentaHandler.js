@@ -1,3 +1,4 @@
+const qr = require('qrcode');
 const prisma = require('../../../db_connection');
 const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
 const validationImage = require('../../utils/validations/validationImage');
@@ -31,6 +32,21 @@ class PuntoDeVentaHandlers {
     }
   }
 
+  static async generateQr(id) {
+    try {
+      // Generar el código QR como una imagen en formato base64
+      const qrDataUrl = await qr.toDataURL(id);
+      // Guardar el código QR en la base de datos
+      await prisma.punto_De_Venta.update({
+        where: { id },
+        data: { qr_code: qrDataUrl },
+      });
+      return true;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   static async post(companyName, address, postalCode, contactEmail, contactTel, image) {
     try {
       const emailRepeat = await prisma.punto_De_Venta.findFirst({
@@ -40,6 +56,7 @@ class PuntoDeVentaHandlers {
         throw new Error('Ya se encuentra otro punto de venta registrado con el mismo email');
       let secureUrl;
       if (image) {
+        validationImage(image);
         secureUrl = uploadToCloudinary(image);
       }
       const puntoNuevo = await prisma.punto_De_Venta.create({
@@ -56,6 +73,7 @@ class PuntoDeVentaHandlers {
           inventario: true,
         },
       });
+      await this.generateQr(puntoNuevo.id);
       return {
         message: 'Punto de Venta creado exitosamente',
         data: puntoNuevo,
@@ -75,11 +93,11 @@ class PuntoDeVentaHandlers {
       if (postalCode) dataToUpdate.postal_code = postalCode;
       if (image) {
         validationImage(image);
-        await eliminaPhotoUtil(id, 'Punto_De_Venta');
+        await eliminaPhotoUtil(id, 'punto_De_Venta');
         const secureUrl = await uploadToCloudinary(image);
         dataToUpdate.image = secureUrl;
       }
-      const puntoActualizado = await prisma.punto_De_Venta.create({
+      const puntoActualizado = await prisma.punto_De_Venta.update({
         where: {
           id,
         },
@@ -148,6 +166,38 @@ class PuntoDeVentaHandlers {
       });
       return {
         message: 'Proveedor añadido al punto de venta exitosamente',
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  static async removeProveedores(puntoId, provId) {
+    try {
+      const findPunto = await prisma.punto_De_Venta.findFirst({
+        where: {
+          id: puntoId,
+        },
+      });
+      const findProv = await prisma.proveedor.findFirst({
+        where: {
+          id: provId,
+        },
+      });
+      if (!findPunto || !findProv)
+        throw new Error('El punto de venta y/o el proveedor no se encuentran en la base de datos');
+      await prisma.punto_De_Venta.update({
+        where: {
+          id: puntoId,
+        },
+        data: {
+          provedores: {
+            disconnect: { id: provId },
+          },
+        },
+      });
+      return {
+        message: 'Proveedor removido del punto de venta exitosamente',
       };
     } catch (error) {
       throw new Error(error);

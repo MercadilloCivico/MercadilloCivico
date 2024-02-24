@@ -37,7 +37,9 @@ model Proveedor {
   tel String
   camaraDeComercio String
   certificadoBancario String
-  active Boolean?
+  publicIdCamara String
+  publicIdCertificado String
+  active Boolean? @default(false)
   productos    ProductoProveedor[]
   puntos_de_venta Punto_De_Venta[]
 }
@@ -60,7 +62,6 @@ model Producto {
   proveedor     ProductoProveedor[]
   marca         String
   resenas       Resena[]
-  carrito       Carrito_de_Compras[]
   h_compras     Historial_Compras[]
   inventario    Inventario[]
   favorites     Usuario[]
@@ -75,6 +76,7 @@ model Punto_De_Venta {
   contact_email String?
   contact_tel String?
   image String?
+  qr_code Bytes?
   provedores Proveedor[]
   inventario Inventario[]
   disabled Boolean @default(false)
@@ -91,7 +93,7 @@ model Resena {
 
 model Carrito_de_Compras {
   id Int @id @default(autoincrement())
-  productos Producto[]
+  productoEnCarrito Producto_En_Carrito[]
   usuario Usuario @relation(fields: [user_id], references: [id])
   user_id String @db.Uuid @unique
 }
@@ -106,6 +108,16 @@ model Inventario {
   stock Int
   stock_max Int
   precio_final Decimal
+  productoEnCarrito Producto_En_Carrito[]
+}
+
+model Producto_En_Carrito{
+  carrito Carrito_de_Compras @relation(fields: [carritoId], references: [id])
+  carritoId Int
+  inventario Inventario @relation(fields: [inventarioId], references: [id])
+  inventarioId Int
+  cantidad Int
+  @@id([inventarioId, carritoId])
 }
 
 model Pedidos_Proveedor {
