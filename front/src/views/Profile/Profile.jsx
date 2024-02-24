@@ -4,19 +4,35 @@ import { MdEdit } from 'react-icons/md';
 import { TextField } from '@mui/material';
 import CustomTabs from './CustomTabs.jsx';
 
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton.jsx';
 
 export default function Profile() {
   let [editMode, setEditMode] = useState(false);
+  const navigate = useNavigate();
+
+  // Redirije automaticamente a /profile/history al entrar a /profile
+  useEffect(() => {
+    navigate('/profile/history');
+  }, []);
+
+  useEffect(() => {
+    if (editMode) {
+      navigate('/profile');
+    } else {
+      navigate('/profile/history');
+    }
+  }, [editMode]);
 
   // Copia de la Data original sin modificar, para saber si se cambió algo, o para restaurar al cancelar.
   let [oldData, setOldData] = useState({
     imgPreview: '',
     imgUrl:
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    name: 'Nombre Completo',
+    firstName: 'Nombre',
+    secondName: 'Segundo',
+    lastName: 'Apellido',
     email: 'uncorreo@mail.com',
     phone: '+1 34 8543-4234',
     location: 'Buenos Aires, Arentina.',
@@ -30,7 +46,9 @@ export default function Profile() {
     imgPreview: '',
     imgUrl:
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    name: 'Nombre Completo',
+    firstName: 'Nombre',
+    secondName: 'Segundo',
+    lastName: 'Apellido',
     email: 'uncorreo@mail.com',
     phone: '+1 34 8543-4234',
     location: 'Buenos Aires, Arentina.',
@@ -72,15 +90,18 @@ export default function Profile() {
     <div className='text-pearl-bush-950'>
       {/* Header container */}
       <div>
-        <div className='max-w-[1280px] mx-auto h-[150px] bg-pearl-bush-950 relative'>
+        <div
+          style={{ backgroundImage: "url('https://picsum.photos/600/300')" }}
+          className='max-w-[1280px] mx-auto h-[150px] bg-pearl-bush-950 bg-cover bg-center relative'>
           {!editMode && (
-            <CustomButton
+            <button
+              className='absolute right-0 z-1 text-tuscany-100 m-2 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'
               onClick={() => {
                 setEditMode(true);
               }}
-              text='Editar'
-              className='absolute right-0'
-            />
+              type='text'>
+              <MdEdit className='w-full h-full' />
+            </button>
           )}
           <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-100 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
             {editMode && (
@@ -94,7 +115,7 @@ export default function Profile() {
                 />
                 <label
                   htmlFor='img'
-                  className='text-tuscany-200 absolute m-1 bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#3f3f3f50] hover:bg-[#00000050] transition border-none hover:cursor-pointer'>
+                  className='text-tuscany-100 absolute m-1 bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
                   <MdEdit className='w-full h-full' />
                 </label>
               </>
@@ -122,13 +143,34 @@ export default function Profile() {
           <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
             <TextField
               onChange={handleChange}
-              name='name'
+              name='firstName'
               className='w-[300px] m-2'
               color='success'
               id='outlined-helperText'
               label='Nombre'
-              defaultValue={formData.name}
+              defaultValue={formData.firstName}
             />
+
+            <TextField
+              onChange={handleChange}
+              name='secondName'
+              className='w-[300px] m-2'
+              color='success'
+              id='outlined-helperText'
+              label='Segundo nombre'
+              defaultValue={formData.secondName}
+            />
+
+            <TextField
+              onChange={handleChange}
+              name='lastName'
+              className='w-[300px] m-2'
+              color='success'
+              id='outlined-helperText'
+              label='Apellido'
+              defaultValue={formData.lastName}
+            />
+
             <TextField
               onChange={handleChange}
               className='w-[300px] m-2'
@@ -138,6 +180,7 @@ export default function Profile() {
               label='Email'
               defaultValue={formData.email}
             />
+
             <TextField
               onChange={handleChange}
               className='w-[300px] m-2'
@@ -147,6 +190,7 @@ export default function Profile() {
               label='Teléfono'
               defaultValue={formData.phone}
             />
+
             <TextField
               onChange={handleChange}
               className='w-[300px] m-2'
@@ -156,6 +200,7 @@ export default function Profile() {
               label='Ubicación'
               defaultValue={formData.location}
             />
+
             <TextField
               onChange={handleChange}
               className='w-[300px] m-2'
@@ -165,6 +210,7 @@ export default function Profile() {
               label='Distrito'
               defaultValue={formData.state}
             />
+
             <TextField
               onChange={handleChange}
               className='w-[300px] m-2'
@@ -175,6 +221,7 @@ export default function Profile() {
               label='Nacimiento'
               value={formData.birth}
             />
+
             <TextField
               className='w-[300px] m-2'
               color='success'
@@ -203,12 +250,15 @@ export default function Profile() {
       ) : (
         <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
           <ul>
-            <li className='my-3'>
-              <span>{formData.name}</span>
+            <li className='my-3 font-bold text-3xl mx-2'>
+              <span>{`${formData.firstName} ${formData.secondName} ${formData.lastName}`}</span>
             </li>
-            <li className='my-3'>
+            <li className='my-3 font-semibold text-lg'>
               <span>{formData.email}</span>
             </li>
+
+            <div className='w-[70%] h-[1px] bg-tuscany-950 mx-auto my-6'></div>
+
             <li className='my-3'>
               <span>{formData.phone}</span>
             </li>
@@ -229,9 +279,9 @@ export default function Profile() {
       )}
 
       {!editMode && (
-        <div>
+        <div className='mt-[250px]'>
           {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
-          <CustomTabs></CustomTabs>
+          <CustomTabs />
 
           {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
           <Outlet />

@@ -29,7 +29,7 @@ export default function ProfileHistoryContainer() {
   let i = 0;
 
   return (
-    <div className='max-w-[1280px] mx-auto'>
+    <div className='max-w-[1280px] mx-auto flex flex-wrap justify-center'>
       {arrPrueba.map((item) => {
         return (
           <ProfileHistoryCard

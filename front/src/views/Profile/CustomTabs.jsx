@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function CustomTabs() {
-  let [tabIndex, setTabIndex] = useState(0);
+  let [tabIndex, setTabIndex] = useState(1);
   let navigate = useNavigate();
 
   const fadeIn = keyframes`
@@ -32,7 +32,7 @@ export default function CustomTabs() {
 
   return (
     <>
-      <Box className='max-w-[1280px] mx-auto my-5' sx={{ borderBottom: 1, borderColor: '#381812' }}>
+      <Box className='max-w-[1280px] mx-auto mb-2' sx={{ borderBottom: 1, borderColor: '#381812' }}>
         <CustomTabs value={tabIndex}>
           <Tab
             icon={<FaHistory />}
