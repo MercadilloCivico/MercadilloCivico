@@ -26,6 +26,7 @@ router.get('/favorites/:id?', FavoriteControllers.get);
 router.get('/punto_de_venta/:id?', PuntoDeVentaController.get);
 router.get('/proveedor/:id?', ProveedoresController.getAll);
 router.get('/carrito_de_compras/:id?', CarritoController.get);
+router.get('/product/:id?', ProductController.get);
 
 // Post
 

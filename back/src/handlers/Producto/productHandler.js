@@ -91,6 +91,43 @@ class ProductHandler {
       throw new Error(error);
     }
   }
+
+  static async getAll() {
+    try {
+      const productos = await prisma.producto.findMany();
+      return productos;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  static async getOne(id) {
+    try {
+      const producto = await prisma.producto.findFirst({
+        where: {
+          id,
+        },
+      });
+      return producto;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  static async getName(name) {
+    try {
+      const productos = await prisma.producto.findMany({
+        where: {
+          name: {
+            contains: name,
+          },
+        },
+      });
+      return productos;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }
 
 module.exports = ProductHandler;

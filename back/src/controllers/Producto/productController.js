@@ -54,6 +54,26 @@ class ProductController {
       res.status(500).json({ message: error.message, error: 'Error al eliminar el producto' });
     }
   }
+
+  static async get(req, res) {
+    try {
+      const { id } = req.params;
+      const { name } = req.query;
+      if (name) {
+        const product = await ProductHandler.getNameById(name);
+        return res.status(200).json(product);
+      }
+      if (id) {
+        const product = await ProductHandler.getOne(id);
+        return res.status(200).json(product);
+      }
+      return res.status(200).json(await ProductHandler.getAll());
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: error.message, error: 'Error al obtener los Productos' });
+    }
+  }
 }
 
 module.exports = ProductController;
