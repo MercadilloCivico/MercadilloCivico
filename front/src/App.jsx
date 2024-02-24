@@ -6,6 +6,7 @@ import Contact from './views/Contact/Contact.jsx';
 import Nav from './components/Nav/Nav.jsx';
 import Favorites from './views/Favorites/Favorites.jsx';
 import Profile from './views/Profile/Profile.jsx';
+import Login from './views/Login/login.jsx';
 
 import { ThemeProvider, createTheme } from '@mui/material';
 import Detail from './views/Detail/Detail.jsx';
@@ -50,6 +51,7 @@ function App() {
           <Route path='/Detail/:id' element={<Detail />} />
           <Route path='/User/:id' element={<Profile />} />
           <Route path='Cart' element={<Cart />} />
+          <Route path='/Login' element={<Login />} />
         </Routes>
       </div>
     </ThemeProvider>
