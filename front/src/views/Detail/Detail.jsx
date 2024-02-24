@@ -4,7 +4,7 @@ import { TiHeartOutline } from 'react-icons/ti';
 import { TiHeartFullOutline } from 'react-icons/ti';
 import { TiStarFullOutline } from 'react-icons/ti';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import Review from '../../components/Review/Review';
+import Reviews from '../../components/Reviews/Reviews';
 
 const Detail = () => {
   const [isFav, setIsFav] = useState(false);
@@ -144,8 +144,14 @@ const Detail = () => {
           </div>
         </div>
       </div>
-      <div className='mx-1'>
-        <Review />
+      <div className='mx-1 my-1'>
+        <span className='flex justify-start text-tuscany-950 text-[1.5em] md:text-[2em] lg:text-[2.5em]'>
+          Reseñas
+        </span>
+        <Reviews />
+        <button className='text-tuscany-600 border-none custom-transparent-bg text-[0.8em] md:text-[1em] lg:text-[1.2em] font-bold cursor-pointer underline'>
+          Escribe tu opinión
+        </button>
       </div>
     </div>
   );
