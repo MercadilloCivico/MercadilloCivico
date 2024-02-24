@@ -11,8 +11,11 @@ import RecoveryPassword from './views/RecoveryPassword/RecoveryPassword.jsx';
 import NewPassword from './views/NewPassword/NewPassword.jsx';
 
 import Profile from './views/Profile/Profile.jsx';
+import Login from './views/Login/login.jsx';
+
 import ProfileHistoryContainer from './components/ProfileHistoryContainer/ProfileHistoryContainer.jsx';
 import ProfileFavoritesContainer from './components/ProfileFavoritesContainer/ProfileFavoritesContainer.jsx';
+
 
 
 import { ThemeProvider, createTheme } from '@mui/material';
@@ -62,6 +65,8 @@ function App() {
           <Route path='/Nueva' element={<NewPassword />} />
 
           <Route path='Cart' element={<Cart />} />
+          <Route path='/Login' element={<Login />} />
+
           <Route path='/Profile' element={<Profile />}>
             <Route path='/Profile/history' element={<ProfileHistoryContainer />}></Route>
             <Route path='/Profile/favorites' element={<ProfileFavoritesContainer />}></Route>
