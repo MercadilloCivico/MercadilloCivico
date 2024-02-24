@@ -15,6 +15,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  
+  /* quita el highlight azul en chrome para android */
+  -webkit-tap-highlight-color: transparent;
 }
 
 :root {
