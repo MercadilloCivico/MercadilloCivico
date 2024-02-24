@@ -16,8 +16,6 @@ import Login from './views/Login/login.jsx';
 import ProfileHistoryContainer from './components/ProfileHistoryContainer/ProfileHistoryContainer.jsx';
 import ProfileFavoritesContainer from './components/ProfileFavoritesContainer/ProfileFavoritesContainer.jsx';
 
-
-
 import { ThemeProvider, createTheme } from '@mui/material';
 import Detail from './views/Detail/Detail.jsx';
 import Cart from './views/Cart/Cart.jsx';
@@ -71,7 +69,6 @@ function App() {
             <Route path='/Profile/history' element={<ProfileHistoryContainer />}></Route>
             <Route path='/Profile/favorites' element={<ProfileFavoritesContainer />}></Route>
           </Route>
-
         </Routes>
       </div>
     </ThemeProvider>

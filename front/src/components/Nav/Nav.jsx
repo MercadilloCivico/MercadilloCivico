@@ -62,7 +62,6 @@ const Nav = () => {
           {/* Volver a agregar el vínculo a /login que estaba causando conflictos */}
           <div className='flex justify-end space-x-4 w-full h-full'>
             <button className='custom-transparent-bg border-none px-2 cursor-pointer flex items-center'>
-
               <svg
                 className='h-6 w-6 text-tuscany-800 hover:text-tuscany-950 transition'
                 viewBox='0 0 24 24'

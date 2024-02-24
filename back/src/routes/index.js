@@ -60,5 +60,6 @@ router.put('/punto_de_venta/remove/:id', PuntoDeVentaController.removeProveedor)
 router.put('carrito_de_compras/add', CarritoController.addProducto);
 router.put('carrito_de_compras/remove', CarritoController.removeProducto);
 router.put('carrito_de_compras/cantidad', CarritoController.actualizarCantidad);
+router.put('/producto/:id', ProductController.put);
 
 module.exports = router;
