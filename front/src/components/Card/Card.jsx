@@ -4,7 +4,7 @@ import { TiStarFullOutline } from 'react-icons/ti';
 import { TiHeartOutline } from 'react-icons/ti';
 import { TiHeartFullOutline } from 'react-icons/ti';
 
-const VCard = ({ name, supplier, img, price, rating }) => {
+const VCard = ({ name, supplier, img, price, rating, className }) => {
   let [isFav, setIsFav] = useState(false);
 
   // Traído de CartItem
@@ -39,9 +39,20 @@ const VCard = ({ name, supplier, img, price, rating }) => {
   //################################################################
 
   return (
-    <div className='w-[130px] max-h-[200px] h-full p-0 relative rounded-md bg-pearl-bush-300 text-tuscany-950 m-2 shadow-md shadow-[#00000030]'>
-      <div className='h-[115px] p-5 relative rounded-tl-md rounded-tr-md overflow-hidden bg-cabbage-pont-700'>
-        <img className='h-full w-full object-contain' src={img} alt='product-image' />
+    <div
+      className={
+        'w-[130px] max-h-[200px] h-full p-0 relative rounded-md bg-pearl-bush-200 text-tuscany-950 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030] ' +
+        className
+      }>
+      <div className='h-[115px] relative rounded-tl-md rounded-tr-md overflow-hidden bg-cabbage-pont-700'>
+        <img
+          onClick={() => {
+            alert('Ir a Detail');
+          }}
+          className='h-full w-full object-contain cursor-pointer'
+          src={img}
+          alt='product-image'
+        />
         <div className='absolute m-1 top-0 left-0 flex items-center font-semibold bg-[#00000062] backdrop-blur-[3px] px-1 rounded-tl-xl rounded-br-xl space-x-1'>
           <TiStarFullOutline className='h-[14px] w-[14px] text-[#ffe87f]' />
           <span className='text-[#ffffff] text-[14px]'>{rating}</span>
@@ -51,7 +62,7 @@ const VCard = ({ name, supplier, img, price, rating }) => {
             onClick={() => {
               setIsFav(!isFav);
             }}
-            className='absolute bottom-0 left-0 m-1 w-[25px] h-[25px]'>
+            className='absolute top-0 right-0 m-1 w-[25px] h-[25px]'>
             <TiHeartFullOutline className='w-full h-full text-tuscany-950 cursor-pointer' />
           </div>
         ) : (
@@ -59,13 +70,17 @@ const VCard = ({ name, supplier, img, price, rating }) => {
             onClick={() => {
               setIsFav(!isFav);
             }}
-            className='absolute bottom-0 left-0 m-1 w-[25px] h-[25px]'>
+            className='absolute top-0 right-0 m-1 w-[25px] h-[25px]'>
             <TiHeartOutline className='w-full h-full cursor-pointer' />
           </div>
         )}
       </div>
       <div className='p-2 h-full'>
-        <ul className='flex justify-between justify-betwee text-start text-xs font-semibold'>
+        <ul
+          onClick={() => {
+            alert('Ir a Detail');
+          }}
+          className='flex justify-between justify-betwee text-start text-xs font-semibold cursor-pointer'>
           <li className='line-clamp-1'>{name}</li>
           <li>${price}</li>
         </ul>
@@ -83,7 +98,7 @@ const VCard = ({ name, supplier, img, price, rating }) => {
                 producto.cantidad === 1
                   ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                   : 'cursor-pointer'
-              } bg-tuscany-100 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+              } bg-tuscany-950 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-pearl-bush-100 font-bold`}
               disabled={producto.cantidad === 1}>
               -
             </button>
@@ -94,14 +109,14 @@ const VCard = ({ name, supplier, img, price, rating }) => {
                 producto.cantidad === producto.stock
                   ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                   : 'cursor-pointer'
-              } bg-tuscany-100 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+              } bg-tuscany-950 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-pearl-bush-100 font-bold`}
               disabled={producto.cantidad === producto.stock}>
               +
             </button>
           </div>
 
           <div className='bg-tuscany-950 flex flex-shrink-0 right-0 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full cursor-pointer hover:bg-pearl-bush-900 active:bg-pearl-bush-800 transition'>
-            <TbShoppingBagPlus class='w-[25px] h-[25px] text-tuscany-200' />
+            <TbShoppingBagPlus class='w-[25px] h-[25px] text-pearl-bush-100' />
           </div>
         </div>
       </div>

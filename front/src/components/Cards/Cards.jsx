@@ -69,7 +69,7 @@ const products = [
 
 function Cards() {
   return (
-    <div className='flex justify-center flex-wrap mt-20 space-between mx-auto'>
+    <div className='py-3 flex justify-center flex-wrap space-between xsm:px-0 sm:px-10 max-w-[1280px] mx-auto'>
       {products?.map((product) => {
         return (
           <Card
@@ -79,6 +79,7 @@ function Cards() {
             img={product.img}
             price={product.price}
             rating={product.rating}
+            className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
           />
         );
       })}

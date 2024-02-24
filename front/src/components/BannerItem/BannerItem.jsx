@@ -1,9 +1,11 @@
 import { Chip } from '@mui/material';
 
-const BannerItem = ({ backgroundImage, chipLabel, description }) => {
+const BannerItem = ({ backgroundImage, chipLabel, description, className }) => {
   return (
     <div
-      className='relative w-full pb-[25%] overflow-hidden sm:rounded-lg  bg-cover bg-center min-h-32 '
+      className={
+        'relative w-full overflow-hidden sm:rounded-lg bg-cover bg-center min-h-32 ' + className
+      }
       style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className='absolute top-0 left-0 m-4'>
         <Chip
@@ -18,8 +20,8 @@ const BannerItem = ({ backgroundImage, chipLabel, description }) => {
           }}
         />
       </div>
-      <div className='absolute bottom-0 mb-4 ml-4 w-full'>
-        <p className='text-white text-left text-md lg:text-2xl xl:text-4xl font-bold shadow-md'>
+      <div className='absolute bottom-0 mb-4 w-full'>
+        <p className='pl-4 text-white text-left text-md lg:text-2xl xl:text-2xl font-bold drop-shadow-md'>
           {description}
         </p>
       </div>

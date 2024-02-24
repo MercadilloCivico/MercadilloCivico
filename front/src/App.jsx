@@ -48,7 +48,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className=''>
+      <div className='min-h-[calc(100vh-55px)]'>
         {!isDetailPage && !isCartPage && <Nav />}
 
         <Routes>
