@@ -19,7 +19,7 @@ const BannerItem = ({ backgroundImage, chipLabel, description }) => {
         />
       </div>
       <div className='absolute bottom-0 mb-4 ml-4 w-full'>
-        <p className='text-white text-left text-lg lg:text-2xl xl:text-4xl font-bold shadow-md'>
+        <p className='text-white text-left text-md lg:text-2xl xl:text-4xl font-bold shadow-md'>
           {description}
         </p>
       </div>

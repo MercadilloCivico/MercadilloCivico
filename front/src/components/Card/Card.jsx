@@ -39,7 +39,7 @@ const VCard = ({ name, supplier, img, price, rating }) => {
   //################################################################
 
   return (
-    <div className='max-w-[130px] max-h-[200px] h-full p-0 relative rounded-md bg-pearl-bush-300 text-tuscany-950 m-2 shadow-md shadow-[#00000030]'>
+    <div className='w-[130px] max-h-[200px] h-full p-0 relative rounded-md bg-pearl-bush-300 text-tuscany-950 m-2 shadow-md shadow-[#00000030]'>
       <div className='h-[115px] p-5 relative rounded-tl-md rounded-tr-md overflow-hidden bg-cabbage-pont-700'>
         <img className='h-full w-full object-contain' src={img} alt='product-image' />
         <div className='absolute m-1 top-0 left-0 flex items-center font-semibold bg-[#00000062] backdrop-blur-[3px] px-1 rounded-tl-xl rounded-br-xl space-x-1'>
