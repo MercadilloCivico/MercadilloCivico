@@ -22,7 +22,7 @@ function login() {
       <div className='flex flex-col w-full items-center justify-center flex-grow-[1] my-[50px]'>
         <form
           // onSubmit={}
-          className='bg-pearl-bush-200 rounded-xl w-full max-w-[600px] pb-8 pt-[150px] relative mx-[10px] px-[10px] drop-shadow-xl mt-[120px]'>
+          className=' shadow-xl bg-pearl-bush-200 rounded-xl w-full max-w-[600px] pb-8 pt-[150px] relative mx-[10px] px-[10px] mt-[120px]'>
           <img
             src={Logo}
             alt='Mercadillo Cívico'
@@ -77,7 +77,7 @@ function login() {
               </a>
             </p>
             <p className='text-pearl-bush-700 text-base'>
-              <a href='' className='text-pearl-bush-700 text-base'>
+              <a href='recover_password' className='text-pearl-bush-700 text-base'>
                 ¿Olvidaste tu contraseña?
               </a>
             </p>
