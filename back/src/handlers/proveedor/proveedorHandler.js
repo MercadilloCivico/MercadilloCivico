@@ -60,7 +60,7 @@ class proveedorHandlers {
           certificadoBancario: urlCertificado.URL,
           publicIdCamara: urlCamara.public_id,
           publicIdCertificado: urlCertificado.public_id,
-          user_id: '9f91e566-a392-435f-88bb-5a2623c4cec1',
+          user_id: '9e7c68ae-b68f-4ce3-8d0f-7b313d80f404',
           active: true,
         },
       });

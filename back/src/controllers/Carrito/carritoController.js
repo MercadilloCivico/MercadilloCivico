@@ -17,19 +17,20 @@ class CarritoController {
   }
 
   // ? No lo borro por si termina siendo necesario pero creo que la idea va a ser crear el carrito al mismo tiempo que se registra el usuario
-  // static async post (req, res) {
-  //     try {
-  //         const { id } = req.params
-  //         if(id){
-  //             throw new Error("Se necesita el id del usuario para crear el carrito")
-  //         } else {
-  //             const response = await CarritoHandler.post(id)
-  //             return res.status(200).json(response)
-  //         }
-  //     } catch (error) {
-  //         return res.status(400).json({error: error.message})
-  //     }
-  // }
+  static async post(req, res) {
+    try {
+      const { id } = req.params;
+      if (id) {
+        throw new Error('Se necesita el id del usuario para crear el carrito');
+      } else {
+        const response = await CarritoHandler.post(id);
+        return res.status(200).json(response);
+      }
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
   static async addProducto(req, res) {
     try {
       const { carritoId, inventarioId, cantidad } = req.body;

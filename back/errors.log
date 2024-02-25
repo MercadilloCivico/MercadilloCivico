@@ -120,3 +120,8 @@
 2024-02-23 21:25:42 error: PUT /api/producto/ddc294c1-07d3-44f7-9900-3f99263bd8c8 500 8ms
 2024-02-23 21:26:32 error: PUT /api/producto/ddc294c1-07d3-44f7-9900-3f99263bd8c8 500 36ms
 2024-02-23 21:30:13 error: PUT /api/producto/ddc294c1-07d3-44f7-9900-3f99263bd8c8 500 13ms
+2024-02-24 19:05:44 error: POST /api/postProduct 500 109ms
+2024-02-24 19:06:43 error: POST /api/proveedor 500 2080ms
+2024-02-24 20:29:05 error: POST /api/proveedor 500 1959ms
+2024-02-24 20:51:26 error: [object Object]
+2024-02-24 20:51:26 error: GET /api/inventario 500 8ms
