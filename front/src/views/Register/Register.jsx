@@ -5,67 +5,121 @@ import validacion from './validacion';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { CheckboxRequired, CheckboxBasic } from '../../components/Chechbox/Checkbox';
+import { useDispatch } from 'react-redux';
+import { register } from '../../store/thunks/authThunks';
+import { MdEdit } from 'react-icons/md';
+import { FaUser } from 'react-icons/fa6';
+
 function Register() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   // Estado para los datos del formulario y los errores de validación
-  const [register, setRegister] = useState({
+  const [formData, setFormData] = useState({
+    imgUrl: null,
     name: '',
+    secondname: '',
     lastname: '',
     mail: '',
     password: '',
     repeatPassword: '',
-    image: null,
+    imgPreview: '',
   });
   const [errors, setErrors] = useState({});
 
   // Maneja cambios en los campos del formulario
   const handleInput = (e) => {
-    // console.log(e.target.name, e.target.value);
     const { name, value } = e.target;
-    if (name === 'image') {
+    if (name === 'img') {
       // Si el campo es una imagen, actualiza el estado con el archivo seleccionado
-      const file = e.target.files[0];
-      setRegister({
-        ...register,
-        image: file,
+      const imgFile = e.target.files[0];
+      if (imgFile) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setFormData({
+            ...formData,
+            imgPreview: reader.result, // Establecer la vista previa de la imagen
+            imgUrl: imgFile, // Establecer la imagen seleccionada
+          });
+        };
+        reader.readAsDataURL(imgFile);
+      }
+    } else if (name === 'secondname' && value === '') {
+      // Si el campo de segundo nombre está vacío, establecerlo como null
+      setFormData({
+        ...formData,
+        [name]: value || '',
       });
     } else {
       // Para otros campos, actualiza el estado con el valor ingresado
-      setRegister({
-        ...register,
+      setFormData({
+        ...formData,
         [name]: value,
       });
     }
-    setErrors(validacion({ ...register, [e.target.name]: e.target.value }));
+    setErrors(validacion({ ...formData, [e.target.name]: e.target.value }));
   };
 
   // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-    const errors = {}; // Inicializa un objeto para almacenar errores
-    // Valida que todos los campos estén completos
-    for (const key in register) {
-      if (register[key] === '') {
-        // Agrega mensaje de error para campo vacío
-        return alert('Todos los campos son obligatorios');
+
+    // Verificar si se proporcionó una imagen
+    const isImageProvided = formData.imgUrl !== null;
+
+    // Si se proporciona una imagen, validarla
+    if (isImageProvided) {
+      const formErrors = validacion(formData); // Realizar validación del formulario
+      setErrors(formErrors);
+
+      // Validamos que los campos obligatorios estén completos
+      const requiredFields = ['name', 'lastname', 'mail', 'password', 'repeatPassword'];
+      const isFormValid = requiredFields.every((field) => formData[field].trim() !== '');
+
+      if (isFormValid && Object.keys(formErrors).length === 0) {
+        dispatch(register(formData));
+        alert('Formulario enviado');
+        setFormData({
+          imgUrl: null,
+          name: '',
+          secondname: '', // Establecer el segundo nombre como cadena vacía
+          lastname: '',
+          mail: '',
+          password: '',
+          repeatPassword: '',
+        });
+        navigate('/store');
+      } else {
+        alert('Por favor, complete todos los campos obligatorios correctamente.');
+      }
+    } else {
+      // Si no se proporciona ninguna imagen, continuar con el envío del formulario sin validarla
+      const formErrors = validacion({
+        ...formData,
+        imgUrl: '', // Simular que se proporciona una URL de imagen vacía para evitar errores de validación
+      });
+      setErrors(formErrors);
+
+      // Validamos que los campos obligatorios estén completos
+      const requiredFields = ['name', 'lastname', 'mail', 'password', 'repeatPassword'];
+      const isFormValid = requiredFields.every((field) => formData[field].trim() !== '');
+
+      if (isFormValid && Object.keys(formErrors).length === 0) {
+        dispatch(register(formData));
+        alert('Formulario enviado');
+        setFormData({
+          imgUrl: null,
+          name: '',
+          secondname: '', // Establecer el segundo nombre como cadena vacía
+          lastname: '',
+          mail: '',
+          password: '',
+          repeatPassword: '',
+        });
+        navigate('/store');
+      } else {
+        alert('Por favor, complete todos los campos obligatorios correctamente.');
       }
     }
-    setErrors(errors); // Actualiza el estado con los errores encontrados
-    // Si no hay errores, procede con el envío del formulario
-    if (Object.keys(errors).length === 0) {
-      // Muestra los datos del formulario en la consola
-      console.log('datos del formulario: ', register);
-    }
-    // Limpia el estado del formulario después del envío
-    setRegister({
-      name: '',
-      lastname: '',
-      mail: '',
-      password: '',
-      repeatPassword: '',
-      image: null,
-    });
-    navigate('/home');
   };
 
   return (
@@ -76,18 +130,56 @@ function Register() {
         className='bg-tuscany-100 rounded-md max-w-[700px] mx-auto py-8'>
         <p className='text-pearl-bush-950 text-base'>Ingresa tus datos para registrarte</p>
         <br />
+        <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-100 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 object-cover overflow-hidden'>
+          <>
+            <input
+              name='img'
+              id='img'
+              onChange={handleInput}
+              type='file'
+              accept='image/*'
+              className='hidden absolute'
+            />
+            <label
+              htmlFor='img'
+              className='text-tuscany-100 absolute m-28 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
+              <MdEdit className='w-full h-full' />
+            </label>
+          </>
 
+          {formData.imgUrl && !formData.imgPreview ? (
+            <img className='w-full h-full object-cover' src={formData.imgUrl}></img>
+          ) : formData.imgPreview ? (
+            <img className='w-full h-full object-cover' src={formData.imgPreview}></img>
+          ) : (
+            <FaUser className='w-full h-full p-2' />
+          )}
+        </div>
+        <div className='text-crown-of-thorns-600'>{errors.imgUrl}</div>
+        <br />
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
           <CustomInput
             label='Nombre'
             placeholder='Nombre'
             name='name'
             type='text'
-            value={register.name}
+            value={formData.name}
             onChange={handleInput}
-            inputProps={{ maxLength: 5 }}
+            className={{ maxLength: 30 }}
           />
-          <div className='text-pearl-bush-950'>{errors.name}</div>
+          <div className='text-crown-of-thorns-600'>{errors.name}</div>
+        </div>
+        <br />
+        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
+          <CustomInput
+            label='Segundo Nombre'
+            placeholder='Opcional'
+            name='secondname'
+            type='text'
+            value={formData.secondname}
+            onChange={handleInput}
+          />
+          <div className='text-crown-of-thorns-600'>{errors.secondname}</div>
         </div>
         <br />
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
@@ -96,10 +188,10 @@ function Register() {
             placeholder='Apellido'
             name='lastname'
             type='text'
-            value={register.lastname}
+            value={formData.lastname}
             onChange={handleInput}
           />
-          <div className='text-pearl-bush-950'>{errors.lastname}</div>
+          <div className='text-crown-of-thorns-600'>{errors.lastname}</div>
         </div>
         <br />
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
@@ -108,10 +200,10 @@ function Register() {
             placeholder='Correo electronico'
             name='mail'
             type='mail'
-            value={register.mail}
+            value={formData.mail}
             onChange={handleInput}
           />
-          <div className='text-pearl-bush-950'>{errors.mail}</div>
+          <div className='text-crown-of-thorns-600'>{errors.mail}</div>
         </div>
         <br />
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
@@ -120,10 +212,10 @@ function Register() {
             placeholder='Contraseña'
             name='password'
             type='password'
-            value={register.password}
+            value={formData.password}
             onChange={handleInput}
           />
-          <div className='text-pearl-bush-950'>{errors.password}</div>
+          <div className='text-crown-of-thorns-600'>{errors.password}</div>
         </div>
         <br />
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-8'>
@@ -132,10 +224,10 @@ function Register() {
             placeholder='Repetir Contraseña'
             name='repeatPassword'
             type='password'
-            value={register.repeatPassword}
+            value={formData.repeatPassword}
             onChange={handleInput}
           />
-          <div className='text-pearl-bush-950'>{errors.repeatPassword}</div>
+          <div className='text-crown-of-thorns-600'>{errors.repeatPassword}</div>
         </div>
         <br />
         <CheckboxRequired />
