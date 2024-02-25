@@ -8,7 +8,7 @@ import { useState } from 'react';
 import style from './DropdownCard.module.css';
 import PropTypes from 'prop-types';
 
-export default function Card({ lazyImg, name, price, img, description, rating }) {
+export default function Card({ lazyImg, name, price, img, description, rating, className }) {
   // Eventualmente recibirá también el id de producto
   // lazyImg será un downscale de la img real, se mostrará de fondo mientras carga la imágen real
 
@@ -41,7 +41,11 @@ export default function Card({ lazyImg, name, price, img, description, rating })
   //################################################################
 
   return (
-    <div className='relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030]'>
+    <div
+      className={
+        'relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030] ' +
+        className
+      }>
       <div className='flex'>
         <div
           className={`relative h-[120px] w-[120px] flex-shrink-0 bg-cover`}

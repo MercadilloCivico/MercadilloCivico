@@ -23,6 +23,7 @@ const {
   CLIENT_ID,
   CLIENT_SECRET,
   SECRET_COOKIE,
+  FRONT_URL,
 } = process.env;
 
 module.exports = {
@@ -37,4 +38,5 @@ module.exports = {
   CLIENT_ID,
   CLIENT_SECRET,
   SECRET_COOKIE,
+  FRONT_URL,
 };

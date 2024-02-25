@@ -15,10 +15,10 @@ const Store = () => {
     { value: 'cartagena', label: 'Cartagena' },
   ];
   return (
-    <div>
-      <div className='flex flex-row justify-center bg-hippie-green-950'>
+    <div className='flex flex-col min-h-[calc(100vh-55px)]'>
+      <div className='flex flex-col bg-hippie-green-950'>
         <BackButton />
-        <Box className='max-w-64 mx-full w-[100vw] bg-hippie-green-950 pb-6 lg:translate-y-[40%]'>
+        <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6 lg:translate-y-[40%]'>
           <CustomSelect label='Localización' options={cityOptionsMock} />
         </Box>
       </div>
@@ -29,14 +29,21 @@ const Store = () => {
           variant='outlined'
           className='rounded-lg max-w-64 mx-auto lg:hidden'
         />
-        <Box className='w-[100vw] sm:w-[60vw] md:w-[50vw] mx-auto translate-y-[40%]'>
-          <BannerItem
-            backgroundImage='https://picsum.photos/300'
-            chipLabel='Promo'
-            description='¡Compra uno y llévate el otro gratis!'
-          />
-        </Box>
       </div>
+
+      {/* Div eparador con color verde de fondo, altura del div usado como margin top y bottom */}
+      <div className='w-screen bg-hippie-green-950 h-10'></div>
+
+      <div className='relative'>
+        <div className='w-screen h-[50%] position absolute bg-hippie-green-950'></div>
+        <BannerItem
+          className='sm:rounded-none md:rounded-2xl lg:rounded-2xl sm-w-full md:max-w-[500px] lg:max-w-[500px] h-[100px] w-full mx-auto pb-0 transition-all'
+          backgroundImage='https://picsum.photos/300'
+          chipLabel='Promo'
+          description='¡Compra uno y llévate el otro gratis!'
+        />
+      </div>
+
       <div className=''>
         <Cards />
       </div>
