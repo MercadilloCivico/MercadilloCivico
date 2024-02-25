@@ -60,7 +60,7 @@ const Nav = () => {
 
           {/* NAV END */}
           {/* Volver a agregar el vínculo a /login que estaba causando conflictos */}
-          <div className='flex justify-end space-x-4 w-full h-full'>
+          <div className='flex justify-end space-x-4 mx-5 w-full h-full'>
             <button className='custom-transparent-bg border-none px-2 cursor-pointer flex items-center'>
               <svg
                 className='h-6 w-6 text-tuscany-800 hover:text-tuscany-950 transition'
@@ -75,8 +75,9 @@ const Nav = () => {
                 <path d='M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6' />
               </svg>
             </button>
-
-            <button className='custom-transparent-bg border-none px-2 cursor-pointer flex items-center'>
+            <Link
+              to={'/Profile'}
+              className='custom-transparent-bg border-none px-2 cursor-pointer flex items-center'>
               <svg
                 className='h-6 w-6 text-tuscany-800 hover:text-tuscany-950 transition'
                 fill='none'
@@ -89,7 +90,7 @@ const Nav = () => {
                   d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
                 />
               </svg>
-            </button>
+            </Link>
           </div>
         </header>
 

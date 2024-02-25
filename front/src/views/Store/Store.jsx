@@ -5,7 +5,7 @@ import { IoSearch } from 'react-icons/io5';
 import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
-
+import BackButton from '../../components/BackButtom/BackButton';
 const Store = () => {
   const cityOptionsMock = [
     { value: 'bogota', label: 'Bogotá' },
@@ -16,10 +16,13 @@ const Store = () => {
   ];
   return (
     <div>
-      <div className='flex flex-col bg-hippie-green-950 mb-5'>
-        <Box className='max-w-64 mx-auto w-[100vw] bg-hippie-green-950 pt-4 pb-6 lg:translate-y-[40%]'>
+      <div className='flex flex-row justify-center bg-hippie-green-950'>
+        <BackButton />
+        <Box className='max-w-64 mx-full w-[100vw] bg-hippie-green-950 pb-6 lg:translate-y-[40%]'>
           <CustomSelect label='Localización' options={cityOptionsMock} />
         </Box>
+      </div>
+      <div className='flex flex-col bg-hippie-green-950 mb-5'>
         <CustomInput
           placeholder='Busca tu producto...'
           startIcon={IoSearch}

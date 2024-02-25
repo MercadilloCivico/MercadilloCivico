@@ -5,6 +5,7 @@ import { TiHeartFullOutline } from 'react-icons/ti';
 import { TiStarFullOutline } from 'react-icons/ti';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Reviews from '../../components/Reviews/Reviews';
+import BackButton from '../../components/BackButtom/BackButton';
 
 const Detail = () => {
   const [isFav, setIsFav] = useState(false);
@@ -69,6 +70,7 @@ const Detail = () => {
         )}
       </header>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8 p-4 md:p-8'>
+        <BackButton />
         <div className='h-full w-full p-5 md:pl-0 relative rounded-md'>
           <img
             className='h-full w-full object-contain'

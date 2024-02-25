@@ -1,6 +1,7 @@
 import LogoHome from '../../assets/img/logo-full.svg';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Footer from '../../components/Footer/Footer.jsx';
+import { Link } from 'react-router-dom';
 function Home() {
   return (
     <>
@@ -11,8 +12,9 @@ function Home() {
         Compre tus productos favoritos de forma segura y confiable Compre tus productos favoritos de
         forma segura y confiable
       </p>
-
-      <CustomButton text='Acceder' />
+      <Link to={'/login'}>
+        <CustomButton text='Acceder' />
+      </Link>
       <div className=''>
         <p className='text-pearl-bush-950 m-auto my-5 max-w-[600px] p-1 mt-[150px]'>
           Lorem ipsum dolor sit amet consectetur. Sollicitudin in nulla nisi vulputate a. Habitasse

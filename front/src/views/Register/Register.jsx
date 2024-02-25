@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import validacion from './validacion';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import { CheckboxRequired, CheckboxBasic } from '../../components/Chechbox/Checkbox';
 function Register() {
   const navigate = useNavigate();
   // Estado para los datos del formulario y los errores de validación
@@ -68,7 +69,7 @@ function Register() {
   };
 
   return (
-    <div className='min-w-[350px] bg-pearl-bush-200 p-10'>
+    <div className='min-w-[320px] mx-auto bg-pearl-bush-200 p-10'>
       <img src={Logo} alt='Mercadillo Cívico' className='w-[240px] p-1' />
       <form
         onSubmit={handleSubmit}
@@ -84,7 +85,7 @@ function Register() {
             type='text'
             value={register.name}
             onChange={handleInput}
-            // maxLength={15}
+            inputProps={{ maxLength: 5 }}
           />
           <div className='text-pearl-bush-950'>{errors.name}</div>
         </div>
@@ -137,7 +138,10 @@ function Register() {
           <div className='text-pearl-bush-950'>{errors.repeatPassword}</div>
         </div>
         <br />
-        <CustomButton type='submit' text='Registrar' />
+        <CheckboxRequired />
+        <CheckboxBasic />
+        <br />
+        <CustomButton type='submit' text='Registrar' className='w-[230px]' />
       </form>
     </div>
   );
