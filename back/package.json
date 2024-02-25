@@ -5,6 +5,12 @@
   "scripts": {
     "start": "node ./src/index.js production",
     "dev": "nodemon ./src/index.js development",
+    "prisma": "npm run prisma:generate:dev",
+    "prisma:push": "npm run prisma:generate:dev && npm run prisma:push:dev",
+    "prisma:generate:dev": "dotenv -e .env.development -- npx prisma generate",
+    "prisma:push:dev": "dotenv -e .env.development -- npx prisma db push",
+    "prisma:generate:prod": "dotenv -e .env.production -- npx prisma generate",
+    "prisma:push:prod": "dotenv -e .env.production -- npx prisma db push",
     "lint": "eslint ./src --ext .js"
   },
   "dependencies": {
@@ -31,6 +37,7 @@
     "winston": "^3.10.0"
   },
   "devDependencies": {
+    "dotenv-cli": "^7.3.0",
     "nodemon": "^3.0.2"
   }
 }
