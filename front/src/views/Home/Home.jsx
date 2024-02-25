@@ -6,7 +6,7 @@ function Home() {
   return (
     <>
       <h1 className='hidden text-cabbage-pont-950'>Mercadillo Civíco</h1>
-      <img src={LogoHome} alt='Mercadillo Civíco' className='w-[240px] mt-[50px]' />
+      <img src={LogoHome} alt='Mercadillo Civíco' className='w-[240px] mt-[50px] p-[10px]' />
 
       <p className='text-pearl-bush-950 m-auto my-5 max-w-[600px] p-1 '>
         Compre tus productos favoritos de forma segura y confiable Compre tus productos favoritos de
