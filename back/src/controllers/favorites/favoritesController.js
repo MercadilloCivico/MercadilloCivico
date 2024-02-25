@@ -1,4 +1,4 @@
-const FavoriteHandlers = require('../../handlers/Usuario/favoritesHandler');
+const FavoriteHandlers = require('../../handlers/favorites/favoritesHandler');
 
 class FavoriteControllers {
   static async get(req, res) {
