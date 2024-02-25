@@ -110,8 +110,8 @@ const Detail = () => {
             <div className='flex justify-between'>
               <div>
                 <ul className='text-start'>
-                  <li className='text-[#2F2D2C] font-bold text-lg'>{producto.name}</li>
-                  <li className='text-cabbage-pont-400 font-medium'>{producto.proveedor}</li>
+                  <li className='text-tuscany-950 font-bold text-lg'>{producto.name}</li>
+                  <li className='text-tuscany-950 opacity-60 font-medium'>{producto.proveedor}</li>
                   {producto.stock === 0 && (
                     <span className='text-[#792823] text-[.8em] md:text-[1em]'>NO DISPONIBLE</span>
                   )}
@@ -127,14 +127,14 @@ const Detail = () => {
                   </span>
                 </div>
 
-                <div className='flex flex-row justify-center'>
+                <div className='flex flex-row justify-center items-center'>
                   <button
                     onClick={quitarProducto}
                     className={`${
                       producto.cantidad === 0
                         ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                         : 'cursor-pointer'
-                    } bg-tuscany-100 rounded-full w-6 h-6 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold ml-4`}
+                    } bg-tuscany-950 rounded-lg w-8 h-8 flex items-center justify-center border-none shadow-md text-pearl-bush-100 font-bold ml-4`}
                     disabled={producto.cantidad === 0}>
                     -
                   </button>
@@ -145,7 +145,7 @@ const Detail = () => {
                       producto.stock === 0
                         ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                         : 'cursor-pointer'
-                    } bg-tuscany-100 rounded-full w-6 h-6 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+                    } bg-tuscany-950 rounded-lg w-8 h-8 flex items-center justify-center border-none shadow-md text-pearl-bush-100 font-bold`}
                     disabled={producto.stock === 0}>
                     +
                   </button>
@@ -154,7 +154,7 @@ const Detail = () => {
             </div>
 
             <hr className='border-[#EEE3D6] mt-2 mb-2' />
-            <h4 className='text-[#2F2D2C] text-start text-lg'>Descripción</h4>
+            <h4 className='text-tuscany-950 text-start text-lg'>Descripción</h4>
             <p
               className={`text-[#2F2D2C] text-[0.8em] md:text-base ${
                 showFullDescription ? 'whitespace-pre-line' : 'line-clamp-3'
@@ -170,16 +170,12 @@ const Detail = () => {
               </button>
             )}
 
-            <div className='flex justify-between mt-3'>
+            <div className='flex justify-between items-center mt-3'>
               <ul className='flex flex-col text-start'>
-                <li className='text-cabbage-pont-400 text-[0.8em] md:text-base font-bold'>
-                  Precio
-                </li>
-                <li className='text-tuscany-600 text-[1em] md:text-lg font-semibold'>
-                  ${producto.price}
-                </li>
+                <li className='text-tuscany-950 text-lg font-bold'>Precio</li>
+                <li className='text-tuscany-800 text-4xl  font-semibold'>${producto.price}</li>
               </ul>
-              <CustomButton text='Comprar' />
+              <CustomButton text='Comprar' className='max-h-[35px]' />
             </div>
           </div>
         </div>
