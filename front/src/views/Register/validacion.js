@@ -1,4 +1,4 @@
-function validacion({ name, lastname, mail, password, repeatPassword }) {
+function validacion({ name, secondname, lastname, mail, password, repeatPassword }) {
   const onlyLetters = /^[A-Za-zÁáÉéÍíÓóÚúÑñ]{1,15}$/;
   const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
   const errors = {};
@@ -8,12 +8,15 @@ function validacion({ name, lastname, mail, password, repeatPassword }) {
     errors.name = 'El nombre es obligatorio';
   } else if (name.length < 3) {
     errors.name = 'El nombre debe tener al menos 3 caracteres';
-  } else if (name.length > 15) {
-    errors.name = 'El nombre debe tener menos de 15 caracteres';
   } else if (!onlyLetters.test(name)) {
     errors.name = 'El nombre solo puede contener letras';
   } else if (!name.length) {
     errors.name = 'El nombre es obligatorio';
+  }
+  // La validación del segundo nombre se realiza solo si hay un valor
+  if (secondname && (secondname.length < 3 || !onlyLetters.test(secondname))) {
+    errors.secondname =
+      'El segundo nombre debe tener al menos 3 caracteres y solo puede contener letras';
   }
   // Validación del apellido
   if (!lastname.trim()) {
