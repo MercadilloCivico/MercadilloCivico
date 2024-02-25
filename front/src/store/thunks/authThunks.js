@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
+// Thunk para realizar el inicio de sesión del usuario
 export const login = createAsyncThunk('auth/login', async (userData, { rejectWithValue }) => {
   try {
     const response = await axios.post(`${VITE_API_URL}/login`, userData);
@@ -14,6 +15,7 @@ export const login = createAsyncThunk('auth/login', async (userData, { rejectWit
   }
 });
 
+// Thunk para registrar un nuevo usuario
 export const register = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
   const formData = new FormData();
   formData.append('firstName', userData.firstName);
@@ -35,6 +37,7 @@ export const register = createAsyncThunk('auth/register', async (userData, { rej
   }
 });
 
+// Thunk para cerrar sesión del usuario
 export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
   try {
     const response = await axios.post('/logout');
@@ -44,6 +47,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValu
   }
 });
 
+// Thunk para solicitar el restablecimiento de contraseña
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async ({ email }, { rejectWithValue }) => {
@@ -58,6 +62,7 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+// Thunk para crear una nueva contraseña
 export const createNewPassword = createAsyncThunk(
   'auth/createNewPassword',
   async ({ newPassword }, { rejectWithValue }) => {
@@ -73,6 +78,7 @@ export const createNewPassword = createAsyncThunk(
   }
 );
 
+// Thunk para autenticación con Google
 export const googleAuth = createAsyncThunk('auth/googleAuth', async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get(`${VITE_API_URL}/auth/google/`);
