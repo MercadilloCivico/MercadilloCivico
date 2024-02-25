@@ -4,7 +4,7 @@ export default function NavMenu({ menuOpen, toggleMenu }) {
   return (
     <div>
       {menuOpen && (
-        <div className='fixed inset-0 bg-pearl-bush-100 flex items-center justify-center z-[9]'>
+        <div className='fixed h-screen inset-0 bg-pearl-bush-100 flex items-center justify-center z-[9] xsm:flex lg:hidden '>
           <header className='bg-pearl-bush-100 flex h-12 w-full fixed items-center justify-between top-0 left-0 shadow-md'>
             <button
               className='custom-transparent-bg border-none p-1 cursor-pointer top-0 left-0'
@@ -23,39 +23,45 @@ export default function NavMenu({ menuOpen, toggleMenu }) {
               </svg>
             </button>
           </header>
-          <ul className='flex flex-col items-center mt-6 space-y-4'>
+          <ul className='flex flex-col items-center mt-6 space-y-4 w-full px-5 font-bold'>
             <li>
               <Link
                 to='/'
                 onClick={toggleMenu}
-                className='text-cabbage-pont-400 text-2xl hover:text-cabbage-pont-600'>
+                className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
                 Inicio
               </Link>
             </li>
-            <hr className='custom-width border-cabbage-pont-600' />
+
+            <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+
             <li>
               <Link
                 to='/store'
                 onClick={toggleMenu}
-                className='text-cabbage-pont-400 text-2xl hover:text-cabbage-pont-600'>
+                className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
                 Tienda
               </Link>
             </li>
-            <hr className='custom-width border-cabbage-pont-600' />
+
+            <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+
             <li>
               <Link
                 to='/contact'
                 onClick={toggleMenu}
-                className='text-cabbage-pont-400 text-2xl hover:text-cabbage-pont-600'>
+                className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
                 Contacto
               </Link>
             </li>
-            <hr className='custom-width border-cabbage-pont-600' />
+
+            <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+
             <li>
               <Link
                 to='/favorites'
                 onClick={toggleMenu}
-                className='text-cabbage-pont-400 text-2xl hover:text-cabbage-pont-600'>
+                className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
                 Favoritos
               </Link>
             </li>

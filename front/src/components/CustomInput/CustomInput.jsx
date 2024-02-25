@@ -1,4 +1,5 @@
 import { TextField, InputAdornment } from '@mui/material';
+// NOTA: solucionar fondo gris al autocompletar un input
 
 const CustomInput = ({
   placeholder = 'Search...',
