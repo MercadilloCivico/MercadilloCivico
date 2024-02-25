@@ -139,21 +139,27 @@ function App() {
 
         <Routes>
           <Route path='/' element={<Home />} />
+
           <Route path='/Store' element={<Store products={products} setProducts={setProducts} />} />
           <Route path='/Contact' element={<Contact />} />
           <Route path='/Favorites' element={<Favorites />} />
           <Route path='/Detail/:id' element={<Detail />} />
 
-          <Route path='/Register' element={<Register />} />
-          <Route path='/Recuperar' element={<RecoveryPassword />} />
-          <Route path='/Nueva' element={<NewPassword />} />
+          <Route path='/store' element={<Store />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/favorites' element={<Favorites />} />
+          <Route path='/detail/:id' element={<Detail />} />
 
-          <Route path='Cart' element={<Cart />} />
-          <Route path='/Login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/recover_password' element={<RecoveryPassword />} />
+          <Route path='/new_password' element={<NewPassword />} />
 
-          <Route path='/Profile' element={<Profile />}>
-            <Route path='/Profile/history' element={<ProfileHistoryContainer />}></Route>
-            <Route path='/Profile/favorites' element={<ProfileFavoritesContainer />}></Route>
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/login' element={<Login />} />
+
+          <Route path='/profile' element={<Profile />}>
+            <Route path='/profile/history' element={<ProfileHistoryContainer />}></Route>
+            <Route path='/profile/favorites' element={<ProfileFavoritesContainer />}></Route>
           </Route>
 
           <Route path='/Admin' element={<AdminDashboard />} />

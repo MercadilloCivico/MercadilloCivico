@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomInput from '../../components/CustomInput/CustomInput';
+import Footer from '../../components/Footer/Footer.jsx';
+
+import { LuMail } from 'react-icons/lu';
+import Logo from '../../assets/img/logo-full.svg';
+import { LuInfo } from 'react-icons/lu';
 
 function RecoveryPassword() {
   // Estado para el email, el mensaje de error y el estado de carga
@@ -41,21 +46,52 @@ function RecoveryPassword() {
   };
 
   return (
-    <div className='max-w-[600px] mx-auto bg-tuscany-100 p-20 rounded-md'>
-      <form onSubmit={handleSubmit} className='flex flex-col'>
-        <CustomInput
-          label='Email'
-          name='email'
-          type='email'
-          placeholder='Ingresa tu correo'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {errorEmail && <p>{errorEmail}</p>}
-        <br />
-        <CustomButton type='submit' text='Enviar' className='w-[200px] self-center' />
-        {loading && <p>Cargando...</p>}
-      </form>
+    <div className='min-h-[calc(100vh-55px)] flex flex-col'>
+      <div className='flex flex-col w-full items-center justify-center flex-grow-[1] my-[50px]'>
+        <div className=' w-full rounded-md relative flex justify-center'>
+          <form
+            onSubmit={handleSubmit}
+            className='shadow-xl bg-pearl-bush-200 rounded-xl w-full max-w-[600px] pb-8 pt-[150px] relative px-[10px] mt-[120px]'>
+            <img
+              src={Logo}
+              alt='Mercadillo Cívico'
+              className=' bg-pearl-bush-200 w-[240px] h-[240px] absolute right-0 left-0 mx-auto top-[-120px] p-[10px] rounded-xl'
+            />
+
+            <p className='text-xl text-tuscany-950 max-w-[100%]'>
+              Ingresa el correo de la cuenta que quieres recuperar.
+            </p>
+            <p className='text-tuscany-950 max-w-[85%] mx-auto opacity-70 mt-[5px]'>
+              <LuInfo className='translate-y-[2px]' /> Si el correo existe, se te enviará un enlace
+              para que puedas restablecer tu contraseña.
+            </p>
+
+            <div className='flex flex-col items-center mt-[50px]'>
+              <CustomInput
+                label='Email'
+                name='email'
+                type='email'
+                placeholder='Ingresa tu correo'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className='max-w-[400px] w-full mt-8'
+              />
+
+              {errorEmail && <p>{errorEmail}</p>}
+
+              <CustomButton
+                icon={LuMail}
+                type='submit'
+                text='Enviar código'
+                className='w-[175px] self-center mx-auto mt-8'
+              />
+              {loading && <p>Cargando...</p>}
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <Footer />
     </div>
   );
 }
