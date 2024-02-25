@@ -1,47 +1,6 @@
-import { useState, useEffect } from 'react';
 import Review from '../Review/Review';
 
-const Reviews = () => {
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    const review1 = {
-      id: 1,
-      user: 'Usuario1',
-      calificacion: 4,
-      tituloComentario: 'Excelente producto',
-      comentario: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      likes: { total: 10, isActive: false },
-      dislikes: { total: 2, isActive: false },
-      fecha: '2024-01-04',
-    };
-
-    const review2 = {
-      id: 2,
-      user: 'Usuario2',
-      calificacion: 3,
-      tituloComentario: 'Bueno pero puede mejorar',
-      comentario:
-        'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-      likes: { total: 5, isActive: false },
-      dislikes: { total: 3, isActive: false },
-      fecha: '2024-01-05',
-    };
-
-    const review3 = {
-      id: 3,
-      user: 'Usuario3',
-      calificacion: 5,
-      tituloComentario: 'Increíble servicio al cliente',
-      comentario: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      likes: { total: 15, isActive: false },
-      dislikes: { total: 1, isActive: false },
-      fecha: '2024-01-06',
-    };
-
-    setReviews([review1, review2, review3]);
-  }, []);
-
+const Reviews = ({ reviews, setReviews }) => {
   const handleLike = (id) => {
     setReviews((prevReviews) => {
       const updatedReviews = [...prevReviews];
