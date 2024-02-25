@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const prisma = require('../../../db_connection');
 const { SECRET_JWT } = require('../../../config/env.config');
-// const { logger } = require('../../config/logger.config');
+
 const validTokens = new Set();
 
 async function authHandler(email, password) {
