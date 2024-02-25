@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix ./back\" \"npm run dev --prefix ./front\"",
     "dev:db": "npm run prisma --prefix ./back && npm run dev",
+    "dev:db:push": "npm run prisma:push --prefix ./back && npm run dev",
     "setup": "npm install && npm i --prefix ./back && npm i --prefix ./front",
     "reset": "rm -rf node_modules/ package-lock.json ./back/node_modules/ ./back/package-lock.json ./front/node_modules/ ./front/package-lock.json && npm run setup",
     "clean": "rm -rf node_modules/ package-lock.json ./back/node_modules/ ./back/package-lock.json ./front/node_modules/ ./front/package-lock.json",
