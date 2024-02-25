@@ -108,6 +108,7 @@ model Inventario {
   stock Int
   stock_max Int
   precio_final Decimal
+  estado Boolean @default(true)
   productoEnCarrito Producto_En_Carrito[]
 }
 

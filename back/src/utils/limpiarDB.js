@@ -1,7 +1,6 @@
 const prisma = require('../../db_connection');
 
 const limpiarDB = async () => {
-  await prisma.usuario.deleteMany();
   await prisma.producto.deleteMany();
   await prisma.proveedor.deleteMany();
   await prisma.pedidos_Proveedor.deleteMany();
@@ -11,6 +10,7 @@ const limpiarDB = async () => {
   await prisma.historial_Compras.deleteMany();
   await prisma.punto_De_Venta.deleteMany();
   await prisma.resena.deleteMany();
+  await prisma.usuario.deleteMany();
 };
 
 module.exports = limpiarDB;

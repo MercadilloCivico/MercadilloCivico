@@ -37,9 +37,10 @@ class PuntoDeVentaHandlers {
       // Generar el código QR como una imagen en formato base64
       const qrDataUrl = await qr.toDataURL(id);
       // Guardar el código QR en la base de datos
+      const qrCodeBase64 = qrDataUrl.replace(/^data:image\/png;base64,/, '');
       await prisma.punto_De_Venta.update({
         where: { id },
-        data: { qr_code: qrDataUrl },
+        data: { qr_code: qrCodeBase64 },
       });
       return true;
     } catch (error) {

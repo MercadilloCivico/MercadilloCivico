@@ -41,7 +41,12 @@ class CarritoHandler {
   }
 
   static async verificarExistencia(entidad, id) {
-    const findEntity = await prisma[entidad].findFirst({ where: { id: Number(id) } });
+    const idNumber = Number(id);
+
+    if (!Number.isNaN(idNumber)) {
+      id = idNumber;
+    }
+    const findEntity = await prisma[entidad].findFirst({ where: { id } });
     if (!findEntity) {
       throw new Error(`La ${entidad} no se encuentra en la base de datos`);
     }

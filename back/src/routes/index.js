@@ -11,9 +11,11 @@ const FavoriteControllers = require('../controllers/Usuario/favoritesController'
 const PuntoDeVentaController = require('../controllers/PuntoDeVenta/puntoVentaController');
 const ProveedoresController = require('../controllers/proveedores/proveedoresController');
 const validateProveedores = require('../../middleware/validateProveedores');
+const validateInventario = require('../../middleware/validateInventario');
 // const usuariosController = require('../controllers/Usuario/usuariosController');
 const register = require('../controllers/Usuario/registerController');
 const CarritoController = require('../controllers/Carrito/carritoController');
+const InventarioController = require('../controllers/inventario/inventarioController');
 
 const router = Router();
 
@@ -67,5 +69,11 @@ router.put('/punto_de_venta/edit/:id', PuntoDeVentaController.put);
 router.put('/punto_de_venta/add/:id', PuntoDeVentaController.addProveedor);
 router.put('/punto_de_venta/remove/:id', PuntoDeVentaController.removeProveedor);
 router.delete('/punto_de_venta/:id', PuntoDeVentaController.delete);
+
+// Inventario
+router.post('/inventario', validateInventario, InventarioController.post);
+router.get('/inventario/:id?', InventarioController.get);
+router.put('/inventario/', InventarioController.put);
+router.delete('/inventario/:id', InventarioController.delete);
 
 module.exports = router;
