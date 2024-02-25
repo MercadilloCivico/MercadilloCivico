@@ -125,3 +125,5 @@
 2024-02-24 20:29:05 error: POST /api/proveedor 500 1959ms
 2024-02-24 20:51:26 error: [object Object]
 2024-02-24 20:51:26 error: GET /api/inventario 500 8ms
+2024-02-24 23:18:51 error: POST /api/login 500 691ms
+2024-02-24 23:20:14 error: POST /api/login 500 733ms

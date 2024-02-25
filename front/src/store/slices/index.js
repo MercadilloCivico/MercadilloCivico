@@ -1,5 +1,5 @@
-import authReducer from './slices/authSlice';
-import productReducer from './slices/productSlice';
-import inventoryReducer from './slices/inventorySlice';
+import authReducer from './authSlice';
+import productReducer from './productSlice';
+import inventoryReducer from './inventorySlice';
 
 export { authReducer, productReducer, inventoryReducer };
