@@ -6,7 +6,7 @@ import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import BackButton from '../../components/BackButtom/BackButton';
-const Store = () => {
+const Store = ({ products, setProducts }) => {
   const cityOptionsMock = [
     { value: 'bogota', label: 'Bogotá' },
     { value: 'medellin', label: 'Medellín' },
@@ -46,7 +46,7 @@ const Store = () => {
       </div>
 
       <div className=''>
-        <Cards />
+        <Cards products={products} setProducts={setProducts} />
       </div>
       <Footer />
     </div>

@@ -1,5 +1,6 @@
 import './App.css';
 import { Routes, Route, useMatch } from 'react-router-dom';
+import { useState } from 'react';
 import Home from './views/Home/Home.jsx';
 import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
@@ -19,6 +20,8 @@ import ProfileFavoritesContainer from './components/ProfileFavoritesContainer/Pr
 import { ThemeProvider, createTheme } from '@mui/material';
 import Detail from './views/Detail/Detail.jsx';
 import Cart from './views/Cart/Cart.jsx';
+import AdminDashboard from './views/AdminDashboard/AdminDashboard.jsx';
+import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
 
 export const theme = createTheme({
   components: {
@@ -43,6 +46,89 @@ export const theme = createTheme({
   },
 });
 function App() {
+  const [products, setProducts] = useState([
+    {
+      id: 1,
+      name: 'Manzana',
+      supplier: 'Frutal',
+      img: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+      price: 200,
+      rating: 4.5,
+      stock: 15,
+      cantidad: 1,
+    },
+    {
+      id: 2,
+      name: 'Pera',
+      supplier: 'Frutal',
+      img: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+      price: 150,
+      rating: 3.5,
+      stock: 15,
+      cantidad: 1,
+    },
+    {
+      id: 3,
+      name: 'Cereal',
+      supplier: 'Maiz',
+      img: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+      price: 500,
+      rating: 2.5,
+      stock: 15,
+      cantidad: 1,
+    },
+    {
+      id: 4,
+      name: 'Chocolate',
+      supplier: 'Chatarra',
+      img: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+      price: 1000,
+      rating: 1.3,
+      stock: 15,
+      cantidad: 1,
+    },
+    {
+      id: 5,
+      name: 'Manzana',
+      supplier: 'Frutal',
+      img: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+      price: 200,
+      rating: 4.5,
+      stock: 15,
+      cantidad: 1,
+    },
+    {
+      id: 6,
+      name: 'Pera',
+      supplier: 'Frutal',
+      img: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+      price: 150,
+      rating: 3.5,
+      stock: 15,
+      cantidad: 1,
+    },
+    {
+      id: 7,
+      name: 'Cereal',
+      supplier: 'Maiz',
+      img: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+      price: 500,
+      rating: 2.5,
+      stock: 15,
+      cantidad: 1,
+    },
+    {
+      id: 8,
+      name: 'Chocolate',
+      supplier: 'Chatarra',
+      img: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+      price: 1000,
+      rating: 1.3,
+      stock: 15,
+      cantidad: 1,
+    },
+  ]);
+
   const isDetailPage = useMatch('/Detail/:id');
   const isCartPage = useMatch('/Cart');
 
@@ -53,7 +139,7 @@ function App() {
 
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/Store' element={<Store />} />
+          <Route path='/Store' element={<Store products={products} setProducts={setProducts} />} />
           <Route path='/Contact' element={<Contact />} />
           <Route path='/Favorites' element={<Favorites />} />
           <Route path='/Detail/:id' element={<Detail />} />
@@ -69,6 +155,12 @@ function App() {
             <Route path='/Profile/history' element={<ProfileHistoryContainer />}></Route>
             <Route path='/Profile/favorites' element={<ProfileFavoritesContainer />}></Route>
           </Route>
+
+          <Route path='/Admin' element={<AdminDashboard />} />
+          <Route
+            path='/Admin/products'
+            element={<AdminProducts products={products} setProducts={setProducts} />}
+          />
         </Routes>
       </div>
     </ThemeProvider>
