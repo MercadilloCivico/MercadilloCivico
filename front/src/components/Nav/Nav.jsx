@@ -65,10 +65,11 @@ const Nav = () => {
             <button className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
               <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
             </button>
-
-            <button className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
+            <Link
+              to={'/Profile'}
+              className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
               <LuUser className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
-            </button>
+            </Link>
           </div>
         </header>
 

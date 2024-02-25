@@ -3,10 +3,11 @@ import { TbShoppingBagPlus } from 'react-icons/tb';
 import { TiStarFullOutline } from 'react-icons/ti';
 import { TiHeartOutline } from 'react-icons/ti';
 import { TiHeartFullOutline } from 'react-icons/ti';
+import { useNavigate } from 'react-router-dom';
 
-const VCard = ({ name, supplier, img, price, rating, className }) => {
+const VCard = ({ id, name, supplier, img, price, rating, className }) => {
   let [isFav, setIsFav] = useState(false);
-
+  const navigate = useNavigate();
   // Traído de CartItem
   //#############################################################
 
@@ -41,18 +42,11 @@ const VCard = ({ name, supplier, img, price, rating, className }) => {
   return (
     <div
       className={
-        'w-[130px] max-h-[200px] h-full p-0 relative rounded-md bg-pearl-bush-200 text-tuscany-950 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030] ' +
+        `w-[130px] max-h-[200px] h-full p-0 relative rounded-md bg-pearl-bush-300 text-tuscany-950 m-2 shadow-md shadow-[#00000030] ` +
         className
       }>
-      <div className='h-[115px] relative rounded-tl-md rounded-tr-md overflow-hidden bg-cabbage-pont-700'>
-        <img
-          onClick={() => {
-            alert('Ir a Detail');
-          }}
-          className='h-full w-full object-contain cursor-pointer'
-          src={img}
-          alt='product-image'
-        />
+      <div className='h-[115px] p-5 relative rounded-tl-md rounded-tr-md overflow-hidden bg-cabbage-pont-700'>
+        <img className='h-full w-full object-contain' src={img} alt='product-image' />
         <div className='absolute m-1 top-0 left-0 flex items-center font-semibold bg-[#00000062] backdrop-blur-[3px] px-1 rounded-tl-xl rounded-br-xl space-x-1'>
           <TiStarFullOutline className='h-[14px] w-[14px] text-[#ffe87f]' />
           <span className='text-[#ffffff] text-[14px]'>{rating}</span>
@@ -75,10 +69,10 @@ const VCard = ({ name, supplier, img, price, rating, className }) => {
           </div>
         )}
       </div>
-      <div className='p-2 h-full'>
+      <div className='p-2'>
         <ul
           onClick={() => {
-            alert('Ir a Detail');
+            navigate(`/detail/${id}`);
           }}
           className='flex justify-between justify-betwee text-start text-xs font-semibold cursor-pointer'>
           <li className='line-clamp-1'>{name}</li>
@@ -90,7 +84,7 @@ const VCard = ({ name, supplier, img, price, rating, className }) => {
           </ul>
         </div>
 
-        <div className='h-full w-full flex justify-between items-center'>
+        <div className='flex justify-between items-center'>
           <div className='flex'>
             <button
               onClick={quitarProducto}
@@ -116,7 +110,7 @@ const VCard = ({ name, supplier, img, price, rating, className }) => {
           </div>
 
           <div className='bg-tuscany-950 flex flex-shrink-0 right-0 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full cursor-pointer hover:bg-pearl-bush-900 active:bg-pearl-bush-800 transition'>
-            <TbShoppingBagPlus class='w-[25px] h-[25px] text-pearl-bush-100' />
+            <TbShoppingBagPlus className='w-[20px] h-[20px] text-tuscany-200' />
           </div>
         </div>
       </div>
