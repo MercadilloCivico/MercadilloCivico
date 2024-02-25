@@ -8,8 +8,10 @@ const Cart = () => {
   return (
     <>
       <header className='flex h-[55px] w-full fixed text-tuscany-950 bg-pearl-bush-200 items-center justify-center shadow-md z-10'>
-        <IoIosArrowBack className='absolute cursor-pointer w-[25px] h-[25px] my-auto left-[10px] top-0 bottom-0' />
-        <h3 className='text-xl'>Carrito</h3>
+        <div className='max-w-[1280px] w-full relative'>
+          <IoIosArrowBack className='absolute cursor-pointer w-[25px] h-[25px] my-auto left-[10px] top-0 bottom-0' />
+          <h3 className='text-xl'>Carrito</h3>
+        </div>
       </header>
 
       {/* Empujar hacia abajo lo que queda detrás de la nav */}
