@@ -13,7 +13,7 @@ const Modal = ({ isOpen, onRequestClose, children }) => {
         <div className='bg-pearl-bush-100 w-3/4 md:w-3/4 lg:w-1/2 p-4 rounded-md shadow-md'>
           <button
             onClick={onRequestClose}
-            className='w-[1em] h-[1em] p-3 flex justify-center items-center rounded-md bg-pearl-bush-300 border-none text-tuscany-900 hover:bg-pearl-bush-400 hover:text-tuscany-950 cursor-pointer'>
+            className='w-[1em] h-[1em] p-3 flex justify-center items-center rounded-md bg-pearl-bush-200 border-none text-tuscany-900 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer'>
             X
           </button>
           {children}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Modal from './Modal';
+import Modal from '../Modal/Modal';
 import { validateReviewForm } from './validations';
 import Rating from '@mui/material/Rating';
 import CustomInput from '../CustomInput/CustomInput';
