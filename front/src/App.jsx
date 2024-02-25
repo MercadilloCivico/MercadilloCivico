@@ -22,6 +22,7 @@ import Detail from './views/Detail/Detail.jsx';
 import Cart from './views/Cart/Cart.jsx';
 import AdminDashboard from './views/AdminDashboard/AdminDashboard.jsx';
 import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
+import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
 
 export const theme = createTheme({
   components: {
@@ -46,6 +47,7 @@ export const theme = createTheme({
   },
 });
 function App() {
+  //Estado temporal
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -156,10 +158,14 @@ function App() {
             <Route path='/Profile/favorites' element={<ProfileFavoritesContainer />}></Route>
           </Route>
 
-          <Route path='/Admin' element={<AdminDashboard />} />
+          <Route path='/admin' element={<AdminDashboard />} />
           <Route
-            path='/Admin/products'
+            path='/admin/products'
             element={<AdminProducts products={products} setProducts={setProducts} />}
+          />
+          <Route
+            path='/admin/products/newproduct'
+            element={<CreateProduct products={products} setProducts={setProducts} />}
           />
         </Routes>
       </div>

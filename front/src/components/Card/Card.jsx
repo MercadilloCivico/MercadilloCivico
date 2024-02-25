@@ -24,7 +24,10 @@ const VCard = ({
   const location = useLocation();
 
   const renderFavIcon = () => {
-    if (location.pathname === '/Admin/products') {
+    if (
+      location.pathname === '/admin/products' ||
+      location.pathname === '/admin/products/newproduct'
+    ) {
       return null;
     }
 
@@ -64,9 +67,11 @@ const VCard = ({
       <div className='p-2'>
         <ul
           onClick={() => {
-            navigate(`/detail/${id}`);
+            if (location.pathname !== '/admin/products/newproduct') {
+              navigate(`/detail/${id}`);
+            }
           }}
-          className='flex justify-between justify-betwee text-start text-xs font-semibold cursor-pointer'>
+          className={`flex justify-between justify-betwee text-start text-xs font-semibold ${location.pathname === '/admin/products/newproduct' ? '' : 'cursor-pointer'}`}>
           <li className='line-clamp-1'>{name}</li>
           <li>${price}</li>
         </ul>
@@ -76,7 +81,7 @@ const VCard = ({
           </ul>
         </div>
 
-        {location.pathname === '/Admin/products' ? (
+        {location.pathname === '/admin/products' ? (
           <div className='flex p-1 justify-center items-center right-0'>
             <button className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-100 hover:bg-pearl-bush-200 hover:text-tuscany-950 cursor-pointer text-[12px]'>
               <MdEdit />
@@ -92,13 +97,13 @@ const VCard = ({
               <Modal isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>
                 <div className='flex flex-col justify-center items-center'>
                   <span className='my-3 text-[.9em] md:text-[1.2em] lg:text-[1.5em] text-tuscany-950'>
-                    ¿Estas seguro de que quieres eliminar este producto?
+                    ¿Estás seguro de que quieres eliminar este producto?
                   </span>
                   <div className='flex justify-between'>
                     <button
                       className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em]'
                       onClick={() => {
-                        alert('Producto eliminado con exito!');
+                        alert('Producto eliminado con éxito!');
                         setModalOpen(false);
                       }}>
                       Si
@@ -115,7 +120,7 @@ const VCard = ({
               </Modal>
             </div>
           </div>
-        ) : (
+        ) : location.pathname === '/admin/products/newproduct' ? null : (
           <div className='flex justify-between items-center'>
             <div className='flex'>
               <button
