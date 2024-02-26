@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { filterByPriceRange } from '../../store/slices/productSlice';
+import { filterByPriceRange, filterByBrand } from '../../store/slices/productSlice';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Select from '@mui/material/Select';
@@ -20,6 +20,10 @@ export default function StoreFilters({ className }) {
     return { maxPrice, midPrice };
   };
 
+  const allBrands = items.map((product) => product.brand);
+
+  const uniqueBrands = Array.from(new Set(allBrands));
+
   function handleChange(e) {
     setValue(e.target.value);
   }
@@ -30,6 +34,10 @@ export default function StoreFilters({ className }) {
 
   function filterByPrices(min, max) {
     dispatch(filterByPriceRange({ minPrice: min, maxPrice: max }));
+  }
+
+  function filterBrand(brand) {
+    dispatch(dispatch(filterByBrand(brand)));
   }
 
   let [value, setValue] = useState('price');
@@ -46,7 +54,7 @@ export default function StoreFilters({ className }) {
           onChange={handleChange}
           className='text-tuscany-950 w-[150px] h-10'>
           <MenuItem value='price'>Precio</MenuItem>
-          <MenuItem value='option2'>Variable 2</MenuItem>
+          <MenuItem value='option2'>Marca</MenuItem>
           <MenuItem value='ejemplo'>Reseñas</MenuItem>
         </Select>
       </FormControl>
@@ -89,14 +97,18 @@ export default function StoreFilters({ className }) {
           </ButtonGroup>
         ) : value === 'option2' ? (
           <ButtonGroup
-            onClick={clickedButton}
             style={{ gridTemplateColumns: 'repeat(3, 175px)', scrollbarWidth: 'thin' }}
             variant='contained'
             aria-label='button group'
             className={`overflow-auto grid mx-auto max-w-max`}>
-            <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 1</Button>
-            <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 2</Button>
-            <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 3</Button>
+            {uniqueBrands.map((brand) => (
+              <Button
+                key={brand}
+                onClick={() => filterBrand(brand)}
+                className='bg-tuscany-600 border-tuscany-900'>
+                {brand}
+              </Button>
+            ))}
           </ButtonGroup>
         ) : (
           <ButtonGroup

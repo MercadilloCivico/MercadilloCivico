@@ -10,7 +10,7 @@ function applyFiltersAndSort(state) {
   let filtered = [...state.items];
 
   if (state.filters.brand) {
-    filtered = filtered.filter((item) => item.marca === state.filters.brand);
+    filtered = filtered.filter((item) => item.brand === state.filters.brand);
   }
   if (state.filters.priceRange.minPrice !== null && state.filters.priceRange.maxPrice !== null) {
     filtered = filtered.filter(
