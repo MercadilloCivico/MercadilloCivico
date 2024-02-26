@@ -62,7 +62,6 @@ model Producto {
   proveedor     ProductoProveedor[]
   marca         String
   resenas       Resena[]
-  h_compras     Historial_Compras[]
   inventario    Inventario[]
   favorites     Usuario[]
   disabled      Boolean   @default(false)
@@ -89,6 +88,8 @@ model Resena {
   producto_id String @db.Uuid
   usuario Usuario @relation(fields: [usuario_id], references: [id])
   usuario_id String @db.Uuid
+  fecha_creacion DateTime @default(now())
+  fecha_actualizacion DateTime?
 }
 
 model Carrito_de_Compras {
@@ -134,6 +135,6 @@ model Historial_Compras {
   id Int @id @default(autoincrement())
   usuario Usuario @relation(fields: [user_id], references: [id])
   user_id String @db.Uuid
-  productos Producto[]
+  info_compra String
   fecha DateTime @default(now())
 }
