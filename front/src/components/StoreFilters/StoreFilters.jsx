@@ -5,8 +5,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
-import style from './StoreFilters.module.css';
-
 import { useState } from 'react';
 
 export default function StoreFilters({ className }) {
@@ -44,7 +42,7 @@ export default function StoreFilters({ className }) {
             style={{ gridTemplateColumns: 'repeat(3, 175px)', scrollbarWidth: 'thin' }}
             variant='contained'
             aria-label='button group'
-            className={`overflow-auto grid mx-auto max-w-max ${style.gridContainer}`}>
+            className={`overflow-auto grid mx-auto max-w-max`}>
             <Button name='low range' className='bg-tuscany-600 border-tuscany-900'>
               Precios bajos
             </Button>
@@ -61,7 +59,7 @@ export default function StoreFilters({ className }) {
             style={{ gridTemplateColumns: 'repeat(3, 175px)', scrollbarWidth: 'thin' }}
             variant='contained'
             aria-label='button group'
-            className={`overflow-auto grid mx-auto max-w-max ${style.gridContainer}`}>
+            className={`overflow-auto grid mx-auto max-w-max`}>
             <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 1</Button>
             <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 2</Button>
             <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 3</Button>
@@ -72,7 +70,7 @@ export default function StoreFilters({ className }) {
             style={{ gridTemplateColumns: 'repeat(3, 175px)', scrollbarWidth: 'thin' }}
             variant='contained'
             aria-label='button group'
-            className={`overflow-auto grid mx-auto max-w-max ${style.gridContainer}`}>
+            className={`overflow-auto grid mx-auto max-w-max`}>
             <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 4</Button>
             <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 5</Button>
             <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 6</Button>
