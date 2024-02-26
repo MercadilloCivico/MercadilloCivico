@@ -62,11 +62,13 @@ const Nav = () => {
 
           {/* NAV END */}
           <div className='flex justify-end w-full h-full space-x-[15px]'>
-            <button className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
-              <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
-            </button>
             <Link
-              to={'/Profile'}
+              to={'/cart'}
+              className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
+              <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
+            </Link>
+            <Link
+              to={'/profile'}
               className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
               <LuUser className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
             </Link>
