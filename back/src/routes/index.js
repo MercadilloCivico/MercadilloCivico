@@ -15,6 +15,7 @@ const CarritoController = require('../controllers/Carrito/carritoController');
 const InventarioController = require('../controllers/inventario/inventarioController');
 const validateMiddleware = require('../../middleware/validateMiddleware');
 const ReseñasController = require('../controllers/Reseñas/reseñasController');
+const HistorialController = require('../controllers/HistorialDeVenta/historialController');
 
 const router = Router();
 
@@ -80,5 +81,11 @@ router.delete('/inventario/:id', InventarioController.delete);
 router.get('/reseñas/:id?', ReseñasController.get);
 router.post('/reseñas', validateMiddleware.validateReseña, ReseñasController.post);
 router.put('/reseñas', ReseñasController.put);
+
+// Historial de compras
+router.get('/historialCompra', HistorialController.getAll);
+router.get('/historialCompra/:id', HistorialController.getById);
+router.post('/historialCompra', validateMiddleware.validateHistorial, HistorialController.post);
+router.delete('/historialCompra/:id', HistorialController.delete);
 
 module.exports = router;

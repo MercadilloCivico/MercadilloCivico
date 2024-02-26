@@ -128,3 +128,10 @@
 2024-02-24 23:18:51 error: POST /api/login 500 691ms
 2024-02-24 23:20:14 error: POST /api/login 500 733ms
 2024-02-25 18:37:40 error: POST /api/login 500 1677ms
+2024-02-26 16:13:34 error: [object Object]
+2024-02-26 16:13:34 error: GET /api//register 500 15ms
+2024-02-26 16:14:19 error: [object Object]
+2024-02-26 16:14:19 error: GET /api/register 500 6ms
+2024-02-26 16:15:39 error: [object Object]
+2024-02-26 16:15:39 error: GET /api/register 500 9ms
+2024-02-26 17:29:12 error: POST /api/historialCompra 500 3ms
