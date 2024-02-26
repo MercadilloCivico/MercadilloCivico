@@ -10,7 +10,7 @@ function applyFiltersAndSort(state) {
   let filtered = [...state.items];
 
   if (state.filters.brand) {
-    filtered = filtered.filter((item) => item.marca === state.filters.brand);
+    filtered = filtered.filter((item) => item.brand === state.filters.brand);
   }
   if (state.filters.priceRange.minPrice !== null && state.filters.priceRange.maxPrice !== null) {
     filtered = filtered.filter(
@@ -20,10 +20,16 @@ function applyFiltersAndSort(state) {
     );
   }
 
-  if (state.sortOrder === 'asc') {
+  if (state.sorts.sortOrder === 'asc') {
     filtered.sort((a, b) => a.precio - b.precio);
-  } else if (state.sortOrder === 'desc') {
+  } else if (state.sorts.sortOrder === 'desc') {
     filtered.sort((a, b) => b.precio - a.precio);
+  }
+
+  if (state.sorts.sortRating === 'asc') {
+    filtered.sort((a, b) => a.calification - b.calification);
+  } else if (state.sorts.sortRating === 'desc') {
+    filtered.sort((a, b) => b.calification - a.calification);
   }
 
   state.filteredItems = filtered;
@@ -153,7 +159,10 @@ export const productSlice = createSlice({
       brand: null,
       priceRange: { minPrice: null, maxPrice: null },
     },
-    sortOrder: null,
+    sorts: {
+      sortOrder: null,
+      sortRating: null,
+    },
   },
   reducers: {
     setProducts(state, action) {
@@ -175,7 +184,11 @@ export const productSlice = createSlice({
     },
 
     sortByPrice(state, action) {
-      state.sortOrder = action.payload;
+      state.sorts.sortOrder = action.payload;
+      applyFiltersAndSort(state);
+    },
+    sortByRating(state, action) {
+      state.sorts.sortRating = action.payload;
       applyFiltersAndSort(state);
     },
     filterByBrand(state, action) {
@@ -265,6 +278,7 @@ export const {
   setStatus,
   setError,
   sortByPrice,
+  sortByRating,
   filterByBrand,
   filterByPriceRange,
   resetFilters,
