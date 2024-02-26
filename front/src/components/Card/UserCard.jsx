@@ -23,7 +23,7 @@ const UserCard = ({
   return (
     <div
       className={
-        `xsm:w-[150px] sm:w-[150px] md:w-[160px] lg:w-[170px] h-full overflow-hidden p-0 relative rounded-md bg-tuscany-100 text-tuscany-950 m-2 shadow-md shadow-[#00000030] ` +
+        `xsm:w-[150px] sm:w-[150px] md:w-[160px] lg:w-[170px] h-full overflow-hidden p-0 relative rounded-md bg-tuscany-100 text-tuscany-950 m-2 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030] ` +
         className
       }>
       <div className='w-full aspect-square relative rounded-tl-md rounded-tr-md overflow-hidden bg-[#ffffff]'>
