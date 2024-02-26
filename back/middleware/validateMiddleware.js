@@ -129,6 +129,55 @@ const validateMiddleware = {
       return res.status(500).json({ message: error.message, error: 'Error al crear la reseña' });
     }
   },
+  validateHistorial: async (req, res, next) => {
+    try {
+      const { idUsuario, precioFinal, puntoDeVenta, productos } = req.body;
+
+      const uuidRegex =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+      // Verificar que id_usuario sea un UUID válido
+      if (!uuidRegex.test(idUsuario)) {
+        return res.status(400).json({ error: 'El id_usuario no es válido' });
+      }
+
+      // Verificar que precio_final sea un número
+      if (typeof precioFinal !== 'number') {
+        return res.status(400).json({ error: 'El precio_final debe ser un número' });
+      }
+
+      // Verificar que punto_de_venta sea un string
+      if (typeof puntoDeVenta !== 'string') {
+        return res.status(400).json({ error: 'El punto_de_venta debe ser un string' });
+      }
+
+      // Verificar que productos sea un array
+      if (!Array.isArray(productos)) {
+        return res.status(400).json({ error: 'El campo productos debe ser un array' });
+      }
+
+      // Verificar que cada elemento del array productos sea un objeto con las propiedades producto y cantidad
+      const productosValidos = productos.map((producto, index) => {
+        if (
+          typeof producto !== 'object' ||
+          !Object.prototype.hasOwnProperty.call(producto, 'producto') ||
+          !Object.prototype.hasOwnProperty.call(producto, 'cantidad')
+        ) {
+          return res
+            .status(400)
+            .json({ error: `El elemento ${index} del array productos no es válido` });
+        }
+        return producto;
+      });
+
+      // Si todos los datos son válidos, continuar con la ejecución del siguiente middleware o controlador
+      req.body.productos = productosValidos;
+      next();
+      return true;
+    } catch (error) {
+      return res.status(500).json({ message: error.message, error: 'Error al crear el historial' });
+    }
+  },
 };
 
 module.exports = validateMiddleware;
