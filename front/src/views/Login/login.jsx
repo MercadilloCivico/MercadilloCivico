@@ -9,6 +9,8 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import { FaGoogle } from 'react-icons/fa';
 import { LuLogIn } from 'react-icons/lu';
 
+import Bg from '../../assets/img/bg.jpg';
+
 function login() {
   // const navigate = useNavigate();
   // // Estado para los datos del formulario y los errores de validación
@@ -18,8 +20,13 @@ function login() {
   // });
 
   return (
-    <div className='min-h-[calc(100vh-55px)] flex flex-col'>
+    <div className='min-h-[calc(100vh-55px)] flex flex-col bg-cover overflow-x-hidden'>
       <div className='flex flex-col w-full items-center justify-center flex-grow-[1] my-[50px]'>
+        {/* BG image */}
+        <div
+          style={{ backgroundImage: `url(${Bg})`, filter: 'blur(15px)', transform: 'scaleX(1.1)' }}
+          className='w-full h-[100svh] fixed top-10 bg-cover z-[-2]'></div>
+
         <form
           // onSubmit={}
           className=' shadow-xl bg-pearl-bush-200 rounded-xl w-full max-w-[600px] pb-8 pt-[150px] relative mx-[10px] px-[10px] mt-[120px]'>

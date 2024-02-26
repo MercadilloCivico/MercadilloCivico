@@ -27,7 +27,7 @@ export default function CustomTabs() {
       backgroundColor: '#381812',
       animation: `${fadeIn} 0.3s ease`, // Animación al alternar entre pestañas
     },
-    backgroundColor: '#38181233',
+    backgroundColor: '#e5d4c3',
   });
 
   return (

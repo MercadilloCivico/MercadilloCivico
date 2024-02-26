@@ -6,6 +6,7 @@ import Footer from '../../components/Footer/Footer.jsx';
 import { LuMail } from 'react-icons/lu';
 import Logo from '../../assets/img/logo-full.svg';
 import { LuInfo } from 'react-icons/lu';
+import Bg from '../../assets/img/bg.jpg';
 
 function RecoveryPassword() {
   // Estado para el email, el mensaje de error y el estado de carga
@@ -48,6 +49,11 @@ function RecoveryPassword() {
   return (
     <div className='min-h-[calc(100vh-55px)] flex flex-col'>
       <div className='flex flex-col w-full items-center justify-center flex-grow-[1] my-[50px]'>
+        {/* BG image */}
+        <div
+          style={{ backgroundImage: `url(${Bg})`, filter: 'blur(15px)', transform: 'scaleX(1.1)' }}
+          className='w-full h-[100svh] fixed top-10 bg-cover z-[-2]'></div>
+
         <div className=' w-full rounded-md relative flex justify-center'>
           <form
             onSubmit={handleSubmit}
