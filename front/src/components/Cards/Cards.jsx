@@ -21,12 +21,12 @@ function Cards({ products, setProducts }) {
         <Card
           key={product.id}
           name={product.name}
-          supplier={product.supplier}
-          img={product.img}
-          price={product.price}
-          rating={product.rating}
-          stock={product.stock}
-          cantidad={product.cantidad}
+          supplier={product.brand}
+          img={product.image}
+          price={product.precio}
+          rating={product.calification}
+          stock={15}
+          cantidad={1}
           agregarProducto={() => agregarProducto(product.id)}
           quitarProducto={() => quitarProducto(product.id)}
           className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'

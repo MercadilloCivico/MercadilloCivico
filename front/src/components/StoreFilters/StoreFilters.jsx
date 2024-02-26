@@ -1,19 +1,35 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { filterByPriceRange } from '../../store/slices/productSlice';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-
 import { useState } from 'react';
 
 export default function StoreFilters({ className }) {
+  const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.products);
+
+  const calculatePriceRanges = () => {
+    const prices = items.map((product) => product.precio);
+    const maxPrice = Math.max(...prices);
+    const midPrice = maxPrice / 2;
+
+    return { maxPrice, midPrice };
+  };
+
   function handleChange(e) {
     setValue(e.target.value);
   }
 
   function clickedButton(e) {
     alert(e.target.name);
+  }
+
+  function filterByPrices(min, max) {
+    dispatch(filterByPriceRange({ minPrice: min, maxPrice: max }));
   }
 
   let [value, setValue] = useState('price');
@@ -38,18 +54,36 @@ export default function StoreFilters({ className }) {
       <div className='mb-[10px] max-w-[600px mx auto]'>
         {value === 'price' ? (
           <ButtonGroup
-            onClick={clickedButton}
             style={{ gridTemplateColumns: 'repeat(3, 175px)', scrollbarWidth: 'thin' }}
             variant='contained'
             aria-label='button group'
             className={`overflow-auto grid mx-auto max-w-max`}>
-            <Button name='low range' className='bg-tuscany-600 border-tuscany-900'>
+            <Button
+              onClick={() => filterByPrices(0, calculatePriceRanges().midPrice)}
+              name='low range'
+              className='bg-tuscany-600 border-tuscany-900'>
               Precios bajos
             </Button>
-            <Button name='mid range' className='bg-tuscany-600 border-tuscany-900'>
+            <Button
+              onClick={() =>
+                filterByPrices(
+                  calculatePriceRanges().midPrice + 1,
+                  (calculatePriceRanges().maxPrice / 4) * 3
+                )
+              }
+              name='mid range'
+              className='bg-tuscany-600 border-tuscany-900'>
               Precios medios
             </Button>
-            <Button name='high range' className='bg-tuscany-600 border-tuscany-900'>
+            <Button
+              onClick={() =>
+                filterByPrices(
+                  (calculatePriceRanges().maxPrice / 3) * 2 + 1,
+                  calculatePriceRanges().maxPrice
+                )
+              }
+              name='high range'
+              className='bg-tuscany-600 border-tuscany-900'>
               Precios altos
             </Button>
           </ButtonGroup>
