@@ -4,12 +4,18 @@ import Logo from '../../assets/img/logo-full.svg';
 import Footer from '../../components/Footer/Footer.jsx';
 
 import { LuCheck } from 'react-icons/lu';
+import Bg from '../../assets/img/bg.jpg';
 
 function NewPassword() {
   return (
     <div className='min-h-[calc(100vh-55px)] flex flex-col'>
       <div className='flex flex-col w-full items-center justify-center flex-grow-[1] my-[50px]'>
-        <div className='bg-pearl-bush-100 max-w-[600px] w-full mx-auto self-center'>
+        {/* BG image */}
+        <div
+          style={{ backgroundImage: `url(${Bg})`, filter: 'blur(15px)', transform: 'scaleX(1.1)' }}
+          className='w-full h-[100svh] fixed top-10 bg-cover z-[-2]'></div>
+
+        <div className='max-w-[600px] w-full mx-auto self-center'>
           <form className='shadow-xl bg-pearl-bush-200 rounded-xl w-full max-w-[600px] pb-8 pt-[150px] relative px-[10px] mt-[120px]'>
             <img
               src={Logo}
