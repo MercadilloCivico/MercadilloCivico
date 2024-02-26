@@ -6,6 +6,8 @@ import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import BackButton from '../../components/BackButtom/BackButton';
+import StoreFilters from '../../components/StoreFilters/StoreFilters';
+
 const Store = ({ products, setProducts }) => {
   const cityOptionsMock = [
     { value: 'bogota', label: 'Bogotá' },
@@ -44,6 +46,8 @@ const Store = ({ products, setProducts }) => {
           description='¡Compra uno y llévate el otro gratis!'
         />
       </div>
+
+      <StoreFilters />
 
       <div className=''>
         <Cards products={products} setProducts={setProducts} />
