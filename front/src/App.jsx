@@ -142,11 +142,6 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
 
-          <Route path='/Store' element={<Store products={products} setProducts={setProducts} />} />
-          <Route path='/Contact' element={<Contact />} />
-          <Route path='/Favorites' element={<Favorites />} />
-          <Route path='/Detail/:id' element={<Detail />} />
-
           <Route path='/store' element={<Store />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/favorites' element={<Favorites />} />

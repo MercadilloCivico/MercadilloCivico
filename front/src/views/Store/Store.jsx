@@ -1,3 +1,5 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { resetFilters } from '../../store/slices/productSlice';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
 import CustomInput from '../../components/CustomInput/CustomInput';
@@ -7,8 +9,9 @@ import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import BackButton from '../../components/BackButtom/BackButton';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
-const Store = ({ products, setProducts }) => {
+const Store = () => {
   const cityOptionsMock = [
     { value: 'bogota', label: 'Bogotá' },
     { value: 'medellin', label: 'Medellín' },
@@ -16,6 +19,16 @@ const Store = ({ products, setProducts }) => {
     { value: 'barranquilla', label: 'Barranquilla' },
     { value: 'cartagena', label: 'Cartagena' },
   ];
+
+  const { items, filteredItems, filters } = useSelector((state) => state.products);
+
+  const dispatch = useDispatch();
+
+  const resetFiltros = () => {
+    dispatch(resetFilters());
+    console.log(filteredItems);
+  };
+
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
       <div className='flex flex-col bg-hippie-green-950'>
@@ -49,9 +62,24 @@ const Store = ({ products, setProducts }) => {
 
       <StoreFilters />
 
-      <div className=''>
-        <Cards products={products} setProducts={setProducts} />
-      </div>
+      <CustomButton text='Resetear Filtros' onClick={resetFiltros} />
+
+      {filters.priceRange.minPrice !== null &&
+      filters.priceRange.maxPrice !== null &&
+      filteredItems.length === 0 ? (
+        <div className='text-tuscany-950 text-center my-[3em] text-[.8em] md:text-[1.2em] lg:text-[1.5em]'>
+          Lo sentimos, no hay productos con este filtro de rango de precios aplicado...
+        </div>
+      ) : filteredItems.length > 0 ? (
+        <div>
+          <Cards products={filteredItems} />
+        </div>
+      ) : (
+        <div>
+          <Cards products={items} />
+        </div>
+      )}
+
       <Footer />
     </div>
   );

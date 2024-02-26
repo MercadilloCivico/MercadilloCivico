@@ -41,6 +41,7 @@ export const productSlice = createSlice({
         calification: 4.5,
         brand: 'Frutal',
         image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        precio: 200,
         proveedoresCostos: [
           { proveedor_id: 1, costo: 100 },
           { proveedor_id: 2, costo: 95 },
@@ -54,6 +55,7 @@ export const productSlice = createSlice({
         calification: 3.5,
         brand: 'Frutal',
         image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        precio: 150,
         proveedoresCostos: [
           { proveedor_id: 3, costo: 200 },
           { proveedor_id: 4, costo: 190 },
@@ -67,6 +69,7 @@ export const productSlice = createSlice({
         calification: 2.5,
         brand: 'Maiz',
         image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        precio: 400,
         proveedoresCostos: [
           { proveedor_id: 3, costo: 200 },
           { proveedor_id: 4, costo: 190 },
@@ -80,6 +83,7 @@ export const productSlice = createSlice({
         calification: 1.3,
         brand: 'Chatarra',
         image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        precio: 1000,
         proveedoresCostos: [
           { proveedor_id: 3, costo: 200 },
           { proveedor_id: 4, costo: 190 },
@@ -93,6 +97,7 @@ export const productSlice = createSlice({
         calification: 4.5,
         brand: 'Frutal',
         image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        precio: 600,
         proveedoresCostos: [
           { proveedor_id: 5, costo: 150 },
           { proveedor_id: 6, costo: 145 },
@@ -106,6 +111,7 @@ export const productSlice = createSlice({
         calification: 3.5,
         brand: 'Frutal',
         image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        precio: 800,
         proveedoresCostos: [
           { proveedor_id: 5, costo: 150 },
           { proveedor_id: 6, costo: 145 },
@@ -119,6 +125,7 @@ export const productSlice = createSlice({
         calification: 2.5,
         brand: 'Maiz',
         image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        precio: 530,
         proveedoresCostos: [
           { proveedor_id: 1, costo: 100 },
           { proveedor_id: 2, costo: 95 },
@@ -132,6 +139,7 @@ export const productSlice = createSlice({
         calification: 1.3,
         brand: 'Chatarra',
         image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        precio: 900,
         proveedoresCostos: [
           { proveedor_id: 5, costo: 150 },
           { proveedor_id: 6, costo: 145 },
