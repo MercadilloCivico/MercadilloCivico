@@ -1,5 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { filterByPriceRange, filterByBrand } from '../../store/slices/productSlice';
+import {
+  filterByPriceRange,
+  filterByBrand,
+  sortByPrice,
+  sortByRating,
+} from '../../store/slices/productSlice';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Select from '@mui/material/Select';
@@ -26,10 +31,12 @@ export default function StoreFilters({ className }) {
 
   function handleChange(e) {
     setValue(e.target.value);
+    setSortValue('ordenamiento');
   }
 
-  function clickedButton(e) {
-    alert(e.target.name);
+  function handleSortChange(e) {
+    setSortValue(e.target.value);
+    setValue('filtros');
   }
 
   function filterByPrices(min, max) {
@@ -37,27 +44,58 @@ export default function StoreFilters({ className }) {
   }
 
   function filterBrand(brand) {
-    dispatch(dispatch(filterByBrand(brand)));
+    dispatch(filterByBrand(brand));
   }
 
-  let [value, setValue] = useState('price');
+  function sortPrice(e) {
+    dispatch(sortByPrice(e.target.name));
+  }
+
+  function sortRating(e) {
+    dispatch(sortByRating(e.target.name));
+  }
+
+  let [value, setValue] = useState('filtros');
+
+  let [sortValue, setSortValue] = useState('ordenamiento');
 
   return (
     <div className={'' + className}>
-      <FormControl variant='outlined' className='my-[10px]'>
-        <InputLabel id='filter-select'>Filtros</InputLabel>
-        <Select
-          labelId='filter-select'
-          id='filter-select'
-          value={value}
-          label='Age'
-          onChange={handleChange}
-          className='text-tuscany-950 w-[150px] h-10'>
-          <MenuItem value='price'>Precio</MenuItem>
-          <MenuItem value='option2'>Marca</MenuItem>
-          <MenuItem value='ejemplo'>Reseñas</MenuItem>
-        </Select>
-      </FormControl>
+      <div className='flex my-1 justify-center'>
+        <div className='mx-1'>
+          <FormControl variant='outlined' className='my-[10px]'>
+            <InputLabel id='filter-select'>Filtros</InputLabel>
+            <Select
+              labelId='filter-select'
+              id='filter-select'
+              value={value}
+              label='Age'
+              onChange={handleChange}
+              className='text-tuscany-950 w-[150px] h-10'>
+              <MenuItem value='filtros'>Filtros</MenuItem>
+              <MenuItem value='price'>Precio</MenuItem>
+              <MenuItem value='brand'>Marca</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+
+        <div className='mx-1'>
+          <FormControl variant='outlined' className='my-[10px]'>
+            <InputLabel id='sort-select'>Ordenamiento</InputLabel>
+            <Select
+              labelId='sort-select'
+              id='sort-select'
+              value={sortValue}
+              label='Age'
+              onChange={handleSortChange}
+              className='text-tuscany-950 w-[150px] h-10'>
+              <MenuItem value='ordenamiento'>Ordenamiento</MenuItem>
+              <MenuItem value='rating'>Calificación</MenuItem>
+              <MenuItem value='price'>Precio</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+      </div>
 
       <div className='mb-[10px] max-w-[600px mx auto]'>
         {value === 'price' ? (
@@ -95,7 +133,7 @@ export default function StoreFilters({ className }) {
               Precios altos
             </Button>
           </ButtonGroup>
-        ) : value === 'option2' ? (
+        ) : value === 'brand' ? (
           <ButtonGroup
             style={{ gridTemplateColumns: 'repeat(3, 175px)', scrollbarWidth: 'thin' }}
             variant='contained'
@@ -110,17 +148,40 @@ export default function StoreFilters({ className }) {
               </Button>
             ))}
           </ButtonGroup>
-        ) : (
+        ) : sortValue === 'rating' ? (
           <ButtonGroup
-            onClick={clickedButton}
-            style={{ gridTemplateColumns: 'repeat(3, 175px)', scrollbarWidth: 'thin' }}
+            onClick={sortRating}
+            style={{ gridTemplateColumns: 'repeat(2, 175px)', scrollbarWidth: 'thin' }}
             variant='contained'
             aria-label='button group'
             className={`overflow-auto grid mx-auto max-w-max`}>
-            <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 4</Button>
-            <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 5</Button>
-            <Button className='bg-tuscany-600 border-tuscany-900'>Opcion 6</Button>
+            <Button className='bg-tuscany-600 border-tuscany-900' name='asc'>
+              Ascendente
+            </Button>
+            <Button className='bg-tuscany-600 border-tuscany-900' name='desc'>
+              Descendiente
+            </Button>
           </ButtonGroup>
+        ) : sortValue === 'price' ? (
+          <ButtonGroup
+            onClick={sortPrice}
+            style={{ gridTemplateColumns: 'repeat(2, 175px)', scrollbarWidth: 'thin' }}
+            variant='contained'
+            aria-label='button group'
+            className={`overflow-auto grid mx-auto max-w-max`}>
+            <Button className='bg-tuscany-600 border-tuscany-900' name='asc'>
+              Ascendente
+            </Button>
+            <Button className='bg-tuscany-600 border-tuscany-900' name='desc'>
+              Descendiente
+            </Button>
+          </ButtonGroup>
+        ) : value === 'filtros' ? (
+          ''
+        ) : sortValue === 'ordenamiento' ? (
+          ''
+        ) : (
+          ''
         )}
       </div>
     </div>
