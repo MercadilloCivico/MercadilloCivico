@@ -60,7 +60,7 @@ function Register() {
   };
 
   // Maneja el envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Verificar si se proporcionó una imagen
@@ -104,8 +104,12 @@ function Register() {
       const isFormValid = requiredFields.every((field) => formData[field].trim() !== '');
 
       if (isFormValid && Object.keys(formErrors).length === 0) {
-        dispatch(register(formData));
-        alert('Formulario enviado');
+        try {
+          await dispatch(register(formData));
+          alert('Formulario enviado');
+        } catch (error) {
+          alert('Error al registrar usuario' + error.message);
+        }
         setFormData({
           imgUrl: null,
           name: '',
