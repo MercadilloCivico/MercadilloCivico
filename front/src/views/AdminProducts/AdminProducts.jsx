@@ -5,7 +5,7 @@ const AdminProducts = ({ products }) => {
     <div>
       <div>Filtros</div>
       <div>
-        <Cards products={products} />
+        <Cards cardType='Admin' products={products} />
       </div>
     </div>
   );

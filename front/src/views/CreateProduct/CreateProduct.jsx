@@ -7,7 +7,7 @@ import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Logo from '../../assets/img/logo-simple.svg';
 import Modal from '../../components/Modal/Modal';
-import VCard from '../../components/Card/Card';
+import AdminCardPreview from '../../components/Card/AdminCardPreview';
 
 const CreateProduct = ({ products, setProducts }) => {
   const [producto, setProducto] = useState({
@@ -244,14 +244,12 @@ const CreateProduct = ({ products, setProducts }) => {
       <div>
         <Modal isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>
           <div className='flex flex-col justify-center items-center'>
-            <VCard
+            <AdminCardPreview
               name={producto.name}
               supplier={producto.supplier}
               img={producto.img}
               price={producto.price}
-              rating={producto.rating}
-              stock={producto.stock}
-              cantidad={producto.cantidad}
+              rating={5}
               className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
             />
           </div>
