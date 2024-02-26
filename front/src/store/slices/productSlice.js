@@ -6,28 +6,182 @@ import {
   trueDeleteProductAsync,
 } from '../thunks/productThunks';
 
+function applyFiltersAndSort(state) {
+  let filtered = [...state.items];
+
+  if (state.filters.brand) {
+    filtered = filtered.filter((item) => item.marca === state.filters.brand);
+  }
+  if (state.filters.priceRange.minPrice !== null && state.filters.priceRange.maxPrice !== null) {
+    filtered = filtered.filter(
+      (item) =>
+        item.precio >= state.filters.priceRange.minPrice &&
+        item.precio <= state.filters.priceRange.maxPrice
+    );
+  }
+
+  if (state.sortOrder === 'asc') {
+    filtered.sort((a, b) => a.precio - b.precio);
+  } else if (state.sortOrder === 'desc') {
+    filtered.sort((a, b) => b.precio - a.precio);
+  }
+
+  state.filteredItems = filtered;
+}
+
 export const productSlice = createSlice({
   name: 'products',
   initialState: {
-    items: [],
+    items: [
+      {
+        id: 1,
+        name: 'Manzana',
+        description:
+          'Input product name and keywords, separated by commas, describing key characteristics and attributes.',
+        calification: 4.5,
+        brand: 'Frutal',
+        image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        proveedoresCostos: [
+          { proveedor_id: 1, costo: 100 },
+          { proveedor_id: 2, costo: 95 },
+        ],
+      },
+      {
+        id: 2,
+        name: 'Pera',
+        description:
+          'Input product name and keywords, separated by commas, describing key characteristics and attributes.',
+        calification: 3.5,
+        brand: 'Frutal',
+        image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        proveedoresCostos: [
+          { proveedor_id: 3, costo: 200 },
+          { proveedor_id: 4, costo: 190 },
+        ],
+      },
+      {
+        id: 3,
+        name: 'Cereal',
+        description:
+          'Input product name and keywords, separated by commas, describing key characteristics and attributes.',
+        calification: 2.5,
+        brand: 'Maiz',
+        image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        proveedoresCostos: [
+          { proveedor_id: 3, costo: 200 },
+          { proveedor_id: 4, costo: 190 },
+        ],
+      },
+      {
+        id: 4,
+        name: 'Chocolate',
+        description:
+          'Input product name and keywords, separated by commas, describing key characteristics and attributes.',
+        calification: 1.3,
+        brand: 'Chatarra',
+        image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        proveedoresCostos: [
+          { proveedor_id: 3, costo: 200 },
+          { proveedor_id: 4, costo: 190 },
+        ],
+      },
+      {
+        id: 5,
+        name: 'Manzana',
+        description:
+          'Input product name and keywords, separated by commas, describing key characteristics and attributes.',
+        calification: 4.5,
+        brand: 'Frutal',
+        image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        proveedoresCostos: [
+          { proveedor_id: 5, costo: 150 },
+          { proveedor_id: 6, costo: 145 },
+        ],
+      },
+      {
+        id: 6,
+        name: 'Pera',
+        description:
+          'Input product name and keywords, separated by commas, describing key characteristics and attributes.',
+        calification: 3.5,
+        brand: 'Frutal',
+        image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        proveedoresCostos: [
+          { proveedor_id: 5, costo: 150 },
+          { proveedor_id: 6, costo: 145 },
+        ],
+      },
+      {
+        id: 7,
+        name: 'Cereal',
+        description:
+          'Input product name and keywords, separated by commas, describing key characteristics and attributes.',
+        calification: 2.5,
+        brand: 'Maiz',
+        image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        proveedoresCostos: [
+          { proveedor_id: 1, costo: 100 },
+          { proveedor_id: 2, costo: 95 },
+        ],
+      },
+      {
+        id: 8,
+        name: 'Chocolate',
+        description:
+          'Input product name and keywords, separated by commas, describing key characteristics and attributes.',
+        calification: 1.3,
+        brand: 'Chatarra',
+        image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+        proveedoresCostos: [
+          { proveedor_id: 5, costo: 150 },
+          { proveedor_id: 6, costo: 145 },
+        ],
+      },
+    ],
+    filteredItems: [],
     status: 'idle',
     error: null,
+    filters: {
+      brand: null,
+      priceRange: { minPrice: null, maxPrice: null },
+    },
+    sortOrder: null,
   },
   reducers: {
     setProducts(state, action) {
       state.items = action.payload;
+      state.filteredItems = action.payload;
     },
     addProduct(state, action) {
       state.items.push(action.payload);
     },
     removeProduct(state, action) {
       state.items = state.items.filter((product) => product.id !== action.payload);
+      state.filteredItems = state.filteredItems.filter((product) => product.id !== action.payload);
     },
     setStatus(state, action) {
       state.status = action.payload;
     },
     setError(state, action) {
       state.error = action.payload;
+    },
+
+    sortByPrice(state, action) {
+      state.sortOrder = action.payload;
+      applyFiltersAndSort(state);
+    },
+    filterByBrand(state, action) {
+      state.filters.brand = action.payload;
+      applyFiltersAndSort(state);
+    },
+    filterByPriceRange(state, action) {
+      const { minPrice, maxPrice } = action.payload;
+      state.filters.priceRange = { minPrice, maxPrice };
+      applyFiltersAndSort(state);
+    },
+    resetFilters(state) {
+      state.filteredItems = [...state.items];
+      state.filters = { brand: null, priceRange: { minPrice: null, maxPrice: null } };
     },
   },
   extraReducers: (builder) => {
@@ -38,7 +192,9 @@ export const productSlice = createSlice({
       })
       .addCase(addProductAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items.push(action.payload.data);
+        const newItem = action.payload.data;
+        state.items.push(newItem);
+        state.filteredItems.push(newItem);
       })
       .addCase(addProductAsync.rejected, (state, action) => {
         state.status = 'failed';
@@ -52,7 +208,9 @@ export const productSlice = createSlice({
       })
       .addCase(logicDeleteProductAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = state.items.filter((product) => product.id !== action.meta.arg);
+        const idToRemove = action.meta.arg;
+        state.items = state.items.filter((product) => product.id !== idToRemove);
+        state.filteredItems = state.filteredItems.filter((product) => product.id !== idToRemove);
       })
       .addCase(logicDeleteProductAsync.rejected, (state, action) => {
         state.status = 'failed';
@@ -66,7 +224,9 @@ export const productSlice = createSlice({
       })
       .addCase(trueDeleteProductAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = state.items.filter((product) => product.id !== action.meta.arg);
+        const idToRemove = action.meta.arg;
+        state.items = state.items.filter((product) => product.id !== idToRemove);
+        state.filteredItems = state.filteredItems.filter((product) => product.id !== idToRemove);
       })
       .addCase(trueDeleteProductAsync.rejected, (state, action) => {
         state.status = 'failed';
@@ -81,6 +241,7 @@ export const productSlice = createSlice({
       .addCase(fetchProductsAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items = action.payload;
+        state.filteredItems = action.payload;
       })
       .addCase(fetchProductsAsync.rejected, (state, action) => {
         state.status = 'failed';
@@ -89,6 +250,16 @@ export const productSlice = createSlice({
   },
 });
 
-export const { setProducts, addProduct, removeProduct, setStatus, setError } = productSlice.actions;
+export const {
+  setProducts,
+  addProduct,
+  removeProduct,
+  setStatus,
+  setError,
+  sortByPrice,
+  filterByBrand,
+  filterByPriceRange,
+  resetFilters,
+} = productSlice.actions;
 
 export default productSlice.reducer;
