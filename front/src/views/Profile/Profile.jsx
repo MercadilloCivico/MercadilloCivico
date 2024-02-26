@@ -279,7 +279,7 @@ export default function Profile() {
       )}
 
       {!editMode && (
-        <div className='mt-[250px]'>
+        <div className='mt-[150px]'>
           {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
           <CustomTabs />
 
