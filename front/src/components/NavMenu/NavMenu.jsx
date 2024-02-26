@@ -3,16 +3,14 @@ import style from './NavMenu.module.css';
 import { useState, useEffect } from 'react';
 
 export default function NavMenu({ menuOpen, toggleMenu }) {
-  let [render, setRender] = useState(true);
+  const [render, setRender] = useState(false);
   let animationTimeout = null;
 
-  // UseEffect para el botón hamburguesa
   useEffect(() => {
     if (menuOpen) {
       setRender(true);
       clearTimeout(animationTimeout); // Limpiar el timeout si estaba previamente configurado
-    } else {
-      setRender(true);
+    } else if (!menuOpen) {
       animationTimeout = setTimeout(() => {
         setRender(false);
       }, 300);
@@ -20,7 +18,6 @@ export default function NavMenu({ menuOpen, toggleMenu }) {
     return () => clearTimeout(animationTimeout); // Limpiar el timeout al desmontar el componente
   }, [menuOpen]);
 
-  // Funcion para los links
   function waitAndToggle() {
     toggleMenu();
     clearTimeout(animationTimeout); // Limpiar el timeout si se hace click antes de que se complete la animación
