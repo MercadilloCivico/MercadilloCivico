@@ -49,10 +49,12 @@ export default function StoreFilters({ className }) {
 
   function sortPrice(e) {
     dispatch(sortByPrice(e.target.name));
+    dispatch(sortByRating(null));
   }
 
   function sortRating(e) {
     dispatch(sortByRating(e.target.name));
+    dispatch(sortByPrice(null));
   }
 
   let [value, setValue] = useState('filtros');
