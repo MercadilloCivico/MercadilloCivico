@@ -14,6 +14,7 @@ const usuariosController = require('../controllers/Usuario/usuariosController');
 const CarritoController = require('../controllers/Carrito/carritoController');
 const InventarioController = require('../controllers/inventario/inventarioController');
 const validateMiddleware = require('../../middleware/validateMiddleware');
+const ReseñasController = require('../controllers/Reseñas/reseñasController');
 
 const router = Router();
 
@@ -28,6 +29,7 @@ router.post('/logout', usuariosController.logout);
 router.put('/forgot/password', usuariosController.contraseñaOlvidada);
 router.put('/update/user', usuariosController.putUsuario);
 router.delete('/disable/user', usuariosController.deleteUsuario);
+router.get('/user/info/:id?', usuariosController.get);
 
 // products
 
@@ -73,5 +75,10 @@ router.post('/inventario', validateMiddleware.validateInventario, InventarioCont
 router.get('/inventario/:id?', InventarioController.get);
 router.put('/inventario/', InventarioController.put);
 router.delete('/inventario/:id', InventarioController.delete);
+
+// Reseñas
+router.get('/reseñas/:id?', ReseñasController.get);
+router.post('/reseñas', validateMiddleware.validateReseña, ReseñasController.post);
+router.put('/reseñas', ReseñasController.put);
 
 module.exports = router;

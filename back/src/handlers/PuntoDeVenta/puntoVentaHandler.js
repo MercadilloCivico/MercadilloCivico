@@ -25,7 +25,12 @@ class PuntoDeVentaHandlers {
 
   static async getAll() {
     try {
-      const puntos = await prisma.punto_De_Venta.findMany();
+      const puntos = await prisma.punto_De_Venta.findMany({
+        include: {
+          inventario: true,
+          provedores: true,
+        },
+      });
       return puntos;
     } catch (error) {
       throw new Error(error);

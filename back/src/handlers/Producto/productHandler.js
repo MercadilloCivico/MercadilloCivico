@@ -96,7 +96,13 @@ class ProductHandler {
 
   static async getAll() {
     try {
-      const productos = await prisma.producto.findMany();
+      const productos = await prisma.producto.findMany({
+        include: {
+          resenas: true,
+          proveedor: true,
+          inventario: true,
+        },
+      });
       return productos;
     } catch (error) {
       throw new Error(error.message);
@@ -108,6 +114,11 @@ class ProductHandler {
       const producto = await prisma.producto.findFirst({
         where: {
           id,
+        },
+        include: {
+          resenas: true,
+          proveedor: true,
+          inventario: true,
         },
       });
       return producto;
@@ -123,6 +134,11 @@ class ProductHandler {
           name: {
             contains: name,
           },
+        },
+        include: {
+          resenas: true,
+          proveedor: true,
+          inventario: true,
         },
       });
       return productos;

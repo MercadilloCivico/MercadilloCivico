@@ -10,6 +10,21 @@ const uploadToCloudinary = require('../../handlers/uploadToCloudinary');
 const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
 
 class usuarios {
+  static async get(req, res) {
+    try {
+      const { id } = req.params;
+      if (id) {
+        const usuario = await usuariosHandler.getById(id);
+        res.status(200).json(usuario);
+      } else {
+        const users = await usuariosHandler.getAll();
+        res.status(200).json(users);
+      }
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
   static async register(req, res) {
     try {
       const requiredFields = ['firstName', 'lastName', 'email', 'password'];

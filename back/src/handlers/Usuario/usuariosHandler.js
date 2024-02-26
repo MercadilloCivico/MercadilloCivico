@@ -10,6 +10,43 @@ const validTokens = new Set();
 const sendRecoveryEmail = require('../../utils/mails');
 
 class usuariosHandler {
+  static async getAll() {
+    try {
+      const usuarios = await prisma.usuario.findMany({
+        include: {
+          resenas: true,
+          carrito: true,
+          compras: true,
+          proveedor: true,
+          favorites: true,
+        },
+      });
+      return usuarios;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  static async getById(id) {
+    try {
+      const usuario = await prisma.usuario.findFirst({
+        where: {
+          id,
+        },
+        include: {
+          resenas: true,
+          carrito: true,
+          compras: true,
+          proveedor: true,
+          favorites: true,
+        },
+      });
+      return usuario;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   static async registerHandler(firstName, lastName, email, password, secondName, photo) {
     try {
       const repeatEmail = await prisma.usuario.findFirst({
