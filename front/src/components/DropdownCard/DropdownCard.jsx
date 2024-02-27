@@ -7,8 +7,9 @@ import { TiHeartFullOutline } from 'react-icons/ti';
 import { useState } from 'react';
 import style from './DropdownCard.module.css';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-export default function Card({ lazyImg, name, price, img, description, rating, className }) {
+export default function Card({ id, lazyImg, name, price, img, description, rating, className }) {
   // Eventualmente recibirá también el id de producto
   // lazyImg será un downscale de la img real, se mostrará de fondo mientras carga la imágen real
 
@@ -84,25 +85,22 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
 
         <div className='bg-tuscany-300 h-[100%] w-[100%]'>
           <div className='flex bg-tuscany-100 items-center rounded-br-lg h-[70px] hover:bg-pearl-bush-200 transition hover:cursor-pointer'>
-            <ul
-              className='flex mx-2 w-full flex-col '
-              onClick={() => {
-                alert('Mostrar detalles del producto');
-              }}>
-              <li>
-                <span className='text-base line-clamp-1 text-left'>{name}</span>
-              </li>
-              <li>
-                <span className='text-2xl font-semibold line-clamp-1 text-left'>${price}</span>
-              </li>
-            </ul>
-
+            <Link to={`/detail/${id}`} className='flex mx-2 w-full flex-col'>
+              <ul>
+                <li>
+                  <span className='text-base line-clamp-1 text-left'>{name}</span>
+                </li>
+                <li>
+                  <span className='text-2xl font-semibold line-clamp-1 text-left'>${price}</span>
+                </li>
+              </ul>
+            </Link>
             <div
               className='bg-tuscany-950 flex flex-shrink-0 mx-2 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full hover:bg-pearl-bush-900 active:bg-pearl-bush-800 transition'
               onClick={() => {
                 alert('Agregar producto al carrito de compras');
               }}>
-              <TbShoppingBagPlus class='w-[25px] h-[25px] text-tuscany-100' />
+              <TbShoppingBagPlus className='w-[25px] h-[25px] text-tuscany-100' />
             </div>
           </div>
 
@@ -159,9 +157,9 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
 }
 
 Card.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  img: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  rating: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  precio: PropTypes.string,
+  image: PropTypes.node,
+  description: PropTypes.string,
+  calificacion: PropTypes.string,
 };

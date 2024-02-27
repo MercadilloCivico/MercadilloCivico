@@ -5,7 +5,7 @@ import { MdEdit, MdDeleteOutline } from 'react-icons/md';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 
-const VCard = ({
+const Card = ({
   id,
   name,
   supplier,
@@ -156,4 +156,4 @@ const VCard = ({
   );
 };
 
-export default VCard;
+export default Card;
