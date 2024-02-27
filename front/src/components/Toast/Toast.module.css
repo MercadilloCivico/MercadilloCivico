@@ -1,6 +1,6 @@
 .toastContainer {
     animation-name: show-toast;
-    animation-duration: 5s;
+    animation-duration: 6s;
     opacity: 0;
     transform: scale(0.8);
 

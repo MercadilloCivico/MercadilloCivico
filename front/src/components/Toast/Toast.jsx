@@ -6,7 +6,7 @@ export default function Toast(props) {
 
   setTimeout(() => {
     setCurrentDisplay('none');
-  }, '5000');
+  }, '6000');
 
   return (
     <>
