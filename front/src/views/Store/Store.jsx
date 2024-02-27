@@ -10,7 +10,7 @@ import Footer from '../../components/Footer/Footer';
 import BackButton from '../../components/BackButtom/BackButton';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import Switch from '../../components/Switch/Switch.jsx';
+import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 
 const Store = () => {
   const cityOptionsMock = [
@@ -62,7 +62,7 @@ const Store = () => {
       </div>
 
       <StoreFilters />
-      <Switch />
+      <CardSwitch />
 
       <CustomButton text='Resetear Filtros' onClick={resetFiltros} />
 
