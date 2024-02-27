@@ -2,7 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 
 import storage from 'redux-persist/lib/storage';
-import { authReducer, inventoryReducer, productReducer } from './slices';
+import { authReducer, inventoryReducer, productReducer, storeReducer } from './slices';
 
 const persistConfig = {
   key: 'root',
@@ -14,6 +14,7 @@ const combinedReducers = combineReducers({
   auth: authReducer,
   products: productReducer,
   inventory: inventoryReducer,
+  store: storeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);
