@@ -24,6 +24,11 @@ import AdminDashboard from './views/AdminDashboard/AdminDashboard.jsx';
 import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
 import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
 
+import SupplierDashboard from './views/SupplierDashboard/SupplierDashboard.jsx';
+import SupplierSettings from './components/SupplierSettings/SupplierSettings.jsx';
+import SupplierInventory from './components/SupplierInventory/SupplierInventory.jsx';
+import SupplierPoints from './components/SupplierPoints/SupplierPoints.jsx';
+
 import Toasts from './components/Toast/Toasts.jsx';
 
 export const theme = createTheme({
@@ -172,6 +177,12 @@ function App() {
             path='/admin/products/newproduct'
             element={<CreateProduct products={products} setProducts={setProducts} />}
           />
+
+          <Route path='/supplier' element={<SupplierDashboard />}>
+            <Route path='/supplier/inventory' element={<SupplierInventory />} />
+            <Route path='/supplier/settings' element={<SupplierSettings />} />
+            <Route path='/supplier/points' element={<SupplierPoints />} />
+          </Route>
         </Routes>
       </div>
     </ThemeProvider>
