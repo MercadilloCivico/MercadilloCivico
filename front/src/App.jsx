@@ -24,6 +24,8 @@ import AdminDashboard from './views/AdminDashboard/AdminDashboard.jsx';
 import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
 import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
 
+import Toasts from './components/Toast/Toasts.jsx';
+
 export const theme = createTheme({
   components: {
     MuiOutlinedInput: {
@@ -137,6 +139,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className='min-h-[calc(100vh-55px)]'>
+        <Toasts />
+
         {!isDetailPage && !isCartPage && <Nav />}
 
         <Routes>

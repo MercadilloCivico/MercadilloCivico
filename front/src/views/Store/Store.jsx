@@ -12,7 +12,12 @@ import StoreFilters from '../../components/StoreFilters/StoreFilters';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 
+import { createToast } from '../../store/slices/toastSlice.js'; // Importar Action para crear un Toast
+
 const Store = () => {
+  const dispatch = useDispatch();
+  dispatch(createToast('Toast de prueba')); // Crear un Toast
+
   const cityOptionsMock = [
     { value: 'bogota', label: 'Bogotá' },
     { value: 'medellin', label: 'Medellín' },
@@ -23,11 +28,8 @@ const Store = () => {
 
   const { items, filteredItems, filters } = useSelector((state) => state.products);
 
-  const dispatch = useDispatch();
-
   const resetFiltros = () => {
     dispatch(resetFilters());
-    console.log(filteredItems);
   };
 
   return (

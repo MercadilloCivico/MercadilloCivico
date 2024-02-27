@@ -1,0 +1,49 @@
+.toastContainer {
+    animation-name: show-toast;
+    animation-duration: 5s;
+    opacity: 0;
+
+    z-index: 20;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #000000a9;
+    backdrop-filter: blur(2px);
+    color: white;
+
+    border-radius: 10px;
+    margin: auto;
+    min-height: 40px;
+    width: 300px;
+    padding: 5px 3px;
+
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    pointer-events: none;
+}
+
+p {
+    text-align: center;
+    margin: 10px 0;
+}
+
+@keyframes show-toast {
+    5% {
+        opacity: 100%;
+        transform: translateY(-7vh);
+    }
+
+    90% {
+        opacity: 100%;
+        transform: translateY(-7vh)
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-7vh)
+    }
+}
