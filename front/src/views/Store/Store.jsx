@@ -70,7 +70,7 @@ const Store = () => {
       filters.priceRange.maxPrice !== null &&
       filteredItems.length === 0 ? (
         <div className='text-tuscany-950 text-center my-[3em] text-[.8em] md:text-[1.2em] lg:text-[1.5em]'>
-          Lo sentimos, no hay productos con este filtro de rango de precios aplicado...
+          Lo sentimos, no hay productos con este filtro aplicado...
         </div>
       ) : filteredItems.length > 0 ? (
         <div>

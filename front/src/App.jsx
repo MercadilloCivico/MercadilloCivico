@@ -23,6 +23,7 @@ import Cart from './views/Cart/Cart.jsx';
 import AdminDashboard from './views/AdminDashboard/AdminDashboard.jsx';
 import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
 import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
+import Faqs from './views/Faqs/Faqs.jsx';
 
 export const theme = createTheme({
   components: {
@@ -158,6 +159,8 @@ function App() {
             <Route path='/profile/history' element={<ProfileHistoryContainer />}></Route>
             <Route path='/profile/favorites' element={<ProfileFavoritesContainer />}></Route>
           </Route>
+
+          <Route path='/faqs' element={<Faqs />} />
 
           <Route path='/admin' element={<AdminDashboard />} />
           <Route
