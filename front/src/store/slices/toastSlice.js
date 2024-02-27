@@ -9,10 +9,16 @@ const toastSlice = createSlice({
   initialState,
   reducers: {
     createToast: (state, action) => {
-      state.toasts = state.toasts.concat(action.payload);
+      state.toasts.push({
+        id: state.toasts.length,
+        message: action.payload,
+      });
+    },
+    deleteToast: (state, action) => {
+      state.toasts = state.toasts.filter((item) => item.id !== parseInt(action.payload));
     },
   },
 });
 
-export const { createToast } = toastSlice.actions;
+export const { createToast, deleteToast } = toastSlice.actions;
 export default toastSlice.reducer;

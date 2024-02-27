@@ -4,9 +4,8 @@ import { useSelector } from 'react-redux';
 
 export default function Toasts() {
   const { toasts } = useSelector((state) => state.toast);
-  let key = 0;
 
   return toasts.map((toast) => {
-    return <Toast key={key++} text={toast} />;
+    return <Toast key={toast.id} text={toast.message} id={toast.id} />;
   });
 }
