@@ -2,6 +2,7 @@
     animation-name: show-toast;
     animation-duration: 5s;
     opacity: 0;
+    transform: scale(0.8);
 
     z-index: 20;
     display: flex;
@@ -35,15 +36,18 @@ p {
     5% {
         opacity: 100%;
         transform: translateY(-7vh);
+        
     }
 
     90% {
         opacity: 100%;
-        transform: translateY(-7vh)
+        transform: translateY(-7vh);
+        
     }
 
     100% {
         opacity: 0;
-        transform: translateY(-7vh)
+        transform: translateY(-7vh);
+        transform: scale(0.8);
     }
 }
