@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
-const FaqBar = () => {
-  const questions = [
-    '¿Cual es la primera pregunta?',
-    '¿Cual es la segunda pregunta mas frecuente?',
-    '¿Cual es la tercera pregunta mas frecuente de  todas?',
-  ];
+const FaqBar = ({ faqs }) => {
+  const questions = faqs.slice(0, 3).map((faq) => faq.pregunta);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 

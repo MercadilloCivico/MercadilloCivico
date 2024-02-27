@@ -94,6 +94,12 @@ export default {
         '.custom-width': {
           width: '17em',
         },
+        '.custom-border': {
+          border: 'solid 1px #381812',
+        },
+        '.custom-border-b': {
+          borderBottom: '1px solid #381812',
+        },
       };
       addUtilities(newUtilities, ['responsive', 'hover']);
     },
