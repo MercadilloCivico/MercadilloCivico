@@ -36,11 +36,13 @@ const CategoryFaqs = () => {
         </span>
       </div>
       <CardsCategoryFaqs objCategory={{ ...objCategory, faqs: paginatedFaqs }} />
-      <FaqsPagination
-        currentPage={currentPage}
-        totalPages={Math.ceil(objCategory.faqs.length / faqsPerPage)}
-        category={category}
-      />
+      <div className='flex justify-end'>
+        <FaqsPagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(objCategory.faqs.length / faqsPerPage)}
+          category={category}
+        />
+      </div>
       <ContactFooter />
       <Footer />
     </div>

@@ -37,9 +37,11 @@ const DetailFaq = () => {
           {selectedFaq.respuesta}
         </p>
       </div>
-      <div className='mx-3 my-2 flex text-start items-start text-[.5em] sm:text-[.6em] md:text-[.7em] lg:text-[.9em] font-semibold'>
-        <p className='text-tuscany-950 mx-1'>{`Todo sobre ${selectedFaq.categoria}`}</p>
-        <Link to={`/faqs/${encodeURIComponent(selectedFaq.categoria)}`}>
+      <div className='mx-3 my-2 flex text-start items-start text-[.5em] sm:text-[.6em] md:text-[.7em] lg:text-[.9em] font-semibold '>
+        <Link
+          to={`/faqs/${encodeURIComponent(selectedFaq.categoria)}`}
+          className='text-tuscany-950'>
+          {`Todo sobre ${selectedFaq.categoria} `}
           <span className='text-tuscany-500 hover:text-tuscany-950 cursor-pointer underline'>
             puedes encontrarlo aqui!
           </span>

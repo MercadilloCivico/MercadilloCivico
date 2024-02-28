@@ -20,7 +20,7 @@ const Faqs = () => {
       <div className='mb-4 mx-4 custom-border-b'>
         <CustomBreadcrumbs />
       </div>
-      <div className='m-2'>
+      <div>
         <FaqBar faqs={faqs} />
       </div>
       <div>

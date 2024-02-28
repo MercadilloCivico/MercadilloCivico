@@ -24,7 +24,7 @@ const FaqBar = ({ faqs }) => {
   };
 
   return (
-    <div className='mx-4 flex items-center justify-between p-1 bg-pearl-bush-300 rounded-md'>
+    <div className='mx-2 flex items-center justify-between p-1 bg-pearl-bush-300 rounded-md'>
       <button
         className='p-1 mx-1 text-tuscany-950 flex items-center justify-center bg-pearl-bush-200 hover:bg-pearl-bush-400 shadow-md border-none rounded-full cursor-pointer'
         onClick={handlePrevQuestion}>

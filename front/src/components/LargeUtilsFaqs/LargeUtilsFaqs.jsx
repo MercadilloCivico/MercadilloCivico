@@ -24,7 +24,7 @@ const LargeUtilsFaqs = () => {
             </span>
           </Link>
         ))}
-        <IoInformationCircleOutline className='absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 text-[20em] text-tuscany-950 text-opacity-60' />
+        <IoInformationCircleOutline className='absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 text-[18em] text-tuscany-950 text-opacity-60' />
       </div>
     </div>
   );
