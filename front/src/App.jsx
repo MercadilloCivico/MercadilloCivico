@@ -23,6 +23,9 @@ import Cart from './views/Cart/Cart.jsx';
 import AdminDashboard from './views/AdminDashboard/AdminDashboard.jsx';
 import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
 import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
+import Faqs from './views/Faqs/Faqs.jsx';
+import CategoryFaqs from './views/CategoryFaqs/CategoryFaqs.jsx';
+import DetailFaq from './views/DetailFaq/DetailFaq.jsx';
 
 import SupplierDashboard from './views/SupplierDashboard/SupplierDashboard.jsx';
 import SupplierSettings from './components/SupplierComponents/SupplierSettings/SupplierSettings.jsx';
@@ -145,6 +148,10 @@ function App() {
             <Route path='/profile/history' element={<ProfileHistoryContainer />}></Route>
             <Route path='/profile/favorites' element={<ProfileFavoritesContainer />}></Route>
           </Route>
+
+          <Route path='/faqs' element={<Faqs />} />
+          <Route path='/faqs/:category/page?/:page?' element={<CategoryFaqs />} />
+          <Route path='/faqs/detail/:id' element={<DetailFaq />} />
 
           <Route path='/admin' element={<AdminDashboard />} />
           <Route
