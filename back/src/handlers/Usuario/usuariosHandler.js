@@ -68,8 +68,12 @@ class usuariosHandler {
       const hashPassword = await bcrypt.hash(password, 11);
       let secureUrl;
       if (photo) {
-        validationImage(photo);
-        secureUrl = await uploadToCloudinary(photo);
+        validationImage(photo[0]);
+        secureUrl = await uploadToCloudinary(photo[0]);
+      }
+      if (secureUrl === undefined) {
+        secureUrl =
+          'https://previews.123rf.com/images/jpgon/jpgon1411/jpgon141100514/33774342-ilustraci%C3%B3n-de-un-avatar-de-manzana-que-llevaba-gafas.jpg';
       }
       const newUser = await prisma.usuario.create({
         data: {
@@ -78,7 +82,7 @@ class usuariosHandler {
           last_name: lastName,
           email,
           password: hashPassword,
-          photo: secureUrl || '',
+          photo: secureUrl,
         },
       });
       await CarritoHandler.post(newUser.id);
@@ -155,7 +159,6 @@ class usuariosHandler {
       }
       const tokenRecuperacionDeCuenta = Math.floor(100000 + Math.random() * 900000);
       const hashToken = await bcrypt.hash(tokenRecuperacionDeCuenta.toString(), 11);
-
       await prisma.usuario.update({
         where: {
           email: repeatEmail.email,

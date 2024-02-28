@@ -24,8 +24,34 @@ class inventarioHandler {
     }
   }
 
-  static async post(puntoDeVntaId, productoId, cantidad, precio, stockMin, stockMax) {
+  static async post(proveedorId, puntoDeVntaId, productoId, cantidad, precio, stockMin, stockMax) {
     try {
+      // const idsProveedores = (
+      //   await prisma.producto.findMany({
+      //     where: {
+      //       id: productoId,
+      //     },
+      //     include: {
+      //       proveedor: true,
+      //     },
+      //   })
+      // ).flatMap((element) => element.proveedor.map((el) => el.proveedor_id));
+
+      // const idsProveedoresPunto = (
+      //   await prisma.punto_De_Venta.findMany({
+      //     where: {
+      //       id: puntoDeVntaId,
+      //     },
+      //     include: {
+      //       provedores: true,
+      //     },
+      //   })
+      // ).flatMap((element) => element.provedores.map((el) => el.proveedor_id));
+
+      // const isValid = idsProveedores.some((id) => idsProveedoresPunto.includes(id));
+      // if (!isValid) {
+      //   throw new Error('El proveedor de este producto no se encuentra en el punto de venta');
+      // }
       await prisma.inventario.create({
         data: {
           punto_de_venta_id: puntoDeVntaId,
@@ -34,6 +60,7 @@ class inventarioHandler {
           precio_final: precio.toFixed(3),
           stock_min: stockMin,
           stock_max: stockMax,
+          proveedor_id: proveedorId,
         },
         include: {
           productoEnCarrito: true,

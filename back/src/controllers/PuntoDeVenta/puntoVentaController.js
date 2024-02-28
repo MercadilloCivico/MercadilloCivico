@@ -19,6 +19,7 @@ class PuntoDeVentaController {
     try {
       const { companyName, address, postalCode, contactEmail, contactTel } = req.body;
       const image = req.file;
+
       const necessaryFields = [
         'companyName',
         'address',
@@ -78,8 +79,8 @@ class PuntoDeVentaController {
 
   static async addProveedor(req, res) {
     try {
-      const { id } = req.params;
-      const { provId } = req.query;
+      const { provId, id } = req.body;
+
       if (!id || !provId)
         throw new Error('Se debe recibir el id del punto y del proveedor para realizar la acción');
       const response = await PuntoDeVentaHandlers.addProveedores(id, provId);

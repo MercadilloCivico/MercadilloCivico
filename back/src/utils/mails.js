@@ -4,7 +4,7 @@ const { transporter } = require('../../config/nodemailer.config');
 // ?SUGERENCIA DE FORMA DE USO
 // Importar transporter en tu archivo y crear la función necesaria editando el contenido del mail utilizando esta base como guía.
 const imagen =
-  'https://res.cloudinary.com/dkewon763/image/upload/v1708612425/edexolvzvgml9gh7jm1e.png';
+  'https://res.cloudinary.com/dkewon763/image/upload/v1709096874/tf8i2xbzl0jljyiuxeez.png';
 const sendRecoveryEmail = async (email, token) => {
   const mailOptions = {
     from: GOOGLE_EMAIL,
@@ -80,6 +80,8 @@ const sendRecoveryEmail = async (email, token) => {
       },
     ],
   };
+
+  // eslint-disable-next-line
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(`Error al enviar email: ${error.message}`);

@@ -135,6 +135,31 @@
 2024-02-26 16:15:39 error: [object Object]
 2024-02-26 16:15:39 error: GET /api/register 500 9ms
 2024-02-26 17:29:12 error: POST /api/historialCompra 500 3ms
+2024-02-26 19:39:59 error: [object Object]
+2024-02-26 19:39:59 error: POST /api/usuarios 500 9ms
+2024-02-26 19:57:50 error: POST /api/proveedor 500 4ms
+2024-02-26 20:05:55 error: POST /api/proveedor 500 4202ms
+2024-02-26 20:11:33 error: POST /api/proveedor 500 1990ms
+2024-02-26 20:12:31 error: POST /api/proveedor 500 2572ms
+2024-02-26 20:12:47 error: POST /api/proveedor 500 2208ms
+2024-02-26 20:20:19 error: POST /api/proveedor 500 2518ms
+2024-02-26 20:21:32 error: POST /api/proveedor 500 2392ms
+2024-02-26 20:24:47 error: POST /api/proveedor 500 4ms
+2024-02-26 20:24:47 error: POST /api/proveedor 500 4ms
+2024-02-26 20:25:38 error: POST /api/proveedor 500 4ms
+2024-02-26 20:25:38 error: POST /api/proveedor 500 5ms
+2024-02-26 20:26:07 error: POST /api/proveedor 500 3ms
+2024-02-26 20:41:37 error: POST /api/proveedor 500 2076ms
+2024-02-26 20:44:09 error: POST /api/proveedor 500 4719ms
+2024-02-26 20:45:04 error: POST /api/proveedor 500 2298ms
+2024-02-26 20:46:18 error: POST /api/proveedor 500 2180ms
+2024-02-26 20:51:04 error: POST /api/proveedor 500 2134ms
+2024-02-26 21:15:06 error: POST /api/postProduct 500 4ms
+2024-02-26 21:15:22 error: POST /api/postProduct 500 35ms
+2024-02-26 22:02:01 error: [object Object]
+2024-02-26 22:02:01 error: POST /api/inventario/d9402b4b-83fc-484e-a9a5-864a0058d70b 500 9ms
+2024-02-26 22:04:14 error: [object Object]
+2024-02-26 22:04:14 error: POST /api/inventario/d9402b4b-83fc-484e-a9a5-864a0058d70b 500 7ms
 2024-02-27 13:52:18 error: POST /api/login 500 1443ms
 2024-02-27 13:52:38 error: POST /api/login 500 163ms
 2024-02-27 14:37:09 error: POST /api/login 500 1205ms
