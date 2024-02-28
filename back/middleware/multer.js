@@ -7,7 +7,7 @@ const upload = multer({ storage });
 
 const handleFileUpload = (req, res, next) => {
   upload.fields([
-    { name: 'image', maxCount: 5 },
+    { name: 'image', maxCount: 1 },
     { name: 'camaraDeComercio', maxCount: 1 },
     { name: 'certificadoBancario', maxCount: 1 },
     // Puedes agregar más objetos para manejar diferentes campos

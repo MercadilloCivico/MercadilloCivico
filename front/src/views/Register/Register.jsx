@@ -81,7 +81,6 @@ function Register() {
 
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
-          console.log(formData);
           dispatch(register(formData));
           alert('Formulario enviado');
         } catch (error) {
@@ -116,7 +115,7 @@ function Register() {
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
           dispatch(register(formData));
-          console.log(formData);
+
           alert('Formulario enviado');
         } catch (error) {
           alert('Error al registrar usuario: ' + error.message);
