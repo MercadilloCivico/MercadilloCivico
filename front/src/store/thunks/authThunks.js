@@ -50,7 +50,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValu
 // Thunk para solicitar el restablecimiento de contraseña
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
-  async ({ email }, { rejectWithValue }) => {
+  async (email, { rejectWithValue }) => {
     try {
       const response = await axios.put(`${VITE_API_URL}/forgot/password`, {
         email,

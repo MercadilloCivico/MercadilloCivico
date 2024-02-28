@@ -159,7 +159,6 @@ class usuariosHandler {
       }
       const tokenRecuperacionDeCuenta = Math.floor(100000 + Math.random() * 900000);
       const hashToken = await bcrypt.hash(tokenRecuperacionDeCuenta.toString(), 11);
-
       await prisma.usuario.update({
         where: {
           email: repeatEmail.email,
