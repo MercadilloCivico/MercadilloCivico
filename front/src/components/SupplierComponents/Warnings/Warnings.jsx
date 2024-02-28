@@ -4,14 +4,14 @@ export default function Warnings({ WarningList, className }) {
   let key = 0;
 
   return (
-    <div className={' ' + className}>
+    <div className={'flex flex-wrap justify-center ' + className}>
       {WarningList.map((warningItem) => {
         return (
           <Warning
             key={key++}
             titleText={warningItem.text}
             buttonText={warningItem.action}
-            className=''
+            className='mb-2 mx-2'
           />
         );
       })}

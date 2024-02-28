@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import Warnings from '../../components/Warnings/Warnings.jsx';
-import { Link } from 'react-router-dom';
+import Warnings from '../../components/SupplierComponents/Warnings/Warnings.jsx';
+import LinkTags from '../../components/SupplierComponents/LinkTags/LinkTags.jsx';
 
 export default function Supplier() {
   const obj = [
@@ -15,20 +15,19 @@ export default function Supplier() {
   ];
 
   return (
-    <div>
-      <div>
-        <h1>Gestiona la información</h1>
+    <div className='max-w-[1280px] mx-auto'>
+      <div className='bg-tuscany-200 '>
+        <h1 className='text-tuscany-950 leading-10 py-[25px] px-[10px]'>Nombre del proveedor</h1>
 
-        <Warnings WarningList={obj} />
-
-        <div>
-          <Link to='/supplier/inventory'>Inventario</Link>
-          <Link to='/supplier/points'>Puntos de venta</Link>
-          <Link to='/supplier/settings'>Settings</Link>
+        <div className='bg-pearl-bush-100 bg-gradient-to-b from-tuscany-500 to-pearl-bush-100 rounded-t-xl overflow-hidden'>
+          <Warnings WarningList={obj} className='mt-2' />
+          <LinkTags className='px-2' />
         </div>
       </div>
 
-      <Outlet />
+      <div className='px-2'>
+        <Outlet />
+      </div>
     </div>
   );
 }
