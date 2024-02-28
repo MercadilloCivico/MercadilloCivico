@@ -1,11 +1,25 @@
 .active {
-    height: 100px;
-    overflow: auto;
-    transition: 0.2s;
+    height: 240px;
+    overflow: hidden;
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0,.16,0,1.02);
+    animation-name: expand-desc;
 }
 
 .hidden {
-    height: 0px;
+    height: 120px;
     overflow: hidden;
-    transition: 0.2s;
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0,.16,0,1.02);
+    animation-name: hide-desc;
+}
+
+@keyframes expand-desc {
+    0% {
+        height: 120px;
+    }
+
+    100% {
+        height: 240x;
+    }
 }

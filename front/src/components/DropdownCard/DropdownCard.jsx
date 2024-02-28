@@ -43,15 +43,16 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
   return (
     <div
       className={
-        'relative max-w-[650px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030] ' +
-        className
+        active
+          ? `relative w-full max-w-[500px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030] ${className} ${style.active}`
+          : `relative w-full max-w-[500px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030] ${className} ${style.hidden}`
       }>
       <div className='flex'>
         <div
           className={`relative h-[120px] w-[120px] flex-shrink-0 bg-cover`}
           style={{ backgroundImage: `url(${lazyImg})`, backgroundPosition: 'center' }}>
           <img
-            className='w-full h-full object-cover absolute z-1 left-0'
+            className='w-full h-full object-cover absolute z-1 left-0 bg-[#fff]'
             src={img}
             alt={name}
             title={name}></img>
@@ -98,7 +99,7 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
             </ul>
 
             <div
-              className='bg-tuscany-950 flex flex-shrink-0 mx-2 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full hover:bg-pearl-bush-900 active:bg-pearl-bush-800 transition'
+              className='bg-tuscany-600 flex flex-shrink-0 mx-2 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full hover:bg-pearl-bush-900 active:bg-pearl-bush-800 transition'
               onClick={() => {
                 alert('Agregar producto al carrito de compras');
               }}>
@@ -107,27 +108,25 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
           </div>
 
           <div className='flex items-center bg-tuscany-300 h-[50px]'>
-            <div className='flex items-center mx-2 space-x-2 text-sm text-pearl-bush-800'>
+            <div className='flex items-center mx-2 space-x-4 text-sm text-pearl-bush-800'>
               <button
                 onClick={quitarProducto}
                 className={`${
                   producto.cantidad === 1
                     ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                     : 'cursor-pointer'
-                } bg-tuscany-100 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+                } bg-tuscany-950 rounded-lg w-7 h-7 flex items-center justify-center border-none shadow-md text-tuscany-100 font-bold`}
                 disabled={producto.cantidad === 1}>
                 -
               </button>
-              <span className='mx-2 text-tuscany-950 font-bold text-[.8em]'>
-                {producto.cantidad}
-              </span>
+              <span className='mx-2 text-tuscany-950 font-bold text-md'>{producto.cantidad}</span>
               <button
                 onClick={agregarProducto}
                 className={`${
                   producto.cantidad === producto.stock
                     ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                     : 'cursor-pointer'
-                } bg-tuscany-100 rounded-full w-5 h-5 flex items-center justify-center border-none shadow-md text-tuscany-950 font-bold`}
+                } bg-tuscany-950 rounded-lg w-7 h-7  flex items-center justify-center border-none shadow-md text-tuscany-100 font-bold`}
                 disabled={producto.cantidad === producto.stock}>
                 +
               </button>
@@ -144,11 +143,8 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
       </div>
 
       <div
-        className={
-          active
-            ? `${style.active} bg-tuscany-300 flex`
-            : `${style.hidden} bg-tuscany-300 flex items-center`
-        }
+        style={{ scrollbarWidth: 'thin' }}
+        className={`bg-tuscany-300 flex h-full`}
         onClick={() => {
           setActive(!active);
         }}>
