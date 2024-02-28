@@ -18,6 +18,7 @@ export const login = createAsyncThunk('auth/login', async (userData, { rejectWit
 // Thunk para registrar un nuevo usuario
 export const register = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
   const formData = new FormData();
+  console.log(userData);
   formData.append('firstName', userData.firstName);
   formData.append('lastName', userData.lastName);
   formData.append('email', userData.email);
@@ -31,6 +32,7 @@ export const register = createAsyncThunk('auth/register', async (userData, { rej
         'Content-Type': 'multipart/form-data',
       },
     });
+    console.log(response.data);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);

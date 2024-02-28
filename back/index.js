@@ -8,6 +8,7 @@ const { logger } = require('./config/logger.config');
 
 app.listen(PORT, async () => {
   // await limpiarDB();
+
   // usuariosBase.forEach(async (user) => {
   //   await axios.post(`http://localhost:${PORT}/api/register`, user);
   // });
