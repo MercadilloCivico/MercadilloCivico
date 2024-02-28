@@ -5,22 +5,64 @@ import Footer from '../../components/Footer/Footer.jsx';
 
 import { LuCheck } from 'react-icons/lu';
 import Bg from '../../assets/img/bg.jpg';
+import { useDispatch } from 'react-redux';
+import { createNewPassword } from '../../store/thunks/authThunks.js';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import validacion from './validacion.js';
 
 function NewPassword() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    password: '',
+    repeatPassword: '',
+  });
+  const [errors, setErrors] = useState({});
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    setErrors(validacion({ ...formData, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const validationErrors = validacion(formData);
+
+    if (Object.keys(validationErrors).length === 0) {
+      dispatch(createNewPassword(formData))
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      alert('Contraseña cambiada');
+      navigate('/login');
+    } else {
+      alert('Error en la validación');
+      setErrors(validationErrors);
+    }
+  };
+
   return (
     <div className='min-h-[calc(100vh-55px)] flex flex-col'>
       <div className='flex flex-col w-full items-center justify-center flex-grow-[1] my-[50px]'>
-        {/* BG image */}
         <div
           style={{ backgroundImage: `url(${Bg})`, filter: 'blur(15px)', transform: 'scaleX(1.1)' }}
           className='w-full h-[100svh] fixed top-10 bg-cover z-[-2]'></div>
 
         <div className='max-w-[600px] w-full mx-auto self-center'>
-          <form className='shadow-xl bg-pearl-bush-200 rounded-xl w-full max-w-[600px] pb-8 pt-[150px] relative px-[10px] mt-[120px]'>
+          <form className='shadow-xl bg-pearl-bush-200 rounded-xl max-w-[600px] min-w-[300px] pb-8 pt-[80px] relative px-[30px] mt-[50px]'>
             <img
               src={Logo}
               alt='Mercadillo Cívico'
-              className=' bg-pearl-bush-200 w-[240px] h-[240px] absolute right-0 left-0 mx-auto top-[-120px] p-[10px] rounded-xl'
+              className=' bg-pearl-bush-200 w-[180px] h-[180px] absolute right-0 left-0 mx-auto top-[-90px] p-[10px] rounded-xl'
             />
 
             <p className='text-xl text-tuscany-950 max-w-[100%]'>Crea tu nueva contraseña.</p>
@@ -28,22 +70,39 @@ function NewPassword() {
             <div className='self-center'>
               <CustomInput
                 label='Nueva Contraseña'
-                placeholder=''
+                name='password'
                 type='password'
-                className='max-w-[400px] w-full mb-8 mt-5'
+                placeholder=''
+                value={formData.password}
+                onChange={handleInput}
+                className='max-w-[400px] w-full mb-1 mt-5'
               />
+              <div className='text-crown-of-thorns-600 mb-5 min-w-[200px] max-w-[320px]  m-auto'>
+                {errors.password}
+              </div>
             </div>
 
             <div>
               <CustomInput
                 label='Confirmar Contraseña'
-                placeholder=''
+                name='repeatPassword'
                 type='password'
-                className='max-w-[400px] w-full mb-8'
+                placeholder=''
+                value={formData.repeatPassword}
+                onChange={handleInput}
+                className='max-w-[400px] w-full mb-1'
               />
+              <div className='text-crown-of-thorns-600 mb-8 min-w-[200px] max-w-[320px]  m-auto'>
+                {errors.repeatPassword}
+              </div>
             </div>
 
-            <CustomButton type='submit' text='Cambiar Contraseña' icon={LuCheck} />
+            <CustomButton
+              type='submit'
+              text='Cambiar Contraseña'
+              icon={LuCheck}
+              onClick={handleSubmit}
+            />
           </form>
         </div>
       </div>

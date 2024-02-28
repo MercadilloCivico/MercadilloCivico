@@ -24,7 +24,7 @@ export default function LinkTags({ className }) {
             : 'flex ml-2 items-center bg-opacity-0 w-max text-tuscany-500 font-semibold p-2 rounded-lg transition-all '
         }
         to='/supplier/settings'>
-        Datos de proovedor
+        Datos de proveedor
       </NavLink>
     </div>
   );
