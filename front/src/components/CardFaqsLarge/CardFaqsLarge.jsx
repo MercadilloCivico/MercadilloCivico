@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const CardFaqsLarge = ({ categoria, icon: IconComponent, faqs }) => {
   const [hovered, setHovered] = useState(false);
@@ -15,9 +16,11 @@ const CardFaqsLarge = ({ categoria, icon: IconComponent, faqs }) => {
       {hovered ? (
         <>
           <div className='flex flex-col items-start mb-2'>
-            <span className='mt-1 ml-1 font-bold text-start text-tuscany-950 hover:text-tuscany-500 cursor-pointer'>
-              {categoria}
-            </span>
+            <Link to={`/faqs/${encodeURIComponent(categoria)}`}>
+              <span className='mt-1 ml-1 font-bold text-start text-tuscany-950 hover:text-tuscany-500 cursor-pointer'>
+                {categoria}
+              </span>
+            </Link>
           </div>
           <ul className='text-[.9em] text-start text-tuscany-950'>
             {faqs.slice(0, 4).map((faq) => (

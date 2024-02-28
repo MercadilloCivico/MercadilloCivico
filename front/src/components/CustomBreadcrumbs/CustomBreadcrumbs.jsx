@@ -18,7 +18,7 @@ const CustomBreadcrumbs = () => {
           key={index}
           to={`/${paths.slice(0, index + 1).join('/')}`}
           className='text-tuscany-800 hover:text-tuscany-950'>
-          {path}
+          {decodeURIComponent(path.replace(/%20/g, ' '))}
         </Link>
       ))}
     </Breadcrumbs>
