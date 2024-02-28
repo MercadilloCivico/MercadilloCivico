@@ -11,6 +11,7 @@ const limpiarDB = async () => {
   await prisma.producto.deleteMany();
   await prisma.proveedor.deleteMany();
   await prisma.usuario.deleteMany();
+  await prisma.reponer_Existencias.deleteMany();
 };
 
 module.exports = limpiarDB;

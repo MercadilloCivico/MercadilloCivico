@@ -13,6 +13,8 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 
 const Store = () => {
+  const dispatch = useDispatch();
+
   const cityOptionsMock = [
     { value: 'bogota', label: 'Bogotá' },
     { value: 'medellin', label: 'Medellín' },
@@ -23,11 +25,8 @@ const Store = () => {
 
   const { items, filteredItems, filters } = useSelector((state) => state.products);
 
-  const dispatch = useDispatch();
-
   const resetFiltros = () => {
     dispatch(resetFilters());
-    console.log(filteredItems);
   };
 
   return (

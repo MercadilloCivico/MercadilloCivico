@@ -42,6 +42,8 @@ model Proveedor {
   active Boolean? @default(false)
   productos    ProductoProveedor[]
   puntos_de_venta Punto_De_Venta[]
+  pedidos Pedidos_Proveedor[]
+  inventario Inventario[]
 }
 
 model ProductoProveedor {
@@ -105,6 +107,8 @@ model Inventario {
   punto_de_venta_id String @db.Uuid
   producto Producto @relation(fields: [producto_id], references: [id])
   producto_id String @db.Uuid
+  proveedor Proveedor @relation(fields: [proveedor_id],references: [id])
+  proveedor_id Int @unique
   stock_min Int
   stock Int
   stock_max Int
@@ -124,13 +128,21 @@ model Producto_En_Carrito{
 
 model Pedidos_Proveedor {
   id Int @id @default(autoincrement())
-  nombre_prov String
-  productos String
+  proveedor Proveedor @relation(fields: [prov_id],references: [id])
+  prov_id Int @unique 
+  productos Reponer_Existencias[]  
   fecha_inicio DateTime @default(now())
   fecha_entregado DateTime?
   estado String @default("pendiente")
 }
-
+model Reponer_Existencias{
+  id Int @id @default(autoincrement())
+ pedido Pedidos_Proveedor? @relation(fields: [pedido_id], references: [id])
+  pedido_id Int?
+  punto_Venta_Id String
+  producto String
+  cantidad Int
+}
 model Historial_Compras {
   id Int @id @default(autoincrement())
   usuario Usuario @relation(fields: [user_id], references: [id])

@@ -19,11 +19,11 @@ function Register() {
   const dispatch = useDispatch();
   // Estado para los datos del formulario y los errores de validación
   const [formData, setFormData] = useState({
-    imgUrl: null,
-    name: '',
-    secondname: '',
-    lastname: '',
-    mail: '',
+    photo: null,
+    firstName: '',
+    secondName: '',
+    lastName: '',
+    email: '',
     password: '',
     repeatPassword: '',
     imgPreview: '',
@@ -33,7 +33,7 @@ function Register() {
   // Maneja cambios en los campos del formulario
   const handleInput = (e) => {
     const { name, value } = e.target;
-    if (name === 'img') {
+    if (name === 'photo') {
       // Si el campo es una imagen, actualiza el estado con el archivo seleccionado
       const imgFile = e.target.files[0];
       if (imgFile) {
@@ -42,12 +42,12 @@ function Register() {
           setFormData({
             ...formData,
             imgPreview: reader.result, // Establecer la vista previa de la imagen
-            imgUrl: imgFile, // Establecer la imagen seleccionada
+            photo: imgFile, // Establecer la imagen seleccionada
           });
         };
         reader.readAsDataURL(imgFile);
       }
-    } else if (name === 'secondname' && value === '') {
+    } else if (name === 'secondName' && value === '') {
       // Si el campo de segundo nombre está vacío, establecerlo como null
       setFormData({
         ...formData,
@@ -64,11 +64,11 @@ function Register() {
   };
 
   // Maneja el envío del formulario
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     // Verificar si se proporcionó una imagen
-    const isImageProvided = formData.imgUrl !== null;
+    const isImageProvided = formData.photo !== null;
 
     // Si se proporciona una imagen, validarla
     if (isImageProvided) {
@@ -76,18 +76,23 @@ function Register() {
       setErrors(formErrors);
 
       // Validamos que los campos obligatorios estén completos
-      const requiredFields = ['name', 'lastname', 'mail', 'password', 'repeatPassword'];
+      const requiredFields = ['firstName', 'lastName', 'email', 'password', 'repeatPassword'];
       const isFormValid = requiredFields.every((field) => formData[field].trim() !== '');
 
       if (isFormValid && Object.keys(formErrors).length === 0) {
-        dispatch(register(formData));
-        alert('Formulario enviado');
+        try {
+          dispatch(register(formData));
+          alert('Formulario enviado');
+        } catch (error) {
+          alert('Error al registrar usuario: ' + error.message);
+        }
+
         setFormData({
-          imgUrl: null,
-          name: '',
-          secondname: '', // Establecer el segundo nombre como cadena vacía
-          lastname: '',
-          mail: '',
+          photo: null,
+          firstName: '',
+          secondName: '',
+          lastName: '',
+          email: '',
           password: '',
           repeatPassword: '',
         });
@@ -99,27 +104,28 @@ function Register() {
       // Si no se proporciona ninguna imagen, continuar con el envío del formulario sin validarla
       const formErrors = validacion({
         ...formData,
-        imgUrl: '', // Simular que se proporciona una URL de imagen vacía para evitar errores de validación
+        photo: '', // Simular que se proporciona una URL de imagen vacía para evitar errores de validación
       });
       setErrors(formErrors);
 
       // Validamos que los campos obligatorios estén completos
-      const requiredFields = ['name', 'lastname', 'mail', 'password', 'repeatPassword'];
+      const requiredFields = ['firstName', 'lastName', 'email', 'password', 'repeatPassword'];
       const isFormValid = requiredFields.every((field) => formData[field].trim() !== '');
 
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
-          await dispatch(register(formData));
+          dispatch(register(formData));
+
           alert('Formulario enviado');
         } catch (error) {
-          alert('Error al registrar usuario' + error.message);
+          alert('Error al registrar usuario: ' + error.message);
         }
         setFormData({
-          imgUrl: null,
-          name: '',
-          secondname: '', // Establecer el segundo nombre como cadena vacía
-          lastname: '',
-          mail: '',
+          photo: null,
+          firstName: '',
+          secondName: '',
+          lastName: '',
+          email: '',
           password: '',
           repeatPassword: '',
         });
@@ -152,22 +158,22 @@ function Register() {
             <div className='mb-[25px] outline outline-2 relative outline-tuscany-950 mx-auto w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 object-cover overflow-hidden'>
               <>
                 <input
-                  name='img'
-                  id='img'
+                  name='photo'
+                  id='photo'
                   onChange={handleInput}
                   type='file'
                   accept='image/*'
                   className='hidden absolute'
                 />
                 <label
-                  htmlFor='img'
+                  htmlFor='photo'
                   className='text-tuscany-100 absolute m-[5px] bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
                   <MdEdit className='w-full h-full' />
                 </label>
               </>
 
-              {formData.imgUrl && !formData.imgPreview ? (
-                <img className='w-full h-full object-cover' src={formData.imgUrl}></img>
+              {formData.photo && !formData.imgPreview ? (
+                <img className='w-full h-full object-cover' src={formData.photo}></img>
               ) : formData.imgPreview ? (
                 <img className='w-full h-full object-cover' src={formData.imgPreview}></img>
               ) : (
@@ -179,7 +185,7 @@ function Register() {
               Opcional
             </p>
 
-            <div className='text-crown-of-thorns-600'>{errors.imgUrl}</div>
+            <div className='text-crown-of-thorns-600'>{errors.photo}</div>
 
             <p className='text-pearl-bush-950 text-xl'>Ingresa tus datos para registrarte</p>
 
@@ -187,49 +193,49 @@ function Register() {
               <CustomInput
                 label='Nombre'
                 placeholder='Nombre'
-                name='name'
+                name='firstName'
                 type='text'
-                value={formData.name}
+                value={formData.firstName}
                 onChange={handleInput}
                 className={{ maxLength: 30 }}
               />
-              <div className='text-crown-of-thorns-600'>{errors.name}</div>
+              <div className='text-crown-of-thorns-600'>{errors.firstName}</div>
             </div>
 
             <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
               <CustomInput
-                label='Segundo Nombre'
-                placeholder='Opcional'
-                name='secondname'
+                label='Opcional'
+                placeholder='Segundo Nombre'
+                name='secondName'
                 type='text'
-                value={formData.secondname}
+                value={formData.secondName}
                 onChange={handleInput}
               />
-              <div className='text-crown-of-thorns-600'>{errors.secondname}</div>
+              <div className='text-crown-of-thorns-600'>{errors.secondName}</div>
             </div>
 
             <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
               <CustomInput
                 label='Apellido'
                 placeholder='Apellido'
-                name='lastname'
+                name='lastName'
                 type='text'
-                value={formData.lastname}
+                value={formData.lastName}
                 onChange={handleInput}
               />
-              <div className='text-crown-of-thorns-600'>{errors.lastname}</div>
+              <div className='text-crown-of-thorns-600'>{errors.lastName}</div>
             </div>
 
             <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
               <CustomInput
                 label='Correo electronico'
                 placeholder='Correo electronico'
-                name='mail'
+                name='email'
                 type='mail'
-                value={formData.mail}
+                value={formData.email}
                 onChange={handleInput}
               />
-              <div className='text-crown-of-thorns-600'>{errors.mail}</div>
+              <div className='text-crown-of-thorns-600'>{errors.email}</div>
             </div>
 
             <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>

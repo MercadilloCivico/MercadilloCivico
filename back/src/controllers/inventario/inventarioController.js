@@ -18,8 +18,17 @@ class inventario {
 
   static async post(req, res) {
     try {
-      const { puntoDeVntaId, productoId, cantidad, precio, stockMin, stockMax } = req.body;
-      await inventarioHandler.post(puntoDeVntaId, productoId, cantidad, precio, stockMin, stockMax);
+      const { puntoDeVntaId, productoId, proveedorId, cantidad, precio, stockMin, stockMax } =
+        req.body;
+      await inventarioHandler.post(
+        proveedorId,
+        puntoDeVntaId,
+        productoId,
+        cantidad,
+        precio,
+        stockMin,
+        stockMax
+      );
       return res.status(200).json({ message: 'Producto añadido a inventario' });
     } catch (error) {
       return res.status(400).json({ error: error.message });

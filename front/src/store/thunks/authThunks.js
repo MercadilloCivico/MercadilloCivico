@@ -6,6 +6,7 @@ const VITE_API_URL = import.meta.env.VITE_API_URL;
 export const login = createAsyncThunk('auth/login', async (userData, { rejectWithValue }) => {
   try {
     const response = await axios.post(`${VITE_API_URL}/login`, userData);
+
     return {
       token: response.data.token,
       user: { email: userData.email },
@@ -23,7 +24,7 @@ export const register = createAsyncThunk('auth/register', async (userData, { rej
   formData.append('email', userData.email);
   formData.append('password', userData.password);
   if (userData.secondName) formData.append('secondName', userData.secondName);
-  if (userData.photo) formData.append('photo', userData.photo);
+  if (userData.photo) formData.append('image', userData.photo);
 
   try {
     const response = await axios.post(`${VITE_API_URL}/register`, formData, {
@@ -50,7 +51,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValu
 // Thunk para solicitar el restablecimiento de contraseña
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
-  async ({ email }, { rejectWithValue }) => {
+  async (email, { rejectWithValue }) => {
     try {
       const response = await axios.put(`${VITE_API_URL}/forgot/password`, {
         email,

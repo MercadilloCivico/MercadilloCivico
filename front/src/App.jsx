@@ -27,6 +27,12 @@ import Faqs from './views/Faqs/Faqs.jsx';
 import CategoryFaqs from './views/CategoryFaqs/CategoryFaqs.jsx';
 import DetailFaq from './views/DetailFaq/DetailFaq.jsx';
 
+import SupplierDashboard from './views/SupplierDashboard/SupplierDashboard.jsx';
+import SupplierSettings from './components/SupplierComponents/SupplierSettings/SupplierSettings.jsx';
+import SupplierPoints from './components/SupplierComponents/SupplierPoints/SupplierPoints.jsx';
+
+import Toasts from './components/Toast/Toasts.jsx';
+
 export const theme = createTheme({
   components: {
     MuiOutlinedInput: {
@@ -140,6 +146,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className='min-h-[calc(100vh-55px)]'>
+        <Toasts />
+
         {!isDetailPage && !isCartPage && <Nav />}
 
         <Routes>
@@ -175,6 +183,11 @@ function App() {
             path='/admin/products/newproduct'
             element={<CreateProduct products={products} setProducts={setProducts} />}
           />
+
+          <Route path='/supplier' element={<SupplierDashboard />}>
+            <Route path='/supplier/settings' element={<SupplierSettings />} />
+            <Route path='/supplier/points' element={<SupplierPoints />} />
+          </Route>
         </Routes>
       </div>
     </ThemeProvider>
