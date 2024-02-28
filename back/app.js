@@ -8,7 +8,7 @@ const passport = require('./config/passportSetup');
 const { methodLogger } = require('./config/logger.config');
 const { SECRET_COOKIE } = require('./config/env.config');
 const { handleFileUpload } = require('./middleware/multer');
-const job = require('./src/handlers/pedidosProveedor/timerDeProducto');
+// const job = require('./src/handlers/pedidosProveedor/timerDeProducto');
 
 const app = express();
 
@@ -65,7 +65,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use('/api', routes);
-job();
+// job();
 app.use(errorCatcher);
 
 module.exports = app;

@@ -68,8 +68,8 @@ class usuariosHandler {
       const hashPassword = await bcrypt.hash(password, 11);
       let secureUrl;
       if (photo) {
-        validationImage(photo);
-        secureUrl = await uploadToCloudinary(photo);
+        validationImage(photo[0]);
+        secureUrl = await uploadToCloudinary(photo[0]);
       }
       if (secureUrl === undefined) {
         secureUrl =

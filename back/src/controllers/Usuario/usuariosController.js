@@ -32,8 +32,8 @@ class usuarios {
       if (missingFields.length > 0) throw new Error('Faltan los campos requeridos');
       const { firstName, lastName, email, password, secondName } = req.body;
       let photo;
-      if (req.file) {
-        photo = req.file;
+      if (req.files) {
+        photo = req.files.image;
       }
       const error = ValidationPassword(password);
       if (error !== null) {
