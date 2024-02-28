@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 const FaqBar = ({ faqs }) => {
-  const questions = faqs.slice(0, 3).map((faq) => faq.pregunta);
+  const questions = faqs[0].faqs.slice(0, 3).map((faq) => faq.pregunta);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
