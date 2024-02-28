@@ -63,7 +63,7 @@ class usuarios {
           httpOnly: true,
           maxAge: 3600000,
         });
-        res.redirect(`${FRONT_URL}/Nueva`);
+        res.redirect(`${FRONT_URL}new_password`);
       }
     } catch (error) {
       res.redirect(`${FRONT_URL}`);
