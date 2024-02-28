@@ -1,8 +1,16 @@
 import { Outlet } from 'react-router-dom';
 import Warnings from '../../components/SupplierComponents/Warnings/Warnings.jsx';
 import LinkTags from '../../components/SupplierComponents/LinkTags/LinkTags.jsx';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function Supplier() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/supplier/points');
+  }, []);
+
   const obj = [
     {
       text: 'Bajo en inventario!',
