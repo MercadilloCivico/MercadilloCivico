@@ -100,6 +100,10 @@ export default {
         '.custom-border-b': {
           borderBottom: '1px solid #381812',
         },
+        '.custom-border-y': {
+          borderTop: '1px solid #381812;',
+          borderBottom: '1px solid #381812;',
+        },
       };
       addUtilities(newUtilities, ['responsive', 'hover']);
     },

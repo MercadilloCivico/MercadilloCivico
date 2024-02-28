@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const FaqBar = ({ faqs }) => {
-  const questions = faqs[0].faqs.slice(0, 3).map((faq) => faq.pregunta);
+  const questions = faqs[0].faqs.slice(0, 3);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -30,9 +31,11 @@ const FaqBar = ({ faqs }) => {
         <FiChevronLeft />
       </button>
       <div className='flex-1 mx-1 text-start'>
-        <p className='text-[.6em] sm:text-[.7em] md:text-[.9em] text-tuscany-800 hover:text-tuscany-950 font-semibold cursor-pointer mb-2'>
-          {questions[currentQuestionIndex]}
-        </p>
+        <Link to={`/faqs/detail/${questions[currentQuestionIndex].id}`}>
+          <p className='text-[.6em] sm:text-[.7em] md:text-[.9em] text-tuscany-800 hover:text-tuscany-950 font-semibold cursor-pointer mb-2'>
+            {questions[currentQuestionIndex].pregunta}
+          </p>
+        </Link>
       </div>
       <button
         className='p-1 mx-1 text-tuscany-950 flex items-center justify-center bg-pearl-bush-200 hover:bg-pearl-bush-400 shadow-md border-none rounded-full cursor-pointer'

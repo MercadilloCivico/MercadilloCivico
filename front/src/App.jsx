@@ -25,6 +25,7 @@ import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
 import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
 import Faqs from './views/Faqs/Faqs.jsx';
 import CategoryFaqs from './views/CategoryFaqs/CategoryFaqs.jsx';
+import DetailFaq from './views/DetailFaq/DetailFaq.jsx';
 
 export const theme = createTheme({
   components: {
@@ -163,6 +164,7 @@ function App() {
 
           <Route path='/faqs' element={<Faqs />} />
           <Route path='/faqs/:category/page?/:page?' element={<CategoryFaqs />} />
+          <Route path='/faqs/detail/:id' element={<DetailFaq />} />
 
           <Route path='/admin' element={<AdminDashboard />} />
           <Route

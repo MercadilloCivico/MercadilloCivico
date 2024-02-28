@@ -24,20 +24,22 @@ const CardFaqsLarge = ({ categoria, icon: IconComponent, faqs }) => {
           </div>
           <ul className='text-[.9em] text-start text-tuscany-950'>
             {faqs.slice(0, 4).map((faq) => (
-              <li
-                key={faq.id}
-                className='my-1 ml-1 hover:text-tuscany-500 cursor-pointer overflow-hidden'>
-                {`> ${
-                  faq.pregunta.length > (is2XlScreen ? 50 : isXlScreen ? 40 : 30)
-                    ? `${faq.pregunta.substring(0, is2XlScreen ? 50 : isXlScreen ? 40 : 30)}...`
-                    : faq.pregunta
-                }`}
-              </li>
+              <Link key={faq.id} to={`/faqs/detail/${faq.id}`}>
+                <li className='my-1 ml-1 text-tuscany-950 hover:text-tuscany-500 cursor-pointer overflow-hidden'>
+                  {`> ${
+                    faq.pregunta.length > (is2XlScreen ? 50 : isXlScreen ? 40 : 30)
+                      ? `${faq.pregunta.substring(0, is2XlScreen ? 50 : isXlScreen ? 40 : 30)}...`
+                      : faq.pregunta
+                  }`}
+                </li>
+              </Link>
             ))}
             {faqs.length > 4 && (
-              <li className='my-1 ml-1 hover:text-tuscany-500 cursor-pointer'>
-                {'> Mostrar todo'}
-              </li>
+              <Link to={`/faqs/${encodeURIComponent(categoria)}`}>
+                <li className='my-1 ml-1 text-tuscany-950 hover:text-tuscany-500 cursor-pointer'>
+                  {'> Mostrar todo'}
+                </li>
+              </Link>
             )}
           </ul>
         </>
