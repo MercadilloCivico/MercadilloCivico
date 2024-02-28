@@ -24,14 +24,22 @@ class ProveedoresController {
 
   static async post(req, res) {
     try {
-      const { nameProv, ubicacion, tel } = req.body;
+      const { nameProv, ubicacion, tel, userid } = req.body;
       const { camaraDeComercio, certificadoBancario } = req.files;
       //   const token = req.cookies.sessionToken;
 
       // falta prueba con el front
       //   const decoded = jwt.verify(token, SECRET_JWT);
 
-      await proveedorHandlers.post(nameProv, ubicacion, tel, camaraDeComercio, certificadoBancario);
+      await proveedorHandlers.post(
+        nameProv,
+        ubicacion,
+        tel,
+        camaraDeComercio,
+        certificadoBancario,
+        userid
+      );
+
       res.status(200).json({
         message: 'Proveedoredor creado exitosamente',
       });

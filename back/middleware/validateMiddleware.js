@@ -31,9 +31,7 @@ const validateMiddleware = {
 
     // Verificar que todos los campos sean proporcionados
     if (!name || !marca || !file || !proveedoresCostos) {
-      return res
-        .status(400)
-        .json({ message: 'Los campos name, marca, proveedoresCostos e imagen son requeridos' });
+      return res.status(400).json({ message: 'Los campos name, marca, e imagen son requeridos' });
     }
 
     // Verificar que proveedoresCostos sea un array de objetos
@@ -93,7 +91,7 @@ const validateMiddleware = {
       }
       const inventario = await prisma.inventario.findFirst({
         where: {
-          punto_de_venta_id: puntoDeVntaId,
+          producto_id: productoId,
         },
       });
       if (inventario) {
