@@ -41,7 +41,7 @@ class proveedorHandlers {
     }
   }
 
-  static async post(nameProv, ubicacion, tel, camaraDeComercio, certificadoBancario) {
+  static async post(nameProv, ubicacion, tel, camaraDeComercio, certificadoBancario, userid) {
     try {
       const error1 = validationPdf(camaraDeComercio);
       const error2 = validationPdf(certificadoBancario);
@@ -60,7 +60,7 @@ class proveedorHandlers {
           certificadoBancario: urlCertificado.URL,
           publicIdCamara: urlCamara.public_id,
           publicIdCertificado: urlCertificado.public_id,
-          user_id: '9e7c68ae-b68f-4ce3-8d0f-7b313d80f404',
+          user_id: userid,
           active: true,
         },
       });

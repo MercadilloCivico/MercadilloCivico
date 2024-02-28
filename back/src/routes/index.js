@@ -64,10 +64,10 @@ router.put('/carrito_de_compras/cantidad', CarritoController.actualizarCantidad)
 
 router.get('/punto_de_venta/:id?', PuntoDeVentaController.get);
 router.post('/punto_de_venta', PuntoDeVentaController.post);
-router.put('/punto_de_venta/:id', PuntoDeVentaController.put);
-router.put('/punto_de_venta/:id', PuntoDeVentaController.addProveedor);
+// router.put('/punto_de_venta/:id', PuntoDeVentaController.put);
+// router.put('/punto_de_venta/:id', PuntoDeVentaController.addProveedor);
 router.put('/punto_de_venta/edit/:id', PuntoDeVentaController.put);
-router.put('/punto_de_venta/add/:id', PuntoDeVentaController.addProveedor);
+router.put('/punto_de_venta/add/', PuntoDeVentaController.addProveedor);
 router.put('/punto_de_venta/remove/:id', PuntoDeVentaController.removeProveedor);
 router.delete('/punto_de_venta/:id', PuntoDeVentaController.delete);
 

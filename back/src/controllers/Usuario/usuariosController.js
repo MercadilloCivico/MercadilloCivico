@@ -1,13 +1,13 @@
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const usuariosHandler = require('../../handlers/Usuario/usuariosHandler');
 const ValidationPassword = require('../../utils/validations/validationPassword');
 const { FRONT_URL } = require('../../../config/env.config');
-const { SECRET_JWT } = require('../../../config/env.config');
-const prisma = require('../../../db_connection');
+// const { SECRET_JWT } = require('../../../config/env.config');
+// const prisma = require('../../../db_connection');
 const validationImage = require('../../utils/validations/validationImage');
 const uploadToCloudinary = require('../../handlers/uploadToCloudinary');
-const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
+// const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
 
 class usuarios {
   static async get(req, res) {
@@ -74,14 +74,14 @@ class usuarios {
   static async putUsuario(req, res) {
     try {
       // falta validar contraseña y hacer prueba con el front
-      let token = req.cookies.sessionToken;
+      // let token = req.cookies.sessionToken;
 
-      const decoded = jwt.verify(token, SECRET_JWT);
-      if (!decoded) {
-        res.status(401).json({ message: 'Acceso no autorizado' });
-      }
+      // const decoded = jwt.verify(token, SECRET_JWT);
+      // if (!decoded) {
+      //   res.status(401).json({ message: 'Acceso no autorizado' });
+      // }
 
-      const { firstName, secondName, lastName, email, password } = req.body;
+      const { firstName, secondName, lastName, email, password, rol } = req.body;
       const photo = req.file;
 
       // Construir objeto de datos a actualizar
@@ -90,6 +90,7 @@ class usuarios {
       if (secondName) dataToUpdate.second_name = secondName;
       if (lastName) dataToUpdate.last_name = lastName;
       if (email) dataToUpdate.email = email;
+      if (rol) dataToUpdate.rol = rol;
       if (password) {
         const error = ValidationPassword(password);
         if (error) throw new Error(error);
@@ -100,20 +101,20 @@ class usuarios {
         validationImage(photo);
         const secureUrl = uploadToCloudinary(photo);
         dataToUpdate.photo = secureUrl;
-        eliminaPhotoUtil(decoded.id, 'usuario');
+        // eliminaPhotoUtil(decoded.id, 'usuario'); descomentar cuando alla un token
       }
 
       // Actualizar usuario en la base de datos
-      const response = await prisma.usuario.update({
-        where: { id: decoded.id },
-        data: dataToUpdate,
-      });
+      // const response = await prisma.usuario.update({
+      //   where: { id: decoded.id },
+      //   data: dataToUpdate,
+      // });
 
-      token = jwt.sign({ id: response.id }, SECRET_JWT, { expiresIn: '1h' });
-      res.cookie('sessionToken', token, {
-        httpOnly: true,
-        maxAge: 3600000,
-      });
+      // token = jwt.sign({ id: response.id }, SECRET_JWT, { expiresIn: '1h' });
+      // res.cookie('sessionToken', token, {
+      //   httpOnly: true,
+      //   maxAge: 3600000,
+      // });
       res.status(200).json({ message: 'Datos de usuario actualizados' });
     } catch (error) {
       res.status(401).json({ error: error.message });

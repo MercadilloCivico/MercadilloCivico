@@ -153,6 +153,7 @@ class PuntoDeVentaHandlers {
           id: puntoId,
         },
       });
+
       const findProv = await prisma.proveedor.findFirst({
         where: {
           id: provId,

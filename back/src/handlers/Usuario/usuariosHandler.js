@@ -71,6 +71,10 @@ class usuariosHandler {
         validationImage(photo);
         secureUrl = await uploadToCloudinary(photo);
       }
+      if (secureUrl === undefined) {
+        secureUrl =
+          'https://previews.123rf.com/images/jpgon/jpgon1411/jpgon141100514/33774342-ilustraci%C3%B3n-de-un-avatar-de-manzana-que-llevaba-gafas.jpg';
+      }
       const newUser = await prisma.usuario.create({
         data: {
           first_name: firstName,
@@ -78,7 +82,7 @@ class usuariosHandler {
           last_name: lastName,
           email,
           password: hashPassword,
-          photo: secureUrl || '',
+          photo: secureUrl,
         },
       });
       await CarritoHandler.post(newUser.id);
