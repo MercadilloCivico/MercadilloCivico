@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 function RecoveryPassword() {
   // Estado para el email, el mensaje de error y el estado de carga
   const [email, setEmail] = useState(''); // Estado para almacenar el email
-  // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
