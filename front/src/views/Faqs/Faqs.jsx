@@ -2,15 +2,19 @@ import CustomBreadcrumbs from '../../components/CustomBreadcrumbs/CustomBreadcru
 import FaqBar from '../../components/FaqBar/FaqBar';
 import SearchBarFaq from '../../components/SearchBarFaq/SearchBarFaq';
 import TopFaqs from '../../components/TopFaqs/TopFaqs';
-import CardFaqsMini from '../../components/CardFaqsMini/CardFaqsMini';
+import CardsMiniFaqs from '../../components/CardsMiniFaqs/CardsMiniFaqs';
 import faqs from './faqs';
 import CardFaqsLarge from '../../components/CardFaqsLarge/CardFaqsLarge';
+import ContactFooter from '../../components/ContactFooter/ContactFooter';
+import Footer from '../../components/Footer/Footer';
 
 const Faqs = () => {
   return (
     <div>
       <div>
-        <span className='text-tuscany-950 font-semibold text-[1.5em]'>Buscar</span>
+        <span className='text-tuscany-950 font-semibold text-[1em] sm:text-[1.3em] md:text-[1.5em]'>
+          Buscar
+        </span>
         <SearchBarFaq />
       </div>
       <div className='mb-4 mx-4 custom-border-b'>
@@ -22,10 +26,8 @@ const Faqs = () => {
       <div>
         <TopFaqs faqs={faqs} />
       </div>
-      <div className='lg:hidden'>
-        {faqs.map((categoria) => (
-          <CardFaqsMini key={categoria.id} categoria={categoria.categoria} icon={categoria.icon} />
-        ))}
+      <div>
+        <CardsMiniFaqs faqs={faqs} />
       </div>
       <div className='hidden lg:flex flex-wrap justify-between m-4'>
         {faqs.map((categoria) => (
@@ -37,6 +39,8 @@ const Faqs = () => {
           />
         ))}
       </div>
+      <ContactFooter />
+      <Footer />
     </div>
   );
 };
