@@ -12,7 +12,7 @@ import RecoveryPassword from './views/RecoveryPassword/RecoveryPassword.jsx';
 import NewPassword from './views/NewPassword/NewPassword.jsx';
 
 import Profile from './views/Profile/Profile.jsx';
-import Login from './views/Login/Login.jsx';
+import Login from './views/Login/login.jsx';
 
 import ProfileHistoryContainer from './components/ProfileHistoryContainer/ProfileHistoryContainer.jsx';
 import ProfileFavoritesContainer from './components/ProfileFavoritesContainer/ProfileFavoritesContainer.jsx';
