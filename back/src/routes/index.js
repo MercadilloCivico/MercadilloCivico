@@ -16,6 +16,7 @@ const InventarioController = require('../controllers/inventario/inventarioContro
 const validateMiddleware = require('../../middleware/validateMiddleware');
 const ReseñasController = require('../controllers/Reseñas/reseñasController');
 const HistorialController = require('../controllers/HistorialDeVenta/historialController');
+const FiltroController = require('../controllers/Filtros/filtroController');
 
 const router = Router();
 
@@ -35,7 +36,7 @@ router.get('/user/info/:id?', usuariosController.get);
 // products
 
 router.get('/product/:id?', ProductController.get);
-router.post('/postProduct', validateMiddleware.validateProductFields, ProductController.post);
+router.post('/postProduct', ProductController.post);
 router.delete('/productoLogic/:id', ProductController.logicDelete);
 router.delete('/productoTrue/:id', ProductController.trueDelete);
 
@@ -87,5 +88,8 @@ router.get('/historialCompra', HistorialController.getAll);
 router.get('/historialCompra/:id', HistorialController.getById);
 router.post('/historialCompra', validateMiddleware.validateHistorial, HistorialController.post);
 router.delete('/historialCompra/:id', HistorialController.delete);
+
+// Filtros
+router.get('/filtro/:id', validateMiddleware.validateFilter, FiltroController.filterProductos);
 
 module.exports = router;

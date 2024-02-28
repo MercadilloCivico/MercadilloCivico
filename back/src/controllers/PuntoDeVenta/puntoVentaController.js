@@ -8,7 +8,7 @@ class PuntoDeVentaController {
         const puntos = await PuntoDeVentaHandlers.getById(id);
         return res.status(200).json(puntos);
       }
-      const puntos = await PuntoDeVentaController.getAll();
+      const puntos = await PuntoDeVentaHandlers.getAll();
       return res.status(200).json(puntos);
     } catch (error) {
       return res.status(400).json({ error: error.message });
