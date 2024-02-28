@@ -25,9 +25,8 @@ import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
 import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
 
 import SupplierDashboard from './views/SupplierDashboard/SupplierDashboard.jsx';
-import SupplierSettings from './components/SupplierSettings/SupplierSettings.jsx';
-import SupplierInventory from './components/SupplierInventory/SupplierInventory.jsx';
-import SupplierPoints from './components/SupplierPoints/SupplierPoints.jsx';
+import SupplierSettings from './components/SupplierComponents/SupplierSettings/SupplierSettings.jsx';
+import SupplierPoints from './components/SupplierComponents/SupplierPoints/SupplierPoints.jsx';
 
 import Toasts from './components/Toast/Toasts.jsx';
 
@@ -179,7 +178,6 @@ function App() {
           />
 
           <Route path='/supplier' element={<SupplierDashboard />}>
-            <Route path='/supplier/inventory' element={<SupplierInventory />} />
             <Route path='/supplier/settings' element={<SupplierSettings />} />
             <Route path='/supplier/points' element={<SupplierPoints />} />
           </Route>
