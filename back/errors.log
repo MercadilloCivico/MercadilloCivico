@@ -160,3 +160,11 @@
 2024-02-26 22:02:01 error: POST /api/inventario/d9402b4b-83fc-484e-a9a5-864a0058d70b 500 9ms
 2024-02-26 22:04:14 error: [object Object]
 2024-02-26 22:04:14 error: POST /api/inventario/d9402b4b-83fc-484e-a9a5-864a0058d70b 500 7ms
+2024-02-27 13:52:18 error: POST /api/login 500 1443ms
+2024-02-27 13:52:38 error: POST /api/login 500 163ms
+2024-02-27 14:37:09 error: POST /api/login 500 1205ms
+2024-02-27 15:20:29 error: POST /api/login 500 868ms
+2024-02-27 15:43:29 error: POST /api/login 500 84ms
+2024-02-27 15:43:56 error: POST /api/login 500 157ms
+2024-02-27 15:49:23 error: POST /api/login 500 89ms
+2024-02-27 17:30:11 error: POST /api/login 500 893ms
