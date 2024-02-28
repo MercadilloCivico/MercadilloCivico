@@ -176,6 +176,81 @@ const validateMiddleware = {
       return res.status(500).json({ message: error.message, error: 'Error al crear el historial' });
     }
   },
+
+  validateFilter: async (req, res, next) => {
+    try {
+      const { filtroMarca, filtroPrecio, calificacion, alfabetico, precio } = req.query;
+      const { id } = req.params;
+
+      const regex = /^[a-zA-Z]+$/;
+
+      // Verificar que puntoDeVentaID esté presente
+      if (!id) {
+        return res.status(400).json({ error: 'El id del punto de venta es necesario' });
+      }
+
+      // Verificar que los parámetros filtroMarca y filtroPrecio sean de tipo string y solo contener letras
+      if (filtroMarca) {
+        if (typeof filtroMarca !== 'string' || !regex.test(filtroMarca)) {
+          return res
+            .status(400)
+            .json({ error: 'filtroMarca debe ser de tipo string y solo debe contener letras' });
+        }
+      }
+
+      if (filtroPrecio) {
+        if (typeof filtroPrecio !== 'string' || !regex.test(filtroPrecio)) {
+          return res
+            .status(400)
+            .json({ error: 'filtroPrecio debe ser de tipo string y solo debe contener letras' });
+        }
+      }
+
+      // Verificar que solo haya un orden
+      const ordenes = [precio, calificacion, alfabetico];
+      const orderCount = ordenes.filter(Boolean).length;
+
+      if (orderCount > 1) {
+        return res.status(400).json({ error: 'Solo se permite un orden' });
+      }
+
+      // Verificar que los parámetros calificacion, alfabetico y precio sean de tipo string y sean las palabras asc o desc
+      if (calificacion) {
+        if (
+          typeof calificacion !== 'string' &&
+          (calificacion !== 'asc' || calificacion !== 'desc')
+        ) {
+          return res
+            .status(400)
+            .json({ error: 'calificacion debe ser un string que diga solo asc o desc' });
+        }
+      }
+
+      if (alfabetico) {
+        if (typeof alfabetico !== 'string' && (alfabetico !== 'asc' || alfabetico !== 'desc')) {
+          return res
+            .status(400)
+            .json({ error: 'alfabetico debe ser un string que diga solo asc o desc' });
+        }
+      }
+
+      if (precio) {
+        if (typeof precio !== 'string' && (precio !== 'asc' || precio !== 'desc')) {
+          return res
+            .status(400)
+            .json({ error: 'precio debe ser un string que diga solo asc o desc' });
+        }
+      }
+
+      next();
+
+      return true;
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: error.message, error: 'Error al filtrar los productos' });
+    }
+  },
 };
 
 module.exports = validateMiddleware;

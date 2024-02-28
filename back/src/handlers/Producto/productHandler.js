@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const upoloadToCloudinary = require('../uploadToCloudinary');
+const uploadToCloudinary = require('../uploadToCloudinary');
 const validationImage = require('../../utils/validations/validationImage');
 const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
 
@@ -10,17 +10,18 @@ class ProductHandler {
   static async post(name, description, image, calification, marca, proveedoresCostos) {
     try {
       // Subir la imagen a cloudinary
-      let imageURL;
-      if (image) {
-        imageURL = await upoloadToCloudinary(image);
-      }
+      // let imageURL;
+      // if (image) {
+      //   imageURL = await uploadToCloudinary(image);
+      // }
 
       // Creación del prodcuto en la base de datos
       const producto = await prisma.producto.create({
         data: {
           name,
           description,
-          image: imageURL || '',
+          // image: imageURL || '',
+          image,
           calification,
           marca,
           proveedor: {
@@ -178,7 +179,7 @@ class ProductHandler {
       if (image) {
         validationImage(image);
         eliminaPhotoUtil(id, 'Producto');
-        const secureUrl = await upoloadToCloudinary(image);
+        const secureUrl = await uploadToCloudinary(image);
         updatedData.image = secureUrl;
       }
 
