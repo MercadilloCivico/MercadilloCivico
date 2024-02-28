@@ -7,7 +7,7 @@ import {
   createTheme,
 } from '@mui/material';
 import { useState } from 'react';
-import theme from '../../App';
+import theme from '../../utils/muiTheme';
 const CustomSelect = ({ label, options }) => {
   const [value, setValue] = useState('');
 

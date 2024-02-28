@@ -17,7 +17,7 @@ import Login from './views/Login/login.jsx';
 import ProfileHistoryContainer from './components/ProfileHistoryContainer/ProfileHistoryContainer.jsx';
 import ProfileFavoritesContainer from './components/ProfileFavoritesContainer/ProfileFavoritesContainer.jsx';
 
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import Detail from './views/Detail/Detail.jsx';
 import Cart from './views/Cart/Cart.jsx';
 import AdminDashboard from './views/AdminDashboard/AdminDashboard.jsx';
@@ -29,29 +29,8 @@ import SupplierSettings from './components/SupplierComponents/SupplierSettings/S
 import SupplierPoints from './components/SupplierComponents/SupplierPoints/SupplierPoints.jsx';
 
 import Toasts from './components/Toast/Toasts.jsx';
+import { theme } from './utils/muiTheme.js';
 
-export const theme = createTheme({
-  components: {
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#c55d38',
-          },
-        },
-      },
-    },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          '&.Mui-focused': {
-            color: '#c55d38',
-          },
-        },
-      },
-    },
-  },
-});
 function App() {
   //Estado temporal
   const [products, setProducts] = useState([
