@@ -17,41 +17,23 @@ import Login from './views/Login/login.jsx';
 import ProfileHistoryContainer from './components/ProfileHistoryContainer/ProfileHistoryContainer.jsx';
 import ProfileFavoritesContainer from './components/ProfileFavoritesContainer/ProfileFavoritesContainer.jsx';
 
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import Detail from './views/Detail/Detail.jsx';
 import Cart from './views/Cart/Cart.jsx';
 import AdminDashboard from './views/AdminDashboard/AdminDashboard.jsx';
 import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
 import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
+import Faqs from './views/Faqs/Faqs.jsx';
+import CategoryFaqs from './views/CategoryFaqs/CategoryFaqs.jsx';
+import DetailFaq from './views/DetailFaq/DetailFaq.jsx';
 
 import SupplierDashboard from './views/SupplierDashboard/SupplierDashboard.jsx';
 import SupplierSettings from './components/SupplierComponents/SupplierSettings/SupplierSettings.jsx';
 import SupplierPoints from './components/SupplierComponents/SupplierPoints/SupplierPoints.jsx';
 
 import Toasts from './components/Toast/Toasts.jsx';
+import { theme } from './utils/muiTheme.js';
 
-export const theme = createTheme({
-  components: {
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#c55d38',
-          },
-        },
-      },
-    },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          '&.Mui-focused': {
-            color: '#c55d38',
-          },
-        },
-      },
-    },
-  },
-});
 function App() {
   //Estado temporal
   const [products, setProducts] = useState([
@@ -166,6 +148,10 @@ function App() {
             <Route path='/profile/history' element={<ProfileHistoryContainer />}></Route>
             <Route path='/profile/favorites' element={<ProfileFavoritesContainer />}></Route>
           </Route>
+
+          <Route path='/faqs' element={<Faqs />} />
+          <Route path='/faqs/:category/page?/:page?' element={<CategoryFaqs />} />
+          <Route path='/faqs/detail/:id' element={<DetailFaq />} />
 
           <Route path='/admin' element={<AdminDashboard />} />
           <Route
