@@ -245,3 +245,31 @@
 2024-02-28 22:53:13 error: GET /api/forgot/password?email=daniel.kpo.342@gmail.com&password=851147 500 453ms
 2024-02-28 22:55:04 error: GET /api/forgot/password?email=daniel.kpo.342@gmail.com&password=851147 500 1727ms
 2024-02-28 23:00:13 error: GET /api/forgot/password?email=daniel.kpo.342@gmail.com&password=871381 500 1721ms
+2024-02-29 00:19:04 error: [object Object]
+2024-02-29 00:19:04 error: GET / 500 10ms
+2024-02-29 00:21:22 error: [object Object]
+2024-02-29 00:21:22 error: GET / 500 10ms
+2024-02-29 00:26:25 error: [object Object]
+2024-02-29 00:26:25 error: GET / 500 4ms
+2024-02-29 00:32:52 error: [object Object]
+2024-02-29 00:32:52 error: GET / 500 9ms
+2024-02-29 00:35:43 error: [object Object]
+2024-02-29 00:35:43 error: GET / 500 14ms
+2024-02-29 00:40:24 error: [object Object]
+2024-02-29 00:40:24 error: GET / 500 9ms
+2024-02-29 00:44:35 error: [object Object]
+2024-02-29 00:44:35 error: GET / 500 7ms
+2024-02-29 00:47:13 error: [object Object]
+2024-02-29 00:47:13 error: GET / 500 8ms
+2024-02-29 01:44:33 error: [object Object]
+2024-02-29 01:44:34 error: GET / 500 11ms
+2024-02-29 01:44:47 error: [object Object]
+2024-02-29 01:44:47 error: GET / 500 4ms
+2024-02-29 01:46:34 error: [object Object]
+2024-02-29 01:46:34 error: GET / 500 4ms
+2024-02-29 01:46:46 error: [object Object]
+2024-02-29 01:46:46 error: GET / 500 5ms
+2024-02-29 01:47:21 error: [object Object]
+2024-02-29 01:47:21 error: GET / 500 4ms
+2024-02-29 01:48:16 error: [object Object]
+2024-02-29 01:48:16 error: GET / 500 4ms
