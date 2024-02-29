@@ -26,7 +26,7 @@ function Login() {
   };
 
   function validationLogin({ email, password }) {
-    const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/;
     const errors = {};
 
     if (!email.trim()) {
@@ -61,9 +61,11 @@ function Login() {
     const validationErrors = validationLogin(loginData);
     if (Object.keys(validationErrors).length === 0) {
       try {
-        await dispatch(login(loginData));
-        navigate('/store');
-        dispatch(createToast('Inicio de sesión exitoso'));
+        const { payload } = await dispatch(login(loginData));
+        if (payload) {
+          dispatch(createToast('Inicio de sesión exitoso'));
+          navigate('/store');
+        }
       } catch (error) {
         alert('Error en el login: ' + error.message);
       }

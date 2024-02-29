@@ -9,7 +9,7 @@ function ValidationPassword(inputs) {
   if (!pasCharterEs.test(inputs))
     error += 'La contraseña debe tener al menos un carácter especial.';
   if (inputs.length < 6) error += 'Contraseña muy corta, debe tener al menos 6 caracteres.';
-  if (inputs.length > 10) error += 'Contraseña muy larga.';
+  if (inputs.length > 15) error += 'Contraseña muy larga.';
 
   return error === '' ? null : error;
 }
