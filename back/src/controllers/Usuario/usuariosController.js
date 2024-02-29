@@ -7,7 +7,7 @@ const { SECRET_JWT } = require('../../../config/env.config');
 const prisma = require('../../../db_connection');
 const validationImage = require('../../utils/validations/validationImage');
 const uploadToCloudinary = require('../../handlers/uploadToCloudinary');
-// const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
+const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
 
 class usuarios {
   static async get(req, res) {
@@ -78,6 +78,7 @@ class usuarios {
   static async putUsuario(req, res) {
     try {
       // falta validar contraseña y hacer prueba con el front
+
       let token = req.cookies.sessionToken;
       const decoded = jwt.verify(token, SECRET_JWT);
 
@@ -86,7 +87,7 @@ class usuarios {
       }
 
       const { firstName, secondName, lastName, email, password, rol } = req.body;
-      const photo = req.file;
+      const photo = req.files.image;
       // Construir objeto de datos a actualizar
 
       const dataToUpdate = {};
@@ -101,13 +102,16 @@ class usuarios {
         const hashPassword = await bcrypt.hash(password, 11);
         dataToUpdate.password = hashPassword;
       }
+
       if (photo) {
-        validationImage(photo);
-        const secureUrl = uploadToCloudinary(photo);
+        validationImage(photo[0]);
+        const secureUrl = await uploadToCloudinary(photo[0]);
+
         dataToUpdate.photo = secureUrl;
-        // eliminaPhotoUtil(decoded.id, 'usuario'); descomentar cuando alla un token
+        await eliminaPhotoUtil(decoded.id, 'usuario');
       }
       // Actualizar usuario en la base de datos
+
       const response = await prisma.usuario.update({
         where: { id: decoded.id },
         data: dataToUpdate,
@@ -124,6 +128,7 @@ class usuarios {
         httpOnly: true,
         maxAge: 3600000,
       });
+
       return res.status(200).json({ message: 'Datos de usuario actualizados' });
     } catch (error) {
       return res.status(401).json({ error: error.message });
@@ -161,7 +166,7 @@ class usuarios {
 
       const tokenLog = await usuariosHandler.authHandler(email, password);
       if (tokenLog) {
-        res.cookie('sessionLogin', tokenLog, {
+        res.cookie('sessionToken', tokenLog, {
           httpOnly: true,
           maxAge: 3600000,
         });

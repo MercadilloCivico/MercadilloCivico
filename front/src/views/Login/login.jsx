@@ -39,7 +39,8 @@ function Login() {
     if (Object.keys(validationErrors).length === 0) {
       try {
         const { payload } = await dispatch(login(loginData));
-        if (payload) {
+        if (payload === true) {
+          // Debe ser extrictamente igual a true, de otra forma redirije con cualquier cosa que llegue
           dispatch(createToast('Inicio de sesión exitoso'));
           navigate('/store');
         }

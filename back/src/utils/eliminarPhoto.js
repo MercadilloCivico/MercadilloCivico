@@ -3,7 +3,7 @@ const deleteCloudinary = require('../handlers/deleteCloudinary');
 
 const eliminaPhotoUtil = async (id, model) => {
   try {
-    const register = prisma[model].findUnique({
+    const register = await prisma[model].findUnique({
       where: {
         id,
       },

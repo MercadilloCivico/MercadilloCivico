@@ -5,6 +5,7 @@ import { TextField } from '@mui/material';
 import CustomTabs from './CustomTabs.jsx';
 import { useDispatch } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice.js';
+import { putUser } from '../../store/thunks/authThunks.js';
 
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -37,7 +38,7 @@ export default function Profile() {
   }, [editMode]);
 
   // Copia de la Data original sin modificar, para mostrar en los campos
-  let [oldData, setOldData] = useState({
+  let [oldData] = useState({
     imgUrl:
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
     firstName: 'Nombre',
@@ -100,6 +101,7 @@ export default function Profile() {
     }
   }
 
+  // validar errores en cada cambio del formData
   useEffect(() => {
     setErrors({
       ...errors,
@@ -112,12 +114,24 @@ export default function Profile() {
     });
   }, [formData]);
 
-  function handleSave() {
-    // Esta función guardará la información actualizada y subirá la imágen a la nube, para luego guardarla como su url en la base de datos
-    // También se debe optimizar la imágen y recortarla con la relación de aspecto 1:1
-    setOldData(formData);
-    setEditMode(false);
-    alert('Se guardaron los datos');
+  async function handleSave() {
+    const toSend = {
+      // envía el nombre con el formato correcto en caso de estar mal
+      firstName:
+        formData.firstName.charAt(0).toUpperCase() +
+        formData.firstName.slice(1).toLocaleLowerCase(),
+      secondName:
+        formData.secondName.charAt(0).toUpperCase() +
+        formData.secondName.slice(1).toLocaleLowerCase(),
+      lastName:
+        formData.lastName.charAt(0).toUpperCase() + formData.lastName.slice(1).toLocaleLowerCase(),
+      email: formData.email,
+      password: formData.password,
+      photo: formData.file || '',
+    };
+
+    await dispatch(putUser(toSend));
+    dispatch(createToast('Datos actualizados con éxtio.'));
   }
 
   function handleCancel() {
