@@ -6,6 +6,7 @@ import {
   resetPassword,
   googleAuth,
   createNewPassword,
+  putUser,
 } from '../thunks/authThunks';
 
 export const authSlice = createSlice({
@@ -111,6 +112,17 @@ export const authSlice = createSlice({
       .addCase(googleAuth.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      // putUser
+      .addCase(putUser.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(putUser.fulfilled, (state) => {
+        state.status = 'succeeded';
+      })
+      .addCase(putUser.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload.error;
       });
   },
 });

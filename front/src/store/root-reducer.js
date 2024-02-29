@@ -8,6 +8,7 @@ import {
   productReducer,
   storeReducer,
   toastReducer,
+  userReducer,
 } from './slices';
 
 const persistConfig = {
@@ -22,6 +23,7 @@ const combinedReducers = combineReducers({
   inventory: inventoryReducer,
   store: storeReducer,
   toast: toastReducer,
+  user: userReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);

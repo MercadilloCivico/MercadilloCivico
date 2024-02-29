@@ -47,6 +47,27 @@ class usuariosHandler {
     }
   }
 
+  static async getByName(name) {
+    try {
+      const usuario = await prisma.usuario.findMany({
+        include: {
+          resenas: true,
+          carrito: true,
+          compras: true,
+          proveedor: true,
+          favorites: true,
+        },
+      });
+      const usuariosName = usuario.filter((u) => {
+        const userName = u.first_name;
+        return userName.toLowerCase().startsWith(name.toLowerCase());
+      });
+      return usuariosName;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   static async registerHandler(firstName, lastName, email, password, secondName, photo) {
     try {
       const repeatEmail = await prisma.usuario.findFirst({
