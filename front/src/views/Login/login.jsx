@@ -13,6 +13,8 @@ import { googleAuth, login } from '../../store/thunks/authThunks.js';
 import { createToast } from '../../store/slices/toastSlice.js';
 import { loginValidation } from '../../utils/validation.js';
 
+import style from './login.module.css';
+
 function Login() {
   const dispatch = useDispatch();
   const { status, error } = useSelector((state) => state.auth);
@@ -63,7 +65,7 @@ function Login() {
         {/* BG image */}
         <div
           style={{ backgroundImage: `url(${Bg})`, filter: 'blur(15px)', transform: 'scaleX(1.1)' }}
-          className='w-full h-[100svh] fixed top-10 bg-cover z-[-2]'></div>
+          className={'w-full h-[100svh] fixed top-10 bg-cover z-[-2] ' + style.bgAnim}></div>
 
         <form
           onSubmit={handleSubmit}

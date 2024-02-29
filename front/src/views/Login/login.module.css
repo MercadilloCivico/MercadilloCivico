@@ -1,0 +1,14 @@
+.bgAnim {
+    animation-name: bg-appear;
+    animation-duration: 0.5s;
+}
+
+@keyframes bg-appear {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 100;
+    }
+} 
