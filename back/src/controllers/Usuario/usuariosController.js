@@ -110,6 +110,7 @@ class usuarios {
       });
 
       if (Object.prototype.hasOwnProperty.call(dataToUpdate, 'password')) {
+        await usuariosHandler.logoutHandler(token);
         res.clearCookie('sessionToken');
         return res.status(200).json({ accessLogin: true });
       }

@@ -83,8 +83,7 @@ export const createNewPassword = createAsyncThunk(
 // Thunk para autenticación con Google
 export const googleAuth = createAsyncThunk('auth/googleAuth', async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`${VITE_API_URL}/auth/google/`);
-    return { token: response.data.token, user: response.data.user };
+    window.location.href = 'http://localhost:3001/api/auth/google';
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
