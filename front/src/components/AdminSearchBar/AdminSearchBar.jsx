@@ -1,6 +1,15 @@
 import { CiSearch } from 'react-icons/ci';
+import { useDispatch } from 'react-redux';
+import { fetchUsersAsync } from '../../store/thunks/userThunks';
 
 const AdminSearchBar = () => {
+  const dispatch = useDispatch();
+
+  const handleSearch = (e) => {
+    const { value } = e.target;
+    dispatch(fetchUsersAsync(value));
+  };
+
   return (
     <div className='flex justify-center mx-4 my-2'>
       <div className='w-[90%]  flex justify-center items-center bg-pearl-bush-200 text-tuscany-950 p-2 md:p-4 space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-500'>
@@ -10,6 +19,7 @@ const AdminSearchBar = () => {
             className='bg-pearl-bush-100 w-full text-tuscany-950 outline-none border-none'
             type='text'
             placeholder='Buscar...'
+            onChange={handleSearch}
           />
         </div>
         <div className='flex p-2 md:p-4 rounded-lg font-semibold cursor-pointer'>
@@ -18,9 +28,6 @@ const AdminSearchBar = () => {
               All
             </option>
           </select>
-        </div>
-        <div className='bg-pearl-bush-100 text-[.7em] sm:text-[.9em] md:text-[1em] p-1 sm:p-2 md:p-3 font-semibold rounded-lg hover:shadow-lg transition duration-300 cursor-pointer'>
-          <span>Buscar</span>
         </div>
       </div>
     </div>
