@@ -46,10 +46,6 @@ export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValu
   }
 });
 
-/*
-const token = document.cookie.split('; ').find(row => row.startsWith('sessionToken=')).split('=')[1];
-*/
-
 // Thunk para solicitar el restablecimiento de contraseña
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
@@ -74,7 +70,7 @@ export const createNewPassword = createAsyncThunk(
         `${VITE_API_URL}/update/user`,
         { password },
         {
-          withCredentials: true, // Habilita el manejo automático de cookies por parte de axios
+          withCredentials: true,
         }
       );
       return data.accessLogin;
