@@ -13,8 +13,12 @@ class usuarios {
   static async get(req, res) {
     try {
       const { id } = req.params;
+      const { name } = req.query;
       if (id) {
         const usuario = await usuariosHandler.getById(id);
+        res.status(200).json(usuario);
+      } else if (name) {
+        const usuario = await usuariosHandler.getByName(name);
         res.status(200).json(usuario);
       } else {
         const users = await usuariosHandler.getAll();
