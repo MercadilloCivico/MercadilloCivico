@@ -16,9 +16,9 @@ function validatePassword(data) {
   return '';
 }
 
-function validateConfirm(confirmPasword, password) {
-  if (password.trim() === '' && confirmPasword.trim() === '') return '';
-  if (confirmPasword !== password) return 'Las contraseñas no coinciden';
+function validateConfirm(confirmPassword, password) {
+  if (password.trim() === '' && confirmPassword.trim() === '') return '';
+  if (confirmPassword !== password) return 'Las contraseñas no coinciden';
   return '';
 }
 

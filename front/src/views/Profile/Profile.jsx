@@ -44,6 +44,8 @@ export default function Profile() {
     secondName: 'Segundo',
     lastName: 'Apellido',
     email: 'uncorreo@mail.com',
+    password: '', // debe estar password en vacío para
+    confirm: '',
   });
 
   // Estado con la Data actualizada en caso de querer actualizar
@@ -84,14 +86,12 @@ export default function Profile() {
         };
         reader.readAsDataURL(imgPreview);
       }
-      verifyErrors(e);
       return 0;
     }
 
     // Si el input es un campo de texto
     // Actualizar solo los campos que cambian en lugar de todos
     if (formData[e.target.name] !== e.target.value) {
-      verifyErrors(e);
       setFormData((prevFormData) => ({
         ...prevFormData,
         [e.target.name]: e.target.value.trim(),
@@ -100,16 +100,17 @@ export default function Profile() {
     }
   }
 
-  function verifyErrors(e) {
-    let { name, value } = e.target;
-    if (name === 'firstName') setErrors({ ...errors, firstName: validateFirstName(value) });
-    if (name === 'secondName') setErrors({ ...errors, secondName: validateSecondName(value) });
-    if (name === 'lastName') setErrors({ ...errors, lastName: validateLastName(value) });
-    if (name === 'password') setErrors({ ...errors, password: validatePassword(value) });
-    if (name === 'email') setErrors({ ...errors, email: validateEmail(value) });
-    if (name === 'confirm')
-      setErrors({ ...errors, confirm: validateConfirm(value, formData.password) });
-  }
+  useEffect(() => {
+    setErrors({
+      ...errors,
+      firstName: validateFirstName(formData.firstName),
+      secondName: validateSecondName(formData.secondName),
+      lastName: validateLastName(formData.lastName),
+      password: validatePassword(formData.password),
+      email: validateEmail(formData.email),
+      confirm: validateConfirm(formData.confirm, formData.password),
+    });
+  }, [formData]);
 
   function handleSave() {
     // Esta función guardará la información actualizada y subirá la imágen a la nube, para luego guardarla como su url en la base de datos
