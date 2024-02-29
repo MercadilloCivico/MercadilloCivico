@@ -7,6 +7,8 @@ import SearchBar from '../SearchBar/SearchBar.jsx';
 import { LuMenu } from 'react-icons/lu';
 import { LuShoppingCart } from 'react-icons/lu';
 import { LuUser } from 'react-icons/lu';
+// import { useSelector, useDispatch } from 'react-redux';
+// import {selectLoggenIn, login,logout} from '../../store/thunks/authThunks.js';
 
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);

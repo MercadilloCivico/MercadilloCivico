@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { googleAuth, login } from '../../store/thunks/authThunks.js';
 import { createToast } from '../../store/slices/toastSlice.js';
+import { loginValidation } from '../../utils/validation.js';
 
 function Login() {
   const dispatch = useDispatch();
@@ -25,45 +26,23 @@ function Login() {
     navigate(path);
   };
 
-  function validationLogin({ email, password }) {
-    const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-    const errors = {};
-
-    if (!email.trim()) {
-      errors.email = 'El correo electrónico es obligatorio';
-    } else if (!email.length) {
-      errors.email = 'El email es obligatorio';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = 'Email invalido';
-    }
-
-    if (!password.trim()) {
-      errors.password = 'La contraseña es obligatoria';
-    } else if (password.length < 6) {
-      errors.password = 'La contraseña debe tener al menos 6 caracteres';
-    } else if (!strongPassword.test(password)) {
-      errors.password =
-        'La contraseña debe tener al menos una mayúscula, una minúscula, un número y un caracter especial';
-    }
-
-    return errors;
-  }
-
   const handleInput = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
-    const validationErrors = validationLogin({ ...loginData, [name]: value });
+    const validationErrors = loginValidation({ ...loginData, [name]: value });
     setErrors(validationErrors);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validationLogin(loginData);
+    const validationErrors = loginValidation(loginData);
     if (Object.keys(validationErrors).length === 0) {
       try {
-        await dispatch(login(loginData));
-        navigate('/store');
-        dispatch(createToast('Inicio de sesión exitoso'));
+        const { payload } = await dispatch(login(loginData));
+        if (payload) {
+          dispatch(createToast('Inicio de sesión exitoso'));
+          navigate('/store');
+        }
       } catch (error) {
         alert('Error en el login: ' + error.message);
       }

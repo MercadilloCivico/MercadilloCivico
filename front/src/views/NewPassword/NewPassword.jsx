@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { createNewPassword } from '../../store/thunks/authThunks.js';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import validacion from './validacion.js';
+import { newPasswordValidation } from '../../utils/validation.js';
 
 function NewPassword() {
   const dispatch = useDispatch();
@@ -26,24 +26,19 @@ function NewPassword() {
       ...formData,
       [name]: value,
     });
-    setErrors(validacion({ ...formData, [e.target.name]: e.target.value }));
+    setErrors(newPasswordValidation({ ...formData, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const validationErrors = validacion(formData);
+    const validationErrors = newPasswordValidation(formData);
 
     if (Object.keys(validationErrors).length === 0) {
-      dispatch(createNewPassword(formData))
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      alert('Contraseña cambiada');
-      navigate('/login');
+      let { payload } = await dispatch(createNewPassword(formData.password));
+      if (payload) {
+        navigate('/login');
+      }
     } else {
       alert('Error en la validación');
       setErrors(validationErrors);
