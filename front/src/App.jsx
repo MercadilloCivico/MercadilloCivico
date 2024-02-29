@@ -22,6 +22,7 @@ import Detail from './views/Detail/Detail.jsx';
 import Cart from './views/Cart/Cart.jsx';
 import AdminDashboard from './views/AdminDashboard/AdminDashboard.jsx';
 import AdminProducts from './views/AdminProducts/AdminProducts.jsx';
+import AdminUsers from './views/AdminUsers/AdminUsers.jsx';
 import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
 import Faqs from './views/Faqs/Faqs.jsx';
 import CategoryFaqs from './views/CategoryFaqs/CategoryFaqs.jsx';
@@ -33,6 +34,7 @@ import SupplierPoints from './components/SupplierComponents/SupplierPoints/Suppl
 
 import Toasts from './components/Toast/Toasts.jsx';
 import { theme } from './utils/muiTheme.js';
+import AdminNav from './components/AdminNav/AdminNav.jsx';
 
 function App() {
   //Estado temporal
@@ -121,13 +123,15 @@ function App() {
 
   const isDetailPage = useMatch('/Detail/:id');
   const isCartPage = useMatch('/Cart');
+  const isAdminPage = useMatch('/admin/*');
 
   return (
     <ThemeProvider theme={theme}>
       <div className='min-h-[calc(100vh-55px)]'>
         <Toasts />
 
-        {!isDetailPage && !isCartPage && <Nav />}
+        {!isDetailPage && !isCartPage && !isAdminPage && <Nav />}
+        {isAdminPage && <AdminNav />}
 
         <Routes>
           <Route path='/' element={<Home />} />
@@ -159,9 +163,10 @@ function App() {
             element={<AdminProducts products={products} setProducts={setProducts} />}
           />
           <Route
-            path='/admin/products/newproduct'
+            path='/admin/products/create'
             element={<CreateProduct products={products} setProducts={setProducts} />}
           />
+          <Route path='/admin/users' element={<AdminUsers />} />
 
           <Route path='/supplier' element={<SupplierDashboard />}>
             <Route path='/supplier/settings' element={<SupplierSettings />} />
