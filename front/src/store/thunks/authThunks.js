@@ -5,12 +5,10 @@ const VITE_API_URL = import.meta.env.VITE_API_URL;
 // Thunk para realizar el inicio de sesión del usuario
 export const login = createAsyncThunk('auth/login', async (userData, { rejectWithValue }) => {
   try {
-    const response = await axios.post(`${VITE_API_URL}/login`, userData);
-
-    return {
-      token: response.data.token,
-      user: { email: userData.email },
-    };
+    const { data } = await axios.post(`${VITE_API_URL}/login`, userData, {
+      withCredentials: true,
+    });
+    return data.access;
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
@@ -66,13 +64,16 @@ export const resetPassword = createAsyncThunk(
 // Thunk para crear una nueva contraseña
 export const createNewPassword = createAsyncThunk(
   'auth/createNewPassword',
-  async ({ newPassword }, { rejectWithValue }) => {
+  async (password, { rejectWithValue }) => {
     try {
-      // El token se envía automáticamente en la cookie `httpOnly` que se creó en el back
-      const response = await axios.put(`${VITE_API_URL}/update/user`, {
-        password: newPassword,
-      });
-      return response.data;
+      const { data } = await axios.put(
+        `${VITE_API_URL}/update/user`,
+        { password },
+        {
+          withCredentials: true, // Habilita el manejo automático de cookies por parte de axios
+        }
+      );
+      return data.accessLogin;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

@@ -109,14 +109,10 @@ class usuariosHandler {
       if (!passwordMatch) {
         throw new Error('usuario o contraseña incorrecta');
       }
-      if (passwordMatch) {
-        const token = jwt.sign({ id: user.id }, SECRET_JWT, { expiresIn: '1h' });
-        validTokens.add(token);
-        return token;
-      }
-      throw new Error('Usuario o contraseña incorrecta');
 
-      // return token;
+      const token = jwt.sign({ id: user.id }, SECRET_JWT, { expiresIn: '1h' });
+
+      return token;
     } catch (error) {
       throw new Error(error);
     }

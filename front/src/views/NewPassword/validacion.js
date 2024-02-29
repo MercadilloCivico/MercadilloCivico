@@ -2,7 +2,7 @@
 
 const validacion = (passwordData) => {
   const { password, repeatPassword } = passwordData;
-  const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+  const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/;
   const errors = {};
 
   // Validación de la contraseña

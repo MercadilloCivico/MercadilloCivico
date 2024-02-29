@@ -29,21 +29,17 @@ function NewPassword() {
     setErrors(validacion({ ...formData, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = validacion(formData);
 
     if (Object.keys(validationErrors).length === 0) {
-      dispatch(createNewPassword(formData))
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      alert('Contraseña cambiada');
-      navigate('/login');
+      let { payload } = await dispatch(createNewPassword(formData.password));
+      console.log('🚀 ~ handleSubmit ~ payload:', payload);
+      if (payload) {
+        navigate('/login');
+      }
     } else {
       alert('Error en la validación');
       setErrors(validationErrors);

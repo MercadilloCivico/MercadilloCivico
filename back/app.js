@@ -47,19 +47,19 @@ app.use(
 app.disable('x-powered-by');
 app.use(helmet.noSniff());
 
+app.use(corsConfig);
 app.use(express.json());
 app.use(handleFileUpload);
 app.use(passport.initialize());
 app.use(
   cookieParser(SECRET_COOKIE, {
     httpOnly: true,
-    sameSite: 'Strict',
+    sameSite: 'None',
     // secure: true,
   })
 );
 
 app.use(methodLogger);
-app.use(corsConfig);
 app.use((req, res, next) => {
   res.header('Content-Type', 'application/pdf');
   next();
