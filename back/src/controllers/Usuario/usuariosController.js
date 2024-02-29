@@ -160,6 +160,8 @@ class usuarios {
         res.cookie('sessionLogin', tokenLog, {
           httpOnly: true,
           maxAge: 3600000,
+          sameSite: 'lax',
+          path: '/logout',
         });
         res.status(200).json({ access: true });
       }
@@ -170,9 +172,13 @@ class usuarios {
 
   static async logout(req, res) {
     try {
-      const token = req.cookies.sessionToken;
+      const token = req.cookies.sessionLogin;
       await usuariosHandler.logoutHandler(token);
-      res.clearCookie('sessionToken');
+      res.clearCookie('sessionLogin', {
+        httpOnly: true,
+        path: '/logout',
+        domain: 'localhost',
+      });
       res.status(200).json({ message: 'Cierre de sesión exitoso' });
     } catch (error) {
       res.status(500).json({ message: error.message, error: 'Error en el logout' });

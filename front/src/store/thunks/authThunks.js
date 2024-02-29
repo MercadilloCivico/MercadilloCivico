@@ -39,12 +39,16 @@ export const register = createAsyncThunk('auth/register', async (userData, { rej
 // Thunk para cerrar sesión del usuario
 export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.post('/logout');
-    return response.data;
+    const { data } = await axios.post(`${VITE_API_URL}/logout`, {}, { withCredentials: true });
+    return data;
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
 });
+
+/*
+const token = document.cookie.split('; ').find(row => row.startsWith('sessionToken=')).split('=')[1];
+*/
 
 // Thunk para solicitar el restablecimiento de contraseña
 export const resetPassword = createAsyncThunk(
