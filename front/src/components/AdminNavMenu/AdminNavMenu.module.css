@@ -1,0 +1,31 @@
+.showMenu {
+  animation-name: menu-open;
+  animation-fill-mode: both;
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.hideMenu {
+  animation-name: menu-close;
+  animation-fill-mode: both;
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes menu-open {
+  0% {
+    transform: translateX(-100vw);
+    opacity: 50;
+  }
+}
+
+@keyframes menu-close {
+  0% {
+    opacity: 100;
+  }
+
+  100% {
+    transform: translateX(-100vw);
+    opacity: 50;
+  }
+}

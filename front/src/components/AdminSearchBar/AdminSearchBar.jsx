@@ -1,0 +1,30 @@
+import { CiSearch } from 'react-icons/ci';
+
+const AdminSearchBar = () => {
+  return (
+    <div className='flex justify-center mx-4 my-2'>
+      <div className='w-[90%]  flex justify-center items-center bg-pearl-bush-200 text-tuscany-950 p-2 md:p-4 space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-500'>
+        <div className='flex items-center justify-between bg-pearl-bush-100 text-[.7em] sm:text-[.9em] md:text-[1em] p-1 sm:p-2 md:p-3 w-full rounded-lg'>
+          <CiSearch className='h-6 w-6 opacity-30' />
+          <input
+            className='bg-pearl-bush-100 w-full text-tuscany-950 outline-none border-none'
+            type='text'
+            placeholder='Buscar...'
+          />
+        </div>
+        <div className='flex p-2 md:p-4 rounded-lg font-semibold cursor-pointer'>
+          <select className='bg-pearl-bush-100 text-[.7em] sm:text-[.9em] md:text-[1em] p-1 sm:p-2 md:p-3 hover:shadow-lg transition duration-300 text-tuscany-950 border-none rounded-lg cursor-pointer'>
+            <option className='cursor-pointer' value='All Categories'>
+              All
+            </option>
+          </select>
+        </div>
+        <div className='bg-pearl-bush-100 text-[.7em] sm:text-[.9em] md:text-[1em] p-1 sm:p-2 md:p-3 font-semibold rounded-lg hover:shadow-lg transition duration-300 cursor-pointer'>
+          <span>Buscar</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminSearchBar;
