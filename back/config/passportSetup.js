@@ -58,6 +58,8 @@ passport.deserializeUser(async (id, done) => {
     await prisma.$disconnect();
   }
 });
+
+// revisar
 passport.use(
   new JWTStrategy(
     {
