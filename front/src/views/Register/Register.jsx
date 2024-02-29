@@ -1,7 +1,6 @@
 import Logo from '../../assets/img/logo-full.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import validacion from './validacion';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { CheckboxRequired, CheckboxBasic } from '../../components/Checkbox/Checkbox';
@@ -13,6 +12,7 @@ import Footer from '../../components/Footer/Footer.jsx';
 
 import { LuLogIn } from 'react-icons/lu';
 import Bg from '../../assets/img/bg.jpg';
+import { registerValidation } from '../../utils/validation.js';
 
 function Register() {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ function Register() {
         [name]: value,
       });
     }
-    setErrors(validacion({ ...formData, [e.target.name]: e.target.value }));
+    setErrors(registerValidation({ ...formData, [e.target.name]: e.target.value }));
   };
 
   // Maneja el envío del formulario
@@ -72,7 +72,7 @@ function Register() {
 
     // Si se proporciona una imagen, validarla
     if (isImageProvided) {
-      const formErrors = validacion(formData); // Realizar validación del formulario
+      const formErrors = registerValidation(formData); // Realizar validación del formulario
       setErrors(formErrors);
 
       // Validamos que los campos obligatorios estén completos
@@ -102,7 +102,7 @@ function Register() {
       }
     } else {
       // Si no se proporciona ninguna imagen, continuar con el envío del formulario sin validarla
-      const formErrors = validacion({
+      const formErrors = registerValidation({
         ...formData,
         photo: '', // Simular que se proporciona una URL de imagen vacía para evitar errores de validación
       });
@@ -173,9 +173,15 @@ function Register() {
               </>
 
               {formData.photo && !formData.imgPreview ? (
-                <img className='w-full h-full object-cover' src={formData.photo}></img>
+                <img
+                  className='w-full h-full object-cover'
+                  src={formData.photo}
+                  alt='foto de perfil'></img>
               ) : formData.imgPreview ? (
-                <img className='w-full h-full object-cover' src={formData.imgPreview}></img>
+                <img
+                  className='w-full h-full object-cover'
+                  src={formData.imgPreview}
+                  alt='foto de perfil'></img>
               ) : (
                 <FaUser className='w-full h-full p-2 text-tuscany-950' />
               )}
