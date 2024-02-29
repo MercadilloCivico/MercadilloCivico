@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { createNewPassword } from '../../store/thunks/authThunks.js';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import validacion from './validacion.js';
+import { newPasswordValidation } from '../../utils/validation.js';
 
 function NewPassword() {
   const dispatch = useDispatch();
@@ -26,17 +26,16 @@ function NewPassword() {
       ...formData,
       [name]: value,
     });
-    setErrors(validacion({ ...formData, [e.target.name]: e.target.value }));
+    setErrors(newPasswordValidation({ ...formData, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const validationErrors = validacion(formData);
+    const validationErrors = newPasswordValidation(formData);
 
     if (Object.keys(validationErrors).length === 0) {
       let { payload } = await dispatch(createNewPassword(formData.password));
-      console.log('🚀 ~ handleSubmit ~ payload:', payload);
       if (payload) {
         navigate('/login');
       }
