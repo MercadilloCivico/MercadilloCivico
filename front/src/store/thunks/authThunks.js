@@ -39,8 +39,8 @@ export const register = createAsyncThunk('auth/register', async (userData, { rej
 // Thunk para cerrar sesión del usuario
 export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.post('/logout');
-    return response.data;
+    const { data } = await axios.post(`${VITE_API_URL}/logout`, {}, { withCredentials: true });
+    return data;
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
@@ -70,7 +70,7 @@ export const createNewPassword = createAsyncThunk(
         `${VITE_API_URL}/update/user`,
         { password },
         {
-          withCredentials: true, // Habilita el manejo automático de cookies por parte de axios
+          withCredentials: true,
         }
       );
       return data.accessLogin;

@@ -7,6 +7,7 @@ import SearchBar from '../SearchBar/SearchBar.jsx';
 import { LuMenu } from 'react-icons/lu';
 import { LuShoppingCart } from 'react-icons/lu';
 import { LuUser } from 'react-icons/lu';
+import Logout from '../Logout/Logout.jsx';
 // import { useSelector, useDispatch } from 'react-redux';
 // import {selectLoggenIn, login,logout} from '../../store/thunks/authThunks.js';
 
@@ -63,7 +64,7 @@ const Nav = () => {
           </div>
 
           {/* NAV END */}
-          <div className='flex justify-end w-full h-full space-x-[15px]'>
+          <div className='flex justify-end items-center w-full h-full space-x-[15px]'>
             <Link
               to={'/cart'}
               className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
@@ -74,6 +75,7 @@ const Nav = () => {
               className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
               <LuUser className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
             </Link>
+            <Logout />
           </div>
         </header>
 

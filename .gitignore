@@ -17,4 +17,5 @@ package-lock.json
 
 **/.vite
 
+./back/errors.log
 extra/
