@@ -245,4 +245,11 @@
 2024-02-28 22:53:13 error: GET /api/forgot/password?email=daniel.kpo.342@gmail.com&password=851147 500 453ms
 2024-02-28 22:55:04 error: GET /api/forgot/password?email=daniel.kpo.342@gmail.com&password=851147 500 1727ms
 2024-02-28 23:00:13 error: GET /api/forgot/password?email=daniel.kpo.342@gmail.com&password=871381 500 1721ms
-
+2024-02-29 17:11:40 error: [object Object]
+2024-02-29 17:11:40 error: POST /api/update/user 500 10ms
+2024-02-29 18:02:08 error: POST /api/login 500 555ms
+2024-02-29 18:02:37 error: POST /api/login 500 340ms
+2024-02-29 18:02:51 error: POST /api/login 500 171ms
+2024-02-29 18:06:42 error: POST /api/login 500 343ms
+2024-02-29 18:08:24 error: POST /api/login 500 455ms
+2024-02-29 18:10:51 error: POST /api/login 500 452ms

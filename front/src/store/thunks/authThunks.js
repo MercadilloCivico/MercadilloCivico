@@ -88,3 +88,26 @@ export const googleAuth = createAsyncThunk('auth/googleAuth', async (_, { reject
     return rejectWithValue(error.response.data);
   }
 });
+
+// Thunk para actualizar info del perfil de usuario
+export const putUser = createAsyncThunk('update/user', async (userData, { rejectWithValue }) => {
+  const formData = new FormData();
+  formData.append('firstName', userData.firstName);
+  formData.append('lastName', userData.lastName);
+  formData.append('email', userData.email);
+  formData.append('password', userData.password);
+  if (userData.secondName) formData.append('secondName', userData.secondName);
+  if (userData.photo) formData.append('image', userData.photo);
+
+  try {
+    await axios.put(`${VITE_API_URL}/update/user`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      withCredentials: true,
+    });
+    return;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
