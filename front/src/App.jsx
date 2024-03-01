@@ -1,7 +1,7 @@
 import './App.css';
-import { Routes, Route, useMatch } from 'react-router-dom';
+import { Routes, Route, useMatch, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import Home from './views/Home/Home.jsx';
+import Landing from './views/Landing/Landing.jsx';
 import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
 import Nav from './components/Nav/Nav.jsx';
@@ -37,6 +37,24 @@ import { theme } from './utils/muiTheme.js';
 import AdminNav from './components/AdminNav/AdminNav.jsx';
 import UserDetail from './views/UserDetail/UserDetail.jsx';
 import EditProduct from './views/EditProduct/EditProduct.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { createToast } from './store/slices/toastSlice.js';
+
+function ProtectedRoute({ Component }) {
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  if (token !== null) return <Component />;
+  dispatch(createToast('Debes iniciar sesión para acceder a esta página'));
+  return <Navigate to='/login' />;
+}
+
+function CheckAlreadyLoggedIn({ Component }) {
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  if (!token) return <Component />;
+  dispatch(createToast('Ya has iniciado sesión'));
+  return <Navigate to='/store' />;
+}
 
 function App() {
   //Estado temporal
@@ -50,16 +68,24 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className='min-h-[calc(100vh-55px)]'>
         <Toasts />
-
-        {!isDetailPage && !isCartPage && !isAdminPage && <Nav />}
+        {!isDetailPage && !isCartPage && !isAdminPage && (
+          //<Nav filtrosActivos={filtrosActivos} setFiltrosActivos={setFiltrosActivos} />
+          <Nav />
+        )}
         {isAdminPage && <AdminNav />}
 
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Landing />} />
 
-          <Route path='/store' element={<Store />} />
+          <Route
+            path='/store'
+            element={
+              //<Store filtrosActivos={filtrosActivos} setFiltrosActivos={setFiltrosActivos} />
+              <Store />
+            }
+          />
           <Route path='/contact' element={<Contact />} />
-          <Route path='/favorites' element={<Favorites />} />
+          <Route path='/favorites' element={<ProtectedRoute Component={Favorites} />} />
           <Route path='/detail/:id' element={<Detail />} />
 
           <Route path='/register' element={<Register />} />
@@ -67,9 +93,9 @@ function App() {
           <Route path='/new_password' element={<NewPassword />} />
 
           <Route path='/cart' element={<Cart />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/login/:id?' element={<CheckAlreadyLoggedIn Component={Login} />} />
 
-          <Route path='/profile' element={<Profile />}>
+          <Route path='/profile' element={<ProtectedRoute Component={Profile} />}>
             <Route path='/profile/history' element={<ProfileHistoryContainer />}></Route>
             <Route path='/profile/favorites' element={<ProfileFavoritesContainer />}></Route>
           </Route>

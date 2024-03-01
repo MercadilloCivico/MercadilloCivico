@@ -1,13 +1,20 @@
 import { PiShoppingBagFill } from 'react-icons/pi';
 import { FaHistory } from 'react-icons/fa';
+import style from './historyAnim.module.css';
 
-export default function ProfileHistoryCard({ lazyImg, img, name, price, amount, date }) {
+export default function ProfileHistoryCard({ lazyImg, img, name, price, amount, date, className }) {
   // Recibe por props: img, name, price, amount, date y eventualmente recibirá el id de producto
   // lazyImg será un downscale de la img real, se mostrará de fondo mientras carga la imágen real
 
   console.log(img);
   return (
-    <div className='min-w-[290px] max-w-[650px] h-[100px] bg-tuscany-100 text-tuscany-950 rounded-xl overflow-hidden m-2 p-[12px] shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030]'>
+    <div
+      className={
+        'min-w-[290px] max-w-[650px] h-[100px] bg-tuscany-100 text-tuscany-950 rounded-xl overflow-hidden p-[12px] shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ' +
+        style.historyAnim +
+        ' ' +
+        className
+      }>
       <div className='flex h-full'>
         <div
           style={{ backgroundImage: `url(${lazyImg})`, backgroundPosition: 'center' }}
@@ -26,7 +33,7 @@ export default function ProfileHistoryCard({ lazyImg, img, name, price, amount, 
           </div>
 
           <div className='flex justify-between items-center'>
-            <span className='text-2xl'>${price}</span>
+            <span className='text-2xl text-tuscany-600 font-semibold'>${price}</span>
             <FaHistory />
           </div>
 

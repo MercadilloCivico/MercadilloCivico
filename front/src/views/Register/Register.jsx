@@ -63,6 +63,9 @@ function Register() {
     setErrors(registerValidation({ ...formData, [e.target.name]: e.target.value }));
   };
 
+  const handleNavigate = (path) => () => {
+    navigate(path);
+  };
   // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -277,6 +280,22 @@ function Register() {
               className='w-[180px] mt-[25px]'
               icon={LuLogIn}
             />
+          </div>
+          <div className='mt-[50px]'>
+            <p className='text-pearl-bush-700 text-base'>
+              <span
+                onClick={handleNavigate('/store')}
+                className='text-pearl-bush-700 text-base cursor-pointer'>
+                Acceder como invitado
+              </span>{' '}
+            </p>
+            <p className='text-pearl-bush-700 text-base'>
+              <span
+                onClick={handleNavigate('/login')}
+                className='text-pearl-bush-700 text-base cursor-pointer'>
+                ¿Ya estas registrado? Inicia sesión
+              </span>
+            </p>
           </div>
         </form>
       </div>

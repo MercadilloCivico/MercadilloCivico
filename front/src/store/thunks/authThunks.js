@@ -8,7 +8,7 @@ export const login = createAsyncThunk('auth/login', async (userData, { rejectWit
     const { data } = await axios.post(`${VITE_API_URL}/login`, userData, {
       withCredentials: true,
     });
-    return data.access;
+    return data;
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
@@ -39,8 +39,8 @@ export const register = createAsyncThunk('auth/register', async (userData, { rej
 // Thunk para cerrar sesión del usuario
 export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.post('/logout');
-    return response.data;
+    const { data } = await axios.post(`${VITE_API_URL}/logout`, {}, { withCredentials: true });
+    return data;
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
@@ -70,7 +70,7 @@ export const createNewPassword = createAsyncThunk(
         `${VITE_API_URL}/update/user`,
         { password },
         {
-          withCredentials: true, // Habilita el manejo automático de cookies por parte de axios
+          withCredentials: true,
         }
       );
       return data.accessLogin;
@@ -79,15 +79,6 @@ export const createNewPassword = createAsyncThunk(
     }
   }
 );
-
-// Thunk para autenticación con Google
-export const googleAuth = createAsyncThunk('auth/googleAuth', async (_, { rejectWithValue }) => {
-  try {
-    window.location.href = 'http://localhost:3001/api/auth/google';
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
 
 // Thunk para actualizar info del perfil de usuario
 export const putUser = createAsyncThunk('update/user', async (userData, { rejectWithValue }) => {

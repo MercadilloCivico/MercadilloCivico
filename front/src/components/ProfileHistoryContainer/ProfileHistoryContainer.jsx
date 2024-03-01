@@ -29,7 +29,7 @@ export default function ProfileHistoryContainer() {
   let i = 0;
 
   return (
-    <div className='max-w-[1280px] mx-auto flex flex-wrap justify-center'>
+    <div className='max-w-[1280px] mx-auto flex flex-wrap justify-center mt-2 px-2'>
       {arrPrueba.map((item) => {
         return (
           <ProfileHistoryCard
@@ -39,6 +39,7 @@ export default function ProfileHistoryContainer() {
             price={item.price}
             amount={item.amount}
             date={item.date}
+            className='mb-2'
           />
         );
       })}

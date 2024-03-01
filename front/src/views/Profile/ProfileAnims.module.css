@@ -1,0 +1,42 @@
+.active {
+    background-color: #c55d38;
+    color: #fcf6f0;
+    
+}
+
+.test {
+    background-color: red;
+}
+
+.editBtnAnim {
+    animation-name: edit-button-appear;
+    animation-duration: 0.2s;
+}
+
+.profileFormAnim {
+    animation-name: profile-slide-container;
+    animation-duration: 0.5s;
+}
+
+@keyframes edit-button-appear {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+    
+}
+
+@keyframes profile-slide-container {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    100% {
+        opacity: 100;
+
+    }
+}
