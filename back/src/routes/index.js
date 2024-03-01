@@ -24,14 +24,15 @@ const router = Router();
 
 router.get('/auth/google', middleware.authenticateGoogle);
 router.get('/auth/google/callback', middleware.authenticateGoogleCallback);
-router.get('/forgot/password', usuariosController.recuperarContrasenia);
-router.post('/register', usuariosController.register);
-router.post('/login', usuariosController.login);
-router.post('/logout', usuariosController.logout);
-router.put('/forgot/password', usuariosController.contraseñaOlvidada);
-router.put('/update/user', usuariosController.putUsuario);
-router.delete('/disable/user', usuariosController.deleteUsuario);
-router.get('/user/info/:id?', usuariosController.get);
+router.get('/forgot/password', usuariosController.usuarios.recuperarContrasenia);
+router.post('/register', usuariosController.usuarios.register);
+router.post('/login', usuariosController.usuarios.login);
+router.post('/logout', usuariosController.usuarios.logout);
+router.put('/forgot/password', usuariosController.usuarios.contraseñaOlvidada);
+router.put('/update/user', usuariosController.usuarios.putUsuario);
+router.delete('/disable/user', usuariosController.usuarios.deleteUsuario);
+router.get('/user/info/:id?', usuariosController.usuarios.get);
+router.get('/user/profile', usuariosController.usuarios.getUser);
 
 // products
 

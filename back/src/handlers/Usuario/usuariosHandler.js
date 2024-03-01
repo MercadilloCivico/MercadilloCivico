@@ -29,6 +29,7 @@ class usuariosHandler {
 
   static async getById(id) {
     try {
+      console.log(id);
       const usuario = await prisma.usuario.findFirst({
         where: {
           id,
