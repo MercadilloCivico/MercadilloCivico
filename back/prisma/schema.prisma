@@ -108,7 +108,7 @@ model Inventario {
   producto Producto @relation(fields: [producto_id], references: [id])
   producto_id String @db.Uuid
   proveedor Proveedor @relation(fields: [proveedor_id],references: [id])
-  proveedor_id Int @unique
+  proveedor_id Int
   stock_min Int
   stock Int
   stock_max Int

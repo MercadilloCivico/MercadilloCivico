@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   showDropdownCard: false,
+  items: [],
+  status: 'idle',
 };
 
 const storeSlice = createSlice({
