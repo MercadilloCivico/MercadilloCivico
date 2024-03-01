@@ -11,20 +11,15 @@ import {
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null,
     token: null,
     status: 'idle', // 'idle', 'loading', 'succeeded', 'failed'
     error: null,
   },
   reducers: {
-    setUser(state, action) {
-      state.user = action.payload;
-    },
     setToken(state, action) {
       state.token = action.payload;
     },
     clearAuthState(state) {
-      state.user = null;
       state.token = null;
       state.status = 'idle';
       state.error = null;
@@ -42,7 +37,6 @@ export const authSlice = createSlice({
       if (cookie) {
         const token = cookie.split('=')[1];
         state.token = token;
-        state.user = 'googleAuthenticatedUser';
         state.status = 'succeeded';
         state.error = null;
       }
@@ -62,7 +56,6 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user;
         state.token = action.payload.token;
         state.error = null;
       })
@@ -75,7 +68,6 @@ export const authSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(logout.fulfilled, (state) => {
-        state.user = null;
         state.token = null;
         state.status = 'idle';
         state.error = null;

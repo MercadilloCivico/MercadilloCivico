@@ -171,7 +171,7 @@ class usuarios {
           maxAge: 3600000,
           sameSite: 'lax',
         });
-        res.status(200).json({ access: true, token: tokenLog, user: tokenLog });
+        res.status(200).json({ access: true, token: tokenLog });
       }
     } catch (error) {
       res.status(500).json({ message: error.message, error: 'Error en el login' });
