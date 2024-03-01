@@ -138,7 +138,6 @@ function App() {
       cantidad: 1,
     },
   ]);
-  const [filtrosActivos, setFiltrosActivos] = useState({});
 
   const isDetailPage = useMatch('/Detail/:id');
   const isCartPage = useMatch('/Cart');
@@ -148,20 +147,13 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className='min-h-[calc(100vh-55px)]'>
         <Toasts />
-        {!isDetailPage && !isCartPage && !isAdminPage && (
-          <Nav filtrosActivos={filtrosActivos} setFiltrosActivos={setFiltrosActivos} />
-        )}
+        {!isDetailPage && !isCartPage && !isAdminPage && <Nav />}
         {isAdminPage && <AdminNav />}
 
         <Routes>
           <Route path='/' element={<Landing />} />
 
-          <Route
-            path='/store'
-            element={
-              <Store filtrosActivos={filtrosActivos} setFiltrosActivos={setFiltrosActivos} />
-            }
-          />
+          <Route path='/store' element={<Store />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/favorites' element={<ProtectedRoute Component={Favorites} />} />
           <Route path='/detail/:id' element={<Detail />} />
