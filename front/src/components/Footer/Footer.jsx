@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className=' bg-pearl-bush-300 text-pearl-bush-950 w-screen p-2 mt-auto'>
       <div className='container mx-auto text-center'>
-        <p className='text-sm space-y-5 my-1'>
+        <p className='text-sm space-y-5 my-1 text-tuscany-950'>
           &copy; Mercadillo Cívico® 2024. Todos los derechos reservados.
         </p>
         <ul className='flex flex-wrap space-x-3 text-xs my-2 justify-center'>

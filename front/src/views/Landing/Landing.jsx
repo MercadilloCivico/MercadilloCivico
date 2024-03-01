@@ -1,10 +1,13 @@
 import LogoHome from '../../assets/img/logo-full.svg';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomButton from '../../components/CustomButton/CustomButton.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
 import { Link } from 'react-router-dom';
+
+import style from './LandingAnim.module.css';
+
 function Home() {
   return (
-    <>
+    <div className={style.landingAnim}>
       <h1 className='hidden text-cabbage-pont-950'>Mercadillo Civíco</h1>
       <img src={LogoHome} alt='Mercadillo Civíco' className='w-[240px] mt-[50px] p-[10px]' />
 
@@ -52,7 +55,7 @@ function Home() {
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }
 

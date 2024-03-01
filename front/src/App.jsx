@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route, useMatch } from 'react-router-dom';
 import { useState } from 'react';
-import Home from './views/Home/Home.jsx';
+import Landing from './views/Landing/Landing.jsx';
 import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
 import Nav from './components/Nav/Nav.jsx';
@@ -136,7 +136,7 @@ function App() {
         {isAdminPage && <AdminNav />}
 
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Landing />} />
 
           <Route
             path='/store'

@@ -1,0 +1,16 @@
+.historyAnim {
+    animation-name: profile-slide-container;
+    animation-duration: 0.5s;
+}
+
+@keyframes profile-slide-container {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    100% {
+        opacity: 100;
+
+    }
+}

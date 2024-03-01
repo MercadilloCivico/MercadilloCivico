@@ -44,8 +44,8 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
     <div
       className={
         active
-          ? `relative w-full max-w-[500px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030] ${className} ${style.active}`
-          : `relative w-full max-w-[500px] rounded-xl overflow-hidden text-pearl-bush-950 m-2 shadow-md shadow-[#00000030] outline outline-1 outline-[#00000030] ${className} ${style.hidden}`
+          ? `relative w-full max-w-[500px] rounded-xl overflow-hidden text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.active}`
+          : `relative w-full max-w-[500px] rounded-xl overflow-hidden text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.hidden}`
       }>
       <div className='flex'>
         <div
@@ -94,7 +94,9 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
                 <span className='text-base line-clamp-1 text-left'>{name}</span>
               </li>
               <li>
-                <span className='text-2xl font-semibold line-clamp-1 text-left'>${price}</span>
+                <span className='text-2xl font-semibold line-clamp-1 text-left text-tuscany-600'>
+                  ${price}
+                </span>
               </li>
             </ul>
 
