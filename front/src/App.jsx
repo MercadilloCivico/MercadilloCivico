@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, useMatch } from 'react-router-dom';
+import { Routes, Route, useMatch, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import Landing from './views/Landing/Landing.jsx';
 import Store from './views/Store/Store.jsx';
@@ -35,6 +35,22 @@ import SupplierPoints from './components/SupplierComponents/SupplierPoints/Suppl
 import Toasts from './components/Toast/Toasts.jsx';
 import { theme } from './utils/muiTheme.js';
 import AdminNav from './components/AdminNav/AdminNav.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { createToast } from './store/slices/toastSlice.js';
+
+// function ProtectedRoute(Component) {
+//   const { token } = useSelector((state) => state.auth);
+//   if (token) return <Component />;
+//   return <Navigate to='/login' />;
+// }
+
+function CheckAlreadyLoggedIn({ Component }) {
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  if (!token) return <Component />;
+  dispatch(createToast('Ya has iniciado sesión'));
+  return <Navigate to='/store' />;
+}
 
 function App() {
   //Estado temporal
@@ -153,7 +169,7 @@ function App() {
           <Route path='/new_password' element={<NewPassword />} />
 
           <Route path='/cart' element={<Cart />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/login/:id?' element={<CheckAlreadyLoggedIn Component={Login} />} />
 
           <Route path='/profile' element={<Profile />}>
             <Route path='/profile/history' element={<ProfileHistoryContainer />}></Route>

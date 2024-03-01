@@ -4,7 +4,6 @@ import {
   logout,
   register,
   resetPassword,
-  googleAuth,
   createNewPassword,
   putUser,
 } from '../thunks/authThunks';
@@ -12,23 +11,35 @@ import {
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null,
     token: null,
     status: 'idle', // 'idle', 'loading', 'succeeded', 'failed'
     error: null,
   },
   reducers: {
-    setUser(state, action) {
-      state.user = action.payload;
-    },
     setToken(state, action) {
       state.token = action.payload;
     },
     clearAuthState(state) {
-      state.user = null;
       state.token = null;
       state.status = 'idle';
       state.error = null;
+    },
+    googleAuth(state) {
+      window.location.href = 'http://localhost:3001/api/auth/google';
+      state.status = 'loading';
+    },
+    googleErrorChecker(state) {
+      state.status = 'error';
+      state.error = 'Error al autenticar con Google';
+    },
+    getGoogleCookie(state) {
+      const cookie = document.cookie.split(';').find((cookie) => cookie.includes('sessionToken'));
+      if (cookie) {
+        const token = cookie.split('=')[1];
+        state.token = token;
+        state.status = 'succeeded';
+        state.error = null;
+      }
     },
     setStatus(state, action) {
       state.status = action.payload;
@@ -45,7 +56,6 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user;
         state.token = action.payload.token;
         state.error = null;
       })
@@ -58,7 +68,6 @@ export const authSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(logout.fulfilled, (state) => {
-        state.user = null;
         state.token = null;
         state.status = 'idle';
         state.error = null;
@@ -100,19 +109,6 @@ export const authSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Google Auth Callback
-      .addCase(googleAuth.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(googleAuth.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-      })
-      .addCase(googleAuth.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
-      })
       // putUser
       .addCase(putUser.pending, (state) => {
         state.status = 'loading';
@@ -127,6 +123,15 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser, setToken, clearAuthState, setStatus, setError } = authSlice.actions;
+export const {
+  setUser,
+  setToken,
+  clearAuthState,
+  setStatus,
+  setError,
+  googleAuth,
+  getGoogleCookie,
+  googleErrorChecker,
+} = authSlice.actions;
 
 export default authSlice.reducer;

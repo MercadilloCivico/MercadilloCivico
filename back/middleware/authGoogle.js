@@ -9,13 +9,14 @@ function authenticateGoogle(req, res, next) {
 function authenticateGoogleCallback(req, res, next) {
   passport.authenticate('google', { failureRedirect: '/' }, (err, user) => {
     if (err || !user) {
-      return res.redirect('http://localhost:5173/login');
+      return res.redirect('http://localhost:5173/login/alreadyRegistered');
     }
     const token = jwt.sign({ sub: user._id }, SECRET_JWT, { expiresIn: '1h' });
     res.cookie('sessionToken', token, {
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 3600000,
     });
+
     return res.redirect(`http://localhost:5173/store`);
   })(req, res, next);
 }

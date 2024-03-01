@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import { resetFilters } from '../../store/slices/productSlice';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
@@ -11,13 +11,14 @@ import BackButton from '../../components/BackButtom/BackButton';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
+import { getGoogleCookie } from '../../store/slices/authSlice.js';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Store = ({ filtrosActivos, setFiltrosActivos }) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [punto, setPunto] = useState([]);
   useEffect(() => {
     const fetchingPuntosdeVenta = async () => {
@@ -44,6 +45,10 @@ const Store = ({ filtrosActivos, setFiltrosActivos }) => {
   // const resetFiltros = () => {
   //   dispatch(resetFilters());
   // };
+
+  useEffect(() => {
+    dispatch(getGoogleCookie());
+  }, []);
 
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
