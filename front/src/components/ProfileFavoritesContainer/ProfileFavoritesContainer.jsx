@@ -31,7 +31,8 @@ export default function ProfileFavoritesContainer() {
   let i = 0;
 
   return (
-    <div className={'max-w-[1280px] p-2 pb-0 flex flex-col items-center ' + style.historyAnim}>
+    <div
+      className={'max-w-[1280px] p-2 pb-0 flex flex-col items-center mx-auto ' + style.historyAnim}>
       {arrPrueba.map((item) => {
         return (
           <DropdownCard
