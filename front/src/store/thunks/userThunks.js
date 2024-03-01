@@ -9,6 +9,7 @@ export const fetchUsersAsync = createAsyncThunk(
   async (param, { rejectWithValue }) => {
     try {
       let url;
+
       if (regexUuID.test(param)) {
         url = `${VITE_API_URL}/user/info/${param}`;
       }

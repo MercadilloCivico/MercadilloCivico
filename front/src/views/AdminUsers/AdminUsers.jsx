@@ -10,7 +10,7 @@ const AdminUsers = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsersAsync());
-  }, []);
+  }, [dispatch]);
   return (
     <div>
       <div className='mx-2 mt-1'>
