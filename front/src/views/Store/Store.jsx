@@ -11,6 +11,8 @@ import BackButton from '../../components/BackButtom/BackButton';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
+import { getGoogleCookie } from '../../store/slices/authSlice.js';
+import { useEffect } from 'react';
 
 const Store = () => {
   const dispatch = useDispatch();
@@ -28,6 +30,10 @@ const Store = () => {
   const resetFiltros = () => {
     dispatch(resetFilters());
   };
+
+  useEffect(() => {
+    dispatch(getGoogleCookie());
+  }, []);
 
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>

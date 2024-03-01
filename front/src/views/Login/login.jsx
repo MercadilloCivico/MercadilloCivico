@@ -8,10 +8,12 @@ import { useNavigate } from 'react-router-dom';
 
 import Bg from '../../assets/img/bg.jpg';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import { googleAuth, login } from '../../store/thunks/authThunks.js';
+import { useEffect, useState } from 'react';
+import { login } from '../../store/thunks/authThunks.js';
 import { createToast } from '../../store/slices/toastSlice.js';
 import { loginValidation } from '../../utils/validation.js';
+import { googleAuth, googleErrorChecker } from '../../store/slices/authSlice.js';
+import { useParams } from 'react-router-dom';
 
 function Login() {
   const dispatch = useDispatch();
@@ -19,6 +21,14 @@ function Login() {
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id === 'alreadyRegistered') {
+      dispatch(googleErrorChecker());
+      dispatch(createToast('Ya estás registrado, ingresa tu contraseña'));
+    }
+  }, [dispatch, id]);
 
   const navigate = useNavigate();
 
@@ -39,9 +49,8 @@ function Login() {
     if (Object.keys(validationErrors).length === 0) {
       try {
         const { payload } = await dispatch(login(loginData));
-        if (payload === true) {
-          // Debe ser extrictamente igual a true, de otra forma redirije con cualquier cosa que llegue
-          dispatch(createToast('Inicio de sesión exitoso'));
+        if (payload.access === true) {
+          await dispatch(createToast('Inicio de sesión exitoso'));
           navigate('/store');
         }
       } catch (error) {

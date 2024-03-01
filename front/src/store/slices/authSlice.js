@@ -4,7 +4,6 @@ import {
   logout,
   register,
   resetPassword,
-  googleAuth,
   createNewPassword,
   putUser,
 } from '../thunks/authThunks';
@@ -29,6 +28,24 @@ export const authSlice = createSlice({
       state.token = null;
       state.status = 'idle';
       state.error = null;
+    },
+    googleAuth(state) {
+      window.location.href = 'http://localhost:3001/api/auth/google';
+      state.status = 'loading';
+    },
+    googleErrorChecker(state) {
+      state.status = 'error';
+      state.error = 'Error al autenticar con Google';
+    },
+    getGoogleCookie(state) {
+      const cookie = document.cookie.split(';').find((cookie) => cookie.includes('sessionToken'));
+      if (cookie) {
+        const token = cookie.split('=')[1];
+        state.token = token;
+        state.user = 'googleAuthenticatedUser';
+        state.status = 'succeeded';
+        state.error = null;
+      }
     },
     setStatus(state, action) {
       state.status = action.payload;
@@ -100,19 +117,6 @@ export const authSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Google Auth Callback
-      .addCase(googleAuth.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(googleAuth.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-      })
-      .addCase(googleAuth.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
-      })
       // putUser
       .addCase(putUser.pending, (state) => {
         state.status = 'loading';
@@ -127,6 +131,15 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser, setToken, clearAuthState, setStatus, setError } = authSlice.actions;
+export const {
+  setUser,
+  setToken,
+  clearAuthState,
+  setStatus,
+  setError,
+  googleAuth,
+  getGoogleCookie,
+  googleErrorChecker,
+} = authSlice.actions;
 
 export default authSlice.reducer;
