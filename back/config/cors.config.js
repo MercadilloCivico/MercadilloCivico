@@ -1,7 +1,8 @@
 const cors = require('cors');
+const { FRONT_URL } = require('./env.config');
 
 const corsConfig = cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://mer-civ.vercel.app'],
+  origin: [`${FRONT_URL}`, 'http://localhost:5174'],
   methods: 'GET,PUT,PATCH,POST,DELETE',
   credentials: true,
   allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { SECRET_JWT } = require('../config/env.config');
+const { SECRET_JWT, FRONT_URL } = require('../config/env.config');
 const passport = require('../config/passportSetup');
 
 function authenticateGoogle(req, res, next) {
@@ -9,7 +9,7 @@ function authenticateGoogle(req, res, next) {
 function authenticateGoogleCallback(req, res, next) {
   passport.authenticate('google', { failureRedirect: '/' }, (err, user) => {
     if (err || !user) {
-      return res.redirect('http://localhost:5173/login/alreadyRegistered');
+      return res.redirect(`${FRONT_URL}/login/alreadyRegistered`);
     }
     const token = jwt.sign({ sub: user._id }, SECRET_JWT, { expiresIn: '1h' });
     res.cookie('sessionToken', token, {
@@ -17,7 +17,7 @@ function authenticateGoogleCallback(req, res, next) {
       maxAge: 3600000,
     });
 
-    return res.redirect(`http://localhost:5173/store`);
+    return res.redirect(`${FRONT_URL}/store`);
   })(req, res, next);
 }
 
