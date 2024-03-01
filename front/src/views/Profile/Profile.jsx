@@ -63,6 +63,8 @@ export default function Profile() {
     email: '',
   });
 
+  dispatch(createToast('Este es un toast'));
+
   function checkImage(file) {
     if (file.type === 'image/jpeg' || file.type === 'image/png') return true;
     else {
