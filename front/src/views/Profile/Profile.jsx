@@ -63,7 +63,7 @@ export default function Profile() {
     email: '',
   });
 
-  dispatch(createToast('Este es un toast'));
+  // dispatch(createToast('Este es un toast'));
 
   function checkImage(file) {
     if (file.type === 'image/jpeg' || file.type === 'image/png') return true;
@@ -132,7 +132,7 @@ export default function Profile() {
 
     const response = await dispatch(putUser(toSend));
     if (response.payload?.error) dispatch(createToast(response.payload.error));
-    else dispatch(createToast('Datos actualizados con éxiio.'));
+    else dispatch(createToast('Datos actualizados con éxito.'));
     // si la contraseña se cambia debe hacer logout
   }
 
