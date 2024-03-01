@@ -27,6 +27,7 @@ function Cards({ products, setProducts, cardType }) {
             <DropdownCard
               key={product.id}
               name={product.name}
+              description={product.description}
               supplier={product.marca}
               img={product.image}
               price={product.inventario.precio_final}
@@ -42,8 +43,10 @@ function Cards({ products, setProducts, cardType }) {
           ? products?.map((product) => (
               <AdminCard
                 key={product.id}
+                id={product.id}
                 name={product.name}
-                supplier={product.brand}
+                description={product.description}
+                supplier={product.marca}
                 img={product.image}
                 price={product.precio}
                 rating={product.calification}
@@ -59,6 +62,7 @@ function Cards({ products, setProducts, cardType }) {
                 key={product.id}
                 id={product.id}
                 name={product.name}
+                description={product.description}
                 supplier={product.marca}
                 img={product.image}
                 price={product.inventario.precio_final}

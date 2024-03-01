@@ -51,7 +51,11 @@ const AdminCard = ({ id, name, supplier, img, price, rating, className }) => {
         </div>
 
         <div className='flex p-1 justify-center items-center right-0'>
-          <button className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-100 hover:bg-pearl-bush-200 hover:text-tuscany-950 cursor-pointer text-[12px]'>
+          <button
+            className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-100 hover:bg-pearl-bush-200 hover:text-tuscany-950 cursor-pointer text-[12px]'
+            onClick={() => {
+              navigate(`/admin/products/edit/${id}`);
+            }}>
             <MdEdit />
             <span>Editar</span>
           </button>
@@ -71,17 +75,25 @@ const AdminCard = ({ id, name, supplier, img, price, rating, className }) => {
                   <button
                     className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em]'
                     onClick={() => {
-                      alert('Producto eliminado con éxito!');
+                      alert(`El producto ${name} ha sido eliminado con éxito!`);
                       setModalOpen(false);
                     }}>
-                    Si
+                    Eliminar
+                  </button>
+                  <button
+                    className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em] '
+                    onClick={() => {
+                      alert(`El producto ${name} ha sido suspendido con exito!`);
+                      setModalOpen(false);
+                    }}>
+                    Suspender
                   </button>
                   <button
                     className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em] '
                     onClick={() => {
                       setModalOpen(false);
                     }}>
-                    No
+                    Cancelar
                   </button>
                 </div>
               </div>
