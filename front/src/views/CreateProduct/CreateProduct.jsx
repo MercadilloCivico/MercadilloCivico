@@ -8,6 +8,10 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import Logo from '../../assets/img/logo-simple.svg';
 import Modal from '../../components/Modal/Modal';
 import AdminCardPreview from '../../components/Card/AdminCardPreview';
+import { Box } from '@mui/material';
+// import { useDispatch, useSelector } from 'react-redux';
+// import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
+// import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
 
 const CreateProduct = ({ products, setProducts }) => {
   const [producto, setProducto] = useState({
@@ -21,6 +25,8 @@ const CreateProduct = ({ products, setProducts }) => {
     stock: 0,
     cantidad: 1,
     disabled: false,
+    imgPreview: '',
+    photo: null,
   });
 
   /**
@@ -41,23 +47,23 @@ const CreateProduct = ({ products, setProducts }) => {
 
   const navigate = useNavigate();
 
+  // const { providers } = useSelector((state) => state.provider);
+
   const handleInput = (e) => {
-    const { name, value, type, files } = e.target;
+    const { name, value } = e.target;
 
-    if (type === 'file') {
-      const imgFile = files[0];
-
+    if (name === 'photo') {
+      // Si el campo es una imagen, actualiza el estado con el archivo seleccionado
+      const imgFile = e.target.files[0];
       if (imgFile) {
         const reader = new FileReader();
-
         reader.onload = () => {
           setProducto({
             ...producto,
-            image: reader.result,
-            FiImg: imgFile,
+            imgPreview: reader.result, // Establecer la vista previa de la imagen
+            photo: imgFile, // Establecer la imagen seleccionada
           });
         };
-
         reader.readAsDataURL(imgFile);
       }
     } else {
@@ -66,7 +72,6 @@ const CreateProduct = ({ products, setProducts }) => {
         [name]: value,
       });
     }
-
     setErrors(validate({ ...producto, [name]: value }));
   };
 
@@ -110,6 +115,17 @@ const CreateProduct = ({ products, setProducts }) => {
   const openModal = () => {
     setModalOpen(true);
   };
+
+  // const providerOption = providers.map((provider) => {
+  //   return {
+  //     value: provider.id,
+  //     label: provider.company_name,
+  //   };
+  // });
+
+  // const handleClick = () => {
+  //   dispatchEvent
+  // };
 
   return (
     <div>
@@ -168,51 +184,72 @@ const CreateProduct = ({ products, setProducts }) => {
           />
           <div className='text-crown-of-thorns-600 text-sm'>{errors.description}</div>
         </div>
-        <div>
-          {producto.image ? (
-            <div className='relative flex items-end justify-center'>
-              <img
-                className='w-[10em] h-auto object-cover'
-                src={producto.image}
-                alt='product-preview'
-              />
+
+        {/* //----------------------------------------------------------  */}
+        <div className='max-w-[400px] min-w-[250px] mx-auto mt-5'>
+          <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
+            <label
+              htmlFor='image'
+              className='text-pearl-bush-950 self-start text-sm font-semibold mb-5'>
+              Imagen del producto
+            </label>
+
+            <div className='mb-[25px] outline outline-2 relative outline-tuscany-950 mx-auto w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 object-cover overflow-hidden'>
               <>
                 <input
-                  name='image'
-                  id='image'
-                  onChange={handleInput}
-                  type='file'
-                  accept='image/*'
-                  className='hidden absolute inset-0 w-full h-full cursor-pointer opacity-0'
-                />
-                <label
-                  htmlFor='image'
-                  className='text-tuscany-100 ml-2 mb-2 w-8 h-8 rounded-full p-2 hover:cursor-pointer bg-pearl-bush-950'>
-                  <MdEdit className='w-full h-full' />
-                </label>
-              </>
-            </div>
-          ) : (
-            <div className='flex flex-col justify-between mb-[8em] items-center text-tuscany-950'>
-              <span>Ingrese una Imagen</span>
-              <>
-                <input
-                  name='image'
-                  id='image'
+                  name='photo'
+                  id='photo'
                   onChange={handleInput}
                   type='file'
                   accept='image/*'
                   className='hidden absolute'
                 />
                 <label
-                  htmlFor='image'
-                  className='absolute mx-[1em] w-[10em] h-auto p-2 hover:cursor-pointer text-tuscany-950'>
-                  <FaImage className='w-[10em] h-auto p-2' />
+                  htmlFor='photo'
+                  className='text-tuscany-100 absolute m-[5px] bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
+                  <MdEdit className='w-full h-full' />
                 </label>
               </>
+              {producto.photo && !producto.imgPreview ? (
+                <img
+                  className='w-full h-full object-cover'
+                  src={producto.photo}
+                  alt='foto de perfil'></img>
+              ) : producto.imgPreview ? (
+                <img
+                  className='w-full h-full object-cover'
+                  src={producto.imgPreview}
+                  alt='foto de perfil'></img>
+              ) : (
+                <FaImage className='w-full h-full p-2 text-tuscany-950' />
+              )}
             </div>
-          )}
-          <div className='text-crown-of-thorns-600'>{errors.image}</div>
+          </div>
+        </div>
+        {/* //--------------------------------------------------------- */}
+        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
+          <label
+            htmlFor='stock'
+            className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
+            Proveedor
+          </label>
+          <div className='flex flex-col bg-hippie-green-950'>
+            <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6 lg:translate-y-[40%]'>
+              {/* <CustomSelect label='Localización' options={providersOption} /> */}
+              <button>Aplicar Filtro</button>
+            </Box>
+          </div>
+
+          <CustomInput
+            type='number'
+            id='stock'
+            name='stock'
+            value={producto.stock}
+            placeholder='Stock'
+            onChange={handleInput}
+            className='py-2 px-2 border rounded-md'
+          />
+          <div className='text-crown-of-thorns-600 text-sm'>{errors.stock}</div>
         </div>
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
           <label
@@ -230,23 +267,6 @@ const CreateProduct = ({ products, setProducts }) => {
             className='py-2 px-2 border rounded-md'
           />
           <div className='text-crown-of-thorns-600 text-sm'>{errors.precio}</div>
-        </div>
-        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
-          <label
-            htmlFor='stock'
-            className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
-            Stock
-          </label>
-          <CustomInput
-            type='number'
-            id='stock'
-            name='stock'
-            value={producto.stock}
-            placeholder='Stock'
-            onChange={handleInput}
-            className='py-2 px-2 border rounded-md'
-          />
-          <div className='text-crown-of-thorns-600 text-sm'>{errors.stock}</div>
         </div>
         <div className='my-[1em]'>
           <CustomButton text='Crear Producto' type='submit' />
