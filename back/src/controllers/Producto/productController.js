@@ -3,9 +3,12 @@ const ProductHandler = require('../../handlers/Producto/productHandler');
 class ProductController {
   static async post(req, res) {
     try {
-      const { name, description, calification, marca, proveedoresCostos, image } = req.body;
+      const { name, description, marca, proveedoresCostos } = req.body;
 
-      // const { file } = req
+      let photo;
+      if (req.files) {
+        photo = req.files.image;
+      }
 
       // El arreglo de proveedoresCostos debe ser un arreglo de objetos del siguiente tipo:
       // let proveedoresCostos = [
@@ -16,10 +19,9 @@ class ProductController {
       const response = await ProductHandler.post(
         name,
         description,
-        image,
-        calification,
         marca,
-        proveedoresCostos
+        proveedoresCostos,
+        photo
       );
 
       res.status(201).json(response);
