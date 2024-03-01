@@ -253,3 +253,31 @@
 2024-02-29 18:06:42 error: POST /api/login 500 343ms
 2024-02-29 18:08:24 error: POST /api/login 500 455ms
 2024-02-29 18:10:51 error: POST /api/login 500 452ms
+2024-03-01 09:28:41 error: [object Object]
+2024-03-01 09:28:42 error: GET /api/filtro/ 500 308ms
+2024-03-01 09:30:05 error: [object Object]
+2024-03-01 09:30:05 error: GET /api/filtro/ 500 22ms
+2024-03-01 09:31:19 error: [object Object]
+2024-03-01 09:31:19 error: GET /api/filtro/ 500 43ms
+2024-03-01 09:37:13 error: [object Object]
+2024-03-01 09:37:13 error: GET /api/filtro/ 500 50ms
+2024-03-01 09:40:34 error: [object Object]
+2024-03-01 09:40:34 error: GET /api/filtro/ 500 38ms
+2024-03-01 09:49:41 error: [object Object]
+2024-03-01 09:49:41 error: GET /api/filtro/ 500 29ms
+2024-03-01 09:54:58 error: [object Object]
+2024-03-01 09:54:58 error: GET /api/filtro/ 500 73ms
+2024-03-01 10:10:17 error: [object Object]
+2024-03-01 10:10:17 error: GET /api/filtro/ 500 33ms
+2024-03-01 10:12:15 error: GET /api/product/undefined 500 12021ms
+2024-03-01 10:12:24 error: GET /api/product/undefined 500 8413ms
+2024-03-01 10:23:44 error: GET /api/product/undefined 500 891ms
+2024-03-01 10:23:44 error: GET /api/product/undefined 500 9ms
+2024-03-01 10:34:36 error: [object Object]
+2024-03-01 10:34:36 error: GET /api/filtro/ 500 1223ms
+2024-03-01 10:43:19 error: GET /api/product/undefined 500 1051ms
+2024-03-01 10:43:19 error: GET /api/product/undefined 500 15ms
+2024-03-01 12:12:31 error: [object Object]
+2024-03-01 12:12:31 error: GET /api/filtro/ 500 74ms
+2024-03-01 12:12:39 error: [object Object]
+2024-03-01 12:12:39 error: GET /api/filtro/ 500 37ms

@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  filterByPriceRange,
-  filterByBrand,
-  sortByPrice,
-  sortByRating,
-} from '../../store/slices/productSlice';
+// import {
+//   filterByPriceRange,
+//   filterByBrand,
+//   sortByPrice,
+//   sortByRating,
+// } from '../../store/slices/productSlice';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Select from '@mui/material/Select';
@@ -12,20 +12,26 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useState } from 'react';
+import {
+  setFilterMarca,
+  setFilterPrecio,
+  setOrderCalificacion,
+  setOrderPrecio,
+} from '../../store/slices/cardsSlice';
 
 export default function StoreFilters({ className }) {
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.products);
+  const { items } = useSelector((state) => state.card);
 
-  const calculatePriceRanges = () => {
-    const prices = items.map((product) => product.precio);
-    const maxPrice = Math.max(...prices);
-    const midPrice = maxPrice / 2;
+  // const calculatePriceRanges = () => {
+  //   const prices = items.map((product) => product.precio);
+  //   const maxPrice = Math.max(...prices);
+  //   const midPrice = maxPrice / 2;
 
-    return { maxPrice, midPrice };
-  };
+  //   return { maxPrice, midPrice };
+  // };
 
-  const allBrands = items.map((product) => product.brand);
+  const allBrands = [...items].map((product) => product.marca);
 
   const uniqueBrands = Array.from(new Set(allBrands));
 
@@ -39,23 +45,23 @@ export default function StoreFilters({ className }) {
     setValue('filtros');
   }
 
-  function filterByPrices(min, max) {
-    dispatch(filterByPriceRange({ minPrice: min, maxPrice: max }));
-  }
+  // function filterByPrices(min, max) {
+  //   dispatch(filterByPriceRange({ minPrice: min, maxPrice: max }));
+  // }
 
-  function filterBrand(brand) {
-    dispatch(filterByBrand(brand));
-  }
+  // function filterBrand(brand) {
+  //   dispatch(filterByBrand(brand));
+  // }
 
-  function sortPrice(e) {
-    dispatch(sortByPrice(e.target.name));
-    dispatch(sortByRating(null));
-  }
+  // function sortPrice(e) {
+  //   dispatch(sortByPrice(e.target.name));
+  //   dispatch(sortByRating(null));
+  // }
 
-  function sortRating(e) {
-    dispatch(sortByRating(e.target.name));
-    dispatch(sortByPrice(null));
-  }
+  // function sortRating(e) {
+  //   dispatch(sortByRating(e.target.name));
+  //   dispatch(sortByPrice(null));
+  // }
 
   let [value, setValue] = useState('filtros');
 
@@ -107,29 +113,25 @@ export default function StoreFilters({ className }) {
             aria-label='button group'
             className={`overflow-auto grid mx-auto max-w-max`}>
             <Button
-              onClick={() => filterByPrices(0, calculatePriceRanges().midPrice)}
+              onClick={() => {
+                dispatch(setFilterPrecio('bajo'));
+              }}
               name='low range'
               className='bg-tuscany-600 border-tuscany-900'>
               Precios bajos
             </Button>
             <Button
-              onClick={() =>
-                filterByPrices(
-                  calculatePriceRanges().midPrice + 1,
-                  (calculatePriceRanges().maxPrice / 4) * 3
-                )
-              }
+              onClick={() => {
+                dispatch(setFilterPrecio('medio'));
+              }}
               name='mid range'
               className='bg-tuscany-600 border-tuscany-900'>
               Precios medios
             </Button>
             <Button
-              onClick={() =>
-                filterByPrices(
-                  (calculatePriceRanges().maxPrice / 3) * 2 + 1,
-                  calculatePriceRanges().maxPrice
-                )
-              }
+              onClick={() => {
+                dispatch(setFilterPrecio('alto'));
+              }}
               name='high range'
               className='bg-tuscany-600 border-tuscany-900'>
               Precios altos
@@ -144,7 +146,7 @@ export default function StoreFilters({ className }) {
             {uniqueBrands.map((brand) => (
               <Button
                 key={brand}
-                onClick={() => filterBrand(brand)}
+                onClick={() => dispatch(setFilterMarca(brand))}
                 className='bg-tuscany-600 border-tuscany-900'>
                 {brand}
               </Button>
@@ -152,7 +154,9 @@ export default function StoreFilters({ className }) {
           </ButtonGroup>
         ) : sortValue === 'rating' ? (
           <ButtonGroup
-            onClick={sortRating}
+            onClick={(e) => {
+              dispatch(setOrderCalificacion(e.target.name));
+            }}
             style={{ gridTemplateColumns: 'repeat(2, 175px)', scrollbarWidth: 'thin' }}
             variant='contained'
             aria-label='button group'
@@ -166,7 +170,9 @@ export default function StoreFilters({ className }) {
           </ButtonGroup>
         ) : sortValue === 'price' ? (
           <ButtonGroup
-            onClick={sortPrice}
+            onClick={(e) => {
+              dispatch(setOrderPrecio(e.target.name));
+            }}
             style={{ gridTemplateColumns: 'repeat(2, 175px)', scrollbarWidth: 'thin' }}
             variant='contained'
             aria-label='button group'

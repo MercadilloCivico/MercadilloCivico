@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchCards, fetchFaqsSelector } from '../../store/thunks/cardsThunks.js';
 // import { resetFilters } from '../../store/slices/productSlice';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
@@ -12,27 +13,23 @@ import StoreFilters from '../../components/StoreFilters/StoreFilters';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 import { getGoogleCookie } from '../../store/slices/authSlice.js';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
-const VITE_API_URL = import.meta.env.VITE_API_URL;
+import { resetFilters } from '../../store/slices/cardsSlice.js';
 
-const Store = ({ filtrosActivos, setFiltrosActivos }) => {
+const Store = () => {
   const dispatch = useDispatch();
-  const [punto, setPunto] = useState([]);
+  const { puntos } = useSelector((state) => state.card);
+  const { items, filters } = useSelector((state) => state.card);
   useEffect(() => {
-    const fetchingPuntosdeVenta = async () => {
-      try {
-        const { data } = await axios.get(`${VITE_API_URL}/punto_de_venta`);
-        setPunto(data);
-      } catch (error) {
-        alert(error.message);
-      }
-    };
-    fetchingPuntosdeVenta();
+    dispatch(fetchFaqsSelector());
   }, []);
 
-  const cityOptionsMock = punto.map((p) => {
+  useEffect(() => {
+    dispatch(getGoogleCookie());
+  }, [dispatch]);
+
+  const citiesOptions = puntos.map((p) => {
     return {
       value: p.id,
       label: p.company_name,
@@ -40,36 +37,23 @@ const Store = ({ filtrosActivos, setFiltrosActivos }) => {
   });
 
   // const { items, filteredItems, filters } = useSelector((state) => state.products);
-  const { items } = useSelector((state) => state.card);
 
   // const resetFiltros = () => {
   //   dispatch(resetFilters());
   // };
-
-  useEffect(() => {
-    dispatch(getGoogleCookie());
-  }, [dispatch]);
 
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
       <div className='flex flex-col bg-hippie-green-950'>
         <BackButton className='absolute' />
         <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6 lg:translate-y-[40%]'>
-          <CustomSelect
-            label='Localización'
-            options={cityOptionsMock}
-            filtrosActivos={filtrosActivos}
-            setFiltrosActivos={setFiltrosActivos}
-          />
+          <CustomSelect label='Localización' options={citiesOptions} />
+          <button onClick={() => dispatch(fetchCards(filters))}>Aplicar Filtro</button>
         </Box>
       </div>
 
       <div className='flex flex-col bg-hippie-green-950'>
-        <SearchBar
-          filtrosActivos={filtrosActivos}
-          setFiltrosActivos={setFiltrosActivos}
-          className='rounded-lg max-w-64 mx-auto lg:hidden'
-        />
+        <SearchBar className='rounded-lg max-w-64 mx-auto lg:hidden' />
         {/* <CustomInput
           placeholder='Busca tu producto...'
           startIcon={IoSearch}
@@ -94,7 +78,12 @@ const Store = ({ filtrosActivos, setFiltrosActivos }) => {
       <StoreFilters />
       <CardSwitch />
 
-      <CustomButton text='Resetear Filtros' />
+      <CustomButton
+        onClick={() => {
+          dispatch(resetFilters());
+        }}
+        text='Resetear Filtros'
+      />
 
       {/* {filters.priceRange.minPrice !== null &&
       filters.priceRange.maxPrice !== null &&

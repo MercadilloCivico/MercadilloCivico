@@ -1,26 +1,17 @@
 import { IoSearchOutline } from 'react-icons/io5';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchCards } from '../../store/thunks/cardsThunks';
-export default function SearchBar({ className, filtrosActivos, setFiltrosActivos }) {
-  const [query, setQuery] = useState('');
+import { setFilterName } from '../../store/slices/cardsSlice';
+export default function SearchBar({ className }) {
   const dispatch = useDispatch();
+  const { filters } = useSelector((state) => state.card);
 
   const handleInput = (e) => {
-    setQuery(e.target.value);
+    dispatch(setFilterName(e.target.value));
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setFiltrosActivos({
-      ...filtrosActivos,
-      name: query,
-    });
-    // if (query.trim() !== '') {
-    dispatch(fetchCards(filtrosActivos));
-    // console.log(fetchCards(filtrosActivos))
-    setQuery('');
-    // }
+  const handleSearch = () => {
+    dispatch(fetchCards(filters));
   };
 
   return (
@@ -30,7 +21,7 @@ export default function SearchBar({ className, filtrosActivos, setFiltrosActivos
         className=' w-full h-full flex items-center rounded-2xl overflow-hidden outline outline-4 outline-[#00000000] hover:outline-pearl-bush-900 hover:outline-2'>
         <input
           type='text'
-          value={query}
+          value={filters.name}
           onChange={handleInput}
           placeholder='Busca un producto'
           className='bg-pearl-bush-100 text-xl px-[10px] text-pearl-bush-900 w-full h-full border-none'></input>

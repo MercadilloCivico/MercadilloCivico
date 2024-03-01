@@ -30,7 +30,7 @@ function Cards({ products, setProducts, cardType }) {
               description={product.description}
               supplier={product.marca}
               img={product.image}
-              price={product.precio}
+              price={product.inventario.precio_final}
               rating={product.calification}
               stock={15}
               cantidad={1}
@@ -57,14 +57,15 @@ function Cards({ products, setProducts, cardType }) {
                 className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
               />
             ))
-          : products?.map((product) => (
+          : products.map((product) => (
               <UserCard
                 key={product.id}
+                id={product.id}
                 name={product.name}
                 description={product.description}
                 supplier={product.marca}
                 img={product.image}
-                price={product.precio}
+                price={product.inventario.precio_final}
                 rating={product.calification}
                 stock={15}
                 cantidad={1}

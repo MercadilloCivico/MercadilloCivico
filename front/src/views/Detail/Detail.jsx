@@ -1,25 +1,40 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { TiHeartOutline, TiHeartFullOutline, TiStarFullOutline } from 'react-icons/ti';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Reviews from '../../components/Reviews/Reviews';
 import CreateReview from '../../components/CreateReview/CreateReview';
+import axios from 'axios';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Detail = () => {
   const navigate = useNavigate();
   const [isFav, setIsFav] = useState(false);
-  const [showFullDescription, setShowFullDescription] = useState(false);
+  // const [showFullDescription, setShowFullDescription] = useState(false);
+  const { id } = useParams();
+  useEffect(() => {
+    const obtenerDetail = async () => {
+      try {
+        const { data } = await axios.get(`${VITE_API_URL}/product/${id}`);
+        setProducto(data);
+      } catch (error) {
+        console.log(error);
+        alert(error);
+      }
+    };
+    obtenerDetail();
+  }, [id]);
   const [producto, setProducto] = useState({
-    name: 'Manzana',
-    proveedor: 'Proveedor',
-    rating: '4.5',
-    ratings: '100',
-    price: '100',
-    stock: 10,
-    cantidad: 0,
-    description:
-      'Esta es una descripcion de mas de 100 caracteres, solo se van a mostrar 100, y en caso de clickear "leer mas" se mostrara la descricpion completa, y el boton pasara a llamarse leer menos para revertir el cambio. En caso de que esta descricpion dea de menos de 100 caracteres, el boton no se rendderizara. ',
+    // name: 'Manzana',
+    // proveedor: 'Proveedor',
+    // rating: '4.5',
+    // ratings: '100',
+    // price: '100',
+    // stock: 10,
+    // cantidad: 0,
+    // description:
+    //   'Esta es una descripcion de mas de 100 caracteres, solo se van a mostrar 100, y en caso de clickear "leer mas" se mostrara la descricpion completa, y el boton pasara a llamarse leer menos para revertir el cambio. En caso de que esta descricpion dea de menos de 100 caracteres, el boton no se rendderizara. ',
   });
 
   const [reviews, setReviews] = useState([]);
@@ -33,9 +48,9 @@ const Detail = () => {
     }
   };
 
-  const toggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
-  };
+  // const toggleDescription = () => {
+  //   setShowFullDescription(!showFullDescription);
+  // };
 
   const agregarProducto = () => {
     if (producto.stock > 0) {
@@ -118,10 +133,14 @@ const Detail = () => {
               <div>
                 <ul className='text-start'>
                   <li className='text-tuscany-950 font-bold text-lg'>{producto.name}</li>
-                  <li className='text-tuscany-950 opacity-60 font-medium'>{producto.proveedor}</li>
-                  {producto.stock === 0 && (
-                    <span className='text-[#792823] text-[.8em] md:text-[1em]'>NO DISPONIBLE</span>
-                  )}
+                  {/* <li className='text-tuscany-950 opacity-60 font-medium'>{producto.proveedor}</li> */}
+                  {producto.inventario
+                    ? 0
+                    : 0 === 0 && (
+                        <span className='text-[#792823] text-[.8em] md:text-[1em]'>
+                          NO DISPONIBLE
+                        </span>
+                      )}
                 </ul>
               </div>
 
@@ -162,25 +181,31 @@ const Detail = () => {
 
             <hr className='border-[#EEE3D6] mt-2 mb-2' />
             <h4 className='text-tuscany-950 text-start text-lg'>Descripción</h4>
-            <p
-              className={`text-[#2F2D2C] text-[0.8em] md:text-base ${
-                showFullDescription ? 'whitespace-pre-line' : 'line-clamp-3'
-              } w-full`}>
+            <p className={`text-[#2F2D2C] text-[0.8em] md:text-base 'line-clamp-3' w-full`}>
+              {/* // ${
+                // showFullDescription ?
+                // 'whitespace-pre-line'
+                // :
+                // 'line-clamp-3'
+              // }
+              // w-full`}> */}
               {producto.description}
             </p>
 
-            {producto.description.length > 100 && (
+            {/* {producto.description.length > 100 && (
               <button
                 onClick={toggleDescription}
                 className='text-tuscany-600 border-none custom-transparent-bg text-[0.8em] md:text-base font-bold cursor-pointer underline'>
                 {showFullDescription ? 'Leer menos' : 'Leer más'}
               </button>
-            )}
+            )} */}
 
             <div className='flex justify-between items-center mt-3'>
               <ul className='flex flex-col text-start'>
                 <li className='text-tuscany-950 text-lg font-bold'>Precio</li>
-                <li className='text-tuscany-800 text-4xl  font-semibold'>${producto.price}</li>
+                <li className='text-tuscany-800 text-4xl  font-semibold'>
+                  ${producto.inventario ? producto.inventario[0].precio_final : producto.costo}
+                </li>
               </ul>
               <CustomButton text='Comprar' className='max-h-[35px]' />
             </div>

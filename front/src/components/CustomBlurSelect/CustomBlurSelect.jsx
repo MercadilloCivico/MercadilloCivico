@@ -6,16 +6,15 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material';
-// import { useState } from 'react';
 import { theme } from '../../utils/muiTheme';
-const CustomSelect = ({ label, options, filtrosActivos, setFiltrosActivos }) => {
-  // const [value, setValue] = useState('');
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilterId } from '../../store/slices/cardsSlice';
+const CustomSelect = ({ label, options }) => {
+  const dispatch = useDispatch();
+  const { filters } = useSelector((state) => state.card);
 
   const handleChange = (e) => {
-    setFiltrosActivos({
-      ...filtrosActivos,
-      id: e.target.value,
-    });
+    dispatch(setFilterId(e.target.value));
   };
   const customTheme = createTheme({
     ...theme,
@@ -70,7 +69,8 @@ const CustomSelect = ({ label, options, filtrosActivos, setFiltrosActivos }) => 
         <Select
           variant='standard'
           labelId='custom-select-label'
-          // value={value}
+          // value={filters.id}
+          defaultValue={filters.id}
           label={label}
           onChange={handleChange}
           className='bg-transparent border-none focus:ring-0 text-start ps-3 font-semibold text-pearl-bush-100'
@@ -89,4 +89,5 @@ const CustomSelect = ({ label, options, filtrosActivos, setFiltrosActivos }) => 
     </ThemeProvider>
   );
 };
+
 export default CustomSelect;
