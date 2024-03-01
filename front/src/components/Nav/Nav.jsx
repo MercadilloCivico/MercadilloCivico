@@ -10,7 +10,7 @@ import { LuUser } from 'react-icons/lu';
 // import { useSelector, useDispatch } from 'react-redux';
 // import {selectLoggenIn, login,logout} from '../../store/thunks/authThunks.js';
 
-const Nav = () => {
+const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -53,7 +53,11 @@ const Nav = () => {
           </ul>
 
           {/* NAV MIDDLE */}
-          <SearchBar className='flex h-full max-w-[500px] w-full items-center justify-center py-[5px] mx-[15px] sm:hidden max-sm:hidden lg:flex max-xl:flex' />
+          <SearchBar
+            filtrosActivos={filtrosActivos}
+            setFiltrosActivos={setFiltrosActivos}
+            className='flex h-full max-w-[500px] w-full items-center justify-center py-[5px] mx-[15px] sm:hidden max-sm:hidden lg:flex max-xl:flex'
+          />
 
           {/* Logo centrado en mobile */}
           <div className='w-full flex justify-center lg:hidden'>

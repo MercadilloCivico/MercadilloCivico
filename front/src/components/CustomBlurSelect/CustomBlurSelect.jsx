@@ -6,15 +6,17 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { theme } from '../../utils/muiTheme';
-const CustomSelect = ({ label, options }) => {
-  const [value, setValue] = useState('');
+const CustomSelect = ({ label, options, filtrosActivos, setFiltrosActivos }) => {
+  // const [value, setValue] = useState('');
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const handleChange = (e) => {
+    setFiltrosActivos({
+      ...filtrosActivos,
+      id: e.target.value,
+    });
   };
-
   const customTheme = createTheme({
     ...theme,
     components: {
@@ -68,7 +70,7 @@ const CustomSelect = ({ label, options }) => {
         <Select
           variant='standard'
           labelId='custom-select-label'
-          value={value}
+          // value={value}
           label={label}
           onChange={handleChange}
           className='bg-transparent border-none focus:ring-0 text-start ps-3 font-semibold text-pearl-bush-100'
@@ -87,5 +89,4 @@ const CustomSelect = ({ label, options }) => {
     </ThemeProvider>
   );
 };
-
 export default CustomSelect;

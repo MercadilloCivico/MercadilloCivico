@@ -7,7 +7,8 @@ class FiltroHandler {
     filtroPrecio,
     calificacion,
     alfabetico,
-    precio
+    precio,
+    name
   ) {
     try {
       const consulta = {
@@ -97,6 +98,13 @@ class FiltroHandler {
         if (filtroPrecio === 'alto') {
           return productosAltos;
         }
+      }
+
+      if (name) {
+        arrayFilteredProducts = arrayFilteredProducts.filter((p) => {
+          const nameP = p.name.toLowerCase();
+          return nameP.startsWith(name.toLowerCase());
+        });
       }
 
       return arrayFilteredProducts;

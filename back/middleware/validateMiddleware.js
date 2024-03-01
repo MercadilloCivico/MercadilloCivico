@@ -91,6 +91,7 @@ const validateMiddleware = {
       }
       const inventario = await prisma.inventario.findFirst({
         where: {
+          punto_de_venta_id: puntoDeVntaId,
           producto_id: productoId,
         },
       });
