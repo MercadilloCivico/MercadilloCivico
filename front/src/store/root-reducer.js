@@ -4,6 +4,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {
   authReducer,
+  cardsReducer,
   inventoryReducer,
   productReducer,
   storeReducer,
@@ -24,6 +25,7 @@ const combinedReducers = combineReducers({
   store: storeReducer,
   toast: toastReducer,
   user: userReducer,
+  card: cardsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);
