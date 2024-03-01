@@ -35,6 +35,8 @@ import SupplierPoints from './components/SupplierComponents/SupplierPoints/Suppl
 import Toasts from './components/Toast/Toasts.jsx';
 import { theme } from './utils/muiTheme.js';
 import AdminNav from './components/AdminNav/AdminNav.jsx';
+import UserDetail from './views/UserDetail/UserDetail.jsx';
+import EditProduct from './views/EditProduct/EditProduct.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from './store/slices/toastSlice.js';
 
@@ -56,89 +58,7 @@ function CheckAlreadyLoggedIn({ Component }) {
 
 function App() {
   //Estado temporal
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: 'Manzana',
-      brand: 'Frutal',
-      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-      precio: 200,
-      calification: 4.5,
-      stock: 15,
-      cantidad: 1,
-    },
-    {
-      id: 2,
-      name: 'Pera',
-      brand: 'Frutal',
-      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-      precio: 150,
-      calification: 3.5,
-      stock: 15,
-      cantidad: 1,
-    },
-    {
-      id: 3,
-      name: 'Cereal',
-      brand: 'Maiz',
-      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-      precio: 500,
-      calification: 2.5,
-      stock: 15,
-      cantidad: 1,
-    },
-    {
-      id: 4,
-      name: 'Chocolate',
-      brand: 'Chatarra',
-      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-      precio: 1000,
-      calification: 1.3,
-      stock: 15,
-      cantidad: 1,
-    },
-    {
-      id: 5,
-      name: 'Manzana',
-      brand: 'Frutal',
-      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-      precio: 200,
-      calification: 4.5,
-      stock: 15,
-      cantidad: 1,
-    },
-    {
-      id: 6,
-      name: 'Pera',
-      brand: 'Frutal',
-      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-      precio: 150,
-      calification: 3.5,
-      stock: 15,
-      cantidad: 1,
-    },
-    {
-      id: 7,
-      name: 'Cereal',
-      brand: 'Maiz',
-      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-      precio: 500,
-      calification: 2.5,
-      stock: 15,
-      cantidad: 1,
-    },
-    {
-      id: 8,
-      name: 'Chocolate',
-      brand: 'Chatarra',
-      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-      precio: 1000,
-      calification: 1.3,
-      stock: 15,
-      cantidad: 1,
-    },
-  ]);
-  const [filtrosActivos, setFiltrosActivos] = useState({});
+  const [products, setProducts] = useState([]);
 
   const isDetailPage = useMatch('/Detail/:id');
   const isCartPage = useMatch('/Cart');
@@ -149,7 +69,8 @@ function App() {
       <div className='min-h-[calc(100vh-55px)]'>
         <Toasts />
         {!isDetailPage && !isCartPage && !isAdminPage && (
-          <Nav filtrosActivos={filtrosActivos} setFiltrosActivos={setFiltrosActivos} />
+          //<Nav filtrosActivos={filtrosActivos} setFiltrosActivos={setFiltrosActivos} />
+          <Nav />
         )}
         {isAdminPage && <AdminNav />}
 
@@ -159,7 +80,8 @@ function App() {
           <Route
             path='/store'
             element={
-              <Store filtrosActivos={filtrosActivos} setFiltrosActivos={setFiltrosActivos} />
+              //<Store filtrosActivos={filtrosActivos} setFiltrosActivos={setFiltrosActivos} />
+              <Store />
             }
           />
           <Route path='/contact' element={<Contact />} />
@@ -191,7 +113,12 @@ function App() {
             path='/admin/products/create'
             element={<CreateProduct products={products} setProducts={setProducts} />}
           />
+          <Route
+            path='/admin/products/edit/:id'
+            element={<EditProduct products={products} setProducts={setProducts} />}
+          />
           <Route path='/admin/users' element={<AdminUsers />} />
+          <Route path='/admin/users/detail/:id' element={<UserDetail />} />
 
           <Route path='/supplier' element={<SupplierDashboard />}>
             <Route path='/supplier/settings' element={<SupplierSettings />} />

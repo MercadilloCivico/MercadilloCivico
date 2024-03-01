@@ -9,6 +9,7 @@ export const fetchUsersAsync = createAsyncThunk(
   async (param, { rejectWithValue }) => {
     try {
       let url;
+
       if (regexUuID.test(param)) {
         url = `${VITE_API_URL}/user/info/${param}`;
       }
@@ -17,19 +18,6 @@ export const fetchUsersAsync = createAsyncThunk(
       } else {
         url = `${VITE_API_URL}/user/info/`;
       }
-      const response = await axios.get(url);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-// Thunk para obtener usuarios (por)
-export const fetchUsersNameAsync = createAsyncThunk(
-  'users/fetchUsersAsync',
-  async (name, { rejectWithValue }) => {
-    try {
-      const url = `${VITE_API_URL}/user/info/${name}`;
       const response = await axios.get(url);
       return response.data;
     } catch (error) {
