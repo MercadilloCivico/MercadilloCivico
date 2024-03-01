@@ -38,11 +38,13 @@ import AdminNav from './components/AdminNav/AdminNav.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from './store/slices/toastSlice.js';
 
-// function ProtectedRoute(Component) {
-//   const { token } = useSelector((state) => state.auth);
-//   if (token) return <Component />;
-//   return <Navigate to='/login' />;
-// }
+function ProtectedRoute({ Component }) {
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  if (token !== null) return <Component />;
+  dispatch(createToast('Debes iniciar sesión para acceder a esta página'));
+  return <Navigate to='/login' />;
+}
 
 function CheckAlreadyLoggedIn({ Component }) {
   const dispatch = useDispatch();
@@ -161,7 +163,7 @@ function App() {
             }
           />
           <Route path='/contact' element={<Contact />} />
-          <Route path='/favorites' element={<Favorites />} />
+          <Route path='/favorites' element={<ProtectedRoute Component={Favorites} />} />
           <Route path='/detail/:id' element={<Detail />} />
 
           <Route path='/register' element={<Register />} />
@@ -171,7 +173,7 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/login/:id?' element={<CheckAlreadyLoggedIn Component={Login} />} />
 
-          <Route path='/profile' element={<Profile />}>
+          <Route path='/profile' element={<ProtectedRoute Component={Profile} />}>
             <Route path='/profile/history' element={<ProfileHistoryContainer />}></Route>
             <Route path='/profile/favorites' element={<ProfileFavoritesContainer />}></Route>
           </Route>

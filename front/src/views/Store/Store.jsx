@@ -48,7 +48,7 @@ const Store = ({ filtrosActivos, setFiltrosActivos }) => {
 
   useEffect(() => {
     dispatch(getGoogleCookie());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
