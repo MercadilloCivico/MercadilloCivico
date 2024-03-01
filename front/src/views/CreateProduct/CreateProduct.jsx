@@ -12,15 +12,28 @@ import AdminCardPreview from '../../components/Card/AdminCardPreview';
 const CreateProduct = ({ products, setProducts }) => {
   const [producto, setProducto] = useState({
     name: '',
-    supplier: '',
-    FiImg: '',
-    img: '',
-    price: 0,
-    rating: 0,
     description: '',
+    image: '',
+    FiImg: '',
+    calification: 0,
+    marca: '',
+    precio: 0,
     stock: 0,
     cantidad: 1,
+    disabled: false,
   });
+
+  /**
+   *       id: 1,
+      name: 'Manzana',
+      description: 'Esta es una descripción...',
+      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
+      calification: 4.5,
+      marca: 'Frutal',
+      precio: 200,
+      stock: 15,
+      cantidad: 1,
+   */
 
   const [errors, setErrors] = useState({});
 
@@ -40,7 +53,7 @@ const CreateProduct = ({ products, setProducts }) => {
         reader.onload = () => {
           setProducto({
             ...producto,
-            img: reader.result,
+            image: reader.result,
             FiImg: imgFile,
           });
         };
@@ -67,11 +80,13 @@ const CreateProduct = ({ products, setProducts }) => {
       const newProduct = {
         ...producto,
         id: products.length + 1,
-        rating: 0,
+        calification: 0,
         cantidad: 1,
       };
 
       setProducts([...products, newProduct]);
+
+      alert(`El producto ${producto.name} ha sido creado con exito!`);
 
       setProducto({
         name: '',
@@ -83,9 +98,9 @@ const CreateProduct = ({ products, setProducts }) => {
         description: '',
         stock: 0,
         cantidad: 1,
+        disabled: false,
       });
 
-      alert('Producto creado con exito!');
       navigate('/admin/products');
     } else {
       alert('Por favor, complete todos los campos correctamente.');
@@ -122,20 +137,20 @@ const CreateProduct = ({ products, setProducts }) => {
         </div>
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
           <label
-            htmlFor='supplier'
+            htmlFor='marca'
             className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
-            Proveedor
+            Marca
           </label>
           <CustomInput
             type='text'
-            id='supplier'
-            name='supplier'
-            value={producto.supplier}
-            placeholder='Proveedor'
+            id='marca'
+            name='marca'
+            value={producto.marca}
+            placeholder='Marca'
             onChange={handleInput}
             className='py-2 px-2 border rounded-md'
           />
-          <div className='text-crown-of-thorns-600 text-sm'>{errors.supplier}</div>
+          <div className='text-crown-of-thorns-600 text-sm'>{errors.marca}</div>
         </div>
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
           <label
@@ -154,24 +169,24 @@ const CreateProduct = ({ products, setProducts }) => {
           <div className='text-crown-of-thorns-600 text-sm'>{errors.description}</div>
         </div>
         <div>
-          {producto.img ? (
+          {producto.image ? (
             <div className='relative flex items-end justify-center'>
               <img
                 className='w-[10em] h-auto object-cover'
-                src={producto.img}
+                src={producto.image}
                 alt='product-preview'
               />
               <>
                 <input
-                  name='img'
-                  id='img'
+                  name='image'
+                  id='image'
                   onChange={handleInput}
                   type='file'
                   accept='image/*'
                   className='hidden absolute inset-0 w-full h-full cursor-pointer opacity-0'
                 />
                 <label
-                  htmlFor='img'
+                  htmlFor='image'
                   className='text-tuscany-100 ml-2 mb-2 w-8 h-8 rounded-full p-2 hover:cursor-pointer bg-pearl-bush-950'>
                   <MdEdit className='w-full h-full' />
                 </label>
@@ -182,39 +197,39 @@ const CreateProduct = ({ products, setProducts }) => {
               <span>Ingrese una Imagen</span>
               <>
                 <input
-                  name='img'
-                  id='img'
+                  name='image'
+                  id='image'
                   onChange={handleInput}
                   type='file'
                   accept='image/*'
                   className='hidden absolute'
                 />
                 <label
-                  htmlFor='img'
-                  className='text-tuscany-100 absolute mx-[1em] w-[10em] h-auto p-2 hover:cursor-pointer text-tuscany-950'>
+                  htmlFor='image'
+                  className='absolute mx-[1em] w-[10em] h-auto p-2 hover:cursor-pointer text-tuscany-950'>
                   <FaImage className='w-[10em] h-auto p-2' />
                 </label>
               </>
             </div>
           )}
-          <div className='text-crown-of-thorns-600'>{errors.img}</div>
+          <div className='text-crown-of-thorns-600'>{errors.image}</div>
         </div>
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
           <label
-            htmlFor='price'
+            htmlFor='precio'
             className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
             Precio
           </label>
           <CustomInput
             type='number'
-            id='price'
-            name='price'
-            value={producto.price}
+            id='precio'
+            name='precio'
+            value={producto.precio}
             placeholder='Precio'
             onChange={handleInput}
             className='py-2 px-2 border rounded-md'
           />
-          <div className='text-crown-of-thorns-600 text-sm'>{errors.price}</div>
+          <div className='text-crown-of-thorns-600 text-sm'>{errors.precio}</div>
         </div>
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
           <label
@@ -246,9 +261,9 @@ const CreateProduct = ({ products, setProducts }) => {
           <div className='flex flex-col justify-center items-center'>
             <AdminCardPreview
               name={producto.name}
-              supplier={producto.supplier}
-              img={producto.img}
-              price={producto.price}
+              supplier={producto.marca}
+              img={producto.image}
+              price={producto.precio}
               rating={5}
               className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
             />

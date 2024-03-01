@@ -10,17 +10,7 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    createToast: (state, action) => {
-      state.toasts.push({
-        id: state.toasts.length,
-        message: action.payload,
-      });
-    },
-    deleteToast: (state, action) => {
-      state.toasts = state.toasts.filter((item) => item.id !== parseInt(action.payload));
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsersAsync.pending, (state) => {

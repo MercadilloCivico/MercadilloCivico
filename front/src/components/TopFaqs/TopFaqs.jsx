@@ -42,7 +42,7 @@ const TopFaqs = ({ faqs }) => {
                   {faq.pregunta}
                 </span>
               </Link>
-              <p className='hidden lg:block text-tuscany-950 mt-2 cursor-default'>
+              <p className='hidden lg:block text-tuscany-950 mt-2 text-start cursor-default'>
                 {shortenText(faq.respuesta, 80)}
                 {faq.respuesta.length > 80 && (
                   <Link to={`/faqs/detail/${faq.id}`}>
