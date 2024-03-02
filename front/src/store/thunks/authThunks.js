@@ -21,26 +21,30 @@ export const login = createAsyncThunk(
 );
 
 // Thunk para registrar un nuevo usuario
-export const register = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
-  const formData = new FormData();
-  formData.append('firstName', userData.firstName);
-  formData.append('lastName', userData.lastName);
-  formData.append('email', userData.email);
-  formData.append('password', userData.password);
-  if (userData.secondName) formData.append('secondName', userData.secondName);
-  if (userData.photo) formData.append('image', userData.photo);
-
-  try {
-    const response = await axios.post(`${VITE_API_URL}/register`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
+export const register = createAsyncThunk(
+  'auth/register',
+  async (userData, { rejectWithValue, dispatch }) => {
+    const formData = new FormData();
+    formData.append('firstName', userData.firstName);
+    formData.append('lastName', userData.lastName);
+    formData.append('email', userData.email);
+    formData.append('password', userData.password);
+    if (userData.secondName) formData.append('secondName', userData.secondName);
+    if (userData.photo) formData.append('image', userData.photo);
+    try {
+      const response = await axios.post(`${VITE_API_URL}/register`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      await dispatch(getCartIdThunk());
+      await dispatch(getCartDBThunk());
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
-});
+);
 
 // Thunk para cerrar sesión del usuario
 export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {

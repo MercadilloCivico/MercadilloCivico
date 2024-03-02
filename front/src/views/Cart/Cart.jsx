@@ -13,7 +13,33 @@ import { createToast } from '../../store/slices/toastSlice';
 
 const Cart = () => {
   const navigate = useNavigate();
+  const discount = null; // Aca habria que hacer otro estado para cuando hayan descuentos
   const { items, idCarrito, status } = useSelector((state) => state.carrito);
+  const { items: productos } = useSelector((state) => state.card);
+  const productosUpdates = productos.map((p) => {
+    const productoEnCarrito = items.productoEnCarrito.find(
+      (item) => item.inventarioId === p.inventario.id
+    );
+    if (productoEnCarrito) {
+      return {
+        ...p,
+        cantidad: productoEnCarrito.cantidad,
+      };
+    } else {
+      return p;
+    }
+  });
+
+  const productosConCantidad = productosUpdates.filter((p) => 'cantidad' in p);
+
+  const precioTotal = productosConCantidad.reduce((total, producto) => {
+    return total + producto.inventario.precio_final * producto.cantidad;
+  }, 0);
+
+  const comprar = () => {
+    dispatch(createToast('Compra realizada'));
+  };
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -81,22 +107,41 @@ const Cart = () => {
           </div>
           <div className='mt-3 mx-2 text-tuscany-950'>
             <h4 className='mb-2 text-lg text-start font-bold'>Resumen de Pago</h4>
-            <div className='flex justify-between'>
-              <span className='text-medium'>Precio</span>
-              <span className='text-semibold'>$200</span>
-            </div>
-            <div className='flex justify-between my-2'>
-              <span className='text-medium'>Descuento</span>
-              <span className='text-semibold'>$50</span>
-            </div>
+            {discount ? (
+              <>
+                <div className='flex justify-between'>
+                  <span className='text-medium'>Precio</span>
+                  <span className='text-semibold'>$200</span>
+                </div>
+                <div className='flex justify-between my-2'>
+                  <span className='text-medium'>Descuento</span>
+                  <span className='text-semibold'>$50</span>
+                </div>
+              </>
+            ) : (
+              <div className='flex justify-center my-2'>
+                <span className='text-medium'>No se seleccionó ningún descuento.</span>
+              </div>
+            )}
             <hr className='my-2 border-pearl-bush-100' />
-            <div className='flex justify-between my-2'>
-              <span className='text-medium'>Pago total</span>
-              <span className='text-semibold'>$150</span>
-            </div>
+            {!precioTotal ? (
+              <div className='flex justify-center my-2'>
+                <span className='text-medium'>Agregue productos al carrito para comprar.</span>
+              </div>
+            ) : (
+              <div className='flex justify-between my-2'>
+                <span className='text-medium'>Pago total</span>
+                <span className='text-semibold'>${precioTotal}</span>
+              </div>
+            )}
           </div>
           <div className='flex flex-col items-center justify-center'>
-            <CustomButton text={'Comprar'} className='mt-5 w-[150px]' />
+            <CustomButton
+              text={'Comprar'}
+              className='mt-5 w-[150px]'
+              onClick={comprar}
+              disabled={!precioTotal}
+            />
           </div>
         </div>
       </div>

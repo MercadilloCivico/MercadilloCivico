@@ -61,6 +61,7 @@ model Producto {
   description   String?
   image         String
   calification  Int       @default(5)
+  ventas        Int?
   proveedor     ProductoProveedor[]
   marca         String
   resenas       Resena[]
@@ -118,6 +119,7 @@ model Inventario {
 }
 
 model Producto_En_Carrito{
+  ref Int? @default(autoincrement())
   carrito Carrito_de_Compras @relation(fields: [carritoId], references: [id])
   carritoId Int
   inventario Inventario @relation(fields: [inventarioId], references: [id])
