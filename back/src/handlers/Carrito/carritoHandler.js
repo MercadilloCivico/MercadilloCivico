@@ -96,7 +96,6 @@ class CarritoHandler {
           inventarioId_carritoId: { inventarioId, carritoId },
         },
       });
-      console.log('🚀 ~ CarritoHandler ~ controlCantidad ~ productoEnCarrito:', productoEnCarrito);
       if (!productoEnCarrito) {
         throw new Error('El producto no está en el carrito de compras');
       }
@@ -118,10 +117,7 @@ class CarritoHandler {
           cantidad: nuevaCantidad,
         },
       });
-      console.log(
-        '🚀 ~ CarritoHandler ~ controlCantidad ~ productoActualizado:',
-        productoActualizado
-      );
+
       return {
         message: 'Cantidad actualizada exitosamente',
         data: productoActualizado,
