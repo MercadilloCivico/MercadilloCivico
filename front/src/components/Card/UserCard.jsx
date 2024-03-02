@@ -2,23 +2,33 @@ import { useState } from 'react';
 import { TbShoppingBagPlus } from 'react-icons/tb';
 import { TiStarFullOutline, TiHeartOutline, TiHeartFullOutline } from 'react-icons/ti';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProductToCartDBThunk } from '../../store/thunks/cartThunks';
+import { createToast } from '../../store/slices/toastSlice';
 
-const UserCard = ({
-  id,
-  name,
-  supplier,
-  img,
-  price,
-  rating,
-  stock,
-  cantidad,
-  agregarProducto,
-  quitarProducto,
-  className,
-}) => {
+const UserCard = ({ id, name, supplier, img, price, rating, stock, inventarioId, className }) => {
   let [isFav, setIsFav] = useState(false);
-
+  const dispatch = useDispatch();
+  const { idCarrito } = useSelector((state) => state.carrito);
+  const [cantidad, setCantidad] = useState(1);
   const navigate = useNavigate();
+  const agregarAlCarrito = async () => {
+    await dispatch(
+      addProductToCartDBThunk({
+        carritoId: idCarrito,
+        inventarioId,
+        cantidad,
+      })
+    );
+    await dispatch(createToast('Producto agregado al carrito'));
+  };
+  const agregarProducto = () => {
+    setCantidad((prev) => prev + 1);
+  };
+
+  const quitarProducto = () => {
+    setCantidad((prev) => prev - 1);
+  };
 
   return (
     <div
@@ -73,13 +83,16 @@ const UserCard = ({
             </div>
 
             <div className='bg-tuscany-600 flex flex-shrink-0 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full cursor-pointer hover:bg-tuscany-700 active:bg-tuscany-800 transition'>
-              <TbShoppingBagPlus className='w-[20px] h-[20px] text-tuscany-100' />
+              <TbShoppingBagPlus
+                className='w-[20px] h-[20px] text-tuscany-100'
+                onClick={agregarAlCarrito}
+              />
             </div>
           </div>
 
           <div className='flex items-center justify-around p-2 mt-2 bg-tuscany-300 self'>
             <button
-              onClick={() => quitarProducto()}
+              onClick={quitarProducto}
               className={`${
                 cantidad === 1
                   ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
@@ -90,7 +103,7 @@ const UserCard = ({
             </button>
             <span className='mx-2 text-tuscany-950 font-bold text-lg'>{cantidad}</span>
             <button
-              onClick={() => agregarProducto()}
+              onClick={agregarProducto}
               className={`${
                 cantidad === stock
                   ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'

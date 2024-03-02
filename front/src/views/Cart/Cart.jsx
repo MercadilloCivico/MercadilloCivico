@@ -1,14 +1,36 @@
 import { IoIosArrowBack } from 'react-icons/io';
 import { CiDiscount1 } from 'react-icons/ci';
-import { MdOutlineArrowForwardIos } from 'react-icons/md';
+import { MdOutlineArrowForwardIos, MdOutlineCleaningServices } from 'react-icons/md';
 import CartItem from '../../components/CartItem/CartItem';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import { BsCartX } from 'react-icons/bs';
 
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { cleanCartDBThunk, getCartDBThunk } from '../../store/thunks/cartThunks';
+import { createToast } from '../../store/slices/toastSlice';
 
 const Cart = () => {
   const navigate = useNavigate();
+  const { items, idCarrito, status } = useSelector((state) => state.carrito);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getCartDBThunk());
+  }, [dispatch]);
+
+  const productoEnCarrito = items.productoEnCarrito;
+
+  const cleanCart = async () => {
+    await dispatch(cleanCartDBThunk(idCarrito));
+    await dispatch(getCartDBThunk());
+    await dispatch(createToast('El carrito se vació'));
+  };
+
+  const aplicarDescuento = async () => {
+    await dispatch(createToast('No hay descuentos disponibles'));
+  };
   return (
     <>
       <header className='flex h-[55px] w-full fixed text-tuscany-950 bg-pearl-bush-200 items-center justify-center shadow-md z-10'>
@@ -30,38 +52,29 @@ const Cart = () => {
         {/* Sección listado */}
         <div className='min-w-[300px] w-full max-w-[500px]'>
           <div className='mb-4 mt-4 px-3'>
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
-            <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
-            <CartItem className='my-1' />
+            {productoEnCarrito.map((p) => (
+              <>
+                <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
+                <CartItem className='my-1' p={p} />
+              </>
+            ))}
           </div>
         </div>
 
         {/* Sección de precios */}
         <div className='min-w-[300px] w-full max-w-[500px]'>
-          <div className='my-4 mx-2 flex flex-row items-center bg-pearl-bush-200 hover:bg-pearl-bush-300 active:bg-pearl-bush-400 transition justify-between p-3 text-[#2F2D2C] cursor-pointer text-[.9em] font-semibold rounded-md'>
+          {status === 'loading' && 'Cargando..'}
+          <div
+            onClick={cleanCart}
+            className='my-4 mx-2 flex flex-row items-center bg-pearl-bush-200 hover:bg-pearl-bush-300 active:bg-pearl-bush-400 transition justify-between p-3 text-[#2F2D2C] cursor-pointer text-[.9em] font-semibold rounded-md'>
+            <BsCartX className='text-tuscany-950' />
+            <span className='font-bold text-tuscany-950'>Limpiar Carrito</span>
+            <MdOutlineCleaningServices className='text-tuscany-950' />
+          </div>
+
+          <div
+            onClick={aplicarDescuento}
+            className='my-4 mx-2 flex flex-row items-center bg-pearl-bush-200 hover:bg-pearl-bush-300 active:bg-pearl-bush-400 transition justify-between p-3 text-[#2F2D2C] cursor-pointer text-[.9em] font-semibold rounded-md'>
             <CiDiscount1 className='text-tuscany-950' />
             <span className='font-bold text-tuscany-950'>Aplicar Descuento</span>
             <MdOutlineArrowForwardIos className='text-tuscany-950' />
