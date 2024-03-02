@@ -16,7 +16,7 @@ const AdminSearchBar = () => {
 
   const handleClearSearch = () => {
     setSearchValue('');
-    dispatch(fetchUsersAsync('')); // Enviar una solicitud de búsqueda con valor vacío
+    dispatch(fetchUsersAsync(''));
   };
 
   return (
