@@ -104,6 +104,9 @@ export default {
           borderTop: '1px solid #381812;',
           borderBottom: '1px solid #381812;',
         },
+        '.custom-border-2': {
+          border: 'solid 1px #c55d38',
+        },
       };
       addUtilities(newUtilities, ['responsive', 'hover']);
     },
