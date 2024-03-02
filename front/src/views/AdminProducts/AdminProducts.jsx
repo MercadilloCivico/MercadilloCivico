@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import AdminSearchBar from '../../components/AdminSearchBar/AdminSearchBar';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomBreadcrumbs from '../../components/CustomBreadcrumbs/CustomBreadcrumbs';
-import CardsBar from '../../components/CardsBar/CardsBar';
-import AdminCardList from '../../components/Card/AdminCardList';
+// import CardsBar from '../../components/CardsBar/CardsBar';
+// import AdminCardList from '../../components/Card/AdminCardList';
+import AdminGridCard from '../../components/AdminGridCard/AdminGridCard';
 // import Cards from '../../components/Cards/Cards';
 
 /**
@@ -175,6 +176,8 @@ const AdminProducts = () => {
     <div className='mx-2 mt-1'>
       <CustomBreadcrumbs />
       <AdminSearchBar />
+      {/**
+       * 
       <div className='mt-2 max-h-[60vh] overflow-y-auto'>
         <CardsBar />
         <div className='flex flex-col'>
@@ -183,11 +186,17 @@ const AdminProducts = () => {
           ))}
         </div>
       </div>
+       */}
       {/**
       <div>
         <Cards cardType='Admin' products={products} />
       </div>
        */}
+      <div className='flex flex-wrap justify-center items-center'>
+        {products.map((product) => (
+          <AdminGridCard key={product.id} {...product} />
+        ))}
+      </div>
       <div className='flex justify-end mt-2'>
         <Link to='/admin/products/create'>
           <CustomButton text='Crear un producto' />
