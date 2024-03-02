@@ -329,3 +329,7 @@
 2024-03-02 16:08:01 error: POST /api/postProduct 500 8ms
 2024-03-02 16:14:08 error: POST /api/postProduct 500 1183ms
 2024-03-02 16:16:01 error: POST /api/postProduct 500 3461ms
+2024-03-01 23:19:09 error: [object Object]
+2024-03-01 23:19:09 error: GET /api/filtro/ 500 30ms
+2024-03-01 23:19:10 error: [object Object]
+2024-03-01 23:19:10 error: GET /api/filtro/ 500 8ms

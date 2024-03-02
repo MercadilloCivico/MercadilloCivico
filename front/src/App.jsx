@@ -39,6 +39,9 @@ import UserDetail from './views/UserDetail/UserDetail.jsx';
 import EditProduct from './views/EditProduct/EditProduct.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from './store/slices/toastSlice.js';
+import PoliticaCookies from './views/PoliticaCookies/PoliticaCookies.jsx';
+import AvisoLegal from './views/AvisoLegal/AvisoLegal.jsx';
+import PoliticaPrivacidad from './views/PoliticaPrivacidad/PoliticaPrivacidad.jsx';
 
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
@@ -49,10 +52,10 @@ function ProtectedRoute({ Component }) {
 }
 
 function CheckAlreadyLoggedIn({ Component }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   if (!token) return <Component />;
-  dispatch(createToast('Ya has iniciado sesión'));
+  // dispatch(createToast('Ya has iniciado sesión'));
   return <Navigate to='/store' />;
 }
 
@@ -60,16 +63,17 @@ function App() {
   //Estado temporal
   const [products, setProducts] = useState([]);
 
-  const isDetailPage = useMatch('/Detail/:id');
-  const isCartPage = useMatch('/Cart');
+  const isDetailPage = useMatch('/detail/:id');
+  const isCartPage = useMatch('/cart');
   const isAdminPage = useMatch('/admin/*');
+  const isUserDetailPage = useMatch('/admin/users/detail/:id');
 
   return (
     <ThemeProvider theme={theme}>
       <div className='min-h-[calc(100vh-55px)]'>
         <Toasts />
         {!isDetailPage && !isCartPage && !isAdminPage && <Nav />}
-        {isAdminPage && <AdminNav />}
+        {isAdminPage && !isUserDetailPage && <AdminNav />}
 
         <Routes>
           <Route path='/' element={<Landing />} />
@@ -116,6 +120,9 @@ function App() {
             <Route path='/supplier/settings' element={<SupplierSettings />} />
             <Route path='/supplier/points' element={<SupplierPoints />} />
           </Route>
+          <Route path='/politica_de_cookies' element={<PoliticaCookies />} />
+          <Route path='/aviso_legal' element={<AvisoLegal />} />
+          <Route path='/politica_de_privacidad' element={<PoliticaPrivacidad />} />
         </Routes>
       </div>
     </ThemeProvider>

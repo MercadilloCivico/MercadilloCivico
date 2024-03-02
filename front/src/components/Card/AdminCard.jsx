@@ -68,7 +68,7 @@ const AdminCard = ({ id, name, supplier, img, price, rating, className }) => {
           <div>
             <Modal isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>
               <div className='flex flex-col justify-center items-center'>
-                <span className='my-3 text-[.9em] md:text-[1.2em] lg:text-[1.5em] text-tuscany-950'>
+                <span className='my-[4em] text-[.9em] md:text-[1.2em] lg:text-[1.5em] text-tuscany-950 font-semibold'>
                   ¿Estás seguro de que quieres eliminar este producto?
                 </span>
                 <div className='flex justify-between'>
@@ -79,14 +79,6 @@ const AdminCard = ({ id, name, supplier, img, price, rating, className }) => {
                       setModalOpen(false);
                     }}>
                     Eliminar
-                  </button>
-                  <button
-                    className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em] '
-                    onClick={() => {
-                      alert(`El producto ${name} ha sido suspendido con exito!`);
-                      setModalOpen(false);
-                    }}>
-                    Suspender
                   </button>
                   <button
                     className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em] '

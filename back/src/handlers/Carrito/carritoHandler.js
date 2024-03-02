@@ -6,6 +6,9 @@ class CarritoHandler {
       await this.verificarExistencia('usuario', id);
       const carrito = await prisma.carrito_de_Compras.findUnique({
         where: { user_id: id },
+        include: {
+          productoEnCarrito: true,
+        },
       });
       if (!carrito) throw new Error('El usuario no tiene asignado un carrito, error del sistema');
       return carrito;
@@ -60,10 +63,10 @@ class CarritoHandler {
         data: {
           carritoId,
           inventarioId,
-          cantidad,
+          cantidad: cantidad === 0 ? 1 : cantidad,
         },
       });
-      return { message: 'Producto añadido al carrito exitosamente' };
+      return { message: 'Producto añadido' };
     } catch (error) {
       throw new Error(error.message);
     }
@@ -88,11 +91,12 @@ class CarritoHandler {
     try {
       await this.verificarExistencia('carrito_de_Compras', carritoId);
       await this.verificarExistencia('inventario', inventarioId);
-      const productoEnCarrito = await prisma.producto_En_Carrito.findFirst({
+      const productoEnCarrito = await prisma.producto_En_Carrito.findUnique({
         where: {
           inventarioId_carritoId: { inventarioId, carritoId },
         },
       });
+      console.log('🚀 ~ CarritoHandler ~ controlCantidad ~ productoEnCarrito:', productoEnCarrito);
       if (!productoEnCarrito) {
         throw new Error('El producto no está en el carrito de compras');
       }
@@ -114,6 +118,10 @@ class CarritoHandler {
           cantidad: nuevaCantidad,
         },
       });
+      console.log(
+        '🚀 ~ CarritoHandler ~ controlCantidad ~ productoActualizado:',
+        productoActualizado
+      );
       return {
         message: 'Cantidad actualizada exitosamente',
         data: productoActualizado,
