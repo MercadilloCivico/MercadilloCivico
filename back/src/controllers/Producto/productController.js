@@ -3,7 +3,8 @@ const ProductHandler = require('../../handlers/Producto/productHandler');
 class ProductController {
   static async post(req, res) {
     try {
-      const { name, description, marca, proveedoresCostos } = req.body;
+      const { name, description, marca } = req.body;
+      const proveedoresCostos = JSON.parse(req.body.proveedoresCostos);
 
       let photo;
       if (req.files) {

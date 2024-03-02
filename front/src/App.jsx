@@ -39,6 +39,9 @@ import UserDetail from './views/UserDetail/UserDetail.jsx';
 import EditProduct from './views/EditProduct/EditProduct.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from './store/slices/toastSlice.js';
+import PoliticaCookies from './views/PoliticaCookies/PoliticaCookies.jsx';
+import AvisoLegal from './views/AvisoLegal/AvisoLegal.jsx';
+import PoliticaPrivacidad from './views/PoliticaPrivacidad/PoliticaPrivacidad.jsx';
 
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
@@ -117,6 +120,9 @@ function App() {
             <Route path='/supplier/settings' element={<SupplierSettings />} />
             <Route path='/supplier/points' element={<SupplierPoints />} />
           </Route>
+          <Route path='/politica_de_cookies' element={<PoliticaCookies />} />
+          <Route path='/aviso_legal' element={<AvisoLegal />} />
+          <Route path='/politica_de_privacidad' element={<PoliticaPrivacidad />} />
         </Routes>
       </div>
     </ThemeProvider>
