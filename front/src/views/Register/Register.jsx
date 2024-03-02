@@ -9,6 +9,7 @@ import { register } from '../../store/thunks/authThunks';
 import { MdEdit } from 'react-icons/md';
 import { FaUser } from 'react-icons/fa6';
 import Footer from '../../components/Footer/Footer.jsx';
+import { createToast } from '../../store/slices/toastSlice.js';
 
 import { LuLogIn } from 'react-icons/lu';
 import Bg from '../../assets/img/bg.jpg';
@@ -85,9 +86,9 @@ function Register() {
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
           dispatch(register(formData));
-          alert('Formulario enviado');
+          dispatch(createToast('Formulario enviado'));
         } catch (error) {
-          alert('Error al registrar usuario: ' + error.message);
+          dispatch(createToast('Error al registrar usuario: ' + error.message));
         }
 
         setFormData({
@@ -99,9 +100,10 @@ function Register() {
           password: '',
           repeatPassword: '',
         });
-        navigate('/store');
+
+        navigate('/login');
       } else {
-        alert('Por favor, complete todos los campos obligatorios correctamente.');
+        dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));
       }
     } else {
       // Si no se proporciona ninguna imagen, continuar con el envío del formulario sin validarla
@@ -119,9 +121,9 @@ function Register() {
         try {
           dispatch(register(formData));
 
-          alert('Formulario enviado');
+          dispatch(createToast('Formulario enviado'));
         } catch (error) {
-          alert('Error al registrar usuario: ' + error.message);
+          dispatch(createToast('Error al registrar usuario: ' + error.message));
         }
         setFormData({
           photo: null,
@@ -134,7 +136,7 @@ function Register() {
         });
         navigate('/store');
       } else {
-        alert('Por favor, complete todos los campos obligatorios correctamente.');
+        dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));
       }
     }
   };

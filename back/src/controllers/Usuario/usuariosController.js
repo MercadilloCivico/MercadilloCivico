@@ -81,10 +81,14 @@ class usuarios {
         return res.status(401).json({ message: 'Acceso no autorizado' });
       }
       const { firstName, secondName, lastName, email, password, rol } = req.body;
-      const photo = req.files.image;
+      let photo;
+      if (req.files) {
+        photo = req.files.image;
+      }
+
       const dataToUpdate = {};
       if (firstName) dataToUpdate.first_name = firstName;
-      if (secondName) dataToUpdate.second_name = secondName;
+      if (secondName || secondName === '') dataToUpdate.second_name = secondName;
       if (lastName) dataToUpdate.last_name = lastName;
       if (email) dataToUpdate.email = email;
       if (rol) dataToUpdate.rol = rol;
@@ -104,11 +108,7 @@ class usuarios {
         where: { id: decoded.id },
         data: dataToUpdate,
       });
-      if (Object.prototype.hasOwnProperty.call(dataToUpdate, 'password')) {
-        await usuariosHandler.logoutHandler(token);
-        res.clearCookie('sessionToken');
-        return res.status(200).json({ accessLogin: true });
-      }
+
       res.clearCookie('sessionToken');
       token = jwt.sign({ id: response.id }, SECRET_JWT, { expiresIn: '1h' });
       res.cookie('sessionToken', token, {
@@ -117,6 +117,16 @@ class usuarios {
       });
       return res.status(200).json({ message: 'Datos de usuario actualizados' });
     } catch (error) {
+      if (
+        error.code === 'P2002' &&
+        error.meta &&
+        error.meta.target &&
+        error.meta.target.includes('email')
+      ) {
+        return res
+          .status(400)
+          .json({ error: 'El correo electrónico ya está registrado. Por favor, elige otro.' });
+      }
       return res.status(401).json({ error: error.message });
     }
   }

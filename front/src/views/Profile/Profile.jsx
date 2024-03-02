@@ -3,10 +3,11 @@ import { MdEdit } from 'react-icons/md';
 
 import { TextField } from '@mui/material';
 import LinkTags from './LinkTags.jsx';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice.js';
 import { putUser } from '../../store/thunks/authThunks.js';
 import { fetchUserProfileAsync } from '../../store/thunks/profileThunks.js';
+import { logout } from '../../store/thunks/authThunks.js';
 import style from './ProfileAnims.module.css';
 
 import { useEffect, useState } from 'react';
@@ -74,7 +75,7 @@ export default function Profile() {
     const { payload } = await dispatch(fetchUserProfileAsync());
     const data = {
       firstName: payload.first_name,
-      secondName: payload.second_name,
+      secondName: payload.second_name || '',
       lastName: payload.last_name,
       email: payload.email,
       imgUrl: payload.photo,
@@ -135,6 +136,7 @@ export default function Profile() {
       });
     }
   }, [formData]);
+  const { token } = useSelector((state) => state.auth);
 
   async function handleSave() {
     const toSend = {
@@ -154,10 +156,19 @@ export default function Profile() {
 
     const response = await dispatch(putUser(toSend));
     if (response.payload?.error) dispatch(createToast(response.payload.error));
-    else dispatch(createToast('Datos actualizados con éxito.'));
-    updateUserData();
+    if (toSend.password === '') {
+      dispatch(createToast('Datos actualizados con éxito.'));
+      updateUserData();
+    }
+
+    if (toSend.password !== '') {
+      dispatch(createToast('Contraseña actualizada. Vuelve a iniciar sesión.'));
+
+      await dispatch(logout());
+      token !== null && navigate('/login');
+    }
+
     setEditMode(false);
-    // si la contraseña se cambia debe hacer logout
   }
 
   function handleCancel() {
@@ -330,7 +341,11 @@ export default function Profile() {
         <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
           <ul>
             <li className='my-3 font-bold text-3xl mx-2 text-tuscany-600'>
-              <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
+              {currentData.secondName ? (
+                <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
+              ) : (
+                <span>{`${currentData.firstName} ${currentData.lastName}`}</span>
+              )}
             </li>
             <li className='my-3 font-semibold text-lg text-tuscany-800 opacity-80'>
               <span>{currentData.email}</span>
