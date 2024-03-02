@@ -17,7 +17,7 @@ function authenticateGoogleCallback(req, res, next) {
       maxAge: 3600000,
     });
 
-    return res.redirect(`${FRONT_URL}/store`);
+    return res.redirect(`${FRONT_URL}store`);
   })(req, res, next);
 }
 
