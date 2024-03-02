@@ -8,7 +8,6 @@ import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
 import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
-import BackButton from '../../components/BackButtom/BackButton';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
@@ -22,6 +21,10 @@ const Store = () => {
   const { puntos } = useSelector((state) => state.card);
   const { items, filters } = useSelector((state) => state.card);
 
+  useEffect(() => {
+    dispatch(fetchFaqsSelector());
+  }, [dispatch]);
+  
   useEffect(() => {
     dispatch(fetchCards(filters));
   }, [dispatch, filters]);
@@ -41,7 +44,6 @@ const Store = () => {
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
       <div className='flex flex-col bg-hippie-green-950'>
-        <BackButton className='absolute' />
         <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6 lg:translate-y-[40%]'>
           <CustomSelect label='Localización' options={citiesOptions} />
         </Box>

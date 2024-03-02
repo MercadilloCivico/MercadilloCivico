@@ -32,20 +32,14 @@ const validate = (data) => {
     errors.description = 'La descripción no puede tener más de 300 caracteres';
   }
 
-  if (!data.image) {
-    errors.image = 'La imagen es obligatoria';
+  if (!data.photo) {
+    errors.photo = 'La imagen es obligatoria';
   }
 
-  if (data.precio <= 0 || /^\d*\.?\d*$/.test(data.precio) === false || /^0\d/.test(data.precio)) {
-    errors.precio = 'Ingrese un precio válido mayor que cero';
-  } else if (data.precio > 9999) {
-    errors.precio = 'El precio no puede ser mayor a $9999';
-  }
-
-  if (data.stock < 0 || /^\d*\.?\d*$/.test(data.stock) === false || /^0\d/.test(data.stock)) {
-    errors.stock = 'Ingrese un valor de stock válido';
-  } else if (data.stock > 999) {
-    errors.stock = 'El stock no puede ser mayor a 999';
+  if (data.costo <= 0 || /^\d*\.?\d*$/.test(data.costo) === false || /^0\d/.test(data.costo)) {
+    errors.costo = 'Ingrese un precio válido mayor que cero';
+  } else if (data.costo > 9999) {
+    errors.costo = 'El precio no puede ser mayor a $9999';
   }
 
   return errors;
