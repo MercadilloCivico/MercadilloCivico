@@ -71,6 +71,7 @@ const CartItem = ({ className, p }) => {
         <img
           className='w-full h-full object-cover'
           src='https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png'
+          // src={producto.image}
           alt='product-image'
         />
       </div>

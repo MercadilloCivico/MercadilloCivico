@@ -1,10 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCards, fetchFaqsSelector } from '../../store/thunks/cardsThunks.js';
-// import { resetFilters } from '../../store/slices/productSlice';
+import { fetchCards, fetchPuntosSelector } from '../../store/thunks/cardsThunks.js';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
-// import CustomInput from '../../components/CustomInput/CustomInput';
-// import { IoSearch } from 'react-icons/io5';
 import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
@@ -30,7 +27,7 @@ const Store = () => {
   }, [dispatch, filters]);
 
   useEffect(() => {
-    dispatch(fetchFaqsSelector());
+    dispatch(fetchPuntosSelector());
     dispatch(getGoogleCookie());
   }, [dispatch]);
 

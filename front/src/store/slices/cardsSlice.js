@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCards, fetchFaqsSelector } from '../thunks/cardsThunks';
+import { fetchCards, fetchPuntosSelector } from '../thunks/cardsThunks';
 
 const cardsSlice = createSlice({
   name: 'cards',
@@ -65,14 +65,14 @@ const cardsSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-      .addCase(fetchFaqsSelector.pending, (state) => {
+      .addCase(fetchPuntosSelector.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchFaqsSelector.fulfilled, (state, action) => {
+      .addCase(fetchPuntosSelector.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.puntos = action.payload;
       })
-      .addCase(fetchFaqsSelector.rejected, (state, action) => {
+      .addCase(fetchPuntosSelector.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
