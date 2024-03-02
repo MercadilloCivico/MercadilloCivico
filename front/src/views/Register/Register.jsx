@@ -9,6 +9,7 @@ import { register } from '../../store/thunks/authThunks';
 import { MdEdit } from 'react-icons/md';
 import { FaUser } from 'react-icons/fa6';
 import Footer from '../../components/Footer/Footer.jsx';
+import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 
 import { LuLogIn } from 'react-icons/lu';
 import Bg from '../../assets/img/bg.jpg';
@@ -17,6 +18,9 @@ import { registerValidation } from '../../utils/validation.js';
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   // Estado para los datos del formulario y los errores de validación
   const [formData, setFormData] = useState({
     photo: null,
@@ -29,6 +33,14 @@ function Register() {
     imgPreview: '',
   });
   const [errors, setErrors] = useState({});
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password') {
+      setShowPassword(!showPassword);
+    } else if (field === 'repeatPassword') {
+      setShowRepeatPassword(!showRepeatPassword);
+    }
+  };
 
   // Maneja cambios en los campos del formulario
   const handleInput = (e) => {
@@ -52,6 +64,11 @@ function Register() {
       setFormData({
         ...formData,
         [name]: value || '',
+      });
+    } else if (name === 'password') {
+      setFormData({
+        ...formData,
+        [name]: value,
       });
     } else {
       // Para otros campos, actualiza el estado con el valor ingresado
@@ -252,9 +269,17 @@ function Register() {
                 label='Contraseña'
                 placeholder='Contraseña'
                 name='password'
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleInput}
+                endIcon={
+                  <button
+                    onClick={() => togglePasswordVisibility('password')}
+                    style={{ backgroundColor: 'transparent', border: 'none' }}
+                    className='flex justify-center items-center text-tuscany-950 text-2xl'>
+                    {showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
+                  </button>
+                }
               />
               <div className='text-crown-of-thorns-600'>{errors.password}</div>
             </div>
@@ -264,9 +289,17 @@ function Register() {
                 label='Repetir Contraseña'
                 placeholder='Repetir Contraseña'
                 name='repeatPassword'
-                type='password'
+                type={showRepeatPassword ? 'text' : 'password'}
                 value={formData.repeatPassword}
                 onChange={handleInput}
+                endIcon={
+                  <button
+                    onClick={() => togglePasswordVisibility('repeatPassword')}
+                    style={{ backgroundColor: 'transparent', border: 'none' }}
+                    className='flex justify-center items-center text-tuscany-950 text-2xl'>
+                    {showRepeatPassword ? <RiEyeOffFill /> : <RiEyeFill />}
+                  </button>
+                }
               />
               <div className='text-crown-of-thorns-600'>{errors.repeatPassword}</div>
             </div>

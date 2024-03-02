@@ -5,6 +5,7 @@ import storeReducer from './storeSlice';
 import toastReducer from './toastSlice';
 import userReducer from './userSlice';
 import cardsReducer from './cardsSlice';
+import providerReducer from './providerSlice';
 
 export {
   authReducer,
@@ -14,4 +15,5 @@ export {
   toastReducer,
   userReducer,
   cardsReducer,
+  providerReducer,
 };

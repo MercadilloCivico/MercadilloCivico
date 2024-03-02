@@ -24,13 +24,10 @@ export const addProductAsync = createAsyncThunk(
       const formData = new FormData();
       formData.append('name', productData.name);
       formData.append('description', productData.description);
-      formData.append('calification', productData.calification);
       formData.append('marca', productData.marca);
-      formData.append('image', productData.image);
-      productData.proveedoresCostos.forEach((pc, index) => {
-        formData.append(`proveedoresCostos[${index}][proveedor_id]`, pc.proveedor_id);
-        formData.append(`proveedoresCostos[${index}][costo]`, pc.costo);
-      });
+      formData.append('image', productData.photo);
+      formData.append('proveedoresCostos', JSON.stringify(productData.proveedoresCostos));
+      // formData.append('calification', productData.calification);
 
       const response = await axios.post(`${VITE_API_URL}/postProduct`, formData, {
         headers: {
@@ -39,7 +36,7 @@ export const addProductAsync = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data);
     }
   }
 );
