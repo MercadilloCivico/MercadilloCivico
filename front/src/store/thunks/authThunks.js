@@ -72,6 +72,7 @@ export const createNewPassword = createAsyncThunk(
   'auth/createNewPassword',
   async (password, { rejectWithValue }) => {
     try {
+      console.log(password);
       const { data } = await axios.put(
         `${VITE_API_URL}/update/user`,
         { password },
@@ -79,7 +80,7 @@ export const createNewPassword = createAsyncThunk(
           withCredentials: true,
         }
       );
-      return data.accessLogin;
+      return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -93,7 +94,9 @@ export const putUser = createAsyncThunk('update/user', async (userData, { reject
   formData.append('lastName', userData.lastName);
   formData.append('email', userData.email);
   formData.append('password', userData.password);
-  if (userData.secondName) formData.append('secondName', userData.secondName);
+  userData.secondName === ''
+    ? formData.append('secondName', null)
+    : formData.append('secondName', userData.secondName);
   if (userData.photo) formData.append('image', userData.photo);
 
   try {

@@ -3,9 +3,11 @@ import { MdEdit } from 'react-icons/md';
 
 import { TextField } from '@mui/material';
 import LinkTags from './LinkTags.jsx';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice.js';
 import { putUser } from '../../store/thunks/authThunks.js';
+import { fetchUserProfileAsync } from '../../store/thunks/profileThunks.js';
+import { logout } from '../../store/thunks/authThunks.js';
 import style from './ProfileAnims.module.css';
 
 import { useEffect, useState } from 'react';
@@ -21,14 +23,31 @@ import {
 } from './formControl.js';
 
 export default function Profile() {
-  let [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  let [editMode, setEditMode] = useState(false);
 
-  // Redirije automaticamente a /profile/history al entrar a /profile
+  const [currentData, setCurrentData] = useState({
+    firstName: '',
+    secondName: '',
+    lastName: '',
+    email: '',
+    imgUrl: '',
+  });
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    secondName: '',
+    lastName: '',
+    password: '',
+    email: '',
+    confirm: '',
+  });
+
   useEffect(() => {
-    navigate('/profile/history');
-  }, []);
+    setFormData(currentData);
+  }, [currentData]);
+  if (!currentData.firstName) updateUserData();
 
   useEffect(() => {
     if (editMode) {
@@ -39,20 +58,9 @@ export default function Profile() {
   }, [editMode]);
 
   // Copia de la Data original sin modificar, para mostrar en los campos
-  let [oldData] = useState({
-    imgUrl:
-      'https://www.lavanguardia.com/andro4all/hero/2020/12/oie3195149r2UDo3VZ.jpg?width=768&aspect_ratio=16:9&format=nowebp',
-    firstName: 'Nombre',
-    secondName: 'Segundo',
-    lastName: 'Apellido',
-    email: 'uncorreo@mail.com',
-    password: '', // debe estar password en vacío para
-    confirm: '',
-  });
 
   // Estado con la Data actualizada en caso de querer actualizar
   // Se inicializa con los datos viejo
-  const [formData, setFormData] = useState(oldData);
 
   const [errors, setErrors] = useState({
     firstName: '',
@@ -63,7 +71,20 @@ export default function Profile() {
     email: '',
   });
 
-  // dispatch(createToast('Este es un toast'));
+  async function updateUserData() {
+    const { payload } = await dispatch(fetchUserProfileAsync());
+    const data = {
+      firstName: payload.first_name,
+      secondName: payload.second_name || '',
+      lastName: payload.last_name,
+      email: payload.email,
+      imgUrl: payload.photo,
+      password: '',
+      confirm: '', // Estos valores sólo se utilzan para que los de formData no estén vacíos al cargar info del usuario y la página rompa
+    };
+
+    setCurrentData(data);
+  }
 
   function checkImage(file) {
     if (file.type === 'image/jpeg' || file.type === 'image/png') return true;
@@ -103,16 +124,19 @@ export default function Profile() {
 
   // validar errores en cada cambio del formData
   useEffect(() => {
-    setErrors({
-      ...errors,
-      firstName: validateFirstName(formData.firstName),
-      secondName: validateSecondName(formData.secondName),
-      lastName: validateLastName(formData.lastName),
-      password: validatePassword(formData.password),
-      email: validateEmail(formData.email),
-      confirm: validateConfirm(formData.confirm, formData.password),
-    });
+    if (formData.email) {
+      setErrors({
+        ...errors,
+        firstName: validateFirstName(formData.firstName),
+        secondName: validateSecondName(formData.secondName),
+        lastName: validateLastName(formData.lastName),
+        password: validatePassword(formData.password),
+        email: validateEmail(formData.email),
+        confirm: validateConfirm(formData.confirm, formData.password),
+      });
+    }
   }, [formData]);
+  const { token } = useSelector((state) => state.auth);
 
   async function handleSave() {
     const toSend = {
@@ -132,12 +156,22 @@ export default function Profile() {
 
     const response = await dispatch(putUser(toSend));
     if (response.payload?.error) dispatch(createToast(response.payload.error));
-    else dispatch(createToast('Datos actualizados con éxito.'));
-    // si la contraseña se cambia debe hacer logout
+    if (toSend.password === '') {
+      dispatch(createToast('Datos actualizados con éxito.'));
+      updateUserData();
+    }
+
+    if (toSend.password !== '') {
+      dispatch(createToast('Contraseña actualizada. Vuelve a iniciar sesión.'));
+
+      await dispatch(logout());
+      token !== null && navigate('/login');
+    }
+
+    setEditMode(false);
   }
 
   function handleCancel() {
-    setFormData(oldData);
     setEditMode(false);
   }
 
@@ -150,12 +184,13 @@ export default function Profile() {
 
   function hasChanged() {
     // verifica si se modificó algún campo
-    return JSON.stringify(formData) !== JSON.stringify(oldData);
+    return JSON.stringify(formData) !== JSON.stringify(currentData);
   }
 
   return (
     <div className='text-pearl-bush-950'>
       {/* Header container */}
+
       <div>
         <div
           style={{ backgroundImage: "url('https://picsum.photos/600/300')" }}
@@ -199,8 +234,8 @@ export default function Profile() {
                 Renderizado condicional de imágen de perfil.
                 Si hay una imagen existente se renderiza. Si se seleccionó una imágen para subir, se renderizará la preview en su lugar. Else, se renderiza un placeholder
               */}
-            {formData.imgUrl && !formData.imgPreview ? (
-              <img className='w-full h-full object-cover' src={formData.imgUrl}></img>
+            {currentData.imgUrl && !formData.imgPreview ? (
+              <img className='w-full h-full object-cover' src={currentData.imgUrl}></img>
             ) : formData.imgPreview ? (
               <img className='w-full h-full object-cover' src={formData.imgPreview}></img>
             ) : (
@@ -222,7 +257,7 @@ export default function Profile() {
               color='success'
               id='outlined-helperText'
               label='Nombre'
-              defaultValue={formData.firstName}
+              defaultValue={currentData.firstName}
               helperText={errors.firstName}
               error={errors.firstName ? true : false}
             />
@@ -234,7 +269,7 @@ export default function Profile() {
               color='success'
               id='outlined-helperText'
               label='Segundo nombre'
-              defaultValue={formData.secondName}
+              defaultValue={currentData.secondName}
               helperText={errors.secondName}
               error={errors.secondName ? true : false}
             />
@@ -246,7 +281,7 @@ export default function Profile() {
               color='success'
               id='outlined-helperText'
               label='Apellido'
-              defaultValue={formData.lastName}
+              defaultValue={currentData.lastName}
               helperText={errors.lastName}
               error={errors.lastName ? true : false}
             />
@@ -258,7 +293,7 @@ export default function Profile() {
               color='success'
               id='outlined-helperText'
               label='Email'
-              defaultValue={formData.email}
+              defaultValue={currentData.email}
               helperText={errors.email}
               error={errors.email ? true : false}
             />
@@ -306,10 +341,14 @@ export default function Profile() {
         <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
           <ul>
             <li className='my-3 font-bold text-3xl mx-2 text-tuscany-600'>
-              <span>{`${formData.firstName} ${formData.secondName} ${formData.lastName}`}</span>
+              {currentData.secondName ? (
+                <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
+              ) : (
+                <span>{`${currentData.firstName} ${currentData.lastName}`}</span>
+              )}
             </li>
             <li className='my-3 font-semibold text-lg text-tuscany-800 opacity-80'>
-              <span>{formData.email}</span>
+              <span>{currentData.email}</span>
             </li>
           </ul>
         </div>

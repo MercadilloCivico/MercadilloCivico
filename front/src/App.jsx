@@ -60,16 +60,17 @@ function App() {
   //Estado temporal
   const [products, setProducts] = useState([]);
 
-  const isDetailPage = useMatch('/Detail/:id');
-  const isCartPage = useMatch('/Cart');
+  const isDetailPage = useMatch('/detail/:id');
+  const isCartPage = useMatch('/cart');
   const isAdminPage = useMatch('/admin/*');
+  const isUserDetailPage = useMatch('/admin/users/detail/:id');
 
   return (
     <ThemeProvider theme={theme}>
       <div className='min-h-[calc(100vh-55px)]'>
         <Toasts />
         {!isDetailPage && !isCartPage && !isAdminPage && <Nav />}
-        {isAdminPage && <AdminNav />}
+        {isAdminPage && !isUserDetailPage && <AdminNav />}
 
         <Routes>
           <Route path='/' element={<Landing />} />

@@ -55,7 +55,7 @@ app.use(
   cookieParser(SECRET_COOKIE, {
     httpOnly: true,
     sameSite: 'None',
-    // secure: true,
+    secure: true,
   })
 );
 

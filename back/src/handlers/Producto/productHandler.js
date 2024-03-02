@@ -7,22 +7,25 @@ const validationImage = require('../../utils/validations/validationImage');
 const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
 
 class ProductHandler {
-  static async post(name, description, image, calification, marca, proveedoresCostos) {
+  static async post(name, description, marca, proveedoresCostos, photo) {
     try {
       // Subir la imagen a cloudinary
-      // let imageURL;
-      // if (image) {
-      //   imageURL = await uploadToCloudinary(image);
-      // }
+      let secureUrl;
+      if (photo) {
+        validationImage(photo[0]);
+        secureUrl = await uploadToCloudinary(photo[0]);
+      }
+      if (secureUrl === undefined) {
+        secureUrl =
+          'https://previews.123rf.com/images/jpgon/jpgon1411/jpgon141100514/33774342-ilustraci%C3%B3n-de-un-avatar-de-manzana-que-llevaba-gafas.jpg';
+      }
 
       // Creación del prodcuto en la base de datos
       const producto = await prisma.producto.create({
         data: {
           name,
           description,
-          // image: imageURL || '',
-          image,
-          calification,
+          image: secureUrl,
           marca,
           proveedor: {
             createMany: {
