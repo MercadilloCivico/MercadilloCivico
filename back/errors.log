@@ -281,3 +281,7 @@
 2024-03-01 12:12:31 error: GET /api/filtro/ 500 74ms
 2024-03-01 12:12:39 error: [object Object]
 2024-03-01 12:12:39 error: GET /api/filtro/ 500 37ms
+2024-03-01 23:19:09 error: [object Object]
+2024-03-01 23:19:09 error: GET /api/filtro/ 500 30ms
+2024-03-01 23:19:10 error: [object Object]
+2024-03-01 23:19:10 error: GET /api/filtro/ 500 8ms
