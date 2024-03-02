@@ -21,11 +21,13 @@ const Store = () => {
   const dispatch = useDispatch();
   const { puntos } = useSelector((state) => state.card);
   const { items, filters } = useSelector((state) => state.card);
-  useEffect(() => {
-    dispatch(fetchFaqsSelector());
-  }, []);
 
   useEffect(() => {
+    dispatch(fetchCards(filters));
+  }, [dispatch, filters]);
+
+  useEffect(() => {
+    dispatch(fetchFaqsSelector());
     dispatch(getGoogleCookie());
   }, [dispatch]);
 
@@ -36,30 +38,17 @@ const Store = () => {
     };
   });
 
-  // const { items, filteredItems, filters } = useSelector((state) => state.products);
-
-  // const resetFiltros = () => {
-  //   dispatch(resetFilters());
-  // };
-
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
       <div className='flex flex-col bg-hippie-green-950'>
         <BackButton className='absolute' />
         <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6 lg:translate-y-[40%]'>
           <CustomSelect label='Localización' options={citiesOptions} />
-          <button onClick={() => dispatch(fetchCards(filters))}>Aplicar Filtro</button>
         </Box>
       </div>
 
       <div className='flex flex-col bg-hippie-green-950'>
         <SearchBar className='rounded-lg max-w-64 mx-auto lg:hidden' />
-        {/* <CustomInput
-          placeholder='Busca tu producto...'
-          startIcon={IoSearch}
-          variant='outlined'
-          className='rounded-lg max-w-64 mx-auto lg:hidden'
-        /> */}
       </div>
 
       {/* Div eparador con color verde de fondo, altura del div usado como margin top y bottom */}
@@ -84,22 +73,6 @@ const Store = () => {
         }}
         text='Resetear Filtros'
       />
-
-      {/* {filters.priceRange.minPrice !== null &&
-      filters.priceRange.maxPrice !== null &&
-      filteredItems.length === 0 ? (
-        <div className='text-tuscany-950 text-center my-[3em] text-[.8em] md:text-[1.2em] lg:text-[1.5em]'>
-          Lo sentimos, no hay productos con este filtro aplicado...
-        </div>
-      ) : filteredItems.length > 0 ? (
-        <div>
-          <Cards products={filteredItems} />
-        </div>
-      ) : (
-        <div>
-          <Cards products={items} />
-        </div>
-      )} */}
 
       <div>
         <Cards products={items} />

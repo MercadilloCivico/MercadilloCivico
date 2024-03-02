@@ -56,7 +56,7 @@ router.delete('/proveedor/:id', ProveedoresController.delete);
 
 // carrito
 
-router.get('/carrito_de_compras/:id?', CarritoController.get);
+router.get('/carrito_de_compras', CarritoController.get);
 router.put('/carrito_de_compras/limpiar', CarritoController.limpiarCarrito);
 router.put('/carrito_de_compras/add', CarritoController.addProducto);
 router.put('/carrito_de_compras/remove', CarritoController.removeProducto);

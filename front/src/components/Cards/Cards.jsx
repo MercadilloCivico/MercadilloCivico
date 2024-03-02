@@ -3,21 +3,7 @@ import AdminCard from '../Card/AdminCard.jsx';
 import DropdownCard from '../DropdownCard/DropdownCard.jsx';
 import { useSelector } from 'react-redux';
 
-function Cards({ products, setProducts, cardType }) {
-  const agregarProducto = (id) => {
-    const updatedProducts = products.map((product) =>
-      product.id === id ? { ...product, cantidad: product.cantidad + 1 } : product
-    );
-    setProducts(updatedProducts);
-  };
-
-  const quitarProducto = (id) => {
-    const updatedProducts = products.map((product) =>
-      product.id === id ? { ...product, cantidad: product.cantidad - 1 } : product
-    );
-    setProducts(updatedProducts);
-  };
-
+function Cards({ products, cardType }) {
   const { showDropdownCard } = useSelector((state) => state.store);
 
   return (
@@ -34,8 +20,8 @@ function Cards({ products, setProducts, cardType }) {
               rating={product.calification}
               stock={15}
               cantidad={1}
-              agregarProducto={() => agregarProducto(product.id)}
-              quitarProducto={() => quitarProducto(product.id)}
+              // agregarProducto={() => agregarProducto(product.id)}
+              // quitarProducto={() => quitarProducto(product.id)}
               className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
             />
           ))
@@ -52,8 +38,8 @@ function Cards({ products, setProducts, cardType }) {
                 rating={product.calification}
                 stock={15}
                 cantidad={1}
-                agregarProducto={() => agregarProducto(product.id)}
-                quitarProducto={() => quitarProducto(product.id)}
+                // agregarProducto={() => agregarProducto(product.id)}
+                // quitarProducto={() => quitarProducto(product.id)}
                 className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
               />
             ))
@@ -67,10 +53,8 @@ function Cards({ products, setProducts, cardType }) {
                 img={product.image}
                 price={product.inventario.precio_final}
                 rating={product.calification}
-                stock={15}
-                cantidad={1}
-                agregarProducto={() => agregarProducto(product.id)}
-                quitarProducto={() => quitarProducto(product.id)}
+                stock={product.inventario.stock}
+                inventarioId={product.inventario.id}
                 className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
               />
             ))}

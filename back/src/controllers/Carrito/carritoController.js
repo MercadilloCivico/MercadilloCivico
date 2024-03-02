@@ -1,16 +1,16 @@
+const jwt = require('jsonwebtoken');
+const { SECRET_JWT } = require('../../../config/env.config');
 const CarritoHandler = require('../../handlers/Carrito/carritoHandler');
 
 class CarritoController {
   static async get(req, res) {
     try {
-      const { id } = req.params;
+      const token = req.cookies.sessionToken;
       // Este es el id del usuario del cual se esta solicitando el carrito.
-      if (id) {
-        const carrito = await CarritoHandler.getById(id);
-        return res.status(200).json(carrito);
-      }
-      const carritos = await CarritoHandler.getAll();
-      return res.status(200).json(carritos);
+      const { id } = jwt.verify(token, SECRET_JWT);
+      if (!id) return res.status(401).json({ message: 'Acceso no autorizado' });
+      const carrito = await CarritoHandler.getById(id);
+      return res.status(200).json(carrito);
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
@@ -34,7 +34,7 @@ class CarritoController {
   static async addProducto(req, res) {
     try {
       const { carritoId, inventarioId, cantidad } = req.body;
-      if (!carritoId || !inventarioId || !cantidad)
+      if (!carritoId || !inventarioId)
         throw new Error('Faltan datos requeridos para realizar la acción');
       const response = await CarritoHandler.addProduct(carritoId, inventarioId, cantidad);
       return res.status(200).json(response);
@@ -69,9 +69,9 @@ class CarritoController {
 
   static async limpiarCarrito(req, res) {
     try {
-      const { carritoId } = req.body;
-      if (!carritoId) throw new Error('Faltan datos requeridos para realizar la acción');
-      const response = await CarritoHandler.limpiar(carritoId);
+      const { id } = req.body;
+      if (!id) throw new Error('Faltan datos requeridos para realizar la acción');
+      const response = await CarritoHandler.limpiar(id);
       return res.status(200).json(response);
     } catch (error) {
       return res.status(400).json({ error: error.message });

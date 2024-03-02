@@ -1,18 +1,24 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { getCartDBThunk, getCartIdThunk } from './cartThunks';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 // Thunk para realizar el inicio de sesión del usuario
-export const login = createAsyncThunk('auth/login', async (userData, { rejectWithValue }) => {
-  try {
-    const { data } = await axios.post(`${VITE_API_URL}/login`, userData, {
-      withCredentials: true,
-    });
-    return data;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
+export const login = createAsyncThunk(
+  'auth/login',
+  async (userData, { rejectWithValue, dispatch }) => {
+    try {
+      const { data } = await axios.post(`${VITE_API_URL}/login`, userData, {
+        withCredentials: true,
+      });
+      await dispatch(getCartIdThunk());
+      await dispatch(getCartDBThunk());
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
-});
+);
 
 // Thunk para registrar un nuevo usuario
 export const register = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {

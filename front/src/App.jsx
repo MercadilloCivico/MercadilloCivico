@@ -49,10 +49,10 @@ function ProtectedRoute({ Component }) {
 }
 
 function CheckAlreadyLoggedIn({ Component }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   if (!token) return <Component />;
-  dispatch(createToast('Ya has iniciado sesión'));
+  // dispatch(createToast('Ya has iniciado sesión'));
   return <Navigate to='/store' />;
 }
 
