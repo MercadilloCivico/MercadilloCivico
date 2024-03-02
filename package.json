@@ -11,7 +11,8 @@
     "clean": "rm -rf node_modules/ package-lock.json ./back/node_modules/ ./back/package-lock.json ./front/node_modules/ ./front/package-lock.json",
     "format": "prettier --write \"./**/*.{js,jsx,json,css}\"",
     "lint": "eslint \"./**/*.{js,jsx}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "render:install": "cd back && npm start"
   },
   "author": "",
   "license": "ISC",
