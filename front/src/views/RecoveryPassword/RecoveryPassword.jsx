@@ -9,6 +9,7 @@ import Bg from '../../assets/img/bg.jpg';
 import { useDispatch } from 'react-redux';
 import { resetPassword } from '../../store/thunks/authThunks.js';
 import { useNavigate } from 'react-router-dom';
+import { createToast } from '../../store/slices/toastSlice.js';
 
 function RecoveryPassword() {
   // Estado para el email, el mensaje de error y el estado de carga
@@ -22,11 +23,11 @@ function RecoveryPassword() {
 
     dispatch(resetPassword(email))
       .then(() => {
-        console.log('correo enviado');
+        dispatch(createToast('Correo enviado exitosamente.'));
         navigate('/login');
       })
       .catch((error) => {
-        console.log('Error al enviar el correo', error);
+        dispatch(createToast('Error al enviar el correo', error));
       });
   };
 

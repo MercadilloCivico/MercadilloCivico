@@ -2,10 +2,12 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import Logo from '../../assets/img/logo-full.svg';
 import Footer from '../../components/Footer/Footer.jsx';
+import { createToast } from '../../store/slices/toastSlice.js';
+import { logout } from '../../store/thunks/authThunks.js';
 
 import { LuCheck } from 'react-icons/lu';
 import Bg from '../../assets/img/bg.jpg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createNewPassword } from '../../store/thunks/authThunks.js';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -29,6 +31,8 @@ function NewPassword() {
     setErrors(newPasswordValidation({ ...formData, [e.target.name]: e.target.value }));
   };
 
+  const { token } = useSelector((state) => state.auth);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,11 +40,14 @@ function NewPassword() {
 
     if (Object.keys(validationErrors).length === 0) {
       let { payload } = await dispatch(createNewPassword(formData.password));
+      console.log(payload);
       if (payload) {
-        navigate('/login');
+        dispatch(createToast('Contraseña cambiada con éxito.'));
+        await dispatch(logout());
+        !token && navigate('/login');
       }
     } else {
-      alert('Error en la validación');
+      dispatch(createToast('Error en la validación'));
       setErrors(validationErrors);
     }
   };
