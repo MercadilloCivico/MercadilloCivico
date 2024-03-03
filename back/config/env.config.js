@@ -24,6 +24,9 @@ const {
   CLIENT_SECRET,
   SECRET_COOKIE,
   FRONT_URL,
+  PRIVATE_KEY,
+  PUBLIC_KEY,
+  MERCHANT_ID,
 } = process.env;
 
 module.exports = {
@@ -39,4 +42,7 @@ module.exports = {
   CLIENT_SECRET,
   SECRET_COOKIE,
   FRONT_URL,
+  PRIVATE_KEY,
+  PUBLIC_KEY,
+  MERCHANT_ID,
 };
