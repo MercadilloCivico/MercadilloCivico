@@ -48,5 +48,4 @@ function CaruselBanners({ banners }) {
     </div>
   );
 }
-
 export default CaruselBanners;
