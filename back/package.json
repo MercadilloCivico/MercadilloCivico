@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.js production",
+    "start": "node index.js production",
     "dev": "nodemon ./src/index.js development",
     "prisma": "npm run prisma:generate:dev",
     "prisma:push": "npm run prisma:generate:dev && npm run prisma:push:dev",
