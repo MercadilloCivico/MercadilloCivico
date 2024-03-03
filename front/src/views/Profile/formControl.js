@@ -51,6 +51,7 @@ function validateFirstName(data) {
 }
 
 function validateSecondName(data) {
+  if (!data) return '';
   if (data.trim().length === 0) return '';
   if (data.length > 20) return 'No puede tener más de 20 caracteres';
   if (data.length < 3) return 'No puede tener menos de 3 caracteres';
