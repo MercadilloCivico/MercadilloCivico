@@ -13,6 +13,8 @@ const CustomInput = ({
   error = '',
   className,
   type,
+  style,
+  maxLength,
 }) => {
   const handleChange = (event) => {
     onChange({
@@ -35,6 +37,8 @@ const CustomInput = ({
       error={!!error}
       helperText={error}
       type={type}
+      style={style}
+      inputProps={{ maxLength }}
       InputProps={{
         startAdornment: StartIcon ? (
           <InputAdornment position='start'>

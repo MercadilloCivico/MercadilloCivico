@@ -41,6 +41,8 @@ const firstNameValidation = (firstName, errors) => {
     errors.firstName = 'El nombre es obligatorio';
   } else if (firstName.length < 3) {
     errors.firstName = 'El nombre debe tener al menos 3 caracteres';
+  } else if (firstName.length > 15) {
+    errors.firstName = 'El nombre no puede tener más de 15 caracteres';
   } else if (!onlyLetters.test(firstName)) {
     errors.firstName = 'El nombre solo puede contener letras';
   } else if (!firstName.length) {
@@ -50,9 +52,14 @@ const firstNameValidation = (firstName, errors) => {
 };
 
 const secondNameValidation = (secondName, errors) => {
-  if (secondName && (secondName.length < 3 || !onlyLetters.test(secondName))) {
-    errors.secondName =
-      'El segundo nombre debe tener al menos 3 caracteres y solo puede contener letras';
+  if (secondName) {
+    if (secondName.trim() === '') {
+      errors.secondName = 'El segundo nombre es requerido';
+    } else if (secondName.length < 3) {
+      errors.secondName = 'El segundo nombre debe tener al menos 3 caracteres';
+    } else if (!/^[a-zA-Z\s]*$/.test(secondName)) {
+      errors.secondName = 'El segundo nombre solo puede contener letras';
+    }
   }
   return errors;
 };
