@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdEdit } from 'react-icons/md';
 import { FaImage } from 'react-icons/fa';
@@ -9,45 +9,44 @@ import Logo from '../../assets/img/logo-simple.svg';
 import Modal from '../../components/Modal/Modal';
 import AdminCardPreview from '../../components/Card/AdminCardPreview';
 import { Box } from '@mui/material';
-// import { useDispatch, useSelector } from 'react-redux';
-// import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
-// import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProvidersAsync } from '../../store/thunks/providerThunks.js';
+import { addProductAsync } from '../../store/thunks/productThunks.js';
 
 const CreateProduct = ({ products, setProducts }) => {
   const [producto, setProducto] = useState({
-    name: '',
-    description: '',
-    image: '',
-    FiImg: '',
-    calification: 0,
-    marca: '',
-    precio: 0,
-    stock: 0,
-    cantidad: 1,
-    disabled: false,
-    imgPreview: '',
     photo: null,
+    imgPreview: '',
+    proveedor: '',
+    name: '',
+    marca: '',
+    description: '',
+    costo: '',
+    disabled: false,
+    proveedoresCostos: [],
   });
-
-  /**
-   *       id: 1,
-      name: 'Manzana',
-      description: 'Esta es una descripción...',
-      image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-      calification: 4.5,
-      marca: 'Frutal',
-      precio: 200,
-      stock: 15,
-      cantidad: 1,
-   */
-
-  const [errors, setErrors] = useState({});
-
   const [isModalOpen, setModalOpen] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [errors, setErrors] = useState({});
+  const { providerArray } = useSelector((state) => state.providers);
 
-  // const { providers } = useSelector((state) => state.provider);
+  useEffect(() => {
+    dispatch(fetchProvidersAsync());
+  }, [dispatch]);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const providersOptions = providerArray?.map((provider) => {
+    return (
+      <option key={provider.id} value={provider.id}>
+        {provider.name_prov}
+      </option>
+    );
+  });
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -66,6 +65,12 @@ const CreateProduct = ({ products, setProducts }) => {
         };
         reader.readAsDataURL(imgFile);
       }
+    } else if (name === 'proveedorSeleccionado') {
+      const selectedProvider = providerArray.find((provider) => provider.id === parseInt(value));
+      setProducto({
+        ...producto,
+        proveedor: selectedProvider.id,
+      });
     } else {
       setProducto({
         ...producto,
@@ -84,26 +89,31 @@ const CreateProduct = ({ products, setProducts }) => {
     if (Object.keys(formErrors).length === 0) {
       const newProduct = {
         ...producto,
-        id: products.length + 1,
-        calification: 0,
-        cantidad: 1,
+        proveedoresCostos: [
+          {
+            proveedor_id: producto.proveedor,
+            costo: producto.costo,
+          },
+        ],
       };
-
+      try {
+        dispatch(addProductAsync(newProduct));
+        alert(`El producto ${producto.name} ha sido creado con exito!`);
+      } catch (error) {
+        alert('Error al registrar usuario: ' + error.message);
+      }
       setProducts([...products, newProduct]);
 
-      alert(`El producto ${producto.name} ha sido creado con exito!`);
-
       setProducto({
+        photo: null,
+        imgPreview: '',
+        proveedor: '',
         name: '',
-        supplier: '',
-        FiImg: null,
-        img: '',
-        price: 0,
-        rating: 0,
+        marca: '',
         description: '',
-        stock: 0,
-        cantidad: 1,
+        costo: '',
         disabled: false,
+        proveedoresCostos: [],
       });
 
       navigate('/admin/products');
@@ -112,21 +122,6 @@ const CreateProduct = ({ products, setProducts }) => {
     }
   };
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  // const providerOption = providers.map((provider) => {
-  //   return {
-  //     value: provider.id,
-  //     label: provider.company_name,
-  //   };
-  // });
-
-  // const handleClick = () => {
-  //   dispatchEvent
-  // };
-
   return (
     <div>
       <img src={Logo} alt='Mercadillo Cívico' className='w-[240px] mt-[.4em] p-1' />
@@ -134,6 +129,66 @@ const CreateProduct = ({ products, setProducts }) => {
         Crea un producto!
       </h3>
       <form onSubmit={handleSubmit}>
+        <div className='max-w-[400px] min-w-[250px] mx-auto mt-5'>
+          <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
+            <label
+              htmlFor='image'
+              className='text-pearl-bush-950 self-start text-sm font-semibold mb-5'>
+              Imagen del producto
+            </label>
+
+            <div className='mb-[25px] outline outline-2 relative outline-tuscany-950 mx-auto w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 object-cover overflow-hidden'>
+              <>
+                <input
+                  name='photo'
+                  id='photo'
+                  onChange={handleInput}
+                  type='file'
+                  accept='image/*'
+                  className='hidden absolute'
+                />
+                <label
+                  htmlFor='photo'
+                  className='text-tuscany-100 absolute m-[5px] bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
+                  <MdEdit className='w-full h-full' />
+                </label>
+              </>
+              {producto.photo && !producto.imgPreview ? (
+                <img
+                  className='w-full h-full object-cover'
+                  src={producto.photo}
+                  alt='foto de perfil'></img>
+              ) : producto.imgPreview ? (
+                <img
+                  className='w-full h-full object-cover'
+                  src={producto.imgPreview}
+                  alt='foto de perfil'></img>
+              ) : (
+                <FaImage className='w-full h-full p-2 text-tuscany-950' />
+              )}
+            </div>
+          </div>
+        </div>
+        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
+          <label
+            htmlFor='proveedor'
+            className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
+            Proveedor
+          </label>
+          <div className='flex flex-col bg-pearl-bush-100'>
+            <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6'>
+              <select
+                name='proveedorSeleccionado'
+                onChange={handleInput}
+                className='bg-pearl-bush-100 text-pearl-bush-950 font-semibold rounded-sm p-4 w-full '>
+                <option className='text-pearl-bush-950 font-semibold'>
+                  Selecciona al proveedor
+                </option>
+                {providersOptions}
+              </select>
+            </Box>
+          </div>
+        </div>
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
           <label
             htmlFor='name'
@@ -184,106 +239,42 @@ const CreateProduct = ({ products, setProducts }) => {
           />
           <div className='text-crown-of-thorns-600 text-sm'>{errors.description}</div>
         </div>
-
-        {/* //----------------------------------------------------------  */}
-        <div className='max-w-[400px] min-w-[250px] mx-auto mt-5'>
-          <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
-            <label
-              htmlFor='image'
-              className='text-pearl-bush-950 self-start text-sm font-semibold mb-5'>
-              Imagen del producto
-            </label>
-
-            <div className='mb-[25px] outline outline-2 relative outline-tuscany-950 mx-auto w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 object-cover overflow-hidden'>
-              <>
-                <input
-                  name='photo'
-                  id='photo'
-                  onChange={handleInput}
-                  type='file'
-                  accept='image/*'
-                  className='hidden absolute'
-                />
-                <label
-                  htmlFor='photo'
-                  className='text-tuscany-100 absolute m-[5px] bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
-                  <MdEdit className='w-full h-full' />
-                </label>
-              </>
-              {producto.photo && !producto.imgPreview ? (
-                <img
-                  className='w-full h-full object-cover'
-                  src={producto.photo}
-                  alt='foto de perfil'></img>
-              ) : producto.imgPreview ? (
-                <img
-                  className='w-full h-full object-cover'
-                  src={producto.imgPreview}
-                  alt='foto de perfil'></img>
-              ) : (
-                <FaImage className='w-full h-full p-2 text-tuscany-950' />
-              )}
-            </div>
-          </div>
-        </div>
-        {/* //--------------------------------------------------------- */}
         <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
           <label
-            htmlFor='stock'
-            className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
-            Proveedor
-          </label>
-          <div className='flex flex-col bg-hippie-green-950'>
-            <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6 lg:translate-y-[40%]'>
-              {/* <CustomSelect label='Localización' options={providersOption} /> */}
-              <button>Aplicar Filtro</button>
-            </Box>
-          </div>
-
-          <CustomInput
-            type='number'
-            id='stock'
-            name='stock'
-            value={producto.stock}
-            placeholder='Stock'
-            onChange={handleInput}
-            className='py-2 px-2 border rounded-md'
-          />
-          <div className='text-crown-of-thorns-600 text-sm'>{errors.stock}</div>
-        </div>
-        <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
-          <label
-            htmlFor='precio'
+            htmlFor='costo'
             className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
             Precio
           </label>
           <CustomInput
             type='number'
-            id='precio'
-            name='precio'
-            value={producto.precio}
+            id='costo'
+            name='costo'
+            value={producto.costo}
             placeholder='Precio'
             onChange={handleInput}
             className='py-2 px-2 border rounded-md'
           />
-          <div className='text-crown-of-thorns-600 text-sm'>{errors.precio}</div>
+          <div className='text-crown-of-thorns-600 text-sm'>{errors.costo}</div>
         </div>
-        <div className='my-[1em]'>
-          <CustomButton text='Crear Producto' type='submit' />
+        <div className='flex w-full justify-evenly lg:justify-center xl:justify-center flex-wrap items-center my-1'>
+          <div className=' right-4 md:bottom-8 md:right-8 lg:bottom-12 lg:right-12 z-10 max-w-[400px]'>
+            <CustomButton text='Vista Previa' onClick={openModal} className='w-[200px]' />
+          </div>
+          <div className='max-w-[400px] m-5'>
+            <CustomButton text='Crear Producto' type='submit' className='w-[200px]' />
+          </div>
         </div>
       </form>
-      <div className='fixed bottom-10 right-4 md:bottom-8 md:right-8 lg:bottom-12 lg:right-12 z-10'>
-        <CustomButton text='Vista Previa' onClick={openModal} />
-      </div>
 
       <div>
         <Modal isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>
-          <div className='flex flex-col justify-center items-center'>
+          <div className='flex justify-center items-center'>
             <AdminCardPreview
+              key={producto.id}
               name={producto.name}
               supplier={producto.marca}
-              img={producto.image}
-              price={producto.precio}
+              img={producto.photo}
+              price={producto.costo}
               rating={5}
               className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
             />

@@ -1,4 +1,4 @@
-import { TextField, InputAdornment } from '@mui/material';
+import { TextField, InputAdornment, IconButton } from '@mui/material';
 // NOTA: solucionar fondo gris al autocompletar un input
 
 const CustomInput = ({
@@ -43,7 +43,7 @@ const CustomInput = ({
         ) : null,
         endAdornment: EndIcon ? (
           <InputAdornment position='end'>
-            <EndIcon className='text-tuscany-600 text-3xl' />
+            <IconButton onClick={EndIcon.props.onClick}>{EndIcon}</IconButton>
           </InputAdornment>
         ) : null,
       }}

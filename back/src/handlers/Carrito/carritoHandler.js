@@ -7,7 +7,11 @@ class CarritoHandler {
       const carrito = await prisma.carrito_de_Compras.findUnique({
         where: { user_id: id },
         include: {
-          productoEnCarrito: true,
+          productoEnCarrito: {
+            orderBy: {
+              ref: 'asc',
+            },
+          },
         },
       });
       if (!carrito) throw new Error('El usuario no tiene asignado un carrito, error del sistema');
