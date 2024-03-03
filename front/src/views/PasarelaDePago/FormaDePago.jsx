@@ -50,7 +50,7 @@ export default function FormaDePago({ nextStep }) {
             text='Siguiente'
             onClick={nextStep}
             className={`w-32 text-white rounded-md transition-colors duration-300 ${
-              isNextButtonDisabled && 'bg-[#808080]'
+              isNextButtonDisabled ? 'bg-[#808080] hover:bg-[#808080] cursor-not-allowed' : ''
             }`}
           />
         </div>

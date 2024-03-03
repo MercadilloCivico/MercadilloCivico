@@ -108,3 +108,27 @@ export const loginValidation = ({ email, password }) => {
   passwordValidation(password, errors);
   return errors;
 };
+
+export const cardValidation = ({ number, name, expMonth, expYear, cvc }) => {
+  const errors = {};
+  if (number.length < 16) {
+    errors.number = 'El número de tarjeta debe tener 16 dígitos';
+  }
+  if (name.length < 3) {
+    errors.name = 'Nombre inválido';
+  }
+  if (expMonth.length < 2) {
+    errors.expMonth = 'El mes de expiración debe tener 2 dígitos';
+  }
+  if (expYear.length < 4) {
+    errors.expYear = 'El año de expiración debe tener 4 dígitos';
+  }
+  //validar que no haya pasado ya el año
+  if (expYear < new Date().getFullYear()) {
+    errors.expYear = 'El año de expiración no puede ser menor al actual';
+  }
+  if (cvc.length < 3) {
+    errors.cvc = 'El código de seguridad debe tener 3 dígitos';
+  }
+  return errors;
+};
