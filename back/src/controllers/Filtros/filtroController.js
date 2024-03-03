@@ -5,6 +5,7 @@ class FiltroController {
     try {
       const { filtroMarca, filtroPrecio, calificacion, alfabetico, precio, name } = req.query;
       const { id } = req.params;
+      if (!id) return res.status(200).json({ filtro: 'sin fitros' });
       const filteredProducts = await FiltroHandler.filterProductos(
         id,
         filtroMarca,
@@ -14,9 +15,9 @@ class FiltroController {
         precio,
         name
       );
-      res.status(200).json(filteredProducts);
+      return res.status(200).json(filteredProducts);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
 }

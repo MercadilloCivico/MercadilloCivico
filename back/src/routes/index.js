@@ -17,6 +17,7 @@ const validateMiddleware = require('../../middleware/validateMiddleware');
 const ReseñasController = require('../controllers/Reseñas/reseñasController');
 const HistorialController = require('../controllers/HistorialDeVenta/historialController');
 const FiltroController = require('../controllers/Filtros/filtroController');
+const datosTarjeta = require('../controllers/dataCard/datosTarjeta');
 
 const router = Router();
 
@@ -92,5 +93,9 @@ router.delete('/historialCompra/:id', HistorialController.delete);
 
 // Filtros
 router.get('/filtro/:id', validateMiddleware.validateFilter, FiltroController.filterProductos);
+
+// datosTarjeta
+
+router.post('/payment', datosTarjeta.data);
 
 module.exports = router;
