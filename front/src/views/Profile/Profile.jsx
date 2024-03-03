@@ -25,6 +25,7 @@ import {
 export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
   let [editMode, setEditMode] = useState(false);
 
   const [currentData, setCurrentData] = useState({
@@ -46,8 +47,19 @@ export default function Profile() {
 
   useEffect(() => {
     setFormData(currentData);
+    setIsLoading(false);
   }, [currentData]);
-  if (!currentData.firstName) updateUserData();
+
+  useEffect(() => {
+    if (!currentData.firstName) {
+      updateUserData();
+      setIsLoading(true);
+    } else setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    console.log(isLoading);
+  }, [isLoading]);
 
   useEffect(() => {
     if (editMode) {
@@ -72,6 +84,7 @@ export default function Profile() {
   });
 
   async function updateUserData() {
+    setIsLoading(true);
     const { payload } = await dispatch(fetchUserProfileAsync());
     const data = {
       firstName: payload.first_name,
@@ -139,6 +152,7 @@ export default function Profile() {
   const { token } = useSelector((state) => state.auth);
 
   async function handleSave() {
+    setIsLoading(true);
     const toSend = {
       // envía el nombre con el formato correcto en caso de estar mal
       firstName:
@@ -155,17 +169,20 @@ export default function Profile() {
     };
 
     const response = await dispatch(putUser(toSend));
-    if (response.payload?.error) dispatch(createToast(response.payload.error));
-    if (toSend.password === '') {
+    if (response.payload?.error) {
+      dispatch(createToast(response.payload.error));
+      updateUserData();
+    }
+
+    if (toSend.password === '' && !response.payload?.error) {
       dispatch(createToast('Datos actualizados con éxito.'));
       updateUserData();
     }
 
     if (toSend.password !== '') {
-      dispatch(createToast('Contraseña actualizada. Vuelve a iniciar sesión.'));
-
       await dispatch(logout());
       token !== null && navigate('/login');
+      dispatch(createToast('Contraseña actualizada. Vuelve a iniciar sesión.'));
     }
 
     setEditMode(false);
@@ -190,6 +207,9 @@ export default function Profile() {
   return (
     <div className='text-pearl-bush-950'>
       {/* Header container */}
+      {isLoading && (
+        <div className='h-screen w-screen bg-pearl-bush-100 top-0 fixed z-20'>Cargando</div>
+      )}
 
       <div>
         <div
@@ -269,7 +289,7 @@ export default function Profile() {
               color='success'
               id='outlined-helperText'
               label='Segundo nombre'
-              defaultValue={currentData.secondName}
+              defaultValue={currentData.secondName === 'null' ? '' : currentData.secondName}
               helperText={errors.secondName}
               error={errors.secondName ? true : false}
             />
@@ -341,7 +361,7 @@ export default function Profile() {
         <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
           <ul>
             <li className='my-3 font-bold text-3xl mx-2 text-tuscany-600'>
-              {currentData.secondName ? (
+              {currentData.secondName !== 'null' ? (
                 <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
               ) : (
                 <span>{`${currentData.firstName} ${currentData.lastName}`}</span>

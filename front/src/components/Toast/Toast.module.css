@@ -4,7 +4,7 @@
     opacity: 0;
     transform: scale(0.8);
 
-    z-index: 20;
+    z-index: 25;
     display: flex;
     position: fixed;
     align-items: center;
