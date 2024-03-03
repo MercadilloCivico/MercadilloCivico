@@ -22,6 +22,7 @@ function Register() {
 
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
   // Estado para los datos del formulario y los errores de validación
   const [formData, setFormData] = useState({
     photo: null,
@@ -36,11 +37,29 @@ function Register() {
   const [errors, setErrors] = useState({});
 
   const togglePasswordVisibility = (field) => {
-    if (field === 'password') {
+    if (field === 'password' && showPassword !== !showPassword) {
       setShowPassword(!showPassword);
-    } else if (field === 'repeatPassword') {
+    } else if (field === 'repeatPassword' && showRepeatPassword !== !showRepeatPassword) {
       setShowRepeatPassword(!showRepeatPassword);
     }
+  };
+
+  // Define la función para verificar si todos los campos obligatorios están completos
+  const allFieldsCompleted = () => {
+    // Verificar si todos los campos obligatorios están completos
+    const basicFieldsCompleted =
+      formData.firstName.trim() !== '' &&
+      formData.lastName.trim() !== '' &&
+      formData.email.trim() !== '';
+
+    // Verificar si las contraseñas están vacías
+    const arePasswordsEmpty =
+      formData.password.trim() === '' && formData.repeatPassword.trim() === '';
+
+    // Verificar si las contraseñas coinciden
+    const passwordsMatch = formData.password === formData.repeatPassword;
+
+    return basicFieldsCompleted && passwordsMatch && !arePasswordsEmpty;
   };
 
   // Maneja cambios en los campos del formulario
@@ -120,7 +139,10 @@ function Register() {
 
         navigate('/login');
       } else {
-        dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));
+        // Si la validación del formulario falla pero el campo de contraseña está oculto, no mostrar el mensaje de error
+        if (!(showPassword || showRepeatPassword)) {
+          dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));
+        }
       }
     } else {
       // Si no se proporciona ninguna imagen, continuar con el envío del formulario sin validarla
@@ -137,8 +159,9 @@ function Register() {
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
           dispatch(register(formData));
-
-          dispatch(createToast('Formulario enviado'));
+          if (!acceptTerms) {
+            dispatch(createToast('Formulario enviado'));
+          }
         } catch (error) {
           dispatch(createToast('Error al registrar usuario: ' + error.message));
         }
@@ -153,7 +176,9 @@ function Register() {
         });
         navigate('/store');
       } else {
-        dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));
+        if (!(showPassword || showRepeatPassword)) {
+          dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));
+        }
       }
     }
   };
@@ -168,7 +193,7 @@ function Register() {
 
         <form
           onSubmit={handleSubmit}
-          className='bg-pearl-bush-200 w-full max-w-[600px] pb-8 pt-[150px] rounded-xl relative mx-[10px] px-[10px] mt-[120px] shadow-xl'>
+          className='bg-pearl-bush-200 w-full max-w-[600px] min-w-[250px] pb-8 pt-[150px] rounded-xl relative mx-[10px] px-[10px] mt-[120px] shadow-xl'>
           <img
             src={Logo}
             alt='Mercadillo Cívico'
@@ -225,7 +250,7 @@ function Register() {
                 type='text'
                 value={formData.firstName}
                 onChange={handleInput}
-                className={{ maxLength: 30 }}
+                maxLength={16}
               />
               <div className='text-crown-of-thorns-600'>{errors.firstName}</div>
             </div>
@@ -238,6 +263,7 @@ function Register() {
                 type='text'
                 value={formData.secondName}
                 onChange={handleInput}
+                maxLength={30}
               />
               <div className='text-crown-of-thorns-600'>{errors.secondName}</div>
             </div>
@@ -250,6 +276,7 @@ function Register() {
                 type='text'
                 value={formData.lastName}
                 onChange={handleInput}
+                maxLength={16}
               />
               <div className='text-crown-of-thorns-600'>{errors.lastName}</div>
             </div>
@@ -262,6 +289,7 @@ function Register() {
                 type='mail'
                 value={formData.email}
                 onChange={handleInput}
+                maxLength={50}
               />
               <div className='text-crown-of-thorns-600'>{errors.email}</div>
             </div>
@@ -274,11 +302,13 @@ function Register() {
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleInput}
+                maxLength={16}
                 endIcon={
                   <button
                     onClick={() => togglePasswordVisibility('password')}
                     style={{ backgroundColor: 'transparent', border: 'none' }}
-                    className='flex justify-center items-center text-tuscany-950 text-2xl'>
+                    className='flex justify-center items-center text-tuscany-300 text-2xl'
+                    type='button'>
                     {showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
                   </button>
                 }
@@ -294,11 +324,13 @@ function Register() {
                 type={showRepeatPassword ? 'text' : 'password'}
                 value={formData.repeatPassword}
                 onChange={handleInput}
+                maxLength={16}
                 endIcon={
                   <button
                     onClick={() => togglePasswordVisibility('repeatPassword')}
                     style={{ backgroundColor: 'transparent', border: 'none' }}
-                    className='flex justify-center items-center text-tuscany-950 text-2xl'>
+                    className='flex justify-center items-center text-tuscany-300 text-2xl'
+                    type='button'>
                     {showRepeatPassword ? <RiEyeOffFill /> : <RiEyeFill />}
                   </button>
                 }
@@ -306,7 +338,11 @@ function Register() {
               <div className='text-crown-of-thorns-600'>{errors.repeatPassword}</div>
             </div>
 
-            <CheckboxRequired />
+            <CheckboxRequired
+              checked={acceptTerms}
+              onChange={() => setAcceptTerms(!acceptTerms)}
+              disabled={!allFieldsCompleted()}
+            />
             <CheckboxBasic />
 
             <CustomButton
