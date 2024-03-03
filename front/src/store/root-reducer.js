@@ -17,7 +17,7 @@ import {
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'carrito'],
+  whitelist: ['auth'],
 };
 
 const combinedReducers = combineReducers({
@@ -29,8 +29,6 @@ const combinedReducers = combineReducers({
   products: productReducer,
   store: storeReducer,
   toast: toastReducer,
-  user: userReducer,
-  card: cardsReducer,
   providers: providerReducer,
 });
 
