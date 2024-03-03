@@ -14,7 +14,7 @@ const CustomSelect = ({ label, options }) => {
   const { filters } = useSelector((state) => state.card);
 
   const handleChange = (e) => {
-    dispatch(setFilterId(e.target.value));
+    e.target.value && dispatch(setFilterId(e.target.value));
   };
   const customTheme = createTheme({
     ...theme,

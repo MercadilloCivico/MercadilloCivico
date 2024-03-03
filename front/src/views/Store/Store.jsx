@@ -19,11 +19,9 @@ const Store = () => {
   const { items, filters } = useSelector((state) => state.card);
 
   useEffect(() => {
-    dispatch(fetchFaqsSelector());
-  }, [dispatch]);
-  
-  useEffect(() => {
-    dispatch(fetchCards(filters));
+    if (filters.id) {
+      dispatch(fetchCards(filters));
+    }
   }, [dispatch, filters]);
 
   useEffect(() => {

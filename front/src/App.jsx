@@ -42,6 +42,7 @@ import { createToast } from './store/slices/toastSlice.js';
 import PoliticaCookies from './views/PoliticaCookies/PoliticaCookies.jsx';
 import AvisoLegal from './views/AvisoLegal/AvisoLegal.jsx';
 import PoliticaPrivacidad from './views/PoliticaPrivacidad/PoliticaPrivacidad.jsx';
+import PasarelaDePago from './views/PasarelaDePago/PasarelaDePago.jsx';
 
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
@@ -90,6 +91,7 @@ function App() {
 
           <Route path='/cart' element={<Cart />} />
           <Route path='/login/:id?' element={<CheckAlreadyLoggedIn Component={Login} />} />
+          <Route path='/pasarela_de_pago' element={<PasarelaDePago />} />
 
           <Route path='/profile' element={<ProtectedRoute Component={Profile} />}>
             <Route path='/profile/history' element={<ProfileHistoryContainer />}></Route>
@@ -120,6 +122,7 @@ function App() {
             <Route path='/supplier/settings' element={<SupplierSettings />} />
             <Route path='/supplier/points' element={<SupplierPoints />} />
           </Route>
+
           <Route path='/politica_de_cookies' element={<PoliticaCookies />} />
           <Route path='/aviso_legal' element={<AvisoLegal />} />
           <Route path='/politica_de_privacidad' element={<PoliticaPrivacidad />} />
