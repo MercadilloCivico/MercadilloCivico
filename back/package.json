@@ -11,7 +11,8 @@
     "prisma:push:dev": "dotenv -e .env.development -- npx prisma db push",
     "prisma:generate:prod": "dotenv -e .env.production -- npx prisma generate",
     "prisma:push:prod": "dotenv -e .env.production -- npx prisma db push",
-    "lint": "eslint ./src --ext .js"
+    "lint": "eslint ./src --ext .js",
+    "render:deploy": "npm run prisma:generate:prod && npm run prisma:push:prod && npm run start"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
