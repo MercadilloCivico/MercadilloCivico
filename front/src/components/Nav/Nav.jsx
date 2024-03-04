@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LogoMC from '../../assets/images/LogoMC.png';
 import NavMenu from '../NavMenu/NavMenu.jsx';
@@ -14,11 +14,12 @@ import { useSelector } from 'react-redux';
 
 const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuBtnRef = useRef(null);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  function toggleMenu(bool) {
+    if (bool === false)
+      setMenuOpen(false); // debe ser estrictamente false, de otra manera si no se le pasa un bool también será false
+    else setMenuOpen(!menuOpen);
+  }
 
   const { items } = useSelector((state) => state.card);
 
@@ -33,9 +34,10 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
           {/* Responsive Menu Button */}
           <div className='w-full lg:hidden'>
             <button
-              ref={menuBtnRef}
               className='custom-transparent-bg border-none h-[30px] w-[30px] cursor-pointer lg:hidden flex items-center'
-              onClick={toggleMenu}>
+              onClick={() => {
+                toggleMenu();
+              }}>
               <LuMenu className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
             </button>
           </div>
@@ -66,7 +68,11 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
           />
 
           {/* Logo centrado en mobile */}
-          <div className='w-full flex justify-center lg:hidden'>
+          <div
+            className='w-full flex justify-center lg:hidden'
+            onClick={() => {
+              toggleMenu(false);
+            }}>
             <Link className='h-[45px] w-[45px]' to={'/'}>
               <img className='h-[45px] w-[45px] object-contain' src={LogoMC} alt='Logo' />
             </Link>
@@ -81,11 +87,16 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
                 <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
               </Link>
             )}
-            <NavUser />
+            <div
+              onClick={() => {
+                toggleMenu(false);
+              }}>
+              <NavUser />
+            </div>
           </div>
         </header>
 
-        <NavMenu menuBtnRef={menuBtnRef} menuOpen={menuOpen} toggleMenu={toggleMenu} />
+        <NavMenu menuOpen={menuOpen} toggleMenu={toggleMenu} />
       </div>
     </>
   );
