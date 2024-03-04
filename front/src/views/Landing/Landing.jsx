@@ -29,9 +29,9 @@ function Home() {
 
       <div
         className={
-          "py-[30px] px-[10px] mt-[150px] mb-[150px] relative flex flex-col place-items-center flex-wrap after:absolute after:inset-0 after:z-[-1] after:skew-y-2 after:content-[''] after:bg-gradient-to-r after:from-pearl-bush-300 after:to-hippie-green-300"
+          "py-[30px] mt-[150px] mb-[150px] relative flex flex-col place-items-center flex-wrap after:absolute after:inset-0 after:z-[-1] after:skew-y-2 after:content-[''] after:bg-gradient-to-r after:from-pearl-bush-300 after:to-hippie-green-300"
         }>
-        <h2 className='text-pearl-bush-950 text-3xl mb-2'>Un Impacto Positivo en Tu Equipo</h2>
+        <h2 className='text-pearl-bush-950 text-3xl mb-2 px-4'>Un Impacto Positivo en Tu Equipo</h2>
         <p className='text-pearl-bush-950 m-auto my-5 max-w-[600px] text-xl px-4 '>
           Descubre cómo Mercadillo Cívico puede mejorar el bienestar de tu equipo, optimizar su
           tiempo y reforzar una cultura de trabajo saludable y sostenible. Únete a nosotros en esta
@@ -49,9 +49,11 @@ function Home() {
 
       <div
         className={
-          "py-[30px] px-[10px] my-[150px] relative flex flex-col place-items-center flex-wrap after:absolute after:inset-0 after:z-[-1] after:skew-y-2 after:content-[''] after:bg-gradient-to-r after:from-pearl-bush-300 after:to-hippie-green-300"
+          "py-[30px] my-[150px] relative flex flex-col place-items-center flex-wrap after:absolute after:inset-0 after:z-[-1] after:skew-y-2 after:content-[''] after:bg-gradient-to-r after:from-pearl-bush-300 after:to-hippie-green-300"
         }>
-        <h2 className='text-pearl-bush-950 text-3xl mb-2'>Beneficios que Marcan la Diferencia</h2>
+        <h2 className='text-pearl-bush-950 text-3xl mb-2 px-4'>
+          Beneficios que Marcan la Diferencia
+        </h2>
         <p className='text-pearl-bush-950 m-auto my-5 max-w-[600px] text-xl px-4'>
           Con Mercadillo Cívico, tu empresa puede ofrecer una solución práctica y atractiva para
           mejorar la calidad de vida en el trabajo. Es hora de llevar el bienestar a otro nivel.

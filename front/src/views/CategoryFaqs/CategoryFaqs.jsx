@@ -20,30 +20,28 @@ const CategoryFaqs = () => {
   const paginatedFaqs = objCategory.faqs.slice(startIndex, endIndex);
 
   return (
-    <div>
+    <div className='min-h-[calc(100vh-55px)] flex flex-col'>
       <div>
-        <span className='text-tuscany-950 font-semibold text-[1em] sm:text-[1.3em] md:text-[1.5em]'>
-          Buscar
-        </span>
-        <SearchBarFaq />
+        <div className='my-4'>
+          <SearchBarFaq />
+        </div>
+        <div className='mb-4 mx-4 custom-border-b'>
+          <CustomBreadcrumbs />
+        </div>
+        <div className='mx-4 flex items-start'>
+          <span className='text-xl text-tuscany-500 font-bold'>{objCategory.categoria}</span>
+        </div>
+        <CardsCategoryFaqs objCategory={{ ...objCategory, faqs: paginatedFaqs }} />
+        <div className='flex justify-end'>
+          <FaqsPagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(objCategory.faqs.length / faqsPerPage)}
+            category={category}
+          />
+        </div>
+        <ContactFooter />
       </div>
-      <div className='mb-4 mx-4 custom-border-b'>
-        <CustomBreadcrumbs />
-      </div>
-      <div className='mx-2 flex items-start'>
-        <span className='text-[1em] md:text-[1.2em] lg:text-[1.5em] text-tuscany-500 font-bold'>
-          {objCategory.categoria}
-        </span>
-      </div>
-      <CardsCategoryFaqs objCategory={{ ...objCategory, faqs: paginatedFaqs }} />
-      <div className='flex justify-end'>
-        <FaqsPagination
-          currentPage={currentPage}
-          totalPages={Math.ceil(objCategory.faqs.length / faqsPerPage)}
-          category={category}
-        />
-      </div>
-      <ContactFooter />
+
       <Footer />
     </div>
   );
