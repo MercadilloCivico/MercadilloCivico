@@ -6,8 +6,7 @@ import SearchBar from '../SearchBar/SearchBar.jsx';
 
 import { LuMenu } from 'react-icons/lu';
 import { LuShoppingCart } from 'react-icons/lu';
-import { LuUser } from 'react-icons/lu';
-import Logout from '../Logout/Logout.jsx';
+import NavUser from '../NavUser/NavUser.jsx';
 
 import { useSelector } from 'react-redux';
 // import { useSelector, useDispatch } from 'react-redux';
@@ -80,12 +79,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
                 <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
               </Link>
             )}
-            <Link
-              to={'/profile'}
-              className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
-              <LuUser className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
-            </Link>
-            <Logout />
+            <NavUser />
           </div>
         </header>
 
