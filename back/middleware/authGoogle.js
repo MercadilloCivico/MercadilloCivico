@@ -11,7 +11,7 @@ function authenticateGoogleCallback(req, res, next) {
     if (err || !user) {
       return res.redirect(`${FRONT_URL}/login/alreadyRegistered`);
     }
-    const token = jwt.sign({ sub: user._id }, SECRET_JWT, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, SECRET_JWT, { expiresIn: '1h' });
     res.cookie('sessionToken', token, {
       httpOnly: false,
       maxAge: 3600000,

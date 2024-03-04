@@ -8,6 +8,8 @@ import {
   putUser,
 } from '../thunks/authThunks';
 
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -25,7 +27,7 @@ export const authSlice = createSlice({
       state.error = null;
     },
     googleAuth(state) {
-      window.location.href = 'http://localhost:3001/api/auth/google';
+      window.location.href = `${VITE_API_URL}/auth/google`;
       state.status = 'loading';
     },
     googleErrorChecker(state) {
