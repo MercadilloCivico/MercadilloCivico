@@ -14,6 +14,7 @@ export default function NavUser() {
   const navigate = useNavigate();
   const [iconMenu, setIconMenu] = useState(false);
   const menuRef = useRef(null);
+  const imageRef = useRef(null);
 
   useEffect(() => {
     (async function () {
@@ -27,7 +28,12 @@ export default function NavUser() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        imageRef.current &&
+        !imageRef.current.contains(event.target)
+      ) {
         setIconMenu(false);
       }
     }
@@ -43,14 +49,18 @@ export default function NavUser() {
     token !== null && navigate('/login');
   };
 
+  function handleMenuIcon() {
+    if (iconMenu) setIconMenu(false);
+    else setIconMenu(true);
+  }
+
   return (
     <div>
       {token ? (
         <div>
           <div
-            onClick={() => {
-              setIconMenu(!iconMenu);
-            }}
+            ref={imageRef}
+            onClick={handleMenuIcon}
             className='cursor-pointer w-[35px] h-[35px] rounded-md overflow-hidden'>
             {picture ? (
               <img className='w-full h-full object-cover' src={picture}></img>
@@ -71,7 +81,7 @@ export default function NavUser() {
                     setIconMenu(false);
                     navigate('/profile/history');
                   }}
-                  className='hover:bg-pearl-bush-900 hover:bg-opacity-30 p-1 bg-opacity-0 transition'>
+                  className='cursor-pointer hover:bg-pearl-bush-900 hover:bg-opacity-30 p-1 bg-opacity-0 transition'>
                   Mi perfil
                 </li>
                 <li
@@ -79,7 +89,7 @@ export default function NavUser() {
                     setIconMenu(false);
                     handleLogout();
                   }}
-                  className='hover:bg-pearl-bush-900 hover:bg-opacity-30 p-1 bg-opacity-0 transition'>
+                  className='cursor-pointer hover:bg-pearl-bush-900 hover:bg-opacity-30 p-1 bg-opacity-0 transition'>
                   Cerrar sesión
                 </li>
               </ul>
