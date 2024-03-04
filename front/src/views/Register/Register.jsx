@@ -269,7 +269,7 @@ function Register() {
                 InputProps={{
                   sx: { backgroundColor: '#eee3d6' },
                 }}
-                FormHelperTextProps={{ sx: { textAlign: 'center' } }}
+                FormHelperTextProps={{ sx: { textAlign: 'center', fontStyle: 'italic' } }}
               />
               <div className='text-crown-of-thorns-600'>{errors.secondName}</div>
             </div>
