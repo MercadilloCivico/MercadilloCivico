@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 function Cards({ products, cardType }) {
   const { showDropdownCard } = useSelector((state) => state.store);
+  const { userFavorites } = useSelector((state) => state.favorites);
 
   return (
     <div className='py-3 flex justify-center flex-wrap space-between xsm:px-0 sm:px-10 max-w-[1366px] mx-auto'>
@@ -20,9 +21,11 @@ function Cards({ products, cardType }) {
               rating={product.calification}
               stock={15}
               cantidad={1}
+              id={product.id}
               // agregarProducto={() => agregarProducto(product.id)}
               // quitarProducto={() => quitarProducto(product.id)}
               className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
+              userFavorites={userFavorites}
             />
           ))
         : cardType === 'Admin'
@@ -56,6 +59,7 @@ function Cards({ products, cardType }) {
                 stock={product.inventario.stock}
                 inventarioId={product.inventario.id}
                 className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
+                userFavorites={userFavorites}
               />
             ))}
     </div>

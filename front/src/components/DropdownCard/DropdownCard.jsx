@@ -3,17 +3,36 @@ import { TbShoppingBagPlus } from 'react-icons/tb';
 import { TiStarFullOutline } from 'react-icons/ti';
 import { TiHeartOutline } from 'react-icons/ti';
 import { TiHeartFullOutline } from 'react-icons/ti';
+import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
+import { useDispatch, useSelector } from 'react-redux';
+import { MdBrokenImage } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import { createToast } from '../../store/slices/toastSlice';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import style from './DropdownCard.module.css';
 import PropTypes from 'prop-types';
 
-export default function Card({ lazyImg, name, price, img, description, rating, className }) {
+export default function Card({
+  id,
+  lazyImg,
+  name,
+  price,
+  img,
+  description,
+  rating,
+  className,
+  userFavorites,
+}) {
   // Eventualmente recibirá también el id de producto
   // lazyImg será un downscale de la img real, se mostrará de fondo mientras carga la imágen real
 
   let [active, setActive] = useState(false);
   let [isFav, setIsFav] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { status } = useSelector((state) => state.favorites);
 
   // Traído de CartItem
   //#############################################################
@@ -25,6 +44,24 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
     stock: 15,
     cantidad: 1,
   });
+
+  const handleFavorite = () => {
+    if (isFav) {
+      dispatch(removeFavorite(id));
+    } else {
+      dispatch(addFavorite(id));
+    }
+  };
+
+  useEffect(() => {
+    if (userFavorites.some((favorite) => favorite.id === id)) setIsFav(true);
+    else setIsFav(false);
+  }, []);
+
+  function isFavLoading() {
+    if (status === 'loading') return true;
+    else return false;
+  }
 
   const agregarProducto = () => {
     if (producto.cantidad < producto.stock) {
@@ -44,30 +81,38 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
     <div
       className={
         active
-          ? `relative w-full max-w-[500px] rounded-xl overflow-hidden text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.active}`
-          : `relative w-full max-w-[500px] rounded-xl overflow-hidden text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.hidden}`
+          ? `relative w-full max-w-[500px] rounded-xl overflow-hidden bg-tuscany-300 text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.active}`
+          : `relative w-full max-w-[500px] rounded-xl overflow-hidden bg-tuscany-300 text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.hidden}`
       }>
       <div className='flex'>
         <div
-          className={`relative h-[120px] w-[120px] flex-shrink-0 bg-cover`}
+          className={`relative h-[120px] w-[120px] flex-shrink-0 bg-cover bg-[#fff] ${style.imgContainer}`}
           style={{ backgroundImage: `url(${lazyImg})`, backgroundPosition: 'center' }}>
-          <img
-            className='w-full h-full object-cover absolute z-1 left-0 bg-[#fff]'
-            src={img}
-            alt={name}
-            title={name}></img>
-          <div
-            onClick={() => {
-              setIsFav(!isFav);
-            }}
-            className='absolute z-2 m-1 flex items-center font-semibold bg-[#00000062] backdrop-blur-[3px] px-1 rounded-tl-xl rounded-br-xl space-x-1'>
+          {!img || img === 'Hola' ? (
+            <MdBrokenImage className='absolute left-0 w-full h-full p-5' />
+          ) : (
+            <img
+              className='w-full h-full object-cover absolute z-1 left-0 bg-[#fff]'
+              src={img}
+              alt={name}
+              title={name}
+            />
+          )}
+
+          <div className='absolute z-[3] m-1 flex items-center font-semibold bg-[#00000062] backdrop-blur-[3px] px-1 rounded-tl-xl rounded-br-xl space-x-1'>
             <TiStarFullOutline className='w-[20px] h-[20px] text-[#ffe87f]' />
             <span className='text-[#ffffff]'>{rating}</span>
           </div>
+
           {isFav ? (
             <div
               onClick={() => {
-                setIsFav(!isFav);
+                if (isFavLoading()) {
+                  dispatch(createToast('Espera antes de agregar o eliminar otro favorito'));
+                } else {
+                  setIsFav(!isFav);
+                  handleFavorite();
+                }
               }}
               className='absolute bottom-0 m-1 w-[25px] h-[25px]'>
               <TiHeartFullOutline className='w-full h-full' />
@@ -75,7 +120,12 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
           ) : (
             <div
               onClick={() => {
-                setIsFav(!isFav);
+                if (isFavLoading()) {
+                  dispatch(createToast('Espera antes de agregar o eliminar otro favorito'));
+                } else {
+                  setIsFav(!isFav);
+                  handleFavorite();
+                }
               }}
               className='absolute bottom-0 m-1 w-[25px] h-[25px]'>
               <TiHeartOutline className='w-full h-full' />
@@ -88,7 +138,7 @@ export default function Card({ lazyImg, name, price, img, description, rating, c
             <ul
               className='flex mx-2 w-full flex-col '
               onClick={() => {
-                alert('Mostrar detalles del producto');
+                navigate(`/detail/${id}`);
               }}>
               <li>
                 <span className='text-base line-clamp-1 text-left'>{name}</span>

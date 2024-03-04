@@ -43,6 +43,9 @@ import PoliticaCookies from './views/PoliticaCookies/PoliticaCookies.jsx';
 import AvisoLegal from './views/AvisoLegal/AvisoLegal.jsx';
 import PoliticaPrivacidad from './views/PoliticaPrivacidad/PoliticaPrivacidad.jsx';
 import PasarelaDePago from './views/PasarelaDePago/PasarelaDePago.jsx';
+import { useEffect } from 'react';
+
+import { getAllFavorite } from './store/thunks/favoritesThuks.js';
 
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
@@ -61,6 +64,7 @@ function CheckAlreadyLoggedIn({ Component }) {
 }
 
 function App() {
+  const dispatch = useDispatch();
   //Estado temporal
   const [products, setProducts] = useState([]);
 
@@ -68,6 +72,10 @@ function App() {
   const isCartPage = useMatch('/cart');
   const isAdminPage = useMatch('/admin/*');
   const isUserDetailPage = useMatch('/admin/users/detail/:id');
+
+  useEffect(() => {
+    dispatch(getAllFavorite());
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

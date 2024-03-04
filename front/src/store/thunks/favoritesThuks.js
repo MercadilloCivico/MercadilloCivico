@@ -11,6 +11,7 @@ export const addFavorite = createAsyncThunk('favorites/add', async (id, { reject
         withCredentials: true,
       }
     );
+
     return data;
   } catch (error) {
     return rejectWithValue(error.response.data);
@@ -21,10 +22,11 @@ export const removeFavorite = createAsyncThunk(
   'favorites/remove',
   async (id, { rejectWithValue }) => {
     try {
-      await axios.delete(`${VITE_API_URL}/favorites/${id}`, {
+      const { data } = await axios.delete(`${VITE_API_URL}/favorites/${id}`, {
         withCredentials: true,
       });
-      return true;
+
+      return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -38,8 +40,9 @@ export const getAllFavorite = createAsyncThunk(
       const { data } = await axios.get(`${VITE_API_URL}/favorites`, {
         withCredentials: true,
       });
+      console.log(data);
 
-      return data[0].favorites;
+      return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

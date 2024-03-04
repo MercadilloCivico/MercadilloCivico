@@ -133,13 +133,16 @@ class usuarios {
 
   static async deleteUsuario(req, res) {
     try {
-      const { email, password } = req.body;
-      if (!email || !password)
-        throw new Error('Por favor ingrese los datos solicitados para dicha acción');
-      const response = await usuariosHandler.deleteUserHandler(email, password);
-      res.status(200).json(response);
+      const token = req.cookies.sessionToken;
+      const decoded = jwt.verify(token, SECRET_JWT);
+      if (!decoded) {
+        return res.status(401).json({ message: 'Acceso no autorizado' });
+      }
+
+      const response = await usuariosHandler.deleteUserHandler(decoded.id);
+      return res.status(200).json(response);
     } catch (error) {
-      res.status(400).json(error.message);
+      return res.status(400).json(error.message);
     }
   }
 

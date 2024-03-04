@@ -12,12 +12,13 @@ import {
   toastReducer,
   userReducer,
   providerReducer,
+  favoritesReducer,
 } from './slices';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'],
+  whitelist: ['auth', 'favorites'],
 };
 
 const combinedReducers = combineReducers({
@@ -30,6 +31,7 @@ const combinedReducers = combineReducers({
   store: storeReducer,
   toast: toastReducer,
   providers: providerReducer,
+  favorites: favoritesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);

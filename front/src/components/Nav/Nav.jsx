@@ -57,7 +57,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
           <SearchBar
             filtrosActivos={filtrosActivos}
             setFiltrosActivos={setFiltrosActivos}
-            className='flex h-full max-w-[500px] w-full items-center justify-center py-[5px] mx-[15px] sm:hidden max-sm:hidden lg:flex max-xl:flex'
+            className='flex max-w-[500px] w-full items-center justify-center py-[5px] mx-[15px] sm:hidden max-sm:hidden lg:flex max-xl:flex'
           />
 
           {/* Logo centrado en mobile */}
