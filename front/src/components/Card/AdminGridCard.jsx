@@ -4,7 +4,6 @@ import MoreOptionsDropdown from '../MoreOptionsDropdown/MoreOptionsDropdown';
 import Modal from '../Modal/Modal';
 
 const AdminGridCard = ({ id, name, image, category, disabled, sales, stock, price }) => {
-  const [hovered, setHovered] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -25,27 +24,21 @@ const AdminGridCard = ({ id, name, image, category, disabled, sales, stock, pric
 
   return (
     <div className='max-w-[300px] bg-pearl-bush-200 text-tuscany-950 p-4 rounded-md m-2'>
-      <div
-        className='relative group mb-4 rounded-md'
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => {
-          setHovered(false);
-          setDropdownVisible(false);
-        }}>
+      <div className='mb-4 rounded-md'>
         <img src={image} alt='ProductImg' className='w-full h-full object-cover rounded-md' />
-        {hovered && (
-          <div className='absolute top-0 right-0 m-1 h-[25px] flex items-center font-semibold cursor-pointer bg-[#00000062] backdrop-blur-[3px] px-1 rounded-md'>
-            <IoMdMore
-              className='h-[18px] w-[18px] text-[white]'
-              onClick={() => setDropdownVisible(!dropdownVisible)}
-            />
-            {dropdownVisible && (
-              <MoreOptionsDropdown onClose={onClose} openModal={openModal} id={id} />
-            )}
-          </div>
-        )}
       </div>
-      <h2 className='font-bold text-lg text-start mb-2'>{limitAndEllipsis(name, 20)}</h2>
+      <div className='flex justify-between items-center'>
+        <h2 className='font-bold text-lg text-start mb-2'>{limitAndEllipsis(name, 20)}</h2>{' '}
+        <div className='ml-2 h-[25px] flex items-center font-semibold cursor-pointer opacity-90 bg-[#0000004b] backdrop-blur-[3px] px-1 rounded-md'>
+          <IoMdMore
+            className='h-[18px] w-[18px] text-[white]'
+            onClick={() => setDropdownVisible(!dropdownVisible)}
+          />
+          {dropdownVisible && (
+            <MoreOptionsDropdown onClose={onClose} openModal={openModal} id={id} />
+          )}
+        </div>
+      </div>
       <ul className='text-sm'>
         <li className='flex justify-between mb-1'>
           <span className='opacity-70'>Categoria:</span>

@@ -107,6 +107,9 @@ export default {
         '.custom-border-2': {
           border: 'solid 1px #c55d38',
         },
+        '.clip-polygon': {
+          clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+        },
       };
       addUtilities(newUtilities, ['responsive', 'hover']);
     },

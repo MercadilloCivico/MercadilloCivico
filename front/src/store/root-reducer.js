@@ -12,6 +12,7 @@ import {
   toastReducer,
   userReducer,
   providerReducer,
+  adminReducer,
 } from './slices';
 
 const persistConfig = {
@@ -29,9 +30,8 @@ const combinedReducers = combineReducers({
   products: productReducer,
   store: storeReducer,
   toast: toastReducer,
-  user: userReducer,
-  card: cardsReducer,
   providers: providerReducer,
+  admin: adminReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);
