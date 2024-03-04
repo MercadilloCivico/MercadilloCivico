@@ -83,12 +83,17 @@ export default function Profile() {
     email: '',
   });
 
+  function checkNull(value) {
+    if (value.toLowerCase() === 'null') return '';
+    else return value;
+  }
+
   async function updateUserData() {
     setIsLoading(true);
     const { payload } = await dispatch(fetchUserProfileAsync());
     const data = {
       firstName: payload.first_name,
-      secondName: payload.second_name || '',
+      secondName: checkNull(payload.second_name),
       lastName: payload.last_name,
       email: payload.email,
       imgUrl: payload.photo,
@@ -295,9 +300,7 @@ export default function Profile() {
               color='success'
               id='outlined-helperText'
               label='Segundo nombre'
-              defaultValue={
-                currentData.secondName.toLowerCase() === 'null' ? '' : currentData.secondName
-              }
+              defaultValue={currentData.secondName}
               helperText={errors.secondName}
               error={errors.secondName ? true : false}
             />
@@ -375,7 +378,7 @@ export default function Profile() {
         <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
           <ul>
             <li className='my-3 font-bold text-3xl mx-2 text-tuscany-600'>
-              {currentData.secondName.toLowerCase() !== 'null' ? (
+              {currentData.secondName ? (
                 <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
               ) : (
                 <span>{`${currentData.firstName} ${currentData.lastName}`}</span>
