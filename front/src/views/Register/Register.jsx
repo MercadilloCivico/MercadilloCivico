@@ -11,6 +11,7 @@ import { FaUser } from 'react-icons/fa6';
 import Footer from '../../components/Footer/Footer.jsx';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 import { createToast } from '../../store/slices/toastSlice.js';
+import { TextField } from '@mui/material';
 
 import { LuLogIn } from 'react-icons/lu';
 import Bg from '../../assets/img/bg.jpg';
@@ -256,14 +257,19 @@ function Register() {
             </div>
 
             <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-              <CustomInput
-                label='Opcional'
-                placeholder='Segundo Nombre'
+              <TextField
+                label='Segundo Nombre'
+                placeholder='Opcional'
                 name='secondName'
                 type='text'
                 value={formData.secondName}
                 onChange={handleInput}
                 maxLength={30}
+                helperText='Opcional'
+                InputProps={{
+                  sx: { backgroundColor: '#eee3d6' },
+                }}
+                FormHelperTextProps={{ sx: { textAlign: 'center' } }}
               />
               <div className='text-crown-of-thorns-600'>{errors.secondName}</div>
             </div>
