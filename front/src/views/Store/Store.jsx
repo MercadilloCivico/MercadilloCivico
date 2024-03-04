@@ -12,10 +12,12 @@ import { getGoogleCookie } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { resetFilters } from '../../store/slices/cardsSlice.js';
+import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
 
 const Store = () => {
   const dispatch = useDispatch();
   const { puntos } = useSelector((state) => state.card);
+  const { idCarrito } = useSelector((state) => state.carrito);
   const { items, filters } = useSelector((state) => state.card);
 
   useEffect(() => {
@@ -27,6 +29,10 @@ const Store = () => {
   useEffect(() => {
     dispatch(fetchPuntosSelector());
     dispatch(getGoogleCookie());
+    if (idCarrito === null) {
+      dispatch(getCartIdThunk());
+      dispatch(getCartDBThunk());
+    }
   }, [dispatch]);
 
   const citiesOptions = puntos.map((p) => {
