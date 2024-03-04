@@ -27,6 +27,7 @@ import CreateProduct from './views/CreateProduct/CreateProduct.jsx';
 import Faqs from './views/Faqs/Faqs.jsx';
 import CategoryFaqs from './views/CategoryFaqs/CategoryFaqs.jsx';
 import DetailFaq from './views/DetailFaq/DetailFaq.jsx';
+import AdminProductDetail from './views/AdminProductDetail/AdminProductDetail.jsx';
 
 import SupplierDashboard from './views/SupplierDashboard/SupplierDashboard.jsx';
 import SupplierSettings from './components/SupplierComponents/SupplierSettings/SupplierSettings.jsx';
@@ -72,6 +73,7 @@ function App() {
   const isCartPage = useMatch('/cart');
   const isAdminPage = useMatch('/admin/*');
   const isUserDetailPage = useMatch('/admin/users/detail/:id');
+  const isProductDetailPage = useMatch('/admin/products/detail/:id');
 
   useEffect(() => {
     dispatch(getAllFavorite());
@@ -82,7 +84,7 @@ function App() {
       <div className='min-h-[calc(100vh-55px)]'>
         <Toasts />
         {!isDetailPage && !isCartPage && !isAdminPage && <Nav />}
-        {isAdminPage && !isUserDetailPage && <AdminNav />}
+        {isAdminPage && !isUserDetailPage && !isProductDetailPage && <AdminNav />}
 
         <Routes>
           <Route path='/' element={<Landing />} />
@@ -123,6 +125,7 @@ function App() {
             path='/admin/products/edit/:id'
             element={<EditProduct products={products} setProducts={setProducts} />}
           />
+          <Route path='/admin/products/detail/:id' element={<AdminProductDetail />} />
           <Route path='/admin/users' element={<AdminUsers />} />
           <Route path='/admin/users/detail/:id' element={<UserDetail />} />
 

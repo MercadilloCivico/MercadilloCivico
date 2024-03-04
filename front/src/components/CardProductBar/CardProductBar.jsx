@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const AdminCardList = ({ name, image, marca, disabled, sales, inventario, costo }) => {
+const CardProductBar = ({ proveedor, puntoDeVenta, costo, inventario }) => {
   const [charLimit, setCharLimit] = useState(50);
 
   useEffect(() => {
@@ -34,34 +34,25 @@ const AdminCardList = ({ name, image, marca, disabled, sales, inventario, costo 
     };
   }, []);
 
-  const truncatedName = name.length > charLimit ? `${name.slice(0, charLimit - 3)}...` : name;
-  const truncatedBrand = marca.length > charLimit ? `${marca.slice(0, charLimit - 3)}...` : marca;
+  const truncatedSuplier =
+    proveedor?.length > charLimit ? `${proveedor?.slice(0, charLimit - 3)}...` : proveedor;
+  const truncatedPuntoDeVenta =
+    puntoDeVenta?.length > charLimit ? `${puntoDeVenta?.slice(0, charLimit - 3)}...` : puntoDeVenta;
 
   return (
     <div className='mx-4 hover:bg-pearl-bush-200 py-2 px-[1em] text-tuscany-950 font-semibold rounded-md'>
       <ul className='flex justify-between items-center text-start text-[.8em]'>
         <li className='flex items-center w-[1em]'>
-          <img src={image} alt='ImgProduct' className='w-[.8em] h-[.8em]' />
-          <span className='overflow-ellipsis whitespace-nowrap'>{truncatedName}</span>
-        </li>
-        <li className='hidden lg:flex items-center w-[1em]'>
-          <span className='overflow-ellipsis whitespace-nowrap'>{truncatedBrand}</span>
+          <span className='overflow-ellipsis whitespace-nowrap'>{truncatedSuplier}</span>
         </li>
         <li className='flex items-center w-[1em]'>
-          {disabled ? (
-            <span className='bg-[#59719d71] text-[#59719D] rounded-md py-1 px-2'>Inactivo</span>
-          ) : (
-            <span className='bg-[#2ba9727e] text-[#2BA972] rounded-md py-1 px-2'>Activo</span>
-          )}
-        </li>
-        <li className='hidden md:flex items-center w-[1em]'>
-          <span>{sales}</span>
-        </li>
-        <li className='hidden sm:flex items-center w-[1em]'>
-          <span>{inventario}</span>
+          <span className='overflow-ellipsis whitespace-nowrap'>{truncatedPuntoDeVenta}</span>
         </li>
         <li className='flex items-center w-[1em]'>
           <span>{costo}</span>
+        </li>
+        <li className='flex items-center w-[1em]'>
+          <span>{inventario}</span>
         </li>
         <br />
       </ul>
@@ -69,4 +60,4 @@ const AdminCardList = ({ name, image, marca, disabled, sales, inventario, costo 
   );
 };
 
-export default AdminCardList;
+export default CardProductBar;

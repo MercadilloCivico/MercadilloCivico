@@ -3,7 +3,7 @@ import { IoMdMore } from 'react-icons/io';
 import MoreOptionsDropdown from '../MoreOptionsDropdown/MoreOptionsDropdown';
 import Modal from '../Modal/Modal';
 
-const AdminGridCard = ({ id, name, image, category, disabled, sales, stock, price }) => {
+const AdminGridCard = ({ id, name, image, marca, disabled, sales, inventario, costo }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -41,8 +41,8 @@ const AdminGridCard = ({ id, name, image, category, disabled, sales, stock, pric
       </div>
       <ul className='text-sm'>
         <li className='flex justify-between mb-1'>
-          <span className='opacity-70'>Categoria:</span>
-          <span className='font-semibold'>{limitAndEllipsis(category, 10)}</span>
+          <span className='opacity-70'>Marca:</span>
+          <span className='font-semibold'>{limitAndEllipsis(marca, 12)}</span>
         </li>
         <li className='flex justify-between mb-1'>
           <span className='opacity-70'>Estado:</span>
@@ -58,11 +58,11 @@ const AdminGridCard = ({ id, name, image, category, disabled, sales, stock, pric
         </li>
         <li className='flex justify-between mb-1'>
           <span className='opacity-70'>Stock:</span>
-          <span className='font-semibold'>{stock}</span>
+          <span className='font-semibold'>{inventario}</span>
         </li>
         <li className='flex justify-between mb-1'>
           <span className='opacity-70'>Precio:</span>
-          <span className='font-semibold'>{price}</span>
+          <span className='font-semibold'>{costo}</span>
         </li>
       </ul>
       <div>
