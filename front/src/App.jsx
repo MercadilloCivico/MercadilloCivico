@@ -42,6 +42,10 @@ import { createToast } from './store/slices/toastSlice.js';
 import PoliticaCookies from './views/PoliticaCookies/PoliticaCookies.jsx';
 import AvisoLegal from './views/AvisoLegal/AvisoLegal.jsx';
 import PoliticaPrivacidad from './views/PoliticaPrivacidad/PoliticaPrivacidad.jsx';
+import PasarelaDePago from './views/PasarelaDePago/PasarelaDePago.jsx';
+import { useEffect } from 'react';
+
+import { getAllFavorite } from './store/thunks/favoritesThuks.js';
 
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
@@ -60,6 +64,7 @@ function CheckAlreadyLoggedIn({ Component }) {
 }
 
 function App() {
+  const dispatch = useDispatch();
   //Estado temporal
   const [products, setProducts] = useState([]);
 
@@ -67,6 +72,10 @@ function App() {
   const isCartPage = useMatch('/cart');
   const isAdminPage = useMatch('/admin/*');
   const isUserDetailPage = useMatch('/admin/users/detail/:id');
+
+  useEffect(() => {
+    dispatch(getAllFavorite());
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -90,6 +99,7 @@ function App() {
 
           <Route path='/cart' element={<Cart />} />
           <Route path='/login/:id?' element={<CheckAlreadyLoggedIn Component={Login} />} />
+          <Route path='/pasarela_de_pago' element={<PasarelaDePago />} />
 
           <Route path='/profile' element={<ProtectedRoute Component={Profile} />}>
             <Route path='/profile/history' element={<ProfileHistoryContainer />}></Route>
@@ -120,6 +130,7 @@ function App() {
             <Route path='/supplier/settings' element={<SupplierSettings />} />
             <Route path='/supplier/points' element={<SupplierPoints />} />
           </Route>
+
           <Route path='/politica_de_cookies' element={<PoliticaCookies />} />
           <Route path='/aviso_legal' element={<AvisoLegal />} />
           <Route path='/politica_de_privacidad' element={<PoliticaPrivacidad />} />

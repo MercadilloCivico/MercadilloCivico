@@ -77,7 +77,7 @@ export default function StoreFilters({ className }) {
               labelId='filter-select'
               id='filter-select'
               value={value}
-              label='Age'
+              label='Filtros'
               onChange={handleChange}
               className='text-tuscany-950 w-[150px] h-10'>
               <MenuItem value='filtros'>Filtros</MenuItem>
@@ -94,7 +94,7 @@ export default function StoreFilters({ className }) {
               labelId='sort-select'
               id='sort-select'
               value={sortValue}
-              label='Age'
+              label='Ordenamiento'
               onChange={handleSortChange}
               className='text-tuscany-950 w-[150px] h-10'>
               <MenuItem value='ordenamiento'>Ordenamiento</MenuItem>

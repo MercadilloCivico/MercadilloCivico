@@ -1,22 +1,17 @@
 const { Router } = require('express');
-// const { login, logout } = require('../controllers/Usuario/authController');
 const middleware = require('../../middleware/authGoogle');
-// const deleteUser = require('../controllers/Usuario/deleteUserController');
-// const contraseñaOlvidada = require('../controllers/Usuario/contraseñaOlvidada');
-// const recuperarContrasenia = require('../controllers/Usuario/recuperarContraseña');
 const ProductController = require('../controllers/Producto/productController');
-// const putUsuario = require('../controllers/Usuario/putUsuarioController');
 const FavoriteControllers = require('../controllers/favorites/favoritesController');
 const PuntoDeVentaController = require('../controllers/PuntoDeVenta/puntoVentaController');
 const ProveedoresController = require('../controllers/proveedores/proveedoresController');
 const usuariosController = require('../controllers/Usuario/usuariosController');
-// const register = require('../controllers/Usuario/registerController');
 const CarritoController = require('../controllers/Carrito/carritoController');
 const InventarioController = require('../controllers/inventario/inventarioController');
 const validateMiddleware = require('../../middleware/validateMiddleware');
 const ReseñasController = require('../controllers/Reseñas/reseñasController');
 const HistorialController = require('../controllers/HistorialDeVenta/historialController');
 const FiltroController = require('../controllers/Filtros/filtroController');
+const datosTarjeta = require('../controllers/dataCard/datosTarjeta');
 
 const router = Router();
 
@@ -43,9 +38,9 @@ router.delete('/productoTrue/:id', ProductController.trueDelete);
 
 // favorites
 
-router.get('/favorites/:id?', FavoriteControllers.get);
+router.get('/favorites', FavoriteControllers.get);
 router.post('/favorites/:id', FavoriteControllers.addFav);
-router.delete('/favorites/:id');
+router.delete('/favorites/:id', FavoriteControllers.removeFav);
 
 // proveedores
 
@@ -92,5 +87,9 @@ router.delete('/historialCompra/:id', HistorialController.delete);
 
 // Filtros
 router.get('/filtro/:id', validateMiddleware.validateFilter, FiltroController.filterProductos);
+
+// datosTarjeta
+
+router.post('/payment', datosTarjeta.data);
 
 module.exports = router;

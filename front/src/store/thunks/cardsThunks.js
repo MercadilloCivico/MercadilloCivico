@@ -40,8 +40,8 @@ export const fetchCards = createAsyncThunk(
   }
 );
 
-export const fetchFaqsSelector = createAsyncThunk(
-  'cards/fetchFaqsSelector',
+export const fetchPuntosSelector = createAsyncThunk(
+  'cards/fetchPuntosSelector',
   async (_, { rejectWithValue }) => {
     try {
       let url = `${VITE_API_URL}/punto_de_venta`;

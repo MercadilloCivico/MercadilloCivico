@@ -1,10 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCards, fetchFaqsSelector } from '../../store/thunks/cardsThunks.js';
-// import { resetFilters } from '../../store/slices/productSlice';
+import { fetchCards, fetchPuntosSelector } from '../../store/thunks/cardsThunks.js';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
-// import CustomInput from '../../components/CustomInput/CustomInput';
-// import { IoSearch } from 'react-icons/io5';
 import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
@@ -22,15 +19,13 @@ const Store = () => {
   const { items, filters } = useSelector((state) => state.card);
 
   useEffect(() => {
-    dispatch(fetchFaqsSelector());
-  }, [dispatch]);
-  
-  useEffect(() => {
-    dispatch(fetchCards(filters));
+    if (filters.id) {
+      dispatch(fetchCards(filters));
+    }
   }, [dispatch, filters]);
 
   useEffect(() => {
-    dispatch(fetchFaqsSelector());
+    dispatch(fetchPuntosSelector());
     dispatch(getGoogleCookie());
   }, [dispatch]);
 
@@ -49,8 +44,8 @@ const Store = () => {
         </Box>
       </div>
 
-      <div className='flex flex-col bg-hippie-green-950'>
-        <SearchBar className='rounded-lg max-w-64 mx-auto lg:hidden' />
+      <div className='bg-hippie-green-950'>
+        <SearchBar className='max-w-64 mx-auto lg:hidden my-2' />
       </div>
 
       {/* Div eparador con color verde de fondo, altura del div usado como margin top y bottom */}
@@ -67,14 +62,16 @@ const Store = () => {
       </div>
 
       <StoreFilters />
-      <CardSwitch />
 
       <CustomButton
+        className='w-[175px] mx-auto'
         onClick={() => {
           dispatch(resetFilters());
         }}
         text='Resetear Filtros'
       />
+
+      <CardSwitch />
 
       <div>
         <Cards products={items} />

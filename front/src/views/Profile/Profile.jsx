@@ -6,7 +6,7 @@ import LinkTags from './LinkTags.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice.js';
 import { putUser } from '../../store/thunks/authThunks.js';
-import { fetchUserProfileAsync } from '../../store/thunks/profileThunks.js';
+import { fetchUserProfileAsync, deleteUserProfileAsync } from '../../store/thunks/profileThunks.js';
 import { logout } from '../../store/thunks/authThunks.js';
 import style from './ProfileAnims.module.css';
 
@@ -25,6 +25,7 @@ import {
 export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
   let [editMode, setEditMode] = useState(false);
 
   const [currentData, setCurrentData] = useState({
@@ -46,8 +47,19 @@ export default function Profile() {
 
   useEffect(() => {
     setFormData(currentData);
+    setIsLoading(false);
   }, [currentData]);
-  if (!currentData.firstName) updateUserData();
+
+  useEffect(() => {
+    if (!currentData.firstName) {
+      updateUserData();
+      setIsLoading(true);
+    } else setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    console.log(isLoading);
+  }, [isLoading]);
 
   useEffect(() => {
     if (editMode) {
@@ -71,11 +83,17 @@ export default function Profile() {
     email: '',
   });
 
+  function checkNull(value) {
+    if (value.toLowerCase() === 'null') return '';
+    else return value;
+  }
+
   async function updateUserData() {
+    setIsLoading(true);
     const { payload } = await dispatch(fetchUserProfileAsync());
     const data = {
       firstName: payload.first_name,
-      secondName: payload.second_name || '',
+      secondName: checkNull(payload.second_name),
       lastName: payload.last_name,
       email: payload.email,
       imgUrl: payload.photo,
@@ -139,6 +157,7 @@ export default function Profile() {
   const { token } = useSelector((state) => state.auth);
 
   async function handleSave() {
+    setIsLoading(true);
     const toSend = {
       // envía el nombre con el formato correcto en caso de estar mal
       firstName:
@@ -155,17 +174,20 @@ export default function Profile() {
     };
 
     const response = await dispatch(putUser(toSend));
-    if (response.payload?.error) dispatch(createToast(response.payload.error));
-    if (toSend.password === '') {
+    if (response.payload?.error) {
+      dispatch(createToast(response.payload.error));
+      updateUserData();
+    }
+
+    if (toSend.password === '' && !response.payload?.error) {
       dispatch(createToast('Datos actualizados con éxito.'));
       updateUserData();
     }
 
     if (toSend.password !== '') {
-      dispatch(createToast('Contraseña actualizada. Vuelve a iniciar sesión.'));
-
       await dispatch(logout());
       token !== null && navigate('/login');
+      dispatch(createToast('Contraseña actualizada. Vuelve a iniciar sesión.'));
     }
 
     setEditMode(false);
@@ -173,6 +195,12 @@ export default function Profile() {
 
   function handleCancel() {
     setEditMode(false);
+  }
+
+  function handleDelete() {
+    // setEditMode(false);
+    dispatch(deleteUserProfileAsync());
+    dispatch(createToast('Petición enviada'));
   }
 
   function hasErrors() {
@@ -190,6 +218,9 @@ export default function Profile() {
   return (
     <div className='text-pearl-bush-950'>
       {/* Header container */}
+      {isLoading && (
+        <div className='h-screen w-screen bg-pearl-bush-100 top-0 fixed z-20'>Cargando</div>
+      )}
 
       <div>
         <div
@@ -336,6 +367,12 @@ export default function Profile() {
 
             <CustomButton className='mx-2' onClick={handleCancel} text='Cancelar' />
           </div>
+
+          <CustomButton
+            className='w-[175px] my-6 mx-auto bg-crown-of-thorns-600 hover:bg-crown-of-thorns-700'
+            onClick={handleDelete}
+            text='Borrar cuenta'
+          />
         </div>
       ) : (
         <div className='w-full max-w-[900px] mt-[75px] mx-auto'>

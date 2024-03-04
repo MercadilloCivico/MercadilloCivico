@@ -7,8 +7,8 @@ const validate = (data) => {
     errors.name = 'El nombre no puede comenzar con un espacio en blanco';
   } else if (!/^[a-zA-Z\s]+$/.test(data.name)) {
     errors.name = 'El nombre solo puede contener letras y espacios';
-  } else if (data.name.length > 30) {
-    errors.name = 'El nombre no puede tener más de 30 caracteres';
+  } else if (data.name.length > 15) {
+    errors.name = 'El nombre no puede tener más de 15 caracteres';
   }
 
   if (!data.marca.trim()) {

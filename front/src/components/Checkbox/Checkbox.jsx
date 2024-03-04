@@ -1,7 +1,7 @@
 import { FormControlLabel, FormGroup } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
-function CheckboxRequired() {
+function CheckboxRequired({ checked, onChange, disabled }) {
   return (
     <>
       <FormGroup className=''>
@@ -9,6 +9,9 @@ function CheckboxRequired() {
           required
           control={
             <Checkbox
+              checked={checked}
+              onChange={onChange}
+              disabled={disabled}
               sx={{
                 color: '#c55d38',
                 '&.Mui-checked': {

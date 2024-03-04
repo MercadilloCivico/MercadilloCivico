@@ -11,7 +11,7 @@ function Home() {
       <h1 className='hidden text-cabbage-pont-950'>Mercadillo Cívico</h1>
       <img src={LogoHome} alt='Mercadillo Cívico' className='w-[240px] mt-[50px] p-[10px]' />
 
-      <p className='text-pearl-bush-950 m-auto my-5 mb-10 max-w-[600px] p-1 '>
+      <p className='text-pearl-bush-950 m-auto my-5 mb-10 max-w-[600px] p-1 text-xl'>
         Transforma la forma en que tu equipo accede a productos saludables y necesarios durante su
         jornada laboral con Mercadillo Cívico. Una innovadora alternativa a las vending machines
         tradicionales, diseñada para empresas modernas como la tuya.
@@ -20,7 +20,7 @@ function Home() {
         <CustomButton text='Descubre Más' />
       </Link>
       <div>
-        <p className='text-pearl-bush-950 m-auto my-5 max-w-[600px] p-1 mt-[150px]'>
+        <p className='text-pearl-bush-950 m-auto my-5 max-w-[600px] p-1 mt-[150px] text-xl'>
           Mercadillo Cívico no solo facilita el acceso a alimentos y productos esenciales durante el
           trabajo, sino que promueve una cultura de civismo y responsabilidad. Con nuestro sistema
           sin intermediarios, ofrecemos precios más bajos y una experiencia de compra única.
@@ -40,7 +40,7 @@ function Home() {
       </div>
 
       <div>
-        <p className='text-pearl-bush-950 m-auto my-5 max-w-[600px] p-1'>
+        <p className='text-pearl-bush-950 m-auto my-5 max-w-[600px] p-1 text-xl'>
           Fácil de usar: solo escanea, selecciona y paga. Nuestro sistema de compra eficiente está
           pensado para la comodidad de tu equipo, permitiéndoles más tiempo para lo que realmente
           importa.

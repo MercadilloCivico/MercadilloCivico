@@ -7,7 +7,11 @@ class CarritoHandler {
       const carrito = await prisma.carrito_de_Compras.findUnique({
         where: { user_id: id },
         include: {
-          productoEnCarrito: true,
+          productoEnCarrito: {
+            orderBy: {
+              ref: 'asc',
+            },
+          },
         },
       });
       if (!carrito) throw new Error('El usuario no tiene asignado un carrito, error del sistema');
@@ -96,7 +100,6 @@ class CarritoHandler {
           inventarioId_carritoId: { inventarioId, carritoId },
         },
       });
-      console.log('🚀 ~ CarritoHandler ~ controlCantidad ~ productoEnCarrito:', productoEnCarrito);
       if (!productoEnCarrito) {
         throw new Error('El producto no está en el carrito de compras');
       }
@@ -118,10 +121,7 @@ class CarritoHandler {
           cantidad: nuevaCantidad,
         },
       });
-      console.log(
-        '🚀 ~ CarritoHandler ~ controlCantidad ~ productoActualizado:',
-        productoActualizado
-      );
+
       return {
         message: 'Cantidad actualizada exitosamente',
         data: productoActualizado,

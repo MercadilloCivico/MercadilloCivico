@@ -14,16 +14,23 @@ import { createToast } from '../../store/slices/toastSlice.js';
 import { loginValidation } from '../../utils/validation.js';
 import { googleAuth, googleErrorChecker } from '../../store/slices/authSlice.js';
 import { useParams } from 'react-router-dom';
-
+import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 import style from './login.module.css';
 
 function Login() {
   const dispatch = useDispatch();
   const { status, error } = useSelector((state) => state.auth);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
   const { id } = useParams();
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password' && showPassword !== !showPassword) {
+      setShowPassword(!showPassword);
+    }
+  };
 
   useEffect(() => {
     if (id === 'alreadyRegistered') {
@@ -99,7 +106,7 @@ function Login() {
             <div className='text-crown-of-thorns-600'>{errors.email}</div>
           </div>
           <br />
-          <div className='flex flex-col self-center max-w-[400px] min-w-[250px] mx-auto'>
+          {/* <div className='flex flex-col self-center max-w-[400px] min-w-[250px] mx-auto'>
             <CustomInput
               label='Contraseña'
               placeholder='Contraseña'
@@ -107,6 +114,27 @@ function Login() {
               type='password'
               value={loginData.password}
               onChange={handleInput}
+            />
+            <div className='text-crown-of-thorns-600'>{errors.password}</div>
+          </div> */}
+          <div className='flex flex-col self-center max-w-[400px] min-w-[250px] mx-auto'>
+            <CustomInput
+              label='Contraseña'
+              placeholder='Contraseña'
+              name='password'
+              type={showPassword ? 'text' : 'password'}
+              value={loginData.password}
+              onChange={handleInput}
+              maxLength={16}
+              endIcon={
+                <button
+                  onClick={() => togglePasswordVisibility('password')}
+                  style={{ backgroundColor: 'transparent', border: 'none' }}
+                  className='flex justify-center items-center text-tuscany-300 text-2xl'
+                  type='button'>
+                  {showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
+                </button>
+              }
             />
             <div className='text-crown-of-thorns-600'>{errors.password}</div>
           </div>

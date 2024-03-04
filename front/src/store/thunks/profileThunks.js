@@ -14,3 +14,19 @@ export const fetchUserProfileAsync = createAsyncThunk(
     }
   }
 );
+
+export const deleteUserProfileAsync = createAsyncThunk(
+  'users/deleteUserProfileAsync',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`${VITE_API_URL}/disable/user`, {
+        withCredentials: true,
+      });
+
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

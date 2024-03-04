@@ -24,7 +24,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
       <div className='flex w-full h-[55px]'></div>
 
       <div className='flex w-full text-tuscany-950 font-semibold text-lg'>
-        <header className='bg-pearl-bush-200 flex h-[55px] w-full fixed items-center justify-between top-0 left-0 shadow-md z-10 px-[10px]'>
+        <header className='bg-pearl-bush-200 flex h-[55px] w-full fixed items-center justify-between top-0 left-0 shadow-md z-10 px-4'>
           {/* NAV START */}
           {/* Responsive Menu Button */}
           <div className='w-full lg:hidden'>
@@ -57,7 +57,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
           <SearchBar
             filtrosActivos={filtrosActivos}
             setFiltrosActivos={setFiltrosActivos}
-            className='flex h-full max-w-[500px] w-full items-center justify-center py-[5px] mx-[15px] sm:hidden max-sm:hidden lg:flex max-xl:flex'
+            className='flex max-w-[500px] w-full items-center justify-center py-[5px] mx-[15px] sm:hidden max-sm:hidden lg:flex max-xl:flex'
           />
 
           {/* Logo centrado en mobile */}

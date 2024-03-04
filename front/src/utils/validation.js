@@ -41,6 +41,8 @@ const firstNameValidation = (firstName, errors) => {
     errors.firstName = 'El nombre es obligatorio';
   } else if (firstName.length < 3) {
     errors.firstName = 'El nombre debe tener al menos 3 caracteres';
+  } else if (firstName.length > 15) {
+    errors.firstName = 'El nombre no puede tener más de 15 caracteres';
   } else if (!onlyLetters.test(firstName)) {
     errors.firstName = 'El nombre solo puede contener letras';
   } else if (!firstName.length) {
@@ -50,9 +52,14 @@ const firstNameValidation = (firstName, errors) => {
 };
 
 const secondNameValidation = (secondName, errors) => {
-  if (secondName && (secondName.length < 3 || !onlyLetters.test(secondName))) {
-    errors.secondName =
-      'El segundo nombre debe tener al menos 3 caracteres y solo puede contener letras';
+  if (secondName) {
+    if (secondName.trim() === '') {
+      errors.secondName = 'El segundo nombre es requerido';
+    } else if (secondName.length < 3) {
+      errors.secondName = 'El segundo nombre debe tener al menos 3 caracteres';
+    } else if (!/^[a-zA-Z\s]*$/.test(secondName)) {
+      errors.secondName = 'El segundo nombre solo puede contener letras';
+    }
   }
   return errors;
 };
@@ -99,5 +106,29 @@ export const loginValidation = ({ email, password }) => {
   const errors = {};
   emailValidation(email, errors);
   passwordValidation(password, errors);
+  return errors;
+};
+
+export const cardValidation = ({ number, name, expMonth, expYear, cvc }) => {
+  const errors = {};
+  if (number.length < 16) {
+    errors.number = 'El número de tarjeta debe tener 16 dígitos';
+  }
+  if (name.length < 3) {
+    errors.name = 'Nombre inválido';
+  }
+  if (expMonth.length < 2) {
+    errors.expMonth = 'El mes de expiración debe tener 2 dígitos';
+  }
+  if (expYear.length < 4) {
+    errors.expYear = 'El año de expiración debe tener 4 dígitos';
+  }
+  //validar que no haya pasado ya el año
+  if (expYear < new Date().getFullYear()) {
+    errors.expYear = 'El año de expiración no puede ser menor al actual';
+  }
+  if (cvc.length < 3) {
+    errors.cvc = 'El código de seguridad debe tener 3 dígitos';
+  }
   return errors;
 };
