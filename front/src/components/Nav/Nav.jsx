@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import LogoMC from '../../assets/images/LogoMC.png';
 import NavMenu from '../NavMenu/NavMenu.jsx';
@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 
 const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuBtnRef = useRef(null);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -32,6 +33,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
           {/* Responsive Menu Button */}
           <div className='w-full lg:hidden'>
             <button
+              ref={menuBtnRef}
               className='custom-transparent-bg border-none h-[30px] w-[30px] cursor-pointer lg:hidden flex items-center'
               onClick={toggleMenu}>
               <LuMenu className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
@@ -83,7 +85,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
           </div>
         </header>
 
-        <NavMenu menuOpen={menuOpen} toggleMenu={toggleMenu} />
+        <NavMenu menuBtnRef={menuBtnRef} menuOpen={menuOpen} toggleMenu={toggleMenu} />
       </div>
     </>
   );
