@@ -1,6 +1,6 @@
 import UserCard from '../Card/UserCard';
-import AdminCard from '../Card/AdminCard.jsx';
 import DropdownCard from '../DropdownCard/DropdownCard.jsx';
+import AdminCard from '../Card/AdminCard.jsx';
 import { useSelector } from 'react-redux';
 
 function Cards({ products, cardType }) {

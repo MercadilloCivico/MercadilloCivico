@@ -13,6 +13,7 @@ import {
   userReducer,
   providerReducer,
   favoritesReducer,
+  adminReducer,
 } from './slices';
 
 const persistConfig = {
@@ -32,6 +33,7 @@ const combinedReducers = combineReducers({
   toast: toastReducer,
   providers: providerReducer,
   favorites: favoritesReducer,
+  admin: adminReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);
