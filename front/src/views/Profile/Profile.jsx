@@ -295,7 +295,9 @@ export default function Profile() {
               color='success'
               id='outlined-helperText'
               label='Segundo nombre'
-              defaultValue={currentData.secondName === 'null' ? '' : currentData.secondName}
+              defaultValue={
+                currentData.secondName.toLowerCase() === 'null' ? '' : currentData.secondName
+              }
               helperText={errors.secondName}
               error={errors.secondName ? true : false}
             />
@@ -373,7 +375,7 @@ export default function Profile() {
         <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
           <ul>
             <li className='my-3 font-bold text-3xl mx-2 text-tuscany-600'>
-              {currentData.secondName !== 'null' ? (
+              {currentData.secondName.toLowerCase() !== 'null' ? (
                 <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
               ) : (
                 <span>{`${currentData.firstName} ${currentData.lastName}`}</span>
