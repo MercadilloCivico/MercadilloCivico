@@ -139,25 +139,54 @@ class usuariosHandler {
     }
   }
 
-  static async deleteUserHandler(email, password) {
+  static async deleteUserHandler(id) {
     try {
-      const findUser = await prisma.usuario.findUnique({
-        where: { email },
+      const user = await prisma.usuario.findUnique({
+        where: { id },
+        include: {
+          carrito: true,
+          proveedor: true,
+          compras: true,
+          resenas: true,
+          favorites: true,
+        },
       });
-      if (!findUser) throw new Error('El usuario no se encuentra registrado en la base de datos');
-      if (!bcrypt.compare(password, findUser.password))
-        throw new Error('La contraseña es incorrecta');
-      await prisma.usuario.update({
+
+      if (!user) {
+        return { usuarioEliminadoCorrectamente: false, mensaje: 'Usuario no encontrado' };
+      }
+
+      const { carrito, proveedor } = user;
+
+      if (carrito) {
+        // Desconectar el carrito antes de eliminar al usuario
+        await prisma.usuario.update({
+          where: {
+            id: user.id,
+          },
+          data: {
+            carrito: {
+              disconnect: true,
+            },
+          },
+        });
+      }
+
+      if (proveedor) {
+        await prisma.proveedor.delete({
+          where: {
+            id: proveedor.id,
+          },
+        });
+      }
+
+      await prisma.usuario.delete({
         where: {
-          email,
-        },
-        data: {
-          disabled: true,
+          id,
         },
       });
-      return {
-        usuarioEliminadoCorrectamente: true,
-      };
+
+      return { usuarioEliminadoCorrectamente: true };
     } catch (error) {
       throw new Error(error);
     }

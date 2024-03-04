@@ -7,6 +7,7 @@ import {
 
 const initialState = {
   status: 'idle',
+  userFavorites: [],
 };
 
 const favoritesSlice = createSlice({
@@ -21,8 +22,7 @@ const favoritesSlice = createSlice({
       })
       .addCase(addFavoriteThunk.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload;
-        state.data = action.payload;
+        state.userFavorites = action.payload;
       })
       .addCase(addFavoriteThunk.rejected, (state, action) => {
         state.status = 'failed';
@@ -36,8 +36,7 @@ const favoritesSlice = createSlice({
       })
       .addCase(removeFavorite.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload;
-        state.data = action.payload;
+        state.userFavorites = action.payload;
       })
       .addCase(removeFavorite.rejected, (state, action) => {
         state.status = 'failed';
@@ -51,8 +50,7 @@ const favoritesSlice = createSlice({
       })
       .addCase(getAllFavorite.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload;
-        state.data = action.payload;
+        state.userFavorites = action.payload;
       })
       .addCase(getAllFavorite.rejected, (state, action) => {
         state.status = 'failed';

@@ -1,19 +1,6 @@
 const prisma = require('../../../db_connection');
 
 class FavoriteHandlers {
-  static async getAll() {
-    try {
-      const favorites = await prisma.usuario.findMany({
-        include: {
-          favorites: true,
-        },
-      });
-      return favorites;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
   static async getById(id) {
     try {
       const findUser = await prisma.usuario.findFirst({ where: { id } });
@@ -26,7 +13,7 @@ class FavoriteHandlers {
           favorites: true,
         },
       });
-      return favorites;
+      return favorites.favorites;
     } catch (error) {
       throw new Error(error);
     }
@@ -38,7 +25,7 @@ class FavoriteHandlers {
       const findProduct = await prisma.producto.findFirst({ where: { id: productId } });
       if (!findUser || !findProduct)
         throw new Error('El usuario y/o producto no se encuentra en la base de datos');
-      await prisma.usuario.update({
+      const favoritos = await prisma.usuario.update({
         where: {
           id: userId,
         },
@@ -53,9 +40,9 @@ class FavoriteHandlers {
           favorites: true,
         },
       });
-      return { message: 'Producto añadido a favoritos exitosamente' };
+      return favoritos.favorites;
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error.message);
     }
   }
 
@@ -65,7 +52,7 @@ class FavoriteHandlers {
       const findProduct = await prisma.producto.findFirst({ where: { id: productId } });
       if (!findUser || !findProduct)
         throw new Error('El usuario y/o producto no se encuentra en la base de datos');
-      await prisma.usuario.update({
+      const favorite = await prisma.usuario.update({
         where: {
           id: userId,
         },
@@ -80,7 +67,7 @@ class FavoriteHandlers {
           favorites: true,
         },
       });
-      return { message: 'Producto eliminado de favoritos exitosamente' };
+      return favorite.favorites;
     } catch (error) {
       throw new Error(error);
     }

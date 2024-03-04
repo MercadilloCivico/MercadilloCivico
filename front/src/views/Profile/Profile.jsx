@@ -6,7 +6,7 @@ import LinkTags from './LinkTags.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice.js';
 import { putUser } from '../../store/thunks/authThunks.js';
-import { fetchUserProfileAsync } from '../../store/thunks/profileThunks.js';
+import { fetchUserProfileAsync, deleteUserProfileAsync } from '../../store/thunks/profileThunks.js';
 import { logout } from '../../store/thunks/authThunks.js';
 import style from './ProfileAnims.module.css';
 
@@ -192,6 +192,12 @@ export default function Profile() {
     setEditMode(false);
   }
 
+  function handleDelete() {
+    // setEditMode(false);
+    dispatch(deleteUserProfileAsync());
+    dispatch(createToast('Petición enviada'));
+  }
+
   function hasErrors() {
     // verifica si hay algún error
     return Object.values(errors).some((error) => {
@@ -356,6 +362,12 @@ export default function Profile() {
 
             <CustomButton className='mx-2' onClick={handleCancel} text='Cancelar' />
           </div>
+
+          <CustomButton
+            className='w-[175px] my-6 mx-auto bg-crown-of-thorns-600 hover:bg-crown-of-thorns-700'
+            onClick={handleDelete}
+            text='Borrar cuenta'
+          />
         </div>
       ) : (
         <div className='w-full max-w-[900px] mt-[75px] mx-auto'>

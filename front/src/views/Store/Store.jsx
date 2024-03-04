@@ -44,8 +44,8 @@ const Store = () => {
         </Box>
       </div>
 
-      <div className='flex flex-col bg-hippie-green-950'>
-        <SearchBar className='rounded-lg max-w-64 mx-auto lg:hidden' />
+      <div className='bg-hippie-green-950'>
+        <SearchBar className='max-w-64 mx-auto lg:hidden my-2' />
       </div>
 
       {/* Div eparador con color verde de fondo, altura del div usado como margin top y bottom */}
@@ -62,14 +62,16 @@ const Store = () => {
       </div>
 
       <StoreFilters />
-      <CardSwitch />
 
       <CustomButton
+        className='w-[175px] mx-auto'
         onClick={() => {
           dispatch(resetFilters());
         }}
         text='Resetear Filtros'
       />
+
+      <CardSwitch />
 
       <div>
         <Cards products={items} />

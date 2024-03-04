@@ -31,7 +31,7 @@ const banners = [
   // Agrega más objetos aquí si es necesario
 ];
 
-function prueba() {
+function Prueba() {
   return (
     <div className='mt-[60px]'>
       <CaruselBanners banners={banners} />
@@ -39,4 +39,4 @@ function prueba() {
   );
 }
 
-export default prueba;
+export default Prueba;

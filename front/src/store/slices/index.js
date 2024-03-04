@@ -7,6 +7,7 @@ import userReducer from './userSlice';
 import cardsReducer from './cardsSlice';
 import providerReducer from './providerSlice';
 import cartReducer from './cartSlice';
+import favoritesReducer from './favoritesSlice';
 
 export {
   authReducer,
@@ -18,4 +19,5 @@ export {
   cartReducer,
   cardsReducer,
   providerReducer,
+  favoritesReducer,
 };
