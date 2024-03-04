@@ -64,7 +64,7 @@ const Store = () => {
       <StoreFilters />
 
       <CustomButton
-        className='w-[175px] mx-auto'
+        className='mx-auto max-w-max'
         onClick={() => {
           dispatch(resetFilters());
         }}

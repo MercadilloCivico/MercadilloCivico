@@ -75,9 +75,11 @@ function App() {
   const isUserDetailPage = useMatch('/admin/users/detail/:id');
   const isProductDetailPage = useMatch('/admin/products/detail/:id');
 
+  const { token } = useSelector((state) => state.auth);
+
   useEffect(() => {
-    dispatch(getAllFavorite());
-  }, []);
+    token && dispatch(getAllFavorite());
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>

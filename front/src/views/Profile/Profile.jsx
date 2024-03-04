@@ -84,7 +84,7 @@ export default function Profile() {
   });
 
   function checkNull(value) {
-    if (value.toLowerCase() === 'null') return '';
+    if (value && value.toLowerCase() === 'null') return '';
     else return value;
   }
 

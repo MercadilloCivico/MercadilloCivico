@@ -18,7 +18,7 @@ const Cart = () => {
   const { items, idCarrito, status } = useSelector((state) => state.carrito);
   const { items: productos } = useSelector((state) => state.card);
   const productosUpdates = productos.map((p) => {
-    const productoEnCarrito = items.productoEnCarrito.find(
+    const productoEnCarrito = items.productoEnCarrito?.find(
       (item) => item.inventarioId === p.inventario.id
     );
     if (productoEnCarrito) {
@@ -38,7 +38,7 @@ const Cart = () => {
   }, 0);
 
   const comprar = () => {
-    dispatch(createToast('Compra realizada'));
+    dispatch(console.log('Hola'));
   };
 
   const dispatch = useDispatch();
@@ -88,14 +88,14 @@ const Cart = () => {
 
       {/* Empujar hacia abajo lo que queda detrás de la nav */}
       <div className='h-[55px]'></div>
-      {productoEnCarrito.length === 0 ? (
+      {productoEnCarrito?.length === 0 ? (
         <EmptyCart />
       ) : (
         <div className='flex flex-wrap place-content-center mx-auto text-tuscany-950 my-[25px]'>
           {/* Sección listado */}
           <div className='min-w-[300px] w-full max-w-[500px]'>
             <div className='mb-4 mt-4 px-3'>
-              {productoEnCarrito.map((p, i) => (
+              {productoEnCarrito?.map((p, i) => (
                 <div key={i}>
                   <div className='h-[1px] bg-tuscany-950 w-full mx-auto'></div>
                   <CartItem className='my-1' p={p} />
