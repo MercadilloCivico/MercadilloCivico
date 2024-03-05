@@ -22,6 +22,7 @@ app.use(
         "'self'",
         // 'trusted-scripts.com', dominio cliente
         `${FRONT_URL}`,
+        'https://mer-civ.vercel.app/',
         'http://localhost:3001',
         // 'cdn.jsdelivr.net', adquirir cuando el cliente lo desee
         'apis.google.com', // Permitir scripts de Google Auth
