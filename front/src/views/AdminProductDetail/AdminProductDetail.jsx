@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Modal from '../../components/Modal/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchProductsAsync } from '../../store/thunks/productThunks';
+import { fetchProductsAsync, logicDeleteProductAsync } from '../../store/thunks/productThunks';
 
 const AdminProductDetail = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -95,7 +95,12 @@ const AdminProductDetail = () => {
               }}>
               Editar
             </button>
-            <button className='w-[7em] p-2 border-none rounded-md bg-[#59719d] text-tuscany-950 font-semibold hover:bg-[#cccccc] cursor-pointer'>
+            <button
+              className='w-[7em] p-2 border-none rounded-md bg-[#59719d] text-tuscany-950 font-semibold hover:bg-[#cccccc] cursor-pointer'
+              onClick={() => {
+                dispatch(logicDeleteProductAsync(product.id));
+                navigate(-1);
+              }}>
               Suspender
             </button>
             <button
