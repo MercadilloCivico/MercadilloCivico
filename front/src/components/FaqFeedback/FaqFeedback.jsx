@@ -22,14 +22,12 @@ const FaqFeedback = ({ selectedFaq }) => {
 
   return (
     <div>
-      <div className='flex flex-col items-start mx-3 my-1 text-start  font-bold'>
-        <span className='text-tuscany-950 text-[.8em] sm:text-[1em] md:text-[1.3em] lg:text-[1.5em]'>
-          ¿Te ha sido útil?
-        </span>
+      <div className='flex flex-col items-start m-4 text-start font-bold'>
+        <span className='text-tuscany-950 '>¿Te ha sido útil?</span>
         {isFeedbackSubmitted ? (
           <span className='text-tuscany-950 text-[.8em]'>¡Gracias por tu comentario!</span>
         ) : (
-          <ul className='mx-1 flex text-[1.2em] sm:text-[1.5em] md:text-[1.7em] lg:text-[2em] text-tuscany-950 text-opacity-65'>
+          <ul className='mx-1 flex text-3xl text-tuscany-950 text-opacity-65'>
             <li
               className='mx-2 hover:text-tuscany-950 cursor-pointer'
               onClick={() => handleFeedback('like')}>
@@ -45,7 +43,7 @@ const FaqFeedback = ({ selectedFaq }) => {
       </div>
       <div>
         <Modal isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>
-          <div className='flex flex-col justify-start items-center text-start text-tuscany-950 text-[.6em] sm:text-[.8em] md:text-[1em]'>
+          <div className='flex flex-col justify-start items-center text-start text-tuscany-950'>
             <h3>¡Gracias por tu comentario!</h3>
             <ul>
               <li className='my-1'>

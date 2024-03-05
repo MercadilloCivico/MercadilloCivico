@@ -474,11 +474,3 @@
 2024-03-04 10:31:01 error: POST /api/login 500 993ms
 2024-03-04 18:40:30 error: [object Object]
 2024-03-04 18:40:30 error: GET /carrito_de_compras 500 159ms
-2024-03-04 10:26:57 error: POST /api/login 500 743ms
-2024-03-04 11:29:50 error: POST /api/login 500 703ms
-2024-03-04 16:04:50 error: POST /api/login 500 1509ms
-2024-03-04 17:20:13 error: POST /api/login 500 537ms
-2024-03-04 20:55:29 error: [object Object]
-2024-03-04 20:55:29 error: POST /api/rese%C3%B1as 500 27ms
-2024-03-04 20:56:44 error: [object Object]
-2024-03-04 20:56:44 error: POST /api/rese%C3%B1as 500 23ms
