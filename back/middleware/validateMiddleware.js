@@ -109,16 +109,13 @@ const validateMiddleware = {
 
   validateReseña: async (req, res, next) => {
     try {
-      const { userId, productId, calification } = req.body;
-      if (!userId || !productId || !calification) {
+      const { productId, calification } = req.body;
+      if (!productId || !calification) {
         return res.status(400).json({ message: 'Todos los campos son requeridos' });
       }
       if (!Number.isInteger(calification)) {
         return res.status(400).json({ message: 'la calificación debe ser un numero entero' });
       }
-      const findUser = await prisma.usuario.findUnique({ where: { id: userId } });
-      if (!findUser)
-        return res.status(400).json({ message: 'El usuario no se encuentra en la base de datos' });
       const findProduct = await prisma.producto.findUnique({ where: { id: productId } });
       if (!findProduct)
         return res.status(400).json({ message: 'El producto no se encuentra en la base de datos' });

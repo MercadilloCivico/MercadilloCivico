@@ -55,6 +55,20 @@ export const logicDeleteProductAsync = createAsyncThunk(
 );
 
 // Thunk para eliminar un producto permanentemente
+export const postReviewAsyncThunk = createAsyncThunk(
+  'products/postReviewAsyncThunk',
+  async (body, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${VITE_API_URL}/resenas`, body, { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Thunk para añadir una reseña a un producto
 export const trueDeleteProductAsync = createAsyncThunk(
   'products/trueDeleteProductAsync',
   async (pid, { rejectWithValue }) => {

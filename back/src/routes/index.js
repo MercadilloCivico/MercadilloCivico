@@ -75,9 +75,9 @@ router.put('/inventario/', InventarioController.put);
 router.delete('/inventario/:id', InventarioController.delete);
 
 // Reseñas
-router.get('/reseñas/:id?', ReseñasController.get);
-router.post('/reseñas', validateMiddleware.validateReseña, ReseñasController.post);
-router.put('/reseñas', ReseñasController.put);
+router.get('/resenas/:id?', ReseñasController.get);
+router.post('/resenas', validateMiddleware.validateReseña, ReseñasController.post);
+router.put('/resenas', ReseñasController.put);
 
 // Historial de compras
 router.get('/historialCompra', HistorialController.getAll);

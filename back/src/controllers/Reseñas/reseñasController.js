@@ -1,4 +1,6 @@
+const jwt = require('jsonwebtoken');
 const ReseñasHandler = require('../../handlers/Reseñas/reseñasHandler');
+const { SECRET_JWT } = require('../../../config/env.config');
 
 class ReseñasController {
   static async get(req, res) {
@@ -20,14 +22,19 @@ class ReseñasController {
 
   static async post(req, res) {
     try {
-      const { userId, productId, coment, calification } = req.body;
-      const nuevaReseña = await ReseñasHandler.post(userId, productId, coment, calification);
-      res.status(200).json({
+      const { productId, coment, calification } = req.body;
+      const token = req.cookies.sessionToken;
+      const { id } = jwt.verify(token, SECRET_JWT);
+      if (!id) {
+        return res.status(401).json({ message: 'Acceso no autorizado' });
+      }
+      const nuevaReseña = await ReseñasHandler.post(id, productId, coment, calification);
+      return res.status(200).json({
         message: 'Reseña añadida exitosamente',
         data: nuevaReseña,
       });
     } catch (error) {
-      res.status(400).json({
+      return res.status(400).json({
         message: error.message,
       });
     }

@@ -4,28 +4,29 @@ import { validateReviewForm } from './validations';
 import Rating from '@mui/material/Rating';
 import CustomInput from '../CustomInput/CustomInput';
 import CustomButton from '../CustomButton/CustomButton';
+import { postReviewAsyncThunk } from '../../store/thunks/productThunks';
+import { useDispatch } from 'react-redux';
 
-const CreateReview = ({ onAddReview, reviews }) => {
+const CreateReview = ({ productId, reviews }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [formErrors, setFormErrors] = useState({});
+  const dispatch = useDispatch();
 
-  const getFormattedDate = () => {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  // const getFormattedDate = () => {
+  //   const currentDate = new Date();
+  //   const year = currentDate.getFullYear();
+  //   const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  //   const day = currentDate.getDate().toString().padStart(2, '0');
+  //   return `${year}-${month}-${day}`;
+  // };
 
   const [review, setReview] = useState({
-    id: reviews.length + 1,
-    user: `usuario${reviews.length + 1}`,
-    tituloComentario: '',
-    calificacion: 0,
-    comentario: '',
-    likes: { total: 0, isActive: false },
-    dislikes: { total: 0, isActive: false },
-    fecha: getFormattedDate(),
+    productId,
+    calification: 0,
+    coment: '',
+    // likes: { total: 0, isActive: false },
+    // dislikes: { total: 0, isActive: false },
+    // fecha: getFormattedDate(),
   });
 
   const openModal = () => {
@@ -39,6 +40,12 @@ const CreateReview = ({ onAddReview, reviews }) => {
       ...prevReview,
       [name]: value,
     }));
+    if (name === 'calification') {
+      setReview((prevReview) => ({
+        ...prevReview,
+        [name]: Number(value),
+      }));
+    }
 
     setFormErrors(
       validateReviewForm({
@@ -48,31 +55,12 @@ const CreateReview = ({ onAddReview, reviews }) => {
     );
   };
 
-  const handleSubmit = () => {
-    const updatedReviewsLength = reviews.length + 1;
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const errors = validateReviewForm(review);
-
     if (Object.keys(errors).length === 0) {
-      onAddReview({
-        ...review,
-        id: updatedReviewsLength,
-        user: `usuario${updatedReviewsLength}`,
-      });
-
-      setReview({
-        id: updatedReviewsLength + 1,
-        user: `usuario${updatedReviewsLength + 1}`,
-        tituloComentario: '',
-        calificacion: 0,
-        comentario: '',
-        likes: { total: 0, isActive: false },
-        dislikes: { total: 0, isActive: false },
-        fecha: getFormattedDate(),
-      });
-
+      dispatch(postReviewAsyncThunk(review));
       setModalOpen(false);
-
       alert('Reseña creada con éxito');
     } else {
       setFormErrors(errors);
@@ -85,7 +73,7 @@ const CreateReview = ({ onAddReview, reviews }) => {
       <button
         onClick={openModal}
         className='text-tuscany-950 border-none custom-transparent-bg text-[0.8em] md:text-[1em] lg:text-[1.2em] font-bold cursor-pointer underline'>
-        {reviews.length > 0
+        {reviews && reviews
           ? 'Escribe tu opinión'
           : 'Este producto aun no tiene reseñas, se el primero en comentar!'}
       </button>
@@ -101,18 +89,18 @@ const CreateReview = ({ onAddReview, reviews }) => {
               Calificación
             </label>
             <Rating
-              name='calificacion'
-              value={Number(review.calificacion)}
+              name='calification'
+              value={Number(review.calification)}
               onChange={handleChange}
             />
-            {formErrors.calificacion && (
+            {formErrors.calification && (
               <span className='text-pearl-bush-400 text-[0.5em] md:text-[0.7em] lg:text-[.9em] my-1'>
-                {formErrors.calificacion}
+                {formErrors.calification}
               </span>
             )}
           </div>
 
-          <div className='mb-4 flex flex-col justify-center'>
+          {/* <div className='mb-4 flex flex-col justify-center'>
             <CustomInput
               type='text'
               value={review.tituloComentario}
@@ -126,23 +114,23 @@ const CreateReview = ({ onAddReview, reviews }) => {
                 {formErrors.tituloComentario}
               </span>
             )}
-          </div>
+          </div> */}
 
           <div className='mb-4 flex flex-col justify-center'>
             <CustomInput
-              value={review.comentario}
+              value={review.coment}
               onChange={handleChange}
-              placeholder='Comentarios'
-              name='comentario'
-              label='Comentarios'
+              placeholder='Comentario'
+              name='coment'
+              label='Comentario (opcional)'
             />
-            {formErrors.comentario && (
+            {formErrors.coment && (
               <span className='text-pearl-bush-400 text-[0.5em] md:text-[0.7em] lg:text-[.9em] my-1'>
-                {formErrors.comentario}
+                {formErrors.coment}
               </span>
             )}
           </div>
-          <CustomButton text={'Publicar'} onClick={handleSubmit} disabled={!review.calificacion} />
+          <CustomButton text={'Publicar'} onClick={handleSubmit} disabled={!review.calification} />
         </div>
       </Modal>
     </>
