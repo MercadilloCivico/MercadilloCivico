@@ -138,7 +138,7 @@ const Detail = () => {
               <div className='h-full w-full relative mx-auto p-4 max-w-[450px] overflow-hidden aspect-square'>
                 <img
                   className='h-full w-full object-cover rounded-xl bg-[#fff]'
-                  src='https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png'
+                  src={producto.image}
                   alt='product-image'
                 />
               </div>
