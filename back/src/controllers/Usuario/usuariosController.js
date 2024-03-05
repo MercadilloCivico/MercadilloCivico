@@ -167,7 +167,7 @@ class usuarios {
         res.cookie('sessionToken', tokenLog, {
           httpOnly: true,
           maxAge: 3600000,
-          sameSite: 'lax',
+          sameSite: 'None',
         });
         res.status(200).json({ access: true, token: tokenLog });
       }
