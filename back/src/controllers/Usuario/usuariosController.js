@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const usuariosHandler = require('../../handlers/Usuario/usuariosHandler');
 const ValidationPassword = require('../../utils/validations/validationPassword');
-const { FRONT_URL, SECRET_JWT } = require('../../../config/env.config');
+const { FRONT_URL, SECRET_JWT, COOKIE_SAMESITE_CONFIG } = require('../../../config/env.config');
 const prisma = require('../../../db_connection');
 const validationImage = require('../../utils/validations/validationImage');
 const uploadToCloudinary = require('../../handlers/uploadToCloudinary');
@@ -162,14 +162,16 @@ class usuarios {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
-      console.log(req.body);
+      console.log('🚀 ~ usuarios ~ login ~ email, password:', email, password);
       const tokenLog = await usuariosHandler.authHandler(email, password);
+      console.log('🚀 ~ usuarios ~ login ~ tokenLog:', tokenLog);
       if (tokenLog) {
         res.cookie('sessionToken', tokenLog, {
           httpOnly: true,
           maxAge: 3600000,
-          sameSite: 'None',
+          sameSite: COOKIE_SAMESITE_CONFIG,
         });
+        console.log('🚀 ~ usuarios ~ login ~ COOKIE_SAMESITE_CONFIG:', COOKIE_SAMESITE_CONFIG);
         res.status(200).json({ access: true, token: tokenLog });
       }
     } catch (error) {

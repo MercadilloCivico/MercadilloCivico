@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCards, fetchPuntosSelector } from '../../store/thunks/cardsThunks.js';
 import { Box } from '@mui/material';
@@ -6,12 +7,10 @@ import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
-import CustomButton from '../../components/CustomButton/CustomButton';
 import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 import { getGoogleCookie } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
-import { resetFilters } from '../../store/slices/cardsSlice.js';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
 import Loading from '../Loading/Loading.jsx';
 
@@ -21,20 +20,28 @@ const Store = () => {
   const { idCarrito } = useSelector((state) => state.carrito);
   const { items, filters } = useSelector((state) => state.card);
 
-  useEffect(() => {
+  const dispatchFetchCards = async (filters) => {
     if (filters.id) {
-      dispatch(fetchCards(filters));
+      await dispatch(fetchCards(filters));
     }
-  }, [dispatch, filters]);
+  };
+
+  const firstRenderDispatch = async (idCarrito) => {
+    dispatch(getGoogleCookie());
+    await dispatch(fetchPuntosSelector());
+    if (idCarrito === null) {
+      await dispatch(getCartIdThunk());
+      await dispatch(getCartDBThunk());
+    }
+  };
 
   useEffect(() => {
-    dispatch(fetchPuntosSelector());
-    dispatch(getGoogleCookie());
-    if (idCarrito === null) {
-      dispatch(getCartIdThunk());
-      dispatch(getCartDBThunk());
-    }
-  }, [dispatch, idCarrito]);
+    dispatchFetchCards(filters);
+  }, [filters]);
+
+  useEffect(() => {
+    firstRenderDispatch(idCarrito);
+  }, [idCarrito]);
 
   const citiesOptions = puntos.map((p) => {
     return {
@@ -46,7 +53,7 @@ const Store = () => {
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
       <div className='flex flex-col bg-hippie-green-950'>
-        <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6 lg:translate-y-[40%]'>
+        <Box className='max-w-64 mx-auto w-[100vw] pt-4 mt-4 lg:mt-0 pb-6 lg:translate-y-[40%]'>
           <CustomSelect label='Localización' options={citiesOptions} />
         </Box>
       </div>
@@ -69,14 +76,6 @@ const Store = () => {
       </div>
 
       <StoreFilters />
-
-      <CustomButton
-        className='mx-auto max-w-max'
-        onClick={() => {
-          dispatch(resetFilters());
-        }}
-        text='Resetear Filtros'
-      />
 
       <CardSwitch />
 

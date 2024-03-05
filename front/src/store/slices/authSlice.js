@@ -35,7 +35,10 @@ export const authSlice = createSlice({
       state.error = 'Error al autenticar con Google';
     },
     getGoogleCookie(state) {
-      const cookie = document.cookie.split(';').find((cookie) => cookie.includes('sessionToken'));
+      const cookie = document.cookie.split(';').find((cookie) => {
+        console.log('🚀 ~ getGoogleCookie ~ cookie:', cookie);
+        return cookie.includes('sessionToken');
+      });
       if (cookie) {
         const token = cookie.split('=')[1];
         state.token = token;

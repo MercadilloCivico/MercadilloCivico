@@ -7,14 +7,17 @@ const VITE_API_URL = import.meta.env.VITE_API_URL;
 export const login = createAsyncThunk(
   'auth/login',
   async (userData, { rejectWithValue, dispatch }) => {
+    console.log('🚀 ~ userData:', userData);
     try {
       const { data } = await axios.post(`${VITE_API_URL}/login`, userData, {
         withCredentials: true,
       });
+      console.log('🚀 ~ data:', data);
       await dispatch(getCartIdThunk());
       await dispatch(getCartDBThunk());
       return data;
     } catch (error) {
+      console.log('🚀 ~ error:', error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -24,7 +27,9 @@ export const login = createAsyncThunk(
 export const register = createAsyncThunk(
   'auth/register',
   async (userData, { rejectWithValue, dispatch }) => {
+    console.log('🚀 ~ userData:', userData);
     const formData = new FormData();
+
     formData.append('firstName', userData.firstName);
     formData.append('lastName', userData.lastName);
     formData.append('email', userData.email);
@@ -32,6 +37,7 @@ export const register = createAsyncThunk(
     if (userData.secondName) formData.append('secondName', userData.secondName);
     if (userData.photo) formData.append('image', userData.photo);
     try {
+      console.log('🚀 ~ formData:', formData);
       const response = await axios.post(`${VITE_API_URL}/register`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -39,8 +45,10 @@ export const register = createAsyncThunk(
       });
       await dispatch(getCartIdThunk());
       await dispatch(getCartDBThunk());
+      console.log('🚀 ~ response.data:', response.data);
       return response.data;
     } catch (error) {
+      console.log('🚀 ~ error:', error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -75,8 +83,8 @@ export const resetPassword = createAsyncThunk(
 export const createNewPassword = createAsyncThunk(
   'auth/createNewPassword',
   async (password, { rejectWithValue }) => {
+    console.log('🚀 ~ password:', password);
     try {
-      console.log(password);
       const { data } = await axios.put(
         `${VITE_API_URL}/update/user`,
         { password },
@@ -86,6 +94,7 @@ export const createNewPassword = createAsyncThunk(
       );
       return data;
     } catch (error) {
+      console.log('🚀 ~ error:', error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -104,6 +113,7 @@ export const putUser = createAsyncThunk('update/user', async (userData, { reject
   if (userData.photo) formData.append('image', userData.photo);
 
   try {
+    console.log('🚀 ~ putUser ~ formData:', formData);
     await axios.put(`${VITE_API_URL}/update/user`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -112,6 +122,7 @@ export const putUser = createAsyncThunk('update/user', async (userData, { reject
     });
     return;
   } catch (error) {
+    console.log('🚀 ~ putUser ~ error:', error);
     return rejectWithValue(error.response.data);
   }
 });

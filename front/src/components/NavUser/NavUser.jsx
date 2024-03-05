@@ -16,15 +16,18 @@ export default function NavUser() {
   const menuRef = useRef(null);
   const imageRef = useRef(null);
 
+  async function fetchData() {
+    const { payload } = await dispatch(fetchUserProfileAsync());
+    setPicture(payload.photo);
+  }
+
   useEffect(() => {
     (async function () {
       if (token) {
-        const { payload } = await dispatch(fetchUserProfileAsync());
-        setPicture(payload.photo);
-        console.log('test');
+        fetchData();
       }
     })();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     function handleClickOutside(event) {
