@@ -6,12 +6,10 @@ import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
-import CustomButton from '../../components/CustomButton/CustomButton';
 import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 import { getGoogleCookie } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
-import { resetFilters } from '../../store/slices/cardsSlice.js';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
 import Loading from '../Loading/Loading.jsx';
 
@@ -46,7 +44,7 @@ const Store = () => {
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
       <div className='flex flex-col bg-hippie-green-950'>
-        <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6 lg:translate-y-[40%]'>
+        <Box className='max-w-64 mx-auto w-[100vw] pt-4 mt-4 lg:mt-0 pb-6 lg:translate-y-[40%]'>
           <CustomSelect label='Localización' options={citiesOptions} />
         </Box>
       </div>
@@ -69,14 +67,6 @@ const Store = () => {
       </div>
 
       <StoreFilters />
-
-      <CustomButton
-        className='mx-auto max-w-max'
-        onClick={() => {
-          dispatch(resetFilters());
-        }}
-        text='Resetear Filtros'
-      />
 
       <CardSwitch />
 

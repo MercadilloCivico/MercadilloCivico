@@ -1,197 +1,38 @@
-import { useDispatch, useSelector } from 'react-redux';
-// import {
-//   filterByPriceRange,
-//   filterByBrand,
-//   sortByPrice,
-//   sortByRating,
-// } from '../../store/slices/productSlice';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
+import FilterMenu from './FilterMenu';
+import OrderSelect from './OrderSelect';
 import { useState } from 'react';
-import {
-  setFilterMarca,
-  setFilterPrecio,
-  setOrderCalificacion,
-  setOrderPrecio,
-} from '../../store/slices/cardsSlice';
+import CustomButton from '../CustomButton/CustomButton';
+import { resetFilters } from '../../store/slices/cardsSlice';
+import { useDispatch } from 'react-redux';
 
 export default function StoreFilters({ className }) {
+  const [activeFilterMenu, setActiveFilterMenu] = useState(false);
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.card);
 
-  // const calculatePriceRanges = () => {
-  //   const prices = items.map((product) => product.precio);
-  //   const maxPrice = Math.max(...prices);
-  //   const midPrice = maxPrice / 2;
-
-  //   return { maxPrice, midPrice };
-  // };
-
-  const allBrands = [...items].map((product) => product.marca);
-
-  const uniqueBrands = Array.from(new Set(allBrands));
-
-  function handleChange(e) {
-    setValue(e.target.value);
-    setSortValue('ordenamiento');
+  function toggleFilterMenu() {
+    setActiveFilterMenu(!activeFilterMenu);
   }
-
-  function handleSortChange(e) {
-    setSortValue(e.target.value);
-    setValue('filtros');
-  }
-
-  // function filterByPrices(min, max) {
-  //   dispatch(filterByPriceRange({ minPrice: min, maxPrice: max }));
-  // }
-
-  // function filterBrand(brand) {
-  //   dispatch(filterByBrand(brand));
-  // }
-
-  // function sortPrice(e) {
-  //   dispatch(sortByPrice(e.target.name));
-  //   dispatch(sortByRating(null));
-  // }
-
-  // function sortRating(e) {
-  //   dispatch(sortByRating(e.target.name));
-  //   dispatch(sortByPrice(null));
-  // }
-
-  let [value, setValue] = useState('filtros');
-
-  let [sortValue, setSortValue] = useState('ordenamiento');
 
   return (
     <div className={'' + className}>
-      <div className='flex my-1 justify-center'>
-        <div className='mx-1'>
-          <FormControl variant='outlined' className='my-[10px]'>
-            <InputLabel id='filter-select'>Filtros</InputLabel>
-            <Select
-              labelId='filter-select'
-              id='filter-select'
-              value={value}
-              label='Filtros'
-              onChange={handleChange}
-              className='text-tuscany-950 w-[150px] h-10'>
-              <MenuItem value='filtros'>Filtros</MenuItem>
-              <MenuItem value='price'>Precio</MenuItem>
-              <MenuItem value='brand'>Marca</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
+      <button
+        onClick={() => {
+          setActiveFilterMenu(!activeFilterMenu);
+        }}>
+        Toggle filter menu
+      </button>
 
-        <div className='mx-1'>
-          <FormControl variant='outlined' className='my-[10px]'>
-            <InputLabel id='sort-select'>Ordenamiento</InputLabel>
-            <Select
-              labelId='sort-select'
-              id='sort-select'
-              value={sortValue}
-              label='Ordenamiento'
-              onChange={handleSortChange}
-              className='text-tuscany-950 w-[150px] h-10'>
-              <MenuItem value='ordenamiento'>Ordenamiento</MenuItem>
-              <MenuItem value='rating'>Calificación</MenuItem>
-              <MenuItem value='price'>Precio</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-      </div>
+      <OrderSelect />
 
-      <div className='mb-[10px] max-w-[600px mx auto]'>
-        {value === 'price' ? (
-          <ButtonGroup
-            style={{ gridTemplateColumns: 'repeat(3, 175px)', scrollbarWidth: 'thin' }}
-            variant='contained'
-            aria-label='button group'
-            className={`overflow-auto grid mx-auto max-w-max`}>
-            <Button
-              onClick={() => {
-                dispatch(setFilterPrecio('bajo'));
-              }}
-              name='low range'
-              className='bg-tuscany-600 border-tuscany-900'>
-              Precios bajos
-            </Button>
-            <Button
-              onClick={() => {
-                dispatch(setFilterPrecio('medio'));
-              }}
-              name='mid range'
-              className='bg-tuscany-600 border-tuscany-900'>
-              Precios medios
-            </Button>
-            <Button
-              onClick={() => {
-                dispatch(setFilterPrecio('alto'));
-              }}
-              name='high range'
-              className='bg-tuscany-600 border-tuscany-900'>
-              Precios altos
-            </Button>
-          </ButtonGroup>
-        ) : value === 'brand' ? (
-          <ButtonGroup
-            style={{ gridTemplateColumns: 'repeat(3, 175px)', scrollbarWidth: 'thin' }}
-            variant='contained'
-            aria-label='button group'
-            className={`overflow-auto grid mx-auto max-w-max`}>
-            {uniqueBrands.map((brand) => (
-              <Button
-                key={brand}
-                onClick={() => dispatch(setFilterMarca(brand))}
-                className='bg-tuscany-600 border-tuscany-900'>
-                {brand}
-              </Button>
-            ))}
-          </ButtonGroup>
-        ) : sortValue === 'rating' ? (
-          <ButtonGroup
-            onClick={(e) => {
-              dispatch(setOrderCalificacion(e.target.name));
-            }}
-            style={{ gridTemplateColumns: 'repeat(2, 175px)', scrollbarWidth: 'thin' }}
-            variant='contained'
-            aria-label='button group'
-            className={`overflow-auto grid mx-auto max-w-max`}>
-            <Button className='bg-tuscany-600 border-tuscany-900' name='asc'>
-              Ascendente
-            </Button>
-            <Button className='bg-tuscany-600 border-tuscany-900' name='desc'>
-              Descendiente
-            </Button>
-          </ButtonGroup>
-        ) : sortValue === 'price' ? (
-          <ButtonGroup
-            onClick={(e) => {
-              dispatch(setOrderPrecio(e.target.name));
-            }}
-            style={{ gridTemplateColumns: 'repeat(2, 175px)', scrollbarWidth: 'thin' }}
-            variant='contained'
-            aria-label='button group'
-            className={`overflow-auto grid mx-auto max-w-max`}>
-            <Button className='bg-tuscany-600 border-tuscany-900' name='asc'>
-              Ascendente
-            </Button>
-            <Button className='bg-tuscany-600 border-tuscany-900' name='desc'>
-              Descendiente
-            </Button>
-          </ButtonGroup>
-        ) : value === 'filtros' ? (
-          ''
-        ) : sortValue === 'ordenamiento' ? (
-          ''
-        ) : (
-          ''
-        )}
-      </div>
+      <CustomButton
+        className='mx-auto max-w-max'
+        onClick={() => {
+          dispatch(resetFilters());
+        }}
+        text='Resetear Filtros'
+      />
+
+      <FilterMenu toggleFilterMenu={toggleFilterMenu} activeFilterMenu={activeFilterMenu} />
     </div>
   );
 }
