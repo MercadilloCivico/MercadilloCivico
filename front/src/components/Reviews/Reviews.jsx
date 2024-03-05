@@ -1,6 +1,13 @@
 import Review from '../Review/Review';
 
-const Reviews = ({ reviews }) => {
+const Reviews = ({
+  reviews,
+  isModalOpen,
+  productId,
+  setModalOpen,
+  isOpenOnDetail,
+  setIsOpenOnDetail,
+}) => {
   // const handleLike = (id) => {
   //   setReviews((prevReviews) => {
   //     const updatedReviews = [...prevReviews];
@@ -62,6 +69,11 @@ const Reviews = ({ reviews }) => {
         <Review
           key={review.id}
           review={review}
+          isModalOpen={isModalOpen}
+          setModalOpen={setModalOpen}
+          productId={productId}
+          isOpenOnDetail={isOpenOnDetail}
+          setIsOpenOnDetail={setIsOpenOnDetail}
           // onLike={() => handleLike(review.id)}
           // onDislike={() => handleDislike(review.id)}
         />

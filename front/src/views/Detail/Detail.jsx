@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { createToast } from '../../store/slices/toastSlice';
 import { IoIosArrowBack } from 'react-icons/io';
 import { TiHeartOutline, TiHeartFullOutline, TiStarFullOutline } from 'react-icons/ti';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Reviews from '../../components/Reviews/Reviews';
-import CreateReview from '../../components/CreateReview/CreateReview';
+// import CreateReview from '../../components/CreateReview/CreateReview';
 import Loading from '../Loading/Loading';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { createToast } from '../../store/slices/toastSlice';
+import { addProductToCartDBThunk } from '../../store/thunks/cartThunks';
 import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
-
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Detail = () => {
@@ -19,6 +18,7 @@ const Detail = () => {
   const navigate = useNavigate();
   const [isFav, setIsFav] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const { idCarrito, status } = useSelector((state) => state.carrito);
   const [producto, setProducto] = useState(null);
   const { id } = useParams();
   const { items } = useSelector((state) => state.card);
@@ -44,8 +44,11 @@ const Detail = () => {
   };
   
   const [isLoading, setIsLoading] = useState(true);
-
-
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isOpenOnDetail, setIsOpenOnDetail] = useState(true);
+  const openModal = () => {
+    setModalOpen(true);
+  };
   useEffect(() => {
     axios
       .get(`${VITE_API_URL}/product/${id}`)
@@ -58,25 +61,29 @@ const Detail = () => {
         console.log(error);
         setIsLoading(false);
       });
-  }, [id]);
-
-  const [averageRating, setAverageRating] = useState(0);
+  }, []);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
 
   const [cantidad, setCantidad] = useState(1);
-  // const agregarAlCarrito = async () => {
-  //   await dispatch(
-  //     addProductToCartDBThunk({
-  //       carritoId: idCarrito,
-  //       inventarioId: producto.inventario.id,
-  //       cantidad,
-  //     })
-  //   );
-  //   await dispatch(createToast('Producto agregado al carrito'));
-  // };
+  const agregarAlCarrito = () => {
+    dispatch(
+      addProductToCartDBThunk({
+        carritoId: idCarrito,
+        inventarioId: producto.inventario.id,
+        cantidad,
+      })
+    );
+    setTimeout(() => {
+      if (status === 'rejected') {
+        dispatch(createToast('El producto ya se encuentra en el carrito'));
+      } else {
+        dispatch(createToast('Producto agregado al carrito'));
+      }
+    }, 1000);
+  };
   const agregarProducto = () => {
     setCantidad((prev) => prev + 1);
   };
@@ -84,13 +91,6 @@ const Detail = () => {
   const quitarProducto = () => {
     setCantidad((prev) => prev - 1);
   };
-
-  if (producto && producto.resenas.lenght > 0) {
-    const totalRatings = producto.resenas.reduce((sum, review) => sum + review.calificacion, 0);
-    const average = totalRatings / producto.resenas.length;
-    const roundedAverage = Math.round(average * 100) / 100;
-    setAverageRating(roundedAverage);
-  }
 
   return (
     <>
@@ -185,6 +185,13 @@ const Detail = () => {
                   </div>
 
                   <div className='flex flex-col justify-center items-center'>
+                    <div className='flex flex-row justify-center self-end items-center gap-1 bottom-4 relative'>
+                      <TiStarFullOutline className='h-[1.5em] w-[1.5em] text-[#ffe87f]' />
+                      <span className='text-[#2F2D2C] text-lg font-semibold'>
+                        {producto.calification}
+                      </span>
+                    </div>
+
                     <div className='flex flex-row justify-center items-center'>
                       <button
                         onClick={quitarProducto}
@@ -233,7 +240,11 @@ const Detail = () => {
                       ${producto ? producto.inventario.precio_final : producto.proveedor.costo}
                     </li>
                   </ul>
-                  <CustomButton text='Agregar al carrito' className='max-h-[35px]' />
+                  <CustomButton
+                    text='Agregar al Carrito'
+                    className='max-h-[35px]'
+                    onClick={agregarAlCarrito}
+                  />
                 </div>
               </div>
             </div>
@@ -241,11 +252,31 @@ const Detail = () => {
               <span className='flex justify-start text-tuscany-950 text-[1.5em] md:text-[2em] lg:text-[2.5em]'>
                 Reseñas
               </span>
-              <CreateReview
+              <button
+                onClick={() => {
+                  openModal(), setIsOpenOnDetail(true);
+                }}
+                className='text-tuscany-950 border-none custom-transparent-bg text-[0.8em] md:text-[1em] lg:text-[1.2em] font-bold cursor-pointer underline'>
+                {producto.resenas && producto.resenas
+                  ? 'Escribe tu opinión'
+                  : 'Este producto aun no tiene reseñas, se el primero en comentar!'}
+              </button>
+              {/* {
+                isModalOpen &&
+                <CreateReview
+                  productId={producto.id}
+                  isModalOpen={isModalOpen}
+                  setModalOpen={setModalOpen}
+                />
+              } */}
+              <Reviews
                 reviews={producto.resenas && producto.resenas}
+                isModalOpen={isModalOpen}
+                setModalOpen={setModalOpen}
                 productId={producto.id}
+                isOpenOnDetail={isOpenOnDetail}
+                setIsOpenOnDetail={setIsOpenOnDetail}
               />
-              <Reviews reviews={producto.resenas && producto.resenas} />
             </div>
           </div>
         </>

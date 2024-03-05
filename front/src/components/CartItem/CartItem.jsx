@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { createToast } from '../../store/slices/toastSlice';
 
 const CartItem = ({ className, p }) => {
-  const { items } = useSelector((state) => state.card);
+  const { allItems: items } = useSelector((state) => state.card);
   const { status } = useSelector((state) => state.carrito);
   const dispatch = useDispatch();
   const [qty, setQty] = useState(p.cantidad);
@@ -70,8 +70,8 @@ const CartItem = ({ className, p }) => {
       <div className='h-[50px] w-[50px] flex-shrink-0 bg-[#ffffff] rounded-md'>
         <img
           className='w-full h-full object-cover'
-          src='https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png'
-          // src={producto.image}
+          // src='https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png'
+          src={producto.image}
           alt='product-image'
         />
       </div>

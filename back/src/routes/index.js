@@ -35,6 +35,7 @@ router.get('/product/:id?', ProductController.get);
 router.post('/postProduct', ProductController.post);
 router.delete('/productoLogic/:id', ProductController.logicDelete);
 router.delete('/productoTrue/:id', ProductController.trueDelete);
+router.put('/product/edit/:id', ProductController.put);
 
 // favorites
 
@@ -77,7 +78,8 @@ router.delete('/inventario/:id', InventarioController.delete);
 // Reseñas
 router.get('/resenas/:id?', ReseñasController.get);
 router.post('/resenas', validateMiddleware.validateReseña, ReseñasController.post);
-router.put('/resenas', ReseñasController.put);
+router.put('/resenas/:id', ReseñasController.put);
+router.delete('/resenas/:id', ReseñasController.delete);
 
 // Historial de compras
 router.get('/historialCompra', HistorialController.getAll);

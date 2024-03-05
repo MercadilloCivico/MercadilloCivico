@@ -44,7 +44,7 @@ class ReseñasController {
     try {
       const { id } = req.params;
       const { coment, calification } = req.body;
-      const updateReseña = await ReseñasHandler.put(id, coment, calification);
+      const updateReseña = await ReseñasHandler.put(Number(id), coment, calification);
       res.status(200).json({
         message: 'Reseña actualizada exitosamente',
         data: updateReseña,
@@ -59,7 +59,7 @@ class ReseñasController {
   static async delete(req, res) {
     try {
       const { id } = req.params;
-      await ReseñasHandler.delete(id);
+      await ReseñasHandler.delete(Number(id));
       res.status(200).json({
         message: 'Reseña eliminada exitosamente',
       });
