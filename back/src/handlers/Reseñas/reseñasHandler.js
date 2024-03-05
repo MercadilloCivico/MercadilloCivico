@@ -25,10 +25,8 @@ class ReseñasHandler {
         calification,
         producto_id: productId,
         usuario_id: userId,
+        coment: coment || 'Sin Comentario',
       };
-      if (coment) {
-        dataPost.coment = coment;
-      }
       const nuevaReseña = await prisma.resena.create({
         data: dataPost,
       });

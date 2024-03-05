@@ -57,9 +57,9 @@ export default function Profile() {
     } else setIsLoading(false);
   }, []);
 
-  useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
+  // useEffect(() => {
+  //   console.log(isLoading);
+  // }, [isLoading]);
 
   useEffect(() => {
     if (editMode) {

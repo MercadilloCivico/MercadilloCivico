@@ -79,7 +79,7 @@ const CartItem = ({ className, p }) => {
         <ul className='text-start'>
           <li className='font-bold text-tuscany-950 text-base '>{producto.name}</li>
           <li className='text-tuscany-950 text-opacity-40 text-sm font-medium'>
-            {producto.proveedor}
+            {producto.proveedor.name}
           </li>
         </ul>
       </div>

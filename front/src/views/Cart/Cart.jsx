@@ -38,7 +38,8 @@ const Cart = () => {
   }, 0);
 
   const comprar = () => {
-    dispatch(console.log('Hola'));
+    // dispatch(createToast('Compra realizada'));
+    console.log('hola');
   };
 
   const dispatch = useDispatch();

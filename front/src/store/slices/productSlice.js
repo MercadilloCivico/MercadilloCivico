@@ -3,6 +3,7 @@ import {
   addProductAsync,
   fetchProductsAsync,
   logicDeleteProductAsync,
+  postReviewAsyncThunk,
   trueDeleteProductAsync,
 } from '../thunks/productThunks';
 
@@ -267,6 +268,18 @@ export const productSlice = createSlice({
       .addCase(fetchProductsAsync.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload.message;
+      });
+
+    //Manejo de reseñas
+    builder
+      .addCase(postReviewAsyncThunk.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(postReviewAsyncThunk.fulfilled, (state) => {
+        state.status = 'succeded';
+      })
+      .addCase(postReviewAsyncThunk.rejected, (state) => {
+        state.status = 'failed';
       });
   },
 });
