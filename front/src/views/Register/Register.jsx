@@ -105,7 +105,7 @@ function Register() {
     navigate(path);
   };
   // Maneja el envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Verificar si se proporcionó una imagen
@@ -122,7 +122,7 @@ function Register() {
 
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
-          dispatch(register(formData));
+          await dispatch(register(formData));
           dispatch(createToast('Usuario creado con exito. Por favor inicia sesión.'));
         } catch (error) {
           dispatch(createToast('Error al registrar usuario: ' + error.message));
@@ -159,7 +159,7 @@ function Register() {
 
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
-          dispatch(register(formData));
+          await dispatch(register(formData));
           if (!acceptTerms) {
             dispatch(
               createToast('Por favor, complete todos los campos obligatorios correctamente')

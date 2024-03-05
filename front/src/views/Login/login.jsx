@@ -60,12 +60,12 @@ function Login() {
       const { payload } = await dispatch(login(loginData));
 
       if (payload.access === true) {
-        await dispatch(createToast('Inicio de sesión exitoso'));
+        dispatch(createToast('Inicio de sesión exitoso'));
         navigate('/store');
       }
 
       if (payload.message) {
-        await dispatch(createToast(payload.message.slice(7)));
+        dispatch(createToast(payload.message.slice(7)));
       }
     } else {
       setErrors(validationErrors);

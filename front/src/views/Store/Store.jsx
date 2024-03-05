@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCards, fetchPuntosSelector } from '../../store/thunks/cardsThunks.js';
 import { Box } from '@mui/material';
@@ -19,20 +20,28 @@ const Store = () => {
   const { idCarrito } = useSelector((state) => state.carrito);
   const { items, filters } = useSelector((state) => state.card);
 
-  useEffect(() => {
+  const dispatchFetchCards = async (filters) => {
     if (filters.id) {
-      dispatch(fetchCards(filters));
+      await dispatch(fetchCards(filters));
     }
-  }, [dispatch, filters]);
+  };
+
+  const firstRenderDispatch = async (idCarrito) => {
+    dispatch(getGoogleCookie());
+    await dispatch(fetchPuntosSelector());
+    if (idCarrito === null) {
+      await dispatch(getCartIdThunk());
+      await dispatch(getCartDBThunk());
+    }
+  };
 
   useEffect(() => {
-    dispatch(fetchPuntosSelector());
-    dispatch(getGoogleCookie());
-    if (idCarrito === null) {
-      dispatch(getCartIdThunk());
-      dispatch(getCartDBThunk());
-    }
-  }, [dispatch, idCarrito]);
+    dispatchFetchCards(filters);
+  }, [filters]);
+
+  useEffect(() => {
+    firstRenderDispatch(idCarrito);
+  }, [idCarrito]);
 
   const citiesOptions = puntos.map((p) => {
     return {

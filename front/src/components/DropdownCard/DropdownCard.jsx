@@ -45,11 +45,11 @@ export default function Card({
     cantidad: 1,
   });
 
-  const handleFavorite = () => {
+  const handleFavorite = async () => {
     if (isFav) {
-      dispatch(removeFavorite(id));
+      await dispatch(removeFavorite(id));
     } else {
-      dispatch(addFavorite(id));
+      await dispatch(addFavorite(id));
     }
   };
 
