@@ -14,6 +14,7 @@ import {
   providerReducer,
   favoritesReducer,
   adminReducer,
+  salesPointReducer,
 } from './slices';
 
 const persistConfig = {
@@ -34,6 +35,7 @@ const combinedReducers = combineReducers({
   providers: providerReducer,
   favorites: favoritesReducer,
   admin: adminReducer,
+  salesPoint: salesPointReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);

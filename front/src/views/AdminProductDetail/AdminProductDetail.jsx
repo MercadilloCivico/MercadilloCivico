@@ -1,33 +1,24 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import AdminReviews from '../../components/AdminReviews/AdminReviews';
 import CardsProductBar from '../../components/CardsProductBar/CardsProductBar';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useState } from 'react';
 import Modal from '../../components/Modal/Modal';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchProductsAsync } from '../../store/thunks/productThunks';
 
 const AdminProductDetail = () => {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const product = {
-    id: 1,
-    name: 'Plátano',
-    image: 'https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png',
-    calification: 4,
-    ventas: 100,
-    proveedor: [
-      {
-        id: 1,
-        name: 'Frutal',
-        costo: 100,
-        inventario: [],
-      },
-    ],
-    marca: 'frutal',
-    reseñas: [],
-    inventario: 45,
-    costo: 100,
-    disabled: false,
-  };
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  const { items } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(fetchProductsAsync());
+  }, [dispatch]);
 
   const navigate = useNavigate();
 
@@ -41,6 +32,8 @@ const AdminProductDetail = () => {
   const openModal = () => {
     setModalOpen(true);
   };
+
+  let product = items?.find((item) => item.id === id);
 
   return (
     <>
@@ -82,7 +75,7 @@ const AdminProductDetail = () => {
               </li>
               <li className='flex mb-1 text-start'>
                 <span className='opacity-70 mr-1'>Ventas: </span>
-                <span className='font-semibold'>{product.ventas}</span>
+                <span className='font-semibold'>{product.ventas || 0}</span>
               </li>
               <li className='flex mb-1 text-start'>
                 <span className='opacity-70 mr-1'>Estado: </span>

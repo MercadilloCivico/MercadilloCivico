@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
+import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks';
+import { useSelector, useDispatch } from 'react-redux';
 
-const CardProductBar = ({ proveedor, puntoDeVenta, costo, inventario }) => {
+const CardProductBar = ({ idPuntoVenta, precioVenta, idSuplier, stock, stockMin, stockMax }) => {
   const [charLimit, setCharLimit] = useState(50);
 
   useEffect(() => {
@@ -14,7 +17,6 @@ const CardProductBar = ({ proveedor, puntoDeVenta, costo, inventario }) => {
       2000: 39,
       2560: 50,
     };
-
     const updateCharLimit = () => {
       const windowWidth = window.innerWidth;
 
@@ -34,10 +36,24 @@ const CardProductBar = ({ proveedor, puntoDeVenta, costo, inventario }) => {
     };
   }, []);
 
+  const { providerArray } = useSelector((state) => state.providers);
+  const { items } = useSelector((state) => state.salesPoint);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProvidersAsync(idSuplier));
+    dispatch(fetchSalesPointsAsync(idPuntoVenta));
+  }, [dispatch]);
+
   const truncatedSuplier =
-    proveedor?.length > charLimit ? `${proveedor?.slice(0, charLimit - 3)}...` : proveedor;
+    providerArray.name_prov?.length > charLimit
+      ? `${providerArray.name_prov?.slice(0, charLimit - 3)}...`
+      : providerArray.name_prov;
   const truncatedPuntoDeVenta =
-    puntoDeVenta?.length > charLimit ? `${puntoDeVenta?.slice(0, charLimit - 3)}...` : puntoDeVenta;
+    items.company_name?.length > charLimit
+      ? `${items.company_name?.slice(0, charLimit - 3)}...`
+      : items.company_name;
 
   return (
     <div className='mx-4 hover:bg-pearl-bush-200 py-2 px-[1em] text-tuscany-950 font-semibold rounded-md'>
@@ -49,10 +65,19 @@ const CardProductBar = ({ proveedor, puntoDeVenta, costo, inventario }) => {
           <span className='overflow-ellipsis whitespace-nowrap'>{truncatedPuntoDeVenta}</span>
         </li>
         <li className='flex items-center w-[1em]'>
-          <span>{costo}</span>
+          <span>$0</span>
         </li>
         <li className='flex items-center w-[1em]'>
-          <span>{inventario}</span>
+          <span>{precioVenta}</span>
+        </li>
+        <li className='flex items-center w-[1em]'>
+          <span>{stockMax}</span>
+        </li>
+        <li className='flex items-center w-[1em]'>
+          <span>{stock}</span>
+        </li>
+        <li className='flex items-center w-[1em]'>
+          <span>{stockMin}</span>
         </li>
         <br />
       </ul>

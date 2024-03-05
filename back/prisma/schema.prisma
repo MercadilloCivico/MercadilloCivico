@@ -61,7 +61,7 @@ model Producto {
   description   String?
   image         String
   calification  Int       @default(5)
-  ventas        Int?
+  ventas        Int?      @default(0)
   proveedor     ProductoProveedor[]
   marca         String
   resenas       Resena[]
