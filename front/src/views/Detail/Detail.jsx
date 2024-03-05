@@ -7,16 +7,40 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import Reviews from '../../components/Reviews/Reviews';
 import CreateReview from '../../components/CreateReview/CreateReview';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { createToast } from '../../store/slices/toastSlice';
+import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
+
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Detail = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isFav, setIsFav] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [producto, setProducto] = useState(null);
   const { id } = useParams();
   const { items } = useSelector((state) => state.card);
-  // const dispatch = useDispatch()
+
+  const { status, userFavorites } = useSelector((state) => state.favorites);
+
+  function isFavLoading() {
+    if (status === 'loading') return true;
+    else return false;
+  }
+
+  useEffect(() => {
+    if (userFavorites.some((favorite) => favorite.id === id)) setIsFav(true);
+    else setIsFav(false);
+  }, []);
+
+  const handleFavorite = () => {
+    if (isFav) {
+      dispatch(removeFavorite(id));
+    } else {
+      dispatch(addFavorite(id));
+    }
+  };
 
   useEffect(() => {
     axios
@@ -78,7 +102,12 @@ const Detail = () => {
               {isFav ? (
                 <div
                   onClick={() => {
-                    setIsFav(!isFav);
+                    if (isFavLoading()) {
+                      dispatch(createToast('Espera antes de agregar o eliminar otro favorito'));
+                    } else {
+                      setIsFav(!isFav);
+                      handleFavorite();
+                    }
                   }}
                   className=' absolute cursor-pointer w-[25px] h-[25px] my-auto right-[10px] top-0 bottom-0'>
                   <TiHeartFullOutline className='w-full h-full cursor-pointer' />
@@ -86,7 +115,12 @@ const Detail = () => {
               ) : (
                 <div
                   onClick={() => {
-                    setIsFav(!isFav);
+                    if (isFavLoading()) {
+                      dispatch(createToast('Espera antes de agregar o eliminar otro favorito'));
+                    } else {
+                      setIsFav(!isFav);
+                      handleFavorite();
+                    }
                   }}
                   className=' absolute cursor-pointer w-[25px] h-[25px] my-auto right-[10px] top-0 bottom-0'>
                   <TiHeartOutline className='w-full h-full cursor-pointer' />
@@ -100,27 +134,38 @@ const Detail = () => {
 
           {/* Body */}
           <div className='max-w-[1024px] mx-auto'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 p-4 md:p-8'>
-              <div className='h-full w-full p-5 md:pl-0 relative rounded-md'>
+            <div className='grid grid-cols-1 md:grid-cols-2 '>
+              <div className='h-full w-full relative mx-auto p-4 max-w-[450px] overflow-hidden aspect-square'>
                 <img
-                  className='h-full w-full object-contain'
+                  className='h-full w-full object-cover rounded-xl bg-[#fff]'
                   src='https://www.pngkey.com/png/full/932-9328480_apples-png-image-red-apple-fruit.png'
                   alt='product-image'
                 />
               </div>
 
-              <div className='text-start'>
+              <div className='text-start p-4'>
                 <div className='flex justify-between'>
                   <div>
                     <ul className='text-start'>
-                      <li className='text-tuscany-950 font-bold text-lg'>
+                      <li className='text-tuscany-950 font-bold text-lg flex'>
+                        {/* RATING */}
+                        <div className='flex flex-row justify-center mr-2'>
+                          <TiStarFullOutline className='h-[1.2em] w-[1.2em] text-tuscany-500' />
+                          <span className='text-tuscany-950 text-lg font-semibold my-2'>
+                            {averageRating}
+                          </span>
+                        </div>
+
+                        {/* NOMBRE PRODUCTO */}
                         {producto && producto.name}
                       </li>
                       <li className='text-tuscany-950 opacity-60 font-medium'>
                         {producto.proveedor.name}
                       </li>
                       {producto.inventario.stock ? (
-                        <span>Stock Disponible: {producto.inventario.stock}</span>
+                        <span className='text-tuscany-950'>
+                          Stock Disponible: {producto.inventario.stock}
+                        </span>
                       ) : (
                         producto.inventario.stock === 0 && (
                           <span className='text-[#792823] text-[.8em] md:text-[1em]'>
@@ -132,16 +177,6 @@ const Detail = () => {
                   </div>
 
                   <div className='flex flex-col justify-center items-center'>
-                    <div className='flex flex-row justify-center'>
-                      <TiStarFullOutline className='h-[1.2em] w-[1.2em] text-[#ffe87f]' />
-                      <span className='text-[#2F2D2C] text-lg font-semibold my-2'>
-                        {averageRating}
-                      </span>
-                      {/* <span className='text-cabbage-pont-700 text-[0.9em] font-medium'>
-                        {`(${producto.resenas.length})`}
-                      </span> */}
-                    </div>
-
                     <div className='flex flex-row justify-center items-center'>
                       <button
                         onClick={quitarProducto}
@@ -171,7 +206,7 @@ const Detail = () => {
                 <hr className='border-[#EEE3D6] mt-2 mb-2' />
                 <h4 className='text-tuscany-950 text-start text-lg'>Descripción</h4>
                 <p
-                  className={`text-[#2F2D2C] text-[0.8em] md:text-base 'line-clamp-3'${showFullDescription ? 'whitespace-pre-line' : 'line-clamp-3'} w-full`}>
+                  className={`text-tuscany-950 text-[0.8em] md:text-base 'line-clamp-3'${showFullDescription ? 'whitespace-pre-line' : 'line-clamp-3'} w-full`}>
                   {producto.description}
                 </p>
 
@@ -186,11 +221,11 @@ const Detail = () => {
                 <div className='flex justify-between items-center mt-3'>
                   <ul className='flex flex-col text-start'>
                     <li className='text-tuscany-950 text-lg font-bold'>Precio</li>
-                    <li className='text-tuscany-800 text-4xl  font-semibold'>
+                    <li className='text-tuscany-500 text-4xl  font-semibold'>
                       ${producto ? producto.inventario.precio_final : producto.proveedor.costo}
                     </li>
                   </ul>
-                  <CustomButton text='Comprar' className='max-h-[35px]' />
+                  <CustomButton text='Agregar al carrito' className='max-h-[35px]' />
                 </div>
               </div>
             </div>
@@ -210,5 +245,11 @@ const Detail = () => {
     </>
   );
 };
+
+/* 
+
+
+
+*/
 
 export default Detail;
