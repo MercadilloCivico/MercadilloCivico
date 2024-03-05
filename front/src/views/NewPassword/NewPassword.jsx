@@ -4,6 +4,7 @@ import Logo from '../../assets/img/logo-full.svg';
 import Footer from '../../components/Footer/Footer.jsx';
 import { createToast } from '../../store/slices/toastSlice.js';
 import { logout } from '../../store/thunks/authThunks.js';
+import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 
 import { LuCheck } from 'react-icons/lu';
 import Bg from '../../assets/img/bg.jpg';
@@ -16,6 +17,8 @@ import { newPasswordValidation } from '../../utils/validation.js';
 function NewPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     password: '',
     repeatPassword: '',
@@ -40,7 +43,6 @@ function NewPassword() {
 
     if (Object.keys(validationErrors).length === 0) {
       let { payload } = await dispatch(createNewPassword(formData.password));
-      console.log(payload);
       if (payload) {
         dispatch(createToast('Contraseña cambiada con éxito.'));
         await dispatch(logout());
@@ -49,6 +51,14 @@ function NewPassword() {
     } else {
       dispatch(createToast('Error en la validación'));
       setErrors(validationErrors);
+    }
+  };
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password' && showPassword !== !showPassword) {
+      setShowPassword(!showPassword);
+    } else if (field === 'repeatPassword' && showRepeatPassword !== !showRepeatPassword) {
+      setShowRepeatPassword(!showRepeatPassword);
     }
   };
 
@@ -69,34 +79,48 @@ function NewPassword() {
 
             <p className='text-xl text-tuscany-950 max-w-[100%]'>Crea tu nueva contraseña.</p>
 
-            <div className='self-center'>
+            <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
               <CustomInput
-                label='Nueva Contraseña'
+                label='Contraseña'
+                placeholder='Contraseña'
                 name='password'
-                type='password'
-                placeholder=''
+                type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleInput}
-                className='max-w-[400px] w-full mb-1 mt-5'
+                maxLength={16}
+                endIcon={
+                  <button
+                    onClick={() => togglePasswordVisibility('password')}
+                    style={{ backgroundColor: 'transparent', border: 'none' }}
+                    className='flex justify-center items-center text-tuscany-300 text-2xl'
+                    type='button'>
+                    {showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
+                  </button>
+                }
               />
-              <div className='text-crown-of-thorns-600 mb-5 min-w-[200px] max-w-[320px]  m-auto'>
-                {errors.password}
-              </div>
+              <div className='text-crown-of-thorns-600'>{errors.password}</div>
             </div>
 
-            <div>
+            <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
               <CustomInput
-                label='Confirmar Contraseña'
+                label='Repetir Contraseña'
+                placeholder='Repetir Contraseña'
                 name='repeatPassword'
-                type='password'
-                placeholder=''
+                type={showRepeatPassword ? 'text' : 'password'}
                 value={formData.repeatPassword}
                 onChange={handleInput}
-                className='max-w-[400px] w-full mb-1'
+                maxLength={16}
+                endIcon={
+                  <button
+                    onClick={() => togglePasswordVisibility('repeatPassword')}
+                    style={{ backgroundColor: 'transparent', border: 'none' }}
+                    className='flex justify-center items-center text-tuscany-300 text-2xl'
+                    type='button'>
+                    {showRepeatPassword ? <RiEyeOffFill /> : <RiEyeFill />}
+                  </button>
+                }
               />
-              <div className='text-crown-of-thorns-600 mb-8 min-w-[200px] max-w-[320px]  m-auto'>
-                {errors.repeatPassword}
-              </div>
+              <div className='text-crown-of-thorns-600'>{errors.repeatPassword}</div>
             </div>
 
             <CustomButton

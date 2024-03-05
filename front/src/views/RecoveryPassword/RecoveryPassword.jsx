@@ -24,6 +24,7 @@ function RecoveryPassword() {
     dispatch(resetPassword(email))
       .then(() => {
         dispatch(createToast('Correo enviado exitosamente.'));
+        console.log(email);
         navigate('/login');
       })
       .catch((error) => {

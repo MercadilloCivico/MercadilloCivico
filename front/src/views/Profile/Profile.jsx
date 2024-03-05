@@ -9,6 +9,7 @@ import { putUser } from '../../store/thunks/authThunks.js';
 import { fetchUserProfileAsync, deleteUserProfileAsync } from '../../store/thunks/profileThunks.js';
 import { logout } from '../../store/thunks/authThunks.js';
 import style from './ProfileAnims.module.css';
+import Loading from '../../views/Loading/Loading.jsx';
 
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -46,16 +47,17 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    setFormData(currentData);
-    setIsLoading(false);
-  }, [currentData]);
+    setIsLoading(true);
+    // Lógica para cargar los datos del usuario (asumiendo que updateUserData() hace la llamada a la API)
+    updateUserData().then(() => {
+      setIsLoading(false);
+    });
+  }, [dispatch]);
 
   useEffect(() => {
-    if (!currentData.firstName) {
-      updateUserData();
-      setIsLoading(true);
-    } else setIsLoading(false);
-  }, []);
+    // Actualizar formData cuando currentData cambie
+    setFormData(currentData);
+  }, [currentData]);
 
   // useEffect(() => {
   //   console.log(isLoading);
@@ -217,189 +219,189 @@ export default function Profile() {
 
   return (
     <div className='text-pearl-bush-950'>
-      {/* Header container */}
-      {isLoading && (
-        <div className='h-screen w-screen bg-pearl-bush-100 top-0 fixed z-20'>Cargando</div>
-      )}
-
       <div>
-        <div
-          style={{ backgroundImage: "url('https://picsum.photos/600/300')" }}
-          className='max-w-[1280px] mx-auto h-[150px] bg-pearl-bush-950 bg-cover bg-center relative'>
-          {!editMode && (
-            <button
-              className={
-                'absolute right-0 z-1 text-tuscany-100 m-2 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
-                style.editBtnAnim
-              }
-              onClick={() => {
-                setEditMode(true);
-              }}
-              type='text'>
-              <MdEdit className='w-full h-full' />
-            </button>
-          )}
-          <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-600 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
-            {editMode && (
-              <>
-                <input
-                  name='img'
-                  id='img'
-                  onChange={handleChange}
-                  type='file'
-                  accept='image/png, image/gif, image/jpeg'
-                  className='hidden absolute'
-                />
-                <label
-                  htmlFor='img'
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div>
+            <div
+              style={{ backgroundImage: "url('https://picsum.photos/600/300')" }}
+              className='max-w-[1280px] mx-auto h-[150px] bg-pearl-bush-950 bg-cover bg-center relative'>
+              {!editMode && (
+                <button
                   className={
-                    'text-tuscany-100 absolute m-1 bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
+                    'absolute right-0 z-1 text-tuscany-100 m-2 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
                     style.editBtnAnim
-                  }>
+                  }
+                  onClick={() => {
+                    setEditMode(true);
+                  }}
+                  type='text'>
                   <MdEdit className='w-full h-full' />
-                </label>
-              </>
-            )}
+                </button>
+              )}
+              <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-600 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
+                {editMode && (
+                  <>
+                    <input
+                      name='img'
+                      id='img'
+                      onChange={handleChange}
+                      type='file'
+                      accept='image/png, image/gif, image/jpeg'
+                      className='hidden absolute'
+                    />
+                    <label
+                      htmlFor='img'
+                      className={
+                        'text-tuscany-100 absolute m-1 bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
+                        style.editBtnAnim
+                      }>
+                      <MdEdit className='w-full h-full' />
+                    </label>
+                  </>
+                )}
 
-            {/* 
+                {/* 
                 Renderizado condicional de imágen de perfil.
                 Si hay una imagen existente se renderiza. Si se seleccionó una imágen para subir, se renderizará la preview en su lugar. Else, se renderiza un placeholder
               */}
-            {currentData.imgUrl && !formData.imgPreview ? (
-              <img className='w-full h-full object-cover' src={currentData.imgUrl}></img>
-            ) : formData.imgPreview ? (
-              <img className='w-full h-full object-cover' src={formData.imgPreview}></img>
-            ) : (
-              <FaUser className='w-full h-full p-2 text-tuscany-600 bg-tuscany-100' />
-            )}
+                {currentData.imgUrl && !formData.imgPreview ? (
+                  <img className='w-full h-full object-cover' src={currentData.imgUrl}></img>
+                ) : formData.imgPreview ? (
+                  <img className='w-full h-full object-cover' src={formData.imgPreview}></img>
+                ) : (
+                  <FaUser className='w-full h-full p-2 text-tuscany-600 bg-tuscany-100' />
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )}
+        {/* Info container */}
 
-      {/* Info container */}
-
-      {editMode ? (
-        <div className={'mt-[calc(75px)] flex flex-col justify-center ' + style.profileFormAnim}>
-          <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
-            <TextField
-              onChange={handleChange}
-              name='firstName'
-              className='w-[300px] m-2'
-              color='success'
-              id='outlined-helperText'
-              label='Nombre'
-              defaultValue={currentData.firstName}
-              helperText={errors.firstName}
-              error={errors.firstName ? true : false}
-            />
-
-            <TextField
-              onChange={handleChange}
-              name='secondName'
-              className='w-[300px] m-2'
-              color='success'
-              id='outlined-helperText'
-              label='Segundo nombre'
-              defaultValue={currentData.secondName}
-              helperText={errors.secondName}
-              error={errors.secondName ? true : false}
-            />
-
-            <TextField
-              onChange={handleChange}
-              name='lastName'
-              className='w-[300px] m-2'
-              color='success'
-              id='outlined-helperText'
-              label='Apellido'
-              defaultValue={currentData.lastName}
-              helperText={errors.lastName}
-              error={errors.lastName ? true : false}
-            />
-
-            <TextField
-              onChange={handleChange}
-              className='w-[300px] m-2'
-              name='email'
-              color='success'
-              id='outlined-helperText'
-              label='Email'
-              defaultValue={currentData.email}
-              helperText={errors.email}
-              error={errors.email ? true : false}
-            />
-
-            <TextField
-              onChange={handleChange}
-              className='w-[300px] m-2'
-              type='password'
-              name='password'
-              color='success'
-              id='outlined-helperText'
-              label='Contraseña'
-              helperText={errors.password}
-              error={errors.password ? true : false}
-            />
-
-            <TextField
-              onChange={handleChange}
-              className='w-[300px] m-2'
-              name='confirm'
-              color='success'
-              id='outlined-helperText'
-              label='Confirma la contraseña'
-              helperText={errors.confirm}
-              error={errors.confirm ? true : false}
-            />
-          </ul>
-
-          {/* Botones al editar*/}
-          <div>
-            {hasChanged() && !hasErrors() ? (
-              <CustomButton onClick={handleSave} text='Guardar' className='my-5 mx-2' />
-            ) : (
-              <CustomButton
-                text='Guardar'
-                disabled='true'
-                className='text-pearl-bush-800 my-5 mx-2'
+        {editMode ? (
+          <div className={'mt-[calc(75px)] flex flex-col justify-center ' + style.profileFormAnim}>
+            <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
+              <TextField
+                onChange={handleChange}
+                name='firstName'
+                className='w-[300px] m-2'
+                color='success'
+                id='outlined-helperText'
+                label='Nombre'
+                defaultValue={currentData.firstName}
+                helperText={errors.firstName}
+                error={errors.firstName ? true : false}
               />
-            )}
 
-            <CustomButton className='mx-2' onClick={handleCancel} text='Cancelar' />
-          </div>
+              <TextField
+                onChange={handleChange}
+                name='secondName'
+                className='w-[300px] m-2'
+                color='success'
+                id='outlined-helperText'
+                label='Segundo nombre'
+                defaultValue={currentData.secondName}
+                helperText={errors.secondName}
+                error={errors.secondName ? true : false}
+              />
 
-          <CustomButton
-            className='w-[175px] my-6 mx-auto bg-crown-of-thorns-600 hover:bg-crown-of-thorns-700'
-            onClick={handleDelete}
-            text='Borrar cuenta'
-          />
-        </div>
-      ) : (
-        <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
-          <ul>
-            <li className='my-3 font-bold text-3xl mx-2 text-tuscany-600'>
-              {currentData.secondName ? (
-                <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
+              <TextField
+                onChange={handleChange}
+                name='lastName'
+                className='w-[300px] m-2'
+                color='success'
+                id='outlined-helperText'
+                label='Apellido'
+                defaultValue={currentData.lastName}
+                helperText={errors.lastName}
+                error={errors.lastName ? true : false}
+              />
+
+              <TextField
+                onChange={handleChange}
+                className='w-[300px] m-2'
+                name='email'
+                color='success'
+                id='outlined-helperText'
+                label='Email'
+                defaultValue={currentData.email}
+                helperText={errors.email}
+                error={errors.email ? true : false}
+              />
+
+              <TextField
+                onChange={handleChange}
+                className='w-[300px] m-2'
+                type='password'
+                name='password'
+                color='success'
+                id='outlined-helperText'
+                label='Contraseña'
+                helperText={errors.password}
+                error={errors.password ? true : false}
+              />
+
+              <TextField
+                onChange={handleChange}
+                className='w-[300px] m-2'
+                name='confirm'
+                color='success'
+                id='outlined-helperText'
+                label='Confirma la contraseña'
+                helperText={errors.confirm}
+                error={errors.confirm ? true : false}
+              />
+            </ul>
+
+            {/* Botones al editar*/}
+            <div>
+              {hasChanged() && !hasErrors() ? (
+                <CustomButton onClick={handleSave} text='Guardar' className='my-5 mx-2' />
               ) : (
-                <span>{`${currentData.firstName} ${currentData.lastName}`}</span>
+                <CustomButton
+                  text='Guardar'
+                  disabled='true'
+                  className='text-pearl-bush-800 my-5 mx-2'
+                />
               )}
-            </li>
-            <li className='my-3 font-semibold text-lg text-tuscany-800 opacity-80'>
-              <span>{currentData.email}</span>
-            </li>
-          </ul>
-        </div>
-      )}
 
-      {!editMode && (
-        <div className='mt-[50px]'>
-          {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
-          <LinkTags />
+              <CustomButton className='mx-2' onClick={handleCancel} text='Cancelar' />
+            </div>
 
-          {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
-          <Outlet />
-        </div>
-      )}
+            <CustomButton
+              className='w-[175px] my-6 mx-auto bg-crown-of-thorns-600 hover:bg-crown-of-thorns-700'
+              onClick={handleDelete}
+              text='Borrar cuenta'
+            />
+          </div>
+        ) : (
+          <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
+            <ul>
+              <li className='my-3 font-bold text-3xl mx-2 text-tuscany-600'>
+                {currentData.secondName ? (
+                  <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
+                ) : (
+                  <span>{`${currentData.firstName} ${currentData.lastName}`}</span>
+                )}
+              </li>
+              <li className='my-3 font-semibold text-lg text-tuscany-800 opacity-80'>
+                <span>{currentData.email}</span>
+              </li>
+            </ul>
+          </div>
+        )}
+
+        {!editMode && (
+          <div className='mt-[50px]'>
+            {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
+            <LinkTags />
+
+            {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
+            <Outlet />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

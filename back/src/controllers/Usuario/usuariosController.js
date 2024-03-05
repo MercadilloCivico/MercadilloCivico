@@ -162,6 +162,7 @@ class usuarios {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
+      console.log(req.body);
       const tokenLog = await usuariosHandler.authHandler(email, password);
       if (tokenLog) {
         res.cookie('sessionToken', tokenLog, {

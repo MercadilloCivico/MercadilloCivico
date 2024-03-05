@@ -6,6 +6,7 @@ import { TiHeartOutline, TiHeartFullOutline, TiStarFullOutline } from 'react-ico
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Reviews from '../../components/Reviews/Reviews';
 import CreateReview from '../../components/CreateReview/CreateReview';
+import Loading from '../Loading/Loading';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice';
@@ -41,6 +42,9 @@ const Detail = () => {
       dispatch(addFavorite(id));
     }
   };
+  
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     axios
@@ -48,8 +52,12 @@ const Detail = () => {
       .then(({ data }) => {
         const prod = items.filter((i) => i.id === data.id)[0];
         setProducto(prod);
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   }, [id]);
 
   const [averageRating, setAverageRating] = useState(0);
@@ -86,8 +94,8 @@ const Detail = () => {
 
   return (
     <>
-      {!producto ? (
-        <h1>Cargando...</h1>
+      {isLoading ? (
+        <Loading />
       ) : (
         <>
           <header className='flex h-[55px] w-full fixed text-tuscany-950 bg-pearl-bush-200 items-center justify-center shadow-md z-10'>

@@ -1,5 +1,6 @@
 const onlyLetters = /^[A-Za-zÁáÉéÍíÓóÚúÑñ]{1,15}$/;
-const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/;
+const strongPassword =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&°|,;.:{[\]}/+\\\-_"#()='¿¡<>])[A-Za-z\d@$!%*?&°|,;.:{[\]}/+\\\-_"#()='¿¡<>]{6,15}$/;
 
 const emailValidation = (email, errors) => {
   if (!email.trim()) {
