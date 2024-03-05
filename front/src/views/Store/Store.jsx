@@ -13,10 +13,11 @@ import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { resetFilters } from '../../store/slices/cardsSlice.js';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
+import Loading from '../Loading/Loading.jsx';
 
 const Store = () => {
   const dispatch = useDispatch();
-  const { puntos } = useSelector((state) => state.card);
+  const { puntos, status } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
   const { items, filters } = useSelector((state) => state.card);
 
@@ -33,7 +34,7 @@ const Store = () => {
       dispatch(getCartIdThunk());
       dispatch(getCartDBThunk());
     }
-  }, [dispatch]);
+  }, [dispatch, idCarrito]);
 
   const citiesOptions = puntos.map((p) => {
     return {
@@ -79,9 +80,7 @@ const Store = () => {
 
       <CardSwitch />
 
-      <div>
-        <Cards products={items} />
-      </div>
+      <div>{status === 'loading' ? <Loading /> : <Cards products={items} />}</div>
 
       <Footer />
     </div>

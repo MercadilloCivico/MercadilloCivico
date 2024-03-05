@@ -123,7 +123,7 @@ function Register() {
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
           dispatch(register(formData));
-          dispatch(createToast('Formulario enviado'));
+          dispatch(createToast('Usuario creado con exito. Por favor inicia sesión.'));
         } catch (error) {
           dispatch(createToast('Error al registrar usuario: ' + error.message));
         }
@@ -142,7 +142,7 @@ function Register() {
       } else {
         // Si la validación del formulario falla pero el campo de contraseña está oculto, no mostrar el mensaje de error
         if (!(showPassword || showRepeatPassword)) {
-          dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));
+          dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente'));
         }
       }
     } else {
@@ -161,7 +161,9 @@ function Register() {
         try {
           dispatch(register(formData));
           if (!acceptTerms) {
-            dispatch(createToast('Formulario enviado'));
+            dispatch(
+              createToast('Por favor, complete todos los campos obligatorios correctamente')
+            );
           }
         } catch (error) {
           dispatch(createToast('Error al registrar usuario: ' + error.message));
@@ -175,7 +177,7 @@ function Register() {
           password: '',
           repeatPassword: '',
         });
-        navigate('/store');
+        navigate('/login');
       } else {
         if (!(showPassword || showRepeatPassword)) {
           dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));

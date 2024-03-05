@@ -7,7 +7,7 @@ import { LuLogIn } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 
 import Bg from '../../assets/img/bg.jpg';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { login } from '../../store/thunks/authThunks.js';
 import { createToast } from '../../store/slices/toastSlice.js';
@@ -19,7 +19,7 @@ import style from './login.module.css';
 
 function Login() {
   const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.auth);
+  // const { error } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -54,20 +54,22 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const validationErrors = loginValidation(loginData);
     if (Object.keys(validationErrors).length === 0) {
-      try {
-        const { payload } = await dispatch(login(loginData));
-        if (payload.access === true) {
-          await dispatch(createToast('Inicio de sesión exitoso'));
-          navigate('/store');
-        }
-      } catch (error) {
-        alert('Error en el login: ' + error.message);
+      const { payload } = await dispatch(login(loginData));
+
+      if (payload.access === true) {
+        await dispatch(createToast('Inicio de sesión exitoso'));
+        navigate('/store');
+      }
+
+      if (payload.message) {
+        await dispatch(createToast(payload.message.slice(7)));
       }
     } else {
       setErrors(validationErrors);
-      alert('Por favor, corrija los errores antes de continuar.');
+      dispatch(createToast('Por favor, complete los campos obligatorios'));
     }
   };
 
@@ -106,17 +108,6 @@ function Login() {
             <div className='text-crown-of-thorns-600'>{errors.email}</div>
           </div>
           <br />
-          {/* <div className='flex flex-col self-center max-w-[400px] min-w-[250px] mx-auto'>
-            <CustomInput
-              label='Contraseña'
-              placeholder='Contraseña'
-              name='password'
-              type='password'
-              value={loginData.password}
-              onChange={handleInput}
-            />
-            <div className='text-crown-of-thorns-600'>{errors.password}</div>
-          </div> */}
           <div className='flex flex-col self-center max-w-[400px] min-w-[250px] mx-auto'>
             <CustomInput
               label='Contraseña'
@@ -153,8 +144,8 @@ function Login() {
             </div>
           </div>
           <br />
-          {error && <p className='text-crown-of-thorns-600'>{error.message}</p>}
-          {status === 'loading' && <p className='text-pearl-bush-700 text-base'>Cargando...</p>}
+          {/* {error && <p className='text-crown-of-thorns-600'>{error.message}</p>} */}
+          {/* {status === 'loading' && <p className='text-pearl-bush-700 text-base'>Cargando...</p>} */}
           <div className='mt-[50px]'>
             <p className='text-pearl-bush-700 text-base'>
               <span
