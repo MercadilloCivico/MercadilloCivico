@@ -19,7 +19,7 @@ import style from './login.module.css';
 
 function Login() {
   const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.auth);
+  const { status, error, token } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -31,6 +31,14 @@ function Login() {
       setShowPassword(!showPassword);
     }
   };
+
+  // protege la ruta desde login y no desde app.jsx porque provoca toasts duplicados al iniciar sesión
+  useEffect(() => {
+    if (token) {
+      navigate('/store');
+      dispatch(createToast('Acceso denegado: Tu sesión está activa.'));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (id === 'alreadyRegistered') {
