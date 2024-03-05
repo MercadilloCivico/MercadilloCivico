@@ -26,19 +26,19 @@ const FaqBar = ({ faqs }) => {
   return (
     <div className='mx-2 flex items-center justify-between p-1 bg-pearl-bush-300 rounded-md'>
       <button
-        className='p-1 mx-1 text-tuscany-950 flex items-center justify-center bg-pearl-bush-200 hover:bg-pearl-bush-400 shadow-md border-none rounded-full cursor-pointer'
+        className='p-1 mx-1 w-[30px] h-[30px] text-tuscany-950 flex items-center justify-center bg-pearl-bush-200 hover:bg-pearl-bush-400 active:bg-pearl-bush-500 active:text-pearl-bush-100 transition shadow-md border-none rounded-lg cursor-pointer'
         onClick={handlePrevQuestion}>
         <FiChevronLeft />
       </button>
       <div className='flex-1 mx-1 text-start'>
         <Link to={`/faqs/detail/${questions[currentQuestionIndex].id}`}>
-          <p className='text-[.6em] sm:text-[.7em] md:text-[.9em] text-tuscany-800 hover:text-tuscany-950 font-semibold cursor-pointer mb-2'>
+          <p className='text-tuscany-800 hover:text-tuscany-950 font-semibold cursor-pointer mb-2'>
             {questions[currentQuestionIndex].pregunta}
           </p>
         </Link>
       </div>
       <button
-        className='p-1 mx-1 text-tuscany-950 flex items-center justify-center bg-pearl-bush-200 hover:bg-pearl-bush-400 shadow-md border-none rounded-full cursor-pointer'
+        className='p-1 mx-1 w-[30px] h-[30px] text-tuscany-950 flex items-center justify-center bg-pearl-bush-200 hover:bg-pearl-bush-400 transition active:bg-pearl-bush-500 active:text-pearl-bush-100 shadow-md border-none rounded-lg cursor-pointer'
         onClick={handleNextQuestion}>
         <FiChevronRight />
       </button>

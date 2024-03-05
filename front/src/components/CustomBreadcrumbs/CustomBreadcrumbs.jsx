@@ -8,7 +8,7 @@ const CustomBreadcrumbs = () => {
 
   return (
     <Breadcrumbs
-      className='text-[.6em] sm:text-[.9em] md:text-[1.1em]'
+      className=''
       separator={<IoIosArrowForward className='text-tuscany-950' />}
       aria-label='breadcrumb'>
       <Link to='/'>

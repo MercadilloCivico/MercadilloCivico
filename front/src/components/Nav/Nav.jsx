@@ -6,8 +6,7 @@ import SearchBar from '../SearchBar/SearchBar.jsx';
 
 import { LuMenu } from 'react-icons/lu';
 import { LuShoppingCart } from 'react-icons/lu';
-import { LuUser } from 'react-icons/lu';
-import Logout from '../Logout/Logout.jsx';
+import NavUser from '../NavUser/NavUser.jsx';
 
 import { useSelector } from 'react-redux';
 // import { useSelector, useDispatch } from 'react-redux';
@@ -16,9 +15,11 @@ import { useSelector } from 'react-redux';
 const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  function toggleMenu(bool) {
+    if (bool === false)
+      setMenuOpen(false); // debe ser estrictamente false, de otra manera si no se le pasa un bool también será false
+    else setMenuOpen(!menuOpen);
+  }
 
   const { items } = useSelector((state) => state.card);
 
@@ -34,7 +35,9 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
           <div className='w-full lg:hidden'>
             <button
               className='custom-transparent-bg border-none h-[30px] w-[30px] cursor-pointer lg:hidden flex items-center'
-              onClick={toggleMenu}>
+              onClick={() => {
+                toggleMenu();
+              }}>
               <LuMenu className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
             </button>
           </div>
@@ -65,7 +68,11 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
           />
 
           {/* Logo centrado en mobile */}
-          <div className='w-full flex justify-center lg:hidden'>
+          <div
+            className='w-full flex justify-center lg:hidden'
+            onClick={() => {
+              toggleMenu(false);
+            }}>
             <Link className='h-[45px] w-[45px]' to={'/'}>
               <img className='h-[45px] w-[45px] object-contain' src={LogoMC} alt='Logo' />
             </Link>
@@ -80,12 +87,12 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
                 <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
               </Link>
             )}
-            <Link
-              to={'/profile'}
-              className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
-              <LuUser className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
-            </Link>
-            <Logout />
+            <div
+              onClick={() => {
+                toggleMenu(false);
+              }}>
+              <NavUser />
+            </div>
           </div>
         </header>
 

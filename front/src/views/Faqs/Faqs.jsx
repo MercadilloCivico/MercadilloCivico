@@ -10,36 +10,36 @@ import Footer from '../../components/Footer/Footer';
 
 const Faqs = () => {
   return (
-    <div>
+    <div className='min-h-[calc(100vh-55px)] flex flex-col'>
       <div>
-        <span className='text-tuscany-950 font-semibold text-[1em] sm:text-[1.3em] md:text-[1.5em]'>
-          Buscar
-        </span>
-        <SearchBarFaq />
+        <div className='my-4'>
+          <SearchBarFaq />
+        </div>
+        <div className='mb-4 mx-4 custom-border-b'>
+          <CustomBreadcrumbs />
+        </div>
+        <div>
+          <FaqBar faqs={faqs} />
+        </div>
+        <div>
+          <TopFaqs faqs={faqs} />
+        </div>
+        <div>
+          <CardsMiniFaqs faqs={faqs} />
+        </div>
+        <div className='hidden lg:flex flex-wrap justify-between m-4'>
+          {faqs.map((categoria) => (
+            <CardFaqsLarge
+              key={categoria.id}
+              categoria={categoria.categoria}
+              icon={categoria.icon}
+              faqs={categoria.faqs}
+            />
+          ))}
+        </div>
+        <ContactFooter />
       </div>
-      <div className='mb-4 mx-4 custom-border-b'>
-        <CustomBreadcrumbs />
-      </div>
-      <div>
-        <FaqBar faqs={faqs} />
-      </div>
-      <div>
-        <TopFaqs faqs={faqs} />
-      </div>
-      <div>
-        <CardsMiniFaqs faqs={faqs} />
-      </div>
-      <div className='hidden lg:flex flex-wrap justify-between m-4'>
-        {faqs.map((categoria) => (
-          <CardFaqsLarge
-            key={categoria.id}
-            categoria={categoria.categoria}
-            icon={categoria.icon}
-            faqs={categoria.faqs}
-          />
-        ))}
-      </div>
-      <ContactFooter />
+
       <Footer />
     </div>
   );
