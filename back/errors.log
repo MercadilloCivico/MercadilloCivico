@@ -472,3 +472,5 @@
 2024-03-04 10:23:16 error: POST /api/login 500 226ms
 2024-03-04 10:29:34 error: GET /api/forgot/password?email=alberoarfax7175@gmail.com&password=876753 500 345ms
 2024-03-04 10:31:01 error: POST /api/login 500 993ms
+2024-03-04 18:40:30 error: [object Object]
+2024-03-04 18:40:30 error: GET /carrito_de_compras 500 159ms

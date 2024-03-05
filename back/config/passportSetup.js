@@ -2,7 +2,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { ExtractJwt, Strategy: JWTStrategy } = require('passport-jwt');
-const { SECRET_JWT, CLIENT_ID, CLIENT_SECRET } = require('./env.config');
+const { SECRET_JWT, CLIENT_ID, CLIENT_SECRET, API_URL } = require('./env.config');
 const prisma = require('../db_connection');
 const CarritoHandler = require('../src/handlers/Carrito/carritoHandler');
 
@@ -11,7 +11,7 @@ passport.use(
     {
       clientID: CLIENT_ID,
       clientSecret: CLIENT_SECRET,
-      callbackURL: 'http://localhost:3001/api/auth/google/callback',
+      callbackURL: `${API_URL}/api/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
