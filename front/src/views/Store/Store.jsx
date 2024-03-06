@@ -15,13 +15,12 @@ import { getGoogleCookie } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
-import Loading from '../Loading/Loading.jsx';
 import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
 import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
 
 const Store = () => {
   const dispatch = useDispatch();
-  const { puntos, status } = useSelector((state) => state.card);
+  const { puntos } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
   const { items, allItems, filteredItems, filters } = useSelector((state) => state.card);
 
@@ -95,16 +94,11 @@ const Store = () => {
                 }
               />
             </div>
-
-            {status === 'loading' ? (
-              <Loading />
-            ) : (
-              <Cards
-                allItems={items}
-                filteredItems={filteredItems}
-                className='w-full max-w-[1300px]'
-              />
-            )}
+            <Cards
+              allItems={items}
+              filteredItems={filteredItems}
+              className='w-full max-w-[1300px]'
+            />
           </>
         ) : (
           <div className='mx-auto'>

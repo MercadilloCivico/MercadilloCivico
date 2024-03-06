@@ -4,6 +4,7 @@ import { setFilterMarca, setFilterPrecio } from '../../store/slices/cardsSlice';
 
 export default function FilterTags({ className, tagMargin }) {
   const { filters } = useSelector((state) => state.card);
+  const { status } = useSelector((state) => state.card);
   const dispatch = useDispatch();
 
   let i = 0;
@@ -14,6 +15,10 @@ export default function FilterTags({ className, tagMargin }) {
   }
 
   function handleRemove(key) {
+    if (status === 'loading') {
+      return 0;
+    }
+
     if (key === 'filtroPrecio') {
       dispatch(setFilterPrecio(''));
     }
