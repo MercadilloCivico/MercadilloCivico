@@ -85,13 +85,13 @@ const Store = () => {
       <div className='flex flex-row w-full max-w-[1500px] mx-auto'>
         {items?.length > 0 ? (
           <>
-            <div className='w-full max-w-[200px] hidden md:inline'>
+            <div className='w-full max-w-[200px] hidden md:inline sticky h-full top-[55px]'>
               <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
               <FilterMenu
                 expanded={true}
                 activeFilterMenu={true}
                 className={
-                  'top-0 hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 '
+                  'hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 sticky'
                 }
               />
             </div>
