@@ -313,7 +313,7 @@ const CreateProduct = ({ products, setProducts }) => {
           <Modal isOpen={isModalBackOpen} onRequestClose={() => setModalBackOpen(false)}>
             <div className='flex flex-col justify-center items-center space-y-8'>
               <span className='text-tuscany-950 font-semibold text-center mt-8'>
-                Estas seguro que deseas salir, se perderan todos los datos!
+                ¿Estas seguro que deseas salir? No se guardarán los datos.
               </span>
               <div className='flex justify-between items-center space-x-4'>
                 <button
