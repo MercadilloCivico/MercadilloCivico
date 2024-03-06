@@ -26,7 +26,7 @@ const Store = () => {
     }
   };
 
-  const firstRenderDispatch = async (idCarrito) => {
+  const firstRenderDispatch = async () => {
     dispatch(getGoogleCookie());
     await dispatch(fetchPuntosSelector());
     if (idCarrito === null) {
@@ -40,8 +40,8 @@ const Store = () => {
   }, [filters]);
 
   useEffect(() => {
-    firstRenderDispatch(idCarrito);
-  }, [idCarrito]);
+    firstRenderDispatch();
+  }, []);
 
   const citiesOptions = puntos.map((p) => {
     return {
