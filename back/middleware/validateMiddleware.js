@@ -180,7 +180,7 @@ const validateMiddleware = {
       const { filtroMarca, filtroPrecio, calificacion, alfabetico, precio } = req.query;
       const { id } = req.params;
 
-      const regex = /^[a-zA-Z]+$/;
+      // const regex = /^[a-zA-Z]+$/;
 
       // Verificar que puntoDeVentaID esté presente
       if (!id) {
@@ -189,7 +189,7 @@ const validateMiddleware = {
 
       // Verificar que los parámetros filtroMarca y filtroPrecio sean de tipo string y solo contener letras
       if (filtroMarca) {
-        if (typeof filtroMarca !== 'string' || !regex.test(filtroMarca)) {
+        if (typeof filtroMarca !== 'string') {
           return res
             .status(400)
             .json({ error: 'filtroMarca debe ser de tipo string y solo debe contener letras' });
@@ -197,7 +197,7 @@ const validateMiddleware = {
       }
 
       if (filtroPrecio) {
-        if (typeof filtroPrecio !== 'string' || !regex.test(filtroPrecio)) {
+        if (typeof filtroPrecio !== 'string') {
           return res
             .status(400)
             .json({ error: 'filtroPrecio debe ser de tipo string y solo debe contener letras' });

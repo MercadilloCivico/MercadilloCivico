@@ -6,6 +6,7 @@ const cardsSlice = createSlice({
   initialState: {
     items: [],
     puntos: [],
+    allItems: [],
     filters: {
       id: '',
       name: '',
@@ -59,7 +60,17 @@ const cardsSlice = createSlice({
       })
       .addCase(fetchCards.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload;
+        if (
+          state.filters.id !== '' &&
+          Object.values(state.filters)
+            .slice(1)
+            .every((value) => value === '')
+        ) {
+          state.items = action.payload;
+          state.allItems = action.payload;
+        } else {
+          state.items = action.payload;
+        }
       })
       .addCase(fetchCards.rejected, (state, action) => {
         state.status = 'failed';
