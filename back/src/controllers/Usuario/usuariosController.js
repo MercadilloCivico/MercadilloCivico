@@ -166,9 +166,7 @@ class usuarios {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
-      console.log('🚀 ~ usuarios ~ login ~ email, password:', email, password);
       const tokenLog = await usuariosHandler.authHandler(email, password);
-      console.log('🚀 ~ usuarios ~ login ~ tokenLog:', tokenLog);
       if (tokenLog) {
         res.cookie('sessionToken', tokenLog, {
           httpOnly: true,
