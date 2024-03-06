@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -18,14 +18,29 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
   const [activePrices, setActivePrices] = useState(expanded);
   const [activeBrands, setActiveBrands] = useState(expanded);
   const [activeDeals, setActiveDeals] = useState(expanded);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        toggleFilterMenu();
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuRef]);
 
   return (
     activeFilterMenu && (
       // CONTAINER PRINCIPAL
       <div
         style={{ scrollbarWidth: 'thin' }}
+        ref={menuRef}
         className={
-          'max-w-[calc(100vw)] w-full h-[calc(100vh-55px)] bg-pearl-bush-100 fixed z-[10] overflow-auto flex flex-col ' +
+          'max-w-[calc(100vw)] w-full h-[calc(100vh-55px)] bg-pearl-bush-100 fixed z-[9] overflow-auto flex flex-col ' +
           className
         }>
         <div className='w-full'>
