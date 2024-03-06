@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCards, fetchPuntosSelector } from '../thunks/cardsThunks';
+import { fetchCards, fetchPuntosSelector, fetchFilteredCards } from '../thunks/cardsThunks';
 
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {
-    items: [],
     puntos: [],
+    allItems: [],
+    filteredItems: [],
     filters: {
       id: '',
       name: '',
@@ -59,12 +60,35 @@ const cardsSlice = createSlice({
       })
       .addCase(fetchCards.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload;
+        if (
+          state.filters.id !== '' &&
+          Object.values(state.filters)
+            .slice(1)
+            .every((value) => value === '')
+        ) {
+          state.items = action.payload;
+          state.allItems = action.payload;
+        } else {
+          state.items = action.payload;
+        }
       })
       .addCase(fetchCards.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       })
+
+      .addCase(fetchFilteredCards.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchFilteredCards.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.filteredItems = action.payload;
+      })
+      .addCase(fetchFilteredCards.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+
       .addCase(fetchPuntosSelector.pending, (state) => {
         state.status = 'loading';
       })

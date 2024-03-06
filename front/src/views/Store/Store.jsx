@@ -1,5 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCards, fetchPuntosSelector } from '../../store/thunks/cardsThunks.js';
+import {
+  fetchCards,
+  fetchFilteredCards,
+  fetchPuntosSelector,
+} from '../../store/thunks/cardsThunks.js';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
 import BannerItem from '../../components/BannerItem/BannerItem';
@@ -11,27 +16,38 @@ import { getGoogleCookie } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
+import Loading from '../Loading/Loading.jsx';
+import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
+import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
 
 const Store = () => {
   const dispatch = useDispatch();
-  const { puntos } = useSelector((state) => state.card);
+  const { puntos, status } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
-  const { items, filters } = useSelector((state) => state.card);
+  const { items, allItems, filteredItems, filters } = useSelector((state) => state.card);
+
+  const firstRenderDispatch = async (idCarrito) => {
+    dispatch(getGoogleCookie());
+    await dispatch(fetchPuntosSelector());
+    if (idCarrito === null) {
+      await dispatch(getCartIdThunk());
+      await dispatch(getCartDBThunk());
+    }
+  };
 
   useEffect(() => {
-    if (filters.id) {
+    if (!allItems.length > 0) {
       dispatch(fetchCards(filters));
     }
-  }, [dispatch, filters]);
+  }, [filters]);
 
   useEffect(() => {
-    dispatch(fetchPuntosSelector());
-    dispatch(getGoogleCookie());
-    if (idCarrito === null) {
-      dispatch(getCartIdThunk());
-      dispatch(getCartDBThunk());
-    }
-  }, [dispatch]);
+    dispatch(fetchFilteredCards(filters));
+  }, [filters]);
+
+  useEffect(() => {
+    firstRenderDispatch(idCarrito);
+  }, [idCarrito]);
 
   const citiesOptions = puntos.map((p) => {
     return {
@@ -69,9 +85,38 @@ const Store = () => {
 
       <CardSwitch />
 
-      <div>
-        <Cards products={items} />
-      </div>
+      {status === 'loading' ? (
+        <Loading />
+      ) : (
+        <div className='flex flex-row w-full max-w-[1366px] mx-auto'>
+          {items?.length > 0 ? (
+            <>
+              <div className='w-full max-w-[200px] hidden md:inline'>
+                <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
+                <FilterMenu
+                  expanded={true}
+                  activeFilterMenu={true}
+                  className={
+                    'top-0 hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 '
+                  }
+                />
+              </div>
+
+              <Cards
+                allItems={items}
+                filteredItems={filteredItems}
+                className='w-full max-w-[1200px] '
+              />
+            </>
+          ) : (
+            <div>
+              <p className='text-tuscany-950'>Parece que no hay resultados...</p>
+
+              <p className='text-tuscany-950'>Intenta eliminar filtros o actualizar la página</p>
+            </div>
+          )}
+        </div>
+      )}
 
       <Footer />
     </div>

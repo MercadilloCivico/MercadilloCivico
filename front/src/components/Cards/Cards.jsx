@@ -3,14 +3,20 @@ import DropdownCard from '../DropdownCard/DropdownCard.jsx';
 import AdminCard from '../Card/AdminCard.jsx';
 import { useSelector } from 'react-redux';
 
-function Cards({ products, cardType }) {
+function Cards({ allItems, filteredItems, cardType, className }) {
   const { showDropdownCard } = useSelector((state) => state.store);
   const { userFavorites } = useSelector((state) => state.favorites);
 
+  function checkFiltered() {
+    if (filteredItems.length > 0) return filteredItems;
+    else return allItems;
+  }
+
   return (
-    <div className='py-3 flex justify-center flex-wrap space-between xsm:px-0 sm:px-10 max-w-[1366px] mx-auto'>
+    <div
+      className={'py-3 flex flex-wrap space-between xsm:px-0 sm:px-10 justify-center ' + className}>
       {showDropdownCard && cardType !== 'Admin'
-        ? products?.map((product) => (
+        ? checkFiltered().map((product) => (
             <DropdownCard
               key={product.id}
               name={product.name}
@@ -29,7 +35,7 @@ function Cards({ products, cardType }) {
             />
           ))
         : cardType === 'Admin'
-          ? products?.map((product) => (
+          ? checkFiltered().map((product) => (
               <AdminCard
                 key={product.id}
                 id={product.id}
@@ -46,7 +52,7 @@ function Cards({ products, cardType }) {
                 className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
               />
             ))
-          : products.map((product) => (
+          : checkFiltered().map((product) => (
               <UserCard
                 key={product.id}
                 id={product.id}

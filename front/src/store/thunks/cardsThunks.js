@@ -6,6 +6,21 @@ export const fetchCards = createAsyncThunk(
   'cards/fetchCards',
   async (info, { rejectWithValue }) => {
     try {
+      const { id } = info;
+      let url = `${VITE_API_URL}/filtro/${id}`;
+
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const fetchFilteredCards = createAsyncThunk(
+  'cards/fetchFilteredCards',
+  async (info, { rejectWithValue }) => {
+    try {
       const { id, name, filtroPrecio, filtroMarca, precio, alfabetico, calificacion } = info;
       let url = `${VITE_API_URL}/filtro/${id}`;
       let querys = {};

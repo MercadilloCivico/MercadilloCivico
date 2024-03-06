@@ -28,6 +28,7 @@ const {
   PUBLIC_KEY,
   MERCHANT_ID,
   API_URL,
+  COOKIE_SAMESITE_CONFIG,
 } = process.env;
 
 module.exports = {
@@ -47,4 +48,5 @@ module.exports = {
   PUBLIC_KEY,
   MERCHANT_ID,
   API_URL,
+  COOKIE_SAMESITE_CONFIG,
 };

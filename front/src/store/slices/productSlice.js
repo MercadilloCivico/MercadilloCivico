@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   addProductAsync,
+  deleteReviewAsyncThunk,
   fetchProductsAsync,
   logicDeleteProductAsync,
   postReviewAsyncThunk,
+  putReviewAsyncThunk,
   trueDeleteProductAsync,
 } from '../thunks/productThunks';
 
@@ -279,6 +281,24 @@ export const productSlice = createSlice({
         state.status = 'succeded';
       })
       .addCase(postReviewAsyncThunk.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(putReviewAsyncThunk.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(putReviewAsyncThunk.fulfilled, (state) => {
+        state.status = 'succeded';
+      })
+      .addCase(putReviewAsyncThunk.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(deleteReviewAsyncThunk.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteReviewAsyncThunk.fulfilled, (state) => {
+        state.status = 'succeded';
+      })
+      .addCase(deleteReviewAsyncThunk.rejected, (state) => {
         state.status = 'failed';
       });
   },

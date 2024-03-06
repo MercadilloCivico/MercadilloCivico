@@ -24,6 +24,7 @@ app.use(
         `${FRONT_URL}`,
         `${API_URL}`,
         'https://mer-civ.vercel.app',
+        'https://mer-civ.onrender.com',
         'http://localhost:3001',
         // 'cdn.jsdelivr.net', adquirir cuando el cliente lo desee
         'apis.google.com', // Permitir scripts de Google Auth
@@ -42,6 +43,7 @@ app.use(
         'www.google.com', // Permitir imágenes de Google Auth
         `${FRONT_URL}`,
         `${API_URL}`,
+        'https://mer-civ.onrender.com',
         'http://localhost:3001',
       ],
     },

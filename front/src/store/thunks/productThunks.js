@@ -54,12 +54,47 @@ export const logicDeleteProductAsync = createAsyncThunk(
   }
 );
 
-// Thunk para eliminar un producto permanentemente
+// Thunk para añadir una reseña
 export const postReviewAsyncThunk = createAsyncThunk(
   'products/postReviewAsyncThunk',
   async (body, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${VITE_API_URL}/resenas`, body, { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Thunk para editar una reseña
+export const putReviewAsyncThunk = createAsyncThunk(
+  'products/putReviewAsyncThunk',
+  async ({ id, body }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`${VITE_API_URL}/resenas/${id}`, body, {
+        withCredentials: true,
+      });
+      console.log('Estoy en aceptado');
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Thunk para eliminar una reseña
+export const deleteReviewAsyncThunk = createAsyncThunk(
+  'products/deleteReviewAsyncThunk',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        `${VITE_API_URL}/resenas/${id}`,
+        {},
+        { withCredentials: true }
+      );
       return response.data;
     } catch (error) {
       console.log(error);

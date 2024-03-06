@@ -105,7 +105,7 @@ function Register() {
     navigate(path);
   };
   // Maneja el envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Verificar si se proporcionó una imagen
@@ -122,8 +122,8 @@ function Register() {
 
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
-          dispatch(register(formData));
-          dispatch(createToast('Formulario enviado'));
+          await dispatch(register(formData));
+          dispatch(createToast('Usuario creado con exito. Por favor inicia sesión.'));
         } catch (error) {
           dispatch(createToast('Error al registrar usuario: ' + error.message));
         }
@@ -142,7 +142,7 @@ function Register() {
       } else {
         // Si la validación del formulario falla pero el campo de contraseña está oculto, no mostrar el mensaje de error
         if (!(showPassword || showRepeatPassword)) {
-          dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));
+          dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente'));
         }
       }
     } else {
@@ -159,9 +159,11 @@ function Register() {
 
       if (isFormValid && Object.keys(formErrors).length === 0) {
         try {
-          dispatch(register(formData));
+          await dispatch(register(formData));
           if (!acceptTerms) {
-            dispatch(createToast('Formulario enviado'));
+            dispatch(
+              createToast('Por favor, complete todos los campos obligatorios correctamente')
+            );
           }
         } catch (error) {
           dispatch(createToast('Error al registrar usuario: ' + error.message));
@@ -175,7 +177,7 @@ function Register() {
           password: '',
           repeatPassword: '',
         });
-        navigate('/store');
+        navigate('/login');
       } else {
         if (!(showPassword || showRepeatPassword)) {
           dispatch(createToast('Por favor, complete todos los campos obligatorios correctamente.'));

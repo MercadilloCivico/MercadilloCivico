@@ -1,18 +1,25 @@
 .loading {
-    animation: customAni 3s ease 1s infinite normal none;
+  animation: loading 1s ease-in 0s infinite normal none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes customAni {
+/* Copy this code after the above code */
+@keyframes loading {
   0% {
-	opacity: 1;
+    opacity: 0.9;
+    transform: scale(1.2);
   }
 
-  50% {
-	opacity: 0.2;
+  80% {
+    opacity: 0;
+    transform: scale(1.5);
   }
 
   100% {
-	opacity: 1;
+    opacity: 0;
+    transform: scale(2);
   }
 }
-

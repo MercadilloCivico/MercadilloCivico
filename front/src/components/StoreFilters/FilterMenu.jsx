@@ -1,71 +1,148 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
-// import { useState } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
+import { IoIosArrowBack } from 'react-icons/io';
+import { LuFilter } from 'react-icons/lu';
+
 import { setFilterMarca, setFilterPrecio } from '../../store/slices/cardsSlice';
 
-export default function FilterMenu({ className, activeFilterMenu, toggleFilterMenu }) {
+export default function FilterMenu({ className, activeFilterMenu, toggleFilterMenu, expanded }) {
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.card);
+  const { allItems } = useSelector((state) => state.card);
 
-  const allBrands = [...items].map((product) => product.marca);
+  const allBrands = [...allItems].map((product) => product.marca);
 
   const uniqueBrands = Array.from(new Set(allBrands));
 
-  //   function handleChange(e) {
-  //     setValue(e.target.value);
-  //     setSortValue('ordenamiento');
-  //   }
-
-  //   let [value, setValue] = useState('filtros');
-
-  //   let [sortValue, setSortValue] = useState('ordenamiento');
+  const [activePrices, setActivePrices] = useState(expanded);
+  const [activeBrands, setActiveBrands] = useState(expanded);
+  const [activeDeals, setActiveDeals] = useState(expanded);
 
   return (
     activeFilterMenu && (
+      // CONTAINER PRINCIPAL
       <div
+        style={{ scrollbarWidth: 'thin' }}
         className={
-          'w-screen h-[calc(100vh-55px)] bg-pearl-bush-100 fixed z-[10] top-[55px] ' + className
+          'max-w-[calc(100vw)] w-full h-[calc(100vh-55px)] bg-pearl-bush-100 fixed z-[10] overflow-auto flex flex-col ' +
+          className
         }>
-        <button onClick={toggleFilterMenu}>Cerrar</button>
+        <div className='w-full'>
+          <div className='flex items-center text-xl ml-4 mb-6 mt-4'>
+            <div className='w-[25px] h-[25px] mr-1'>
+              <LuFilter className='flex items-center justify-center h-full w-full text-tuscany-600' />
+            </div>
+            <p className='m-0 p-0 text-tuscany-600 font-semibold text-xl'>FILTROS</p>
+          </div>
 
-        {/* PRECIOS */}
-        <div>
-          <span>Rangos de precio</span>
-          <p
-            onClick={() => {
-              dispatch(setFilterPrecio('bajo'));
-            }}
-            className='bg-tuscany-600 border-tuscany-900'>
-            Precios bajos
-          </p>
-          <p
-            onClick={() => {
-              dispatch(setFilterPrecio('medio'));
-            }}
-            className='bg-tuscany-600 border-tuscany-900'>
-            Precios medios
-          </p>
-          <p
-            onClick={() => {
-              dispatch(setFilterPrecio('alto'));
-            }}
-            className='bg-tuscany-600 border-tuscany-900'>
-            Precios altos
-          </p>
+          {/* PRECIOS */}
+          <div className='rounded-xl overflow-hidden mx-1 my-2 bg-tuscany-600 drop-shadow-sm '>
+            <div
+              onClick={() => {
+                setActivePrices(!activePrices);
+              }}
+              className='text-xl font-semibold text-tuscany-100 flex items-center justify-between px-2'>
+              <p className='text-tuscany-100 my-2 mx-0 p-0 select-none'>PRECIOS</p>
+              {activePrices ? (
+                <IoIosArrowDown className='rotate-180 transition-all' />
+              ) : (
+                <IoIosArrowDown className='transition-all' />
+              )}
+            </div>
+
+            {activePrices && (
+              <ul className='text-left px-2'>
+                <li
+                  onClick={() => {
+                    dispatch(setFilterPrecio('bajo'));
+                  }}
+                  className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
+                  Precios bajos
+                </li>
+                <li
+                  onClick={() => {
+                    dispatch(setFilterPrecio('medio'));
+                  }}
+                  className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
+                  Precios medios
+                </li>
+                <li
+                  onClick={() => {
+                    dispatch(setFilterPrecio('alto'));
+                  }}
+                  className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
+                  Precios altos
+                </li>
+              </ul>
+            )}
+          </div>
+
+          {/* MARCAS */}
+          <div className='rounded-xl overflow-hidden mx-1 my-2 bg-tuscany-500 drop-shadow-sm '>
+            <div
+              onClick={() => {
+                setActiveBrands(!activeBrands);
+              }}
+              className='text-xl font-semibold text-tuscany-100 flex items-center justify-between px-2'>
+              <p className='text-tuscany-100 my-2 mx-0 p-0 select-none'>MARCAS</p>
+              {activeBrands ? (
+                <IoIosArrowDown className='rotate-180 transition-all' />
+              ) : (
+                <IoIosArrowDown className='transition-all' />
+              )}
+            </div>
+
+            {activeBrands && (
+              <ul className='text-left px-2'>
+                {uniqueBrands.map((brand) => (
+                  <li
+                    key={brand}
+                    onClick={() => dispatch(setFilterMarca(brand))}
+                    className='text-tuscany-100 mb-2 line-clamp-1 pl-2 cursor-pointer underline underline-offset-2'>
+                    {brand}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* DESCUENTOS */}
+          <div className='rounded-xl overflow-hidden mx-1 my-2 bg-tuscany-400 drop-shadow-sm '>
+            <div
+              onClick={() => {
+                setActiveDeals(!activeDeals);
+              }}
+              className='text-xl font-semibold text-tuscany-100 flex items-center justify-between px-2'>
+              <p className=' my-2 mx-0 p-0 select-none'>DESCUENTOS</p>
+              {activeDeals ? (
+                <IoIosArrowDown className='rotate-180 transition-all' />
+              ) : (
+                <IoIosArrowDown className='transition-all' />
+              )}
+            </div>
+
+            {activeDeals && (
+              <ul className='text-left px-2'>
+                <li className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
+                  Hasta un 5%
+                </li>
+                <li className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
+                  Hasta un 15%
+                </li>
+                <li className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
+                  Hasta un 25%
+                </li>
+              </ul>
+            )}
+          </div>
         </div>
 
-        {/* MARCAS */}
-        <div>
-          <span>Marcas</span>
-          {uniqueBrands.map((brand) => (
-            <p
-              key={brand}
-              onClick={() => dispatch(setFilterMarca(brand))}
-              className='bg-tuscany-600 border-tuscany-900'>
-              {brand}
-            </p>
-          ))}
-        </div>
+        <button
+          className='md:hidden border-none bg-tuscany-600 shadow-sm w-[40px] h-[40px] text-tuscany-100 rounded-xl mt-auto mx-auto mb-2 cursor-pointer hover:bg-tuscany-700 active:bg-tuscany-800 transition pr-[2px]'
+          onClick={toggleFilterMenu}>
+          <IoIosArrowBack className='p-1 w-full h-full' />
+        </button>
       </div>
     )
   );
