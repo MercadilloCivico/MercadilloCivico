@@ -32,15 +32,15 @@ function Cards({ allItems, filteredItems, cardType, className }) {
         checkFiltered().map((product) => (
           <DropdownCard
             key={product.id}
+            id={product.id}
             name={product.name}
             description={product.description}
             supplier={product.marca}
             img={product.image}
             price={product.inventario.precio_final}
             rating={product.calification}
-            stock={15}
-            cantidad={1}
-            id={product.id}
+            stock={product.inventario.stock}
+            inventarioId={product.inventario.id}
             // agregarProducto={() => agregarProducto(product.id)}
             // quitarProducto={() => quitarProducto(product.id)}
             className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'

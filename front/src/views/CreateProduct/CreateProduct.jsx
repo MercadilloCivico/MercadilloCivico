@@ -261,6 +261,9 @@ const CreateProduct = ({ products, setProducts }) => {
               placeholder='Descripcion'
               onChange={handleInput}
               className='py-2 px-2 border rounded-md'
+              rows={3}
+              maxRows={4}
+              multiline
             />
             <div className='text-crown-of-thorns-600 text-sm'>{errors.description}</div>
           </div>
