@@ -137,7 +137,7 @@ function Login() {
             <div className='max-w-[px]'>
               <CustomButton
                 type='button'
-                onClick={handleGoogleLogin}
+                onClick={() => handleGoogleLogin()}
                 text='Google'
                 icon={FaGoogle}
               />
@@ -149,20 +149,22 @@ function Login() {
           <div className='mt-[50px]'>
             <p className='text-pearl-bush-700 text-base'>
               <span
-                onClick={handleNavigate('/store')}
+                onClick={() => {
+                  handleNavigate('/store');
+                }}
                 className='text-pearl-bush-700 text-base cursor-pointer'>
                 Acceder como invitado
               </span>{' '}
               •{' '}
               <span
-                onClick={handleNavigate('/register')}
+                onClick={() => handleNavigate('/register')}
                 className='text-pearl-bush-700 text-base cursor-pointer'>
                 Registrarse
               </span>
             </p>
             <p className='text-pearl-bush-700 text-base'>
               <span
-                onClick={handleNavigate('/recover_password')}
+                onClick={() => handleNavigate('/recover_password')}
                 className='text-pearl-bush-700 text-base cursor-pointer'>
                 ¿Olvidaste tu contraseña?
               </span>

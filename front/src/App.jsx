@@ -83,14 +83,14 @@ function App() {
         } catch (error) {
           if (error.response.data.redirectToLogin) {
             setOpen(false);
-            dispatch(logout());
+            await dispatch(logout());
             navigate('/login');
             window.location.reload();
           }
         } finally {
           console.log('token');
-
-          setTimeout(checkAuthentication, 100000);
+          let hour = 60000;
+          setTimeout(checkAuthentication, 60 * hour);
         }
       }
     };
