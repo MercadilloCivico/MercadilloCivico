@@ -1,5 +1,4 @@
 import './App.css';
-// const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 import { Routes, Route, useMatch, Navigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -8,7 +7,7 @@ import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
 import Nav from './components/Nav/Nav.jsx';
 import Favorites from './views/Favorites/Favorites.jsx';
-// import axios from 'axios';
+import axios from 'axios';
 import Register from './views/Register/Register.jsx';
 import RecoveryPassword from './views/RecoveryPassword/RecoveryPassword.jsx';
 import NewPassword from './views/NewPassword/NewPassword.jsx';
@@ -49,7 +48,8 @@ import PasarelaDePago from './views/PasarelaDePago/PasarelaDePago.jsx';
 import { useEffect } from 'react';
 
 import { getAllFavorite } from './store/thunks/favoritesThuks.js';
-// import { logout } from './store/thunks/authThunks.js';
+import { logout } from './store/thunks/authThunks.js';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
@@ -64,20 +64,19 @@ function CheckAlreadyLoggedIn({ Component }) {
   const { token } = useSelector((state) => state.auth);
   if (!token) return <Component />;
   else {
-    dispatch(createToast('Acceso denegado: Tu sesión ya está activa.'));
+    dispatch(createToast('Tu sesión ya está activa.'));
     return <Navigate to='/store' />;
   }
 }
 
 function App() {
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  // const [open, setOpen] = useState(true);
-  //funcion para chequear el token
-  /* useEffect(() => {
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
     const checkAuthentication = async () => {
-      if (open && token) {
+      if (open) {
         try {
           await axios(`${VITE_API_URL}/auth/token`, {
             withCredentials: true,
@@ -86,19 +85,13 @@ function App() {
           if (error.response.data.redirectToLogin) {
             setOpen(false);
             await dispatch(logout());
-            navigate('/login');
-            window.location.reload();
           }
-        } finally {
-          console.log('token');
-          let hour = 60000;
-          setTimeout(checkAuthentication, 60 * hour);
         }
       }
     };
-    checkAuthentication();
-    return () => clearTimeout(checkAuthentication);
-  }, [open, token]); */
+    const timerId = setInterval(checkAuthentication, 1000 * 60 * 30);
+    return () => clearInterval(timerId);
+  }, [dispatch, open]);
 
   //Estado temporal
   const [products, setProducts] = useState([]);
@@ -141,7 +134,7 @@ function App() {
           <Route path='/new_password' element={<CheckAlreadyLoggedIn Component={NewPassword} />} />
 
           <Route path='/cart' element={<Cart />} />
-          <Route path='/login/:id?' element={<Login />} />
+          <Route path='/login/:id?' element={<CheckAlreadyLoggedIn Component={Login} />} />
           <Route path='/pasarela_de_pago' element={<PasarelaDePago />} />
 
           <Route path='/profile' element={<ProtectedRoute Component={Profile} />}>

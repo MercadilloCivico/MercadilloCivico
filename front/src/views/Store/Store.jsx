@@ -33,14 +33,15 @@ const Store = () => {
     }
   };
 
-  useEffect(() => {
-    if (!allItems.length > 0) {
-      dispatch(fetchCards(filters));
-    }
-  }, [filters]);
+  const getFilters = async () => {
+    await dispatch(fetchCards(filters));
+    await dispatch(fetchFilteredCards(filters));
+  };
 
   useEffect(() => {
-    dispatch(fetchFilteredCards(filters));
+    if (!allItems.length > 0) {
+      getFilters();
+    }
   }, [filters]);
 
   useEffect(() => {
