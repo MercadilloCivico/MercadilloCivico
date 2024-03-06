@@ -85,40 +85,40 @@ const Store = () => {
 
       <CardSwitch />
 
-      {status === 'loading' ? (
-        <Loading />
-      ) : (
-        <div className='flex flex-row w-full max-w-[1366px] mx-auto'>
-          {items?.length > 0 ? (
-            <>
-              <div className='w-full max-w-[200px] hidden md:inline'>
-                <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
-                <FilterMenu
-                  expanded={true}
-                  activeFilterMenu={true}
-                  className={
-                    'top-0 hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 '
-                  }
-                />
-              </div>
+      <div className='flex flex-row w-full max-w-[1366px] mx-auto'>
+        {items?.length > 0 ? (
+          <>
+            <div className='w-full max-w-[200px] hidden md:inline'>
+              <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
+              <FilterMenu
+                expanded={true}
+                activeFilterMenu={true}
+                className={
+                  'top-0 hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 '
+                }
+              />
+            </div>
 
+            {status === 'loading' ? (
+              <Loading />
+            ) : (
               <Cards
                 allItems={items}
                 filteredItems={filteredItems}
                 className='w-full max-w-[1200px] '
               />
-            </>
-          ) : (
-            <div className='mx-auto'>
-              <p className='text-tuscany-950'>Parece que no hay resultados...</p>
+            )}
+          </>
+        ) : (
+          <div className='mx-auto'>
+            <p className='text-tuscany-950'>Parece que no hay resultados...</p>
 
-              <p className='text-tuscany-950'>
-                Intenta eliminar filtros, actualizar la página o seleccionar un punto.
-              </p>
-            </div>
-          )}
-        </div>
-      )}
+            <p className='text-tuscany-950'>
+              Intenta eliminar filtros, actualizar la página o seleccionar un punto.
+            </p>
+          </div>
+        )}
+      </div>
 
       <Footer />
     </div>
