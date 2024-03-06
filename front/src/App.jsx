@@ -107,9 +107,13 @@ function App() {
   const isUserDetailPage = useMatch('/admin/users/detail/:id');
   const isProductDetailPage = useMatch('/admin/products/detail/:id');
 
+  const getFavorites = async () => {
+    if (token) await dispatch(getAllFavorite());
+  };
+
   useEffect(() => {
-    token && dispatch(getAllFavorite());
-  }, [dispatch]);
+    getFavorites();
+  }, [token]);
 
   return (
     <ThemeProvider theme={theme}>
