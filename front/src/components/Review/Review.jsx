@@ -9,6 +9,9 @@ import { useEffect, useState } from 'react';
 import Loading from '../../views/Loading/Loading';
 import { deleteReviewAsyncThunk } from '../../store/thunks/productThunks';
 import CreateReview from '../CreateReview/CreateReview';
+import { createToast } from '../../store/slices/toastSlice';
+import Modal from '../Modal/Modal';
+import CustomButton from '../CustomButton/CustomButton';
 
 const Review = ({
   review,
@@ -21,8 +24,11 @@ const Review = ({
   const { id, usuario_id, calification, coment, fecha_creacion, fecha_actualizacion } = review;
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [user, setUser] = useState({});
   const { items } = useSelector((state) => state.user);
+  const { items: carrito } = useSelector((state) => state.carrito);
+  const { status } = useSelector((state) => state.products);
   useEffect(() => {
     const userdata = async () => {
       try {
@@ -32,7 +38,7 @@ const Review = ({
           setUser(user);
           setIsLoading(false);
         } else {
-          throw new Error('No se encuntra el usuario id');
+          throw new Error('No se encuentra el usuario id');
         }
       } catch (error) {
         setIsLoading(false);
@@ -41,8 +47,25 @@ const Review = ({
     };
     userdata();
   }, []);
-  // const { total: likesTotal, isActive: likeActive } = likes;
-  // const { total: dislikesTotal, isActive: dislikeActive } = dislikes;
+
+  const handleReport = () => {
+    dispatch(createToast('Comentario Reportado'));
+  };
+
+  const handleModal = () => {
+    setDeleteModal((prev) => !prev);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteReviewAsyncThunk(id));
+    setTimeout(() => {
+      if (status === 'rejected') {
+        dispatch(createToast('Error al eliminar el comentario'));
+      } else {
+        dispatch(createToast('Comentario Eliminado'));
+      }
+    }, 2000);
+  };
 
   return (
     <div className='min-w-[100px] mx-auto my-2 bg-pearl-bush-100 shadow-md rounded-md'>
@@ -83,49 +106,52 @@ const Review = ({
             )}
             <hr className='mx-2 border-tuscany-950' />
             <div className='flex p-2 justify-between items-center'>
-              {/* <div className='flex'>
-              <button
-                onClick={onLike}
-                className={`${
-                  likeActive ? 'text-tuscany-700' : 'text-tuscany-950'
-                } p-1 border-none rounded-md cursor-pointer bg-pearl-bush-100 hover:bg-pearl-bush-300 flex items-center mx-1`}>
-                {likeActive ? <BiSolidLike /> : <BiLike />}
-                <span className='ml-1'>{likesTotal > 0 && likesTotal}</span>
-              </button>
-              <button
-                onClick={onDislike}
-                className={`${
-                  dislikeActive ? 'text-tuscany-700' : 'text-tuscany-950'
-                } p-1 cursor-pointer mx-[.3em] bg-pearl-bush-100 hover:bg-pearl-bush-300 border-none rounded-md flex items-center`}>
-                {dislikeActive ? <BiSolidDislike /> : <BiDislike />}
-                <span className='ml-1'>{dislikesTotal > 0 && dislikesTotal}</span>
-              </button>
-            </div> */}
+              <Modal isOpen={deleteModal} onRequestClose={handleModal}>
+                <div className='flex flex-col items-center justify-center gap-4'>
+                  <h3>¿Estas seguro de eliminar este comentario?</h3>
+                  <div className='flex gap-4'>
+                    <CustomButton
+                      text={'Si'}
+                      onClick={() => {
+                        handleDelete();
+                        handleModal();
+                      }}
+                    />
+                    <CustomButton text={'No'} onClick={handleModal} />
+                  </div>
+                </div>
+              </Modal>
               <div>
-                <button className='p-1 mx-[.3em] flex items-center text-tuscany-950 border-none rounded-md bg-pearl-bush-100 hover:bg-pearl-bush-300 cursor-pointer'>
+                <button
+                  onClick={handleReport}
+                  className='p-1 mx-[.3em] flex items-center text-tuscany-950 border-none rounded-md bg-pearl-bush-100 hover:bg-pearl-bush-300 cursor-pointer'>
                   Reportar
                 </button>
               </div>
-              <div className='flex p-1 right-0'>
-                <button className='p-1 mx-[.3em] flex items-center text-tuscany-950 border-none rounded-md bg-pearl-bush-100 hover:bg-pearl-bush-300 cursor-pointer'>
-                  <MdEdit
-                    onClick={() => {
-                      setModalOpen(true);
-                      setIsOpenOnDetail(false);
-                    }}
+              {usuario_id === carrito.user_id ? (
+                <div className='flex p-1 right-0'>
+                  <button className='p-1 mx-[.3em] flex items-center text-tuscany-950 border-none rounded-md bg-pearl-bush-100 hover:bg-pearl-bush-300 cursor-pointer'>
+                    <MdEdit
+                      onClick={() => {
+                        setModalOpen(true);
+                        setIsOpenOnDetail(false);
+                      }}
+                    />
+                  </button>
+                  <CreateReview
+                    productId={productId}
+                    id={id}
+                    isModalOpen={isModalOpen}
+                    setModalOpen={setModalOpen}
+                    isOpenOnDetail={isOpenOnDetail}
                   />
-                </button>
-                <CreateReview
-                  productId={productId}
-                  id={id}
-                  isModalOpen={isModalOpen}
-                  setModalOpen={setModalOpen}
-                  isOpenOnDetail={isOpenOnDetail}
-                />
-                <button className='p-1 mx-[.3em] flex items-center text-tuscany-950 border-none rounded-md bg-pearl-bush-100 hover:bg-pearl-bush-300 cursor-pointer'>
-                  <MdDeleteOutline onClick={() => dispatch(deleteReviewAsyncThunk(id))} />
-                </button>
-              </div>
+                  <button className='p-1 mx-[.3em] flex items-center text-tuscany-950 border-none rounded-md bg-pearl-bush-100 hover:bg-pearl-bush-300 cursor-pointer'>
+                    <MdDeleteOutline onClick={handleModal} />
+                  </button>
+                </div>
+              ) : (
+                ''
+              )}
             </div>
           </div>
         </>

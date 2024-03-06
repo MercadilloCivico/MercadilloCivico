@@ -557,3 +557,47 @@
 2024-03-06 15:10:13 error: GET /api/filtro/ 500 14ms
 2024-03-06 15:10:13 error: [object Object]
 2024-03-06 15:10:14 error: GET /api/filtro/ 500 246ms
+2024-03-06 16:43:35 error: [object Object]
+2024-03-06 16:43:39 error: GET /api/filtro/ 500 3468ms
+2024-03-06 16:43:40 error: [object Object]
+2024-03-06 16:43:40 error: GET /api/filtro/ 500 17ms
+2024-03-06 16:43:41 error: [object Object]
+2024-03-06 16:43:41 error: GET /api/filtro/ 500 133ms
+2024-03-06 16:43:41 error: [object Object]
+2024-03-06 16:43:49 error: GET /api/filtro/ 500 8826ms
+2024-03-06 16:45:02 error: [object Object]
+2024-03-06 16:45:02 error: GET /api/filtro/ 500 39ms
+2024-03-06 16:45:02 error: [object Object]
+2024-03-06 16:45:02 error: GET /api/filtro/ 500 11ms
+2024-03-06 16:45:04 error: [object Object]
+2024-03-06 16:45:04 error: GET /api/filtro/ 500 11ms
+2024-03-06 16:45:05 error: [object Object]
+2024-03-06 16:45:05 error: GET /api/filtro/ 500 42ms
+2024-03-06 17:19:12 error: [object Object]
+2024-03-06 17:19:17 error: GET /api/filtro/ 500 5253ms
+2024-03-06 17:19:18 error: [object Object]
+2024-03-06 17:19:18 error: GET /api/filtro/ 500 147ms
+2024-03-06 17:26:11 error: [object Object]
+2024-03-06 17:26:11 error: GET /api/filtro/ 500 53ms
+2024-03-06 17:26:12 error: [object Object]
+2024-03-06 17:26:12 error: GET /api/filtro/ 500 20ms
+2024-03-06 17:26:12 error: [object Object]
+2024-03-06 17:26:13 error: GET /api/filtro/ 500 1508ms
+2024-03-06 17:26:14 error: [object Object]
+2024-03-06 17:26:14 error: GET /api/filtro/ 500 7ms
+2024-03-06 17:54:27 error: [object Object]
+2024-03-06 17:54:27 error: GET /api/filtro/ 500 9ms
+2024-03-06 17:54:27 error: [object Object]
+2024-03-06 17:54:27 error: GET /api/filtro/ 500 11ms
+2024-03-06 17:54:27 error: [object Object]
+2024-03-06 17:54:27 error: GET /api/filtro/ 500 79ms
+2024-03-06 17:54:27 error: [object Object]
+2024-03-06 17:54:29 error: GET /api/filtro/ 500 1670ms
+2024-03-06 18:52:20 error: [object Object]
+2024-03-06 18:52:20 error: GET /api/filtro/ 500 32ms
+2024-03-06 18:52:20 error: [object Object]
+2024-03-06 18:52:20 error: GET /api/filtro/ 500 39ms
+2024-03-06 18:52:22 error: [object Object]
+2024-03-06 18:52:22 error: GET /api/filtro/ 500 692ms
+2024-03-06 18:52:22 error: [object Object]
+2024-03-06 18:52:22 error: GET /api/filtro/ 500 21ms
