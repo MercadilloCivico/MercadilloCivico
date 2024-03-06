@@ -152,7 +152,6 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
             )}
           </div>
         </div>
-        900
         <button
           className='md:hidden border-none bg-tuscany-600 shadow-sm w-[40px] h-[40px] text-tuscany-100 rounded-xl mt-auto mx-auto mb-2 cursor-pointer hover:bg-tuscany-700 active:bg-tuscany-800 transition pr-[2px]'
           onClick={toggleFilterMenu}>
