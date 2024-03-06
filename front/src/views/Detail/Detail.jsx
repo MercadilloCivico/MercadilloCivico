@@ -6,11 +6,12 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { TiHeartOutline, TiHeartFullOutline, TiStarFullOutline } from 'react-icons/ti';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Reviews from '../../components/Reviews/Reviews';
-// import CreateReview from '../../components/CreateReview/CreateReview';
+import CreateReview from '../../components/CreateReview/CreateReview';
 import Loading from '../Loading/Loading';
 import axios from 'axios';
 import { addProductToCartDBThunk } from '../../store/thunks/cartThunks';
 import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
+import { fetchCards } from '../../store/thunks/cardsThunks';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Detail = () => {
@@ -21,8 +22,7 @@ const Detail = () => {
   const { idCarrito, status: statusCarrito } = useSelector((state) => state.carrito);
   const [producto, setProducto] = useState(null);
   const { id } = useParams();
-  const { items } = useSelector((state) => state.card);
-
+  const { allItems, filters } = useSelector((state) => state.card);
   const { status, userFavorites } = useSelector((state) => state.favorites);
 
   function isFavLoading() {
@@ -50,10 +50,11 @@ const Detail = () => {
     setModalOpen(true);
   };
   useEffect(() => {
+    dispatch(fetchCards({ id: filters.id }));
     axios
       .get(`${VITE_API_URL}/product/${id}`)
       .then(({ data }) => {
-        const prod = items.filter((i) => i.id === data.id)[0];
+        const prod = allItems.filter((i) => i.id === data.id)[0];
         setProducto(prod);
         setIsLoading(false);
       })
@@ -61,7 +62,7 @@ const Detail = () => {
         console.log(error);
         setIsLoading(false);
       });
-  }, []);
+  }, [id]);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -261,14 +262,14 @@ const Detail = () => {
                   ? 'Escribe tu opinión'
                   : 'Este producto aun no tiene reseñas, se el primero en comentar!'}
               </button>
-              {/* {
-                isModalOpen &&
+              {producto.resenas?.length === 0 && (
                 <CreateReview
                   productId={producto.id}
                   isModalOpen={isModalOpen}
                   setModalOpen={setModalOpen}
+                  isOpenOnDetail={isOpenOnDetail}
                 />
-              } */}
+              )}
               <Reviews
                 reviews={producto.resenas && producto.resenas}
                 isModalOpen={isModalOpen}
@@ -284,11 +285,5 @@ const Detail = () => {
     </>
   );
 };
-
-/* 
-
-
-
-*/
 
 export default Detail;

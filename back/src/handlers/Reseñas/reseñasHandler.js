@@ -92,7 +92,10 @@ class ReseñasHandler {
       });
       const totalRatings = producto.resenas.reduce((sum, review) => sum + review.calification, 0);
       const average = Math.floor(totalRatings / producto.resenas.length);
-      await prisma.producto.update({ where: { id: productId }, data: { calification: average } });
+      await prisma.producto.update({
+        where: { id: productId },
+        data: { calification: average || 1 },
+      });
     } catch (error) {
       throw new Error(error);
     }
