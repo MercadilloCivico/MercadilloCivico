@@ -1,4 +1,4 @@
-const { GOOGLE_EMAIL } = require('../../config/env.config');
+const { GOOGLE_EMAIL, API_URL } = require('../../config/env.config');
 const { transporter } = require('../../config/nodemailer.config');
 
 // ?SUGERENCIA DE FORMA DE USO
@@ -61,7 +61,7 @@ const sendRecoveryEmail = async (email, token) => {
         <h1 style="color: black">Hola,</h1>
         <p style="color:black">¡Esperamos que te encuentres bien! Recibes este correo porque has solicitado la recuperación de tu cuenta en Mercadillo Cívico.</p>
         <p style="color:black"><p style="text-decoration:underline">Tu código de recuperación es:</p><br><br><strong>${token}</strong></br></br></p>
-        <p style="color:black">Ingresa al siguiente link para recuperar tu cuenta: <a href=http://localhost:3001/api/forgot/password?email=${email}&password=${token} target="_blank">CLIC AQUI</a></p>
+        <p style="color:black">Ingresa al siguiente link para recuperar tu cuenta: <a href=${API_URL}/api/forgot/password?email=${email}&password=${token} target="_blank">CLIC AQUI</a></p>
         <p style="color:black">¡No compartas este código con nadie! Si no has solicitado esta recuperación, puedes ignorar este correo. 🚫</p>
         <p style="color:black">¡Gracias por ser parte de Mercadillo Cívico! 🎉</p>
       </td>

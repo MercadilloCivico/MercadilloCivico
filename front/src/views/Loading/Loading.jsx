@@ -1,17 +1,13 @@
 import img from '../../assets/img/logo-full.svg';
 import style from './Loading.module.css';
-import { useSelector } from 'react-redux';
 
 function Loading() {
-  const isLoading = useSelector((state) => state.loading);
-
   return (
-    <div className='w-screen h-screen flex justify-center items-center'>
-      {isLoading && (
-        <div className={style.loading}>
-          <img src={img} alt='Loading Animation' className='w-[40%] h-[40%] max-w-[300px]' />
-        </div>
-      )}
+    <div className='w-screen h-screen top-[55px] fixed z-[10] bg-pearl-bush-100 flex flex-col justify-center items-center '>
+      <div className={style.loading}>
+        <img src={img} alt='Loading Animation' className='w-[70%] h-[70%] max-w-[300px]' />
+      </div>
+      <p className='text-tuscany-950 font-semibold text-lg'>Cargando...</p>
     </div>
   );
 }

@@ -17,7 +17,15 @@ export const cartSlice = createSlice({
     error: null,
     status: 'idle',
   },
-  reducers: {},
+  reducers: {
+    clearCart: (state) => {
+      state.idCarrito = null;
+      state.items = [];
+      state.totalPrice = 0;
+      state.error = null;
+      state.status = 'idle';
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCartIdThunk.pending, (state) => {
@@ -89,6 +97,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addItemToCart, removeItemFromCart, clearCart } = cartSlice.actions;
+export const { clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

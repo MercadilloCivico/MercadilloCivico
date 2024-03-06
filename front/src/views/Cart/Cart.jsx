@@ -16,7 +16,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const discount = null; // Aca habria que hacer otro estado para cuando hayan descuentos
   const { items, idCarrito, status } = useSelector((state) => state.carrito);
-  const { items: productos } = useSelector((state) => state.card);
+  const { allItems: productos } = useSelector((state) => state.card);
   const productosUpdates = productos.map((p) => {
     const productoEnCarrito = items.productoEnCarrito?.find(
       (item) => item.inventarioId === p.inventario.id
@@ -38,7 +38,8 @@ const Cart = () => {
   }, 0);
 
   const comprar = () => {
-    dispatch(console.log('Hola'));
+    // dispatch(createToast('Compra realizada'));
+    console.log('hola');
   };
 
   const dispatch = useDispatch();

@@ -14,6 +14,9 @@ class FiltroHandler {
       const consulta = {
         include: {
           inventario: true,
+          resenas: true,
+          proveedor: true,
+          favorites: true,
         },
         where: {
           inventario: {
@@ -41,17 +44,35 @@ class FiltroHandler {
 
       const productos = await prisma.producto.findMany(consulta);
 
-      let arrayFilteredProducts = productos.map((producto) => {
-        // Filtrar el inventario para dejar solo los elementos con el punto de venta id correcto
+      let arrayFilteredProducts = productos.map(async (producto) => {
         const inventarioFiltrado = producto.inventario.filter(
           (item) => item.punto_de_venta_id === puntoDeVentaId
         );
-        // Crear un nuevo objeto producto con el inventario filtrado
-        return {
-          ...producto,
-          inventario: inventarioFiltrado[0],
-        };
+        const proveedorFiltrado = producto.proveedor.filter(
+          (p) => p.proveedor_id === inventarioFiltrado[0].proveedor_id
+        );
+        try {
+          const prov = await prisma.proveedor.findUnique({
+            where: { id: inventarioFiltrado[0].proveedor_id },
+          });
+          return {
+            ...producto,
+            inventario: inventarioFiltrado[0],
+            proveedor: proveedorFiltrado.map((pro) => {
+              return {
+                ...pro,
+                name: prov.name_prov,
+                tel: prov.tel,
+              };
+            })[0],
+          };
+        } catch (error) {
+          throw new Error(error);
+        }
       });
+      // Esperar a que se resuelvan todas las promesas y obtener los resultados
+      arrayFilteredProducts = await Promise.all(arrayFilteredProducts);
+
       if (precio) {
         if (precio === 'desc') {
           arrayFilteredProducts = arrayFilteredProducts.sort((a, b) => {

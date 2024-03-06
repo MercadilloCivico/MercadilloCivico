@@ -1,17 +1,23 @@
-let nameFormat = /^[a-zA-Z\s]+$/;
+let nameFormat = /^[a-zA-Z\u00C0-\u00FF\s]+$/;
 
 function validatePassword(data) {
   // Validación de la contraseña
-  const pasMayus = /[A-Z]/;
-  const pasNum = /\d/;
-  const pasSpecialChars = /[@$!%*?&_-]/;
+  const strongPassword =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&°|,;.:{[\]}/+\\\-_"#()='¿¡<>])[A-Za-z\d@$!%*?&°|,;.:{[\]}/+\\\-_"#()='¿¡<>]{6,15}$/;
 
   if (data.trim().length == 0) return '';
+
+  if (data.length < 6) {
+    return 'Debe tener al menos 6 caracteres';
+  }
+
+  if (!strongPassword.test(data)) {
+    return 'La contraseña debe tener al menos una mayúscula, una minúscula, un número y un caracter especial';
+  }
+
   if (data.length < 6) return 'Debe tener al menos 6 caracteres.';
-  if (!pasMayus.test(data)) return 'La contraseña debe tener al menos una Mayúscula.';
-  if (!pasNum.test(data)) return 'La contraseña debe tener al menos un numero.';
-  if (!pasSpecialChars.test(data)) return 'La contraseña debe tener un caracter especial';
-  if (data.length > 10) return 'Contraseña muy larga.';
+
+  if (data.length > 10) return 'La contraseña es muy larga.';
 
   return '';
 }

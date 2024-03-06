@@ -109,16 +109,13 @@ const validateMiddleware = {
 
   validateReseña: async (req, res, next) => {
     try {
-      const { userId, productId, calification } = req.body;
-      if (!userId || !productId || !calification) {
+      const { productId, calification } = req.body;
+      if (!productId || !calification) {
         return res.status(400).json({ message: 'Todos los campos son requeridos' });
       }
       if (!Number.isInteger(calification)) {
         return res.status(400).json({ message: 'la calificación debe ser un numero entero' });
       }
-      const findUser = await prisma.usuario.findUnique({ where: { id: userId } });
-      if (!findUser)
-        return res.status(400).json({ message: 'El usuario no se encuentra en la base de datos' });
       const findProduct = await prisma.producto.findUnique({ where: { id: productId } });
       if (!findProduct)
         return res.status(400).json({ message: 'El producto no se encuentra en la base de datos' });
@@ -183,7 +180,7 @@ const validateMiddleware = {
       const { filtroMarca, filtroPrecio, calificacion, alfabetico, precio } = req.query;
       const { id } = req.params;
 
-      const regex = /^[a-zA-Z]+$/;
+      // const regex = /^[a-zA-Z]+$/;
 
       // Verificar que puntoDeVentaID esté presente
       if (!id) {
@@ -192,7 +189,7 @@ const validateMiddleware = {
 
       // Verificar que los parámetros filtroMarca y filtroPrecio sean de tipo string y solo contener letras
       if (filtroMarca) {
-        if (typeof filtroMarca !== 'string' || !regex.test(filtroMarca)) {
+        if (typeof filtroMarca !== 'string') {
           return res
             .status(400)
             .json({ error: 'filtroMarca debe ser de tipo string y solo debe contener letras' });
@@ -200,7 +197,7 @@ const validateMiddleware = {
       }
 
       if (filtroPrecio) {
-        if (typeof filtroPrecio !== 'string' || !regex.test(filtroPrecio)) {
+        if (typeof filtroPrecio !== 'string') {
           return res
             .status(400)
             .json({ error: 'filtroPrecio debe ser de tipo string y solo debe contener letras' });

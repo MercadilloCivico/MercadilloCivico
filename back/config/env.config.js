@@ -27,6 +27,8 @@ const {
   PRIVATE_KEY,
   PUBLIC_KEY,
   MERCHANT_ID,
+  API_URL,
+  COOKIE_SAMESITE_CONFIG,
 } = process.env;
 
 module.exports = {
@@ -45,4 +47,6 @@ module.exports = {
   PRIVATE_KEY,
   PUBLIC_KEY,
   MERCHANT_ID,
+  API_URL,
+  COOKIE_SAMESITE_CONFIG,
 };

@@ -34,6 +34,7 @@ class CarritoController {
   static async addProducto(req, res) {
     try {
       const { carritoId, inventarioId, cantidad } = req.body;
+
       if (!carritoId || !inventarioId)
         throw new Error('Faltan datos requeridos para realizar la acción');
       const response = await CarritoHandler.addProduct(carritoId, inventarioId, cantidad);

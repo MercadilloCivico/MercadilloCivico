@@ -28,13 +28,11 @@ const TopFaqs = ({ faqs }) => {
 
   return (
     <div>
-      <div className='mb-1 mx-4 custom-border-b lg:border-none'>
-        <span className='flex justify-start text-tuscany-950 text-[1em] font-bold'>
-          Dudas más frecuentes
-        </span>
+      <div className='mb-1 mt-2 mx-4 custom-border-b lg:border-none'>
+        <span className='flex justify-start text-tuscany-950 font-bold'>Dudas más frecuentes</span>
       </div>
       <div className='lg:m-4 lg:p-2 lg:flex lg:flex-row lg:custom-border'>
-        <ul className='mb-4 mx-4 flex flex-1 flex-col lg:flex-row lg:justify-between text-start text-[.7em] md:text-[.9em] lg:text-[1em] text-tuscany-500'>
+        <ul className='mb-4 mx-4 flex flex-1 flex-col lg:flex-row lg:justify-between text-start text-tuscany-500'>
           {topFaqs?.map((faq) => (
             <li key={faq.id} className='my-1 lg:my-0 lg:w-[30%] lg:max-w-[300px] text-start'>
               <Link to={`/faqs/detail/${faq.id}`}>

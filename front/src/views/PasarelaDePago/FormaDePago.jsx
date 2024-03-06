@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { Link } from 'react-router-dom';
-import { encryptWithPublicKey } from '../../utils/crypto';
 
 export default function FormaDePago({ nextStep }) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -10,11 +9,6 @@ export default function FormaDePago({ nextStep }) {
     setSelectedPaymentMethod(method);
   };
 
-  useEffect(() => {
-    encryptWithPublicKey({ mensaje: 'secreto' }).then((encryptedData) => {
-      console.log('Datos cifrados en Base64:', encryptedData);
-    });
-  }, []);
   const isNextButtonDisabled = !selectedPaymentMethod;
 
   return (

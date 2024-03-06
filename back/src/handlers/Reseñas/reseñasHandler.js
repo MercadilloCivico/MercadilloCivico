@@ -25,13 +25,18 @@ class ReseñasHandler {
         calification,
         producto_id: productId,
         usuario_id: userId,
+        coment: coment || 'Sin Comentario',
       };
-      if (coment) {
-        dataPost.coment = coment;
-      }
       const nuevaReseña = await prisma.resena.create({
         data: dataPost,
       });
+      const producto = await prisma.producto.findUnique({
+        where: { id: productId },
+        include: { resenas: true },
+      });
+      const totalRatings = producto.resenas.reduce((sum, review) => sum + review.calification, 0);
+      const average = Math.floor(totalRatings / producto.resenas.length);
+      await prisma.producto.update({ where: { id: productId }, data: { calification: average } });
       return nuevaReseña;
     } catch (error) {
       throw new Error(error);
@@ -57,6 +62,14 @@ class ReseñasHandler {
         },
         data: dataPost,
       });
+      const productId = nuevaReseña.producto_id;
+      const producto = await prisma.producto.findUnique({
+        where: { id: productId },
+        include: { resenas: true },
+      });
+      const totalRatings = producto.resenas.reduce((sum, review) => sum + review.calification, 0);
+      const average = Math.floor(totalRatings / producto.resenas.length);
+      await prisma.producto.update({ where: { id: productId }, data: { calification: average } });
       return nuevaReseña;
     } catch (error) {
       throw new Error(error);
@@ -72,6 +85,14 @@ class ReseñasHandler {
           id,
         },
       });
+      const productId = findReseña.producto_id;
+      const producto = await prisma.producto.findUnique({
+        where: { id: productId },
+        include: { resenas: true },
+      });
+      const totalRatings = producto.resenas.reduce((sum, review) => sum + review.calification, 0);
+      const average = Math.floor(totalRatings / producto.resenas.length);
+      await prisma.producto.update({ where: { id: productId }, data: { calification: average } });
     } catch (error) {
       throw new Error(error);
     }

@@ -1,59 +1,66 @@
 import Review from '../Review/Review';
 
-const Reviews = ({ reviews, setReviews }) => {
-  const handleLike = (id) => {
-    setReviews((prevReviews) => {
-      const updatedReviews = [...prevReviews];
-      const index = updatedReviews.findIndex((review) => review.id === id);
+const Reviews = ({
+  reviews,
+  isModalOpen,
+  productId,
+  setModalOpen,
+  isOpenOnDetail,
+  setIsOpenOnDetail,
+}) => {
+  // const handleLike = (id) => {
+  //   setReviews((prevReviews) => {
+  //     const updatedReviews = [...prevReviews];
+  //     const index = updatedReviews.findIndex((review) => review.id === id);
 
-      if (index !== -1) {
-        const newLikes =
-          updatedReviews[index].likes.total + (updatedReviews[index].likes.isActive ? -1 : 1);
+  //     if (index !== -1) {
+  //       const newLikes =
+  //         updatedReviews[index].likes.total + (updatedReviews[index].likes.isActive ? -1 : 1);
 
-        updatedReviews[index] = {
-          ...updatedReviews[index],
-          likes: {
-            total: newLikes,
-            isActive: !updatedReviews[index].likes.isActive,
-          },
-          dislikes: {
-            total:
-              updatedReviews[index].dislikes.total - (updatedReviews[index].likes.isActive ? 1 : 0),
-            isActive: false,
-          },
-        };
-      }
+  //       updatedReviews[index] = {
+  //         ...updatedReviews[index],
+  //         likes: {
+  //           total: newLikes,
+  //           isActive: !updatedReviews[index].likes.isActive,
+  //         },
+  //         dislikes: {
+  //           total:
+  //             updatedReviews[index].dislikes.total - (updatedReviews[index].likes.isActive ? 1 : 0),
+  //           isActive: false,
+  //         },
+  //       };
+  //     }
 
-      return updatedReviews;
-    });
-  };
+  //     return updatedReviews;
+  //   });
+  // };
 
-  const handleDislike = (id) => {
-    setReviews((prevReviews) => {
-      const updatedReviews = [...prevReviews];
-      const index = updatedReviews.findIndex((review) => review.id === id);
+  // const handleDislike = (id) => {
+  //   setReviews((prevReviews) => {
+  //     const updatedReviews = [...prevReviews];
+  //     const index = updatedReviews.findIndex((review) => review.id === id);
 
-      if (index !== -1) {
-        const newDislikes =
-          updatedReviews[index].dislikes.total + (updatedReviews[index].dislikes.isActive ? -1 : 1);
+  //     if (index !== -1) {
+  //       const newDislikes =
+  //         updatedReviews[index].dislikes.total + (updatedReviews[index].dislikes.isActive ? -1 : 1);
 
-        updatedReviews[index] = {
-          ...updatedReviews[index],
-          dislikes: {
-            total: newDislikes,
-            isActive: !updatedReviews[index].dislikes.isActive,
-          },
-          likes: {
-            total:
-              updatedReviews[index].likes.total - (updatedReviews[index].dislikes.isActive ? 1 : 0),
-            isActive: false,
-          },
-        };
-      }
+  //       updatedReviews[index] = {
+  //         ...updatedReviews[index],
+  //         dislikes: {
+  //           total: newDislikes,
+  //           isActive: !updatedReviews[index].dislikes.isActive,
+  //         },
+  //         likes: {
+  //           total:
+  //             updatedReviews[index].likes.total - (updatedReviews[index].dislikes.isActive ? 1 : 0),
+  //           isActive: false,
+  //         },
+  //       };
+  //     }
 
-      return updatedReviews;
-    });
-  };
+  //     return updatedReviews;
+  //   });
+  // };
 
   return (
     <div>
@@ -62,8 +69,13 @@ const Reviews = ({ reviews, setReviews }) => {
         <Review
           key={review.id}
           review={review}
-          onLike={() => handleLike(review.id)}
-          onDislike={() => handleDislike(review.id)}
+          isModalOpen={isModalOpen}
+          setModalOpen={setModalOpen}
+          productId={productId}
+          isOpenOnDetail={isOpenOnDetail}
+          setIsOpenOnDetail={setIsOpenOnDetail}
+          // onLike={() => handleLike(review.id)}
+          // onDislike={() => handleDislike(review.id)}
         />
       ))}
     </div>

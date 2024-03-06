@@ -1,0 +1,16 @@
+.filtersMenuAnim {
+    animation-name: store-filters-slide;
+    animation-duration: 0.2s;
+}
+
+@keyframes store-filters-slide {
+    0% {
+        opacity: 0;
+        transform: translate(-400px);
+    }
+
+    100% {
+        opacity: 100;
+        transform: translate(-0px);
+    }
+}

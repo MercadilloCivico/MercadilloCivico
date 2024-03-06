@@ -1,39 +1,52 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCards, fetchPuntosSelector } from '../../store/thunks/cardsThunks.js';
+import {
+  fetchCards,
+  fetchFilteredCards,
+  fetchPuntosSelector,
+} from '../../store/thunks/cardsThunks.js';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
 import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
-import CustomButton from '../../components/CustomButton/CustomButton';
-import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 import { getGoogleCookie } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
-import { resetFilters } from '../../store/slices/cardsSlice.js';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
+import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
+import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
 
 const Store = () => {
   const dispatch = useDispatch();
   const { puntos } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
-  const { items, filters } = useSelector((state) => state.card);
+  const { items, allItems, filteredItems, filters } = useSelector((state) => state.card);
 
-  useEffect(() => {
-    if (filters.id) {
-      dispatch(fetchCards(filters));
-    }
-  }, [dispatch, filters]);
-
-  useEffect(() => {
-    dispatch(fetchPuntosSelector());
+  const firstRenderDispatch = async () => {
     dispatch(getGoogleCookie());
+    await dispatch(fetchPuntosSelector());
     if (idCarrito === null) {
-      dispatch(getCartIdThunk());
-      dispatch(getCartDBThunk());
+      await dispatch(getCartIdThunk());
+      await dispatch(getCartDBThunk());
     }
-  }, [dispatch]);
+  };
+
+  const getFilters = async () => {
+    await dispatch(fetchCards(filters));
+    await dispatch(fetchFilteredCards(filters));
+  };
+
+  useEffect(() => {
+    if (allItems.length > 0) {
+      getFilters();
+    }
+  }, [filters]);
+
+  useEffect(() => {
+    firstRenderDispatch();
+  }, []);
 
   const citiesOptions = puntos.map((p) => {
     return {
@@ -45,7 +58,7 @@ const Store = () => {
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
       <div className='flex flex-col bg-hippie-green-950'>
-        <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6 lg:translate-y-[40%]'>
+        <Box className='max-w-64 mx-auto w-[100vw] pt-4 mt-4 lg:mt-0 pb-6 lg:translate-y-[40%]'>
           <CustomSelect label='Localización' options={citiesOptions} />
         </Box>
       </div>
@@ -69,18 +82,34 @@ const Store = () => {
 
       <StoreFilters />
 
-      <CustomButton
-        className='mx-auto max-w-max'
-        onClick={() => {
-          dispatch(resetFilters());
-        }}
-        text='Resetear Filtros'
-      />
+      <div className='flex flex-row w-full max-w-[1500px] mx-auto'>
+        {items?.length > 0 ? (
+          <>
+            <div className='w-full max-w-[200px] hidden md:inline sticky h-full top-[55px]'>
+              <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
+              <FilterMenu
+                expanded={true}
+                activeFilterMenu={true}
+                className={
+                  'hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 sticky'
+                }
+              />
+            </div>
+            <Cards
+              allItems={items}
+              filteredItems={filteredItems}
+              className='w-full max-w-[1300px]'
+            />
+          </>
+        ) : (
+          <div className='mx-auto'>
+            <p className='text-tuscany-950'>Parece que no hay resultados...</p>
 
-      <CardSwitch />
-
-      <div>
-        <Cards products={items} />
+            <p className='text-tuscany-950'>
+              Intenta eliminar filtros, actualizar la página o seleccionar un punto.
+            </p>
+          </div>
+        )}
       </div>
 
       <Footer />

@@ -1,4 +1,5 @@
 import './App.css';
+
 import { Routes, Route, useMatch, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import Landing from './views/Landing/Landing.jsx';
@@ -6,7 +7,7 @@ import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
 import Nav from './components/Nav/Nav.jsx';
 import Favorites from './views/Favorites/Favorites.jsx';
-
+import axios from 'axios';
 import Register from './views/Register/Register.jsx';
 import RecoveryPassword from './views/RecoveryPassword/RecoveryPassword.jsx';
 import NewPassword from './views/NewPassword/NewPassword.jsx';
@@ -47,6 +48,8 @@ import PasarelaDePago from './views/PasarelaDePago/PasarelaDePago.jsx';
 import { useEffect } from 'react';
 
 import { getAllFavorite } from './store/thunks/favoritesThuks.js';
+import { logout } from './store/thunks/authThunks.js';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
@@ -57,15 +60,39 @@ function ProtectedRoute({ Component }) {
 }
 
 function CheckAlreadyLoggedIn({ Component }) {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   if (!token) return <Component />;
-  // dispatch(createToast('Ya has iniciado sesión'));
-  return <Navigate to='/store' />;
+  else {
+    dispatch(createToast('Tu sesión ya está activa.'));
+    return <Navigate to='/store' />;
+  }
 }
 
 function App() {
   const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      if (open) {
+        try {
+          await axios(`${VITE_API_URL}/auth/token`, {
+            withCredentials: true,
+          });
+        } catch (error) {
+          if (error.response.data.redirectToLogin) {
+            setOpen(false);
+            await dispatch(logout());
+          }
+        }
+      }
+    };
+    const timerId = setInterval(checkAuthentication, 1000 * 60 * 30);
+    return () => clearInterval(timerId);
+  }, [dispatch, open]);
+
   //Estado temporal
   const [products, setProducts] = useState([]);
 
@@ -75,11 +102,13 @@ function App() {
   const isUserDetailPage = useMatch('/admin/users/detail/:id');
   const isProductDetailPage = useMatch('/admin/products/detail/:id');
 
-  const { token } = useSelector((state) => state.auth);
+  const getFavorites = async () => {
+    if (token) await dispatch(getAllFavorite());
+  };
 
   useEffect(() => {
-    token && dispatch(getAllFavorite());
-  }, [dispatch]);
+    getFavorites();
+  }, [token]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -97,9 +126,12 @@ function App() {
           <Route path='/favorites' element={<ProtectedRoute Component={Favorites} />} />
           <Route path='/detail/:id' element={<Detail />} />
 
-          <Route path='/register' element={<Register />} />
-          <Route path='/recover_password' element={<RecoveryPassword />} />
-          <Route path='/new_password' element={<NewPassword />} />
+          <Route path='/register' element={<CheckAlreadyLoggedIn Component={Register} />} />
+          <Route
+            path='/recover_password'
+            element={<CheckAlreadyLoggedIn Component={RecoveryPassword} />}
+          />
+          <Route path='/new_password' element={<CheckAlreadyLoggedIn Component={NewPassword} />} />
 
           <Route path='/cart' element={<Cart />} />
           <Route path='/login/:id?' element={<CheckAlreadyLoggedIn Component={Login} />} />

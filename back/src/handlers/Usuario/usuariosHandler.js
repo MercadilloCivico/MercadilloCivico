@@ -122,13 +122,13 @@ class usuariosHandler {
       });
 
       if (!user) {
-        throw new Error('usuario o contraseña incorrecta');
+        throw new Error('El usuario no está registrado. Por favor, regístrese primero.');
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (!passwordMatch) {
-        throw new Error('usuario o contraseña incorrecta');
+        throw new Error('Contraseña incorrecta');
       }
 
       const token = jwt.sign({ id: user.id }, SECRET_JWT, { expiresIn: '1h' });
@@ -159,15 +159,10 @@ class usuariosHandler {
       const { carrito, proveedor } = user;
 
       if (carrito) {
-        // Desconectar el carrito antes de eliminar al usuario
-        await prisma.usuario.update({
+        // Eliminar el carrito antes de eliminar al usuario
+        await prisma.carrito_de_Compras.delete({
           where: {
-            id: user.id,
-          },
-          data: {
-            carrito: {
-              disconnect: true,
-            },
+            id: carrito.id,
           },
         });
       }

@@ -12,11 +12,12 @@ const ReseñasController = require('../controllers/Reseñas/reseñasController')
 const HistorialController = require('../controllers/HistorialDeVenta/historialController');
 const FiltroController = require('../controllers/Filtros/filtroController');
 const datosTarjeta = require('../controllers/dataCard/datosTarjeta');
+const { checkAuthentication } = require('../../middleware/validationToken');
 
 const router = Router();
-
+// auth
+router.get('/auth/token', checkAuthentication);
 // user/auth
-
 router.get('/auth/google', middleware.authenticateGoogle);
 router.get('/auth/google/callback', middleware.authenticateGoogleCallback);
 router.get('/forgot/password', usuariosController.usuarios.recuperarContrasenia);
@@ -76,9 +77,10 @@ router.put('/inventario/', InventarioController.put);
 router.delete('/inventario/:id', InventarioController.delete);
 
 // Reseñas
-router.get('/reseñas/:id?', ReseñasController.get);
-router.post('/reseñas', validateMiddleware.validateReseña, ReseñasController.post);
-router.put('/reseñas', ReseñasController.put);
+router.get('/resenas/:id?', ReseñasController.get);
+router.post('/resenas', validateMiddleware.validateReseña, ReseñasController.post);
+router.put('/resenas/:id', ReseñasController.put);
+router.delete('/resenas/:id', ReseñasController.delete);
 
 // Historial de compras
 router.get('/historialCompra', HistorialController.getAll);

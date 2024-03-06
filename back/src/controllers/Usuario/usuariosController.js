@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const usuariosHandler = require('../../handlers/Usuario/usuariosHandler');
 const ValidationPassword = require('../../utils/validations/validationPassword');
-const { FRONT_URL, SECRET_JWT } = require('../../../config/env.config');
+const { FRONT_URL, SECRET_JWT, COOKIE_SAMESITE_CONFIG } = require('../../../config/env.config');
 const prisma = require('../../../db_connection');
 const validationImage = require('../../utils/validations/validationImage');
 const uploadToCloudinary = require('../../handlers/uploadToCloudinary');
@@ -64,6 +64,8 @@ class usuarios {
         res.cookie('sessionToken', response, {
           httpOnly: true,
           maxAge: 3600000,
+          sameSite: COOKIE_SAMESITE_CONFIG,
+          secure: true,
         });
         res.redirect(`${FRONT_URL}/new_password`);
       }
@@ -114,6 +116,8 @@ class usuarios {
       res.cookie('sessionToken', token, {
         httpOnly: true,
         maxAge: 3600000,
+        sameSite: COOKIE_SAMESITE_CONFIG,
+        secure: true,
       });
       return res.status(200).json({ message: 'Datos de usuario actualizados' });
     } catch (error) {
@@ -167,7 +171,8 @@ class usuarios {
         res.cookie('sessionToken', tokenLog, {
           httpOnly: true,
           maxAge: 3600000,
-          sameSite: 'lax',
+          sameSite: COOKIE_SAMESITE_CONFIG,
+          secure: true,
         });
         res.status(200).json({ access: true, token: tokenLog });
       }

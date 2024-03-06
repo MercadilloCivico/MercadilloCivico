@@ -85,7 +85,7 @@ model Punto_De_Venta {
 }
 model Resena {
   id Int @id @default(autoincrement())
-  coment String
+  coment String?
   calification Int
   producto Producto @relation(fields: [producto_id], references: [id])
   producto_id String @db.Uuid
