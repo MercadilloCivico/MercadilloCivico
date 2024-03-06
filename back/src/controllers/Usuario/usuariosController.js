@@ -170,6 +170,7 @@ class usuarios {
           httpOnly: true,
           maxAge: 3600000,
           sameSite: COOKIE_SAMESITE_CONFIG,
+          secure: true,
         });
         res.status(200).json({ access: true, token: tokenLog });
       }
