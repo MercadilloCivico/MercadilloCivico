@@ -64,6 +64,8 @@ class usuarios {
         res.cookie('sessionToken', response, {
           httpOnly: true,
           maxAge: 3600000,
+          sameSite: COOKIE_SAMESITE_CONFIG,
+          secure: true,
         });
         res.redirect(`${FRONT_URL}/new_password`);
       }
@@ -114,6 +116,8 @@ class usuarios {
       res.cookie('sessionToken', token, {
         httpOnly: true,
         maxAge: 3600000,
+        sameSite: COOKIE_SAMESITE_CONFIG,
+        secure: true,
       });
       return res.status(200).json({ message: 'Datos de usuario actualizados' });
     } catch (error) {

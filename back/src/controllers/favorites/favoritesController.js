@@ -5,7 +5,6 @@ const { SECRET_JWT } = require('../../../config/env.config');
 class FavoriteControllers {
   static async get(req, res) {
     try {
-      console.log('🚀 ~ FavoriteControllers ~ get ~ req:', req);
       const token = req.cookies.sessionToken;
       const decoded = jwt.verify(token, SECRET_JWT);
       if (!decoded) {
