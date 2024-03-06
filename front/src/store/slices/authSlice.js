@@ -36,7 +36,6 @@ export const authSlice = createSlice({
     },
     getGoogleCookie(state) {
       const cookie = document.cookie.split(';').find((cookie) => {
-        console.log('🚀 ~ getGoogleCookie ~ cookie:', cookie);
         return cookie.includes('sessionToken');
       });
       if (cookie) {

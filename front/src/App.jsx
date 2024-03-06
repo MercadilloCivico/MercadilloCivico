@@ -1,14 +1,14 @@
 import './App.css';
-const VITE_API_URL = import.meta.env.VITE_API_URL;
+// const VITE_API_URL = import.meta.env.VITE_API_URL;
 
-import { Routes, Route, useMatch, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, useMatch, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import Landing from './views/Landing/Landing.jsx';
 import Store from './views/Store/Store.jsx';
 import Contact from './views/Contact/Contact.jsx';
 import Nav from './components/Nav/Nav.jsx';
 import Favorites from './views/Favorites/Favorites.jsx';
-import axios from 'axios';
+// import axios from 'axios';
 import Register from './views/Register/Register.jsx';
 import RecoveryPassword from './views/RecoveryPassword/RecoveryPassword.jsx';
 import NewPassword from './views/NewPassword/NewPassword.jsx';
@@ -49,7 +49,7 @@ import PasarelaDePago from './views/PasarelaDePago/PasarelaDePago.jsx';
 import { useEffect } from 'react';
 
 import { getAllFavorite } from './store/thunks/favoritesThuks.js';
-import { logout } from './store/thunks/authThunks.js';
+// import { logout } from './store/thunks/authThunks.js';
 
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
@@ -70,12 +70,12 @@ function CheckAlreadyLoggedIn({ Component }) {
 }
 
 function App() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const [open, setOpen] = useState(true);
+  // const [open, setOpen] = useState(true);
   //funcion para chequear el token
-  useEffect(() => {
+  /* useEffect(() => {
     const checkAuthentication = async () => {
       if (open && token) {
         try {
@@ -85,20 +85,20 @@ function App() {
         } catch (error) {
           if (error.response.data.redirectToLogin) {
             setOpen(false);
-            dispatch(logout());
+            await dispatch(logout());
             navigate('/login');
             window.location.reload();
           }
         } finally {
           console.log('token');
-
-          setTimeout(checkAuthentication, 100000);
+          let hour = 60000;
+          setTimeout(checkAuthentication, 60 * hour);
         }
       }
     };
     checkAuthentication();
     return () => clearTimeout(checkAuthentication);
-  }, [open, token]);
+  }, [open, token]); */
 
   //Estado temporal
   const [products, setProducts] = useState([]);
@@ -109,9 +109,13 @@ function App() {
   const isUserDetailPage = useMatch('/admin/users/detail/:id');
   const isProductDetailPage = useMatch('/admin/products/detail/:id');
 
+  const getFavorites = async () => {
+    if (token) await dispatch(getAllFavorite());
+  };
+
   useEffect(() => {
-    token && dispatch(getAllFavorite());
-  }, [dispatch]);
+    getFavorites();
+  }, [token]);
 
   return (
     <ThemeProvider theme={theme}>

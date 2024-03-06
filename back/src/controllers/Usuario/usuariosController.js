@@ -64,6 +64,8 @@ class usuarios {
         res.cookie('sessionToken', response, {
           httpOnly: true,
           maxAge: 3600000,
+          sameSite: COOKIE_SAMESITE_CONFIG,
+          secure: true,
         });
         res.redirect(`${FRONT_URL}/new_password`);
       }
@@ -114,6 +116,8 @@ class usuarios {
       res.cookie('sessionToken', token, {
         httpOnly: true,
         maxAge: 3600000,
+        sameSite: COOKIE_SAMESITE_CONFIG,
+        secure: true,
       });
       return res.status(200).json({ message: 'Datos de usuario actualizados' });
     } catch (error) {
@@ -162,14 +166,13 @@ class usuarios {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
-      console.log('🚀 ~ usuarios ~ login ~ email, password:', email, password);
       const tokenLog = await usuariosHandler.authHandler(email, password);
-      console.log('🚀 ~ usuarios ~ login ~ tokenLog:', tokenLog);
       if (tokenLog) {
         res.cookie('sessionToken', tokenLog, {
           httpOnly: true,
           maxAge: 3600000,
           sameSite: COOKIE_SAMESITE_CONFIG,
+          secure: true,
         });
         res.status(200).json({ access: true, token: tokenLog });
       }

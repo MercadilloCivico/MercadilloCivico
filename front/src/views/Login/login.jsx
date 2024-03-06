@@ -136,7 +136,7 @@ function Login() {
             <div className='max-w-[px]'>
               <CustomButton
                 type='button'
-                onClick={handleGoogleLogin}
+                onClick={() => handleGoogleLogin()}
                 text='Google'
                 icon={FaGoogle}
               />

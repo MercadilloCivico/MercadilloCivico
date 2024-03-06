@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { SECRET_JWT, FRONT_URL } = require('../config/env.config');
+const { SECRET_JWT, FRONT_URL, COOKIE_SAMESITE_CONFIG } = require('../config/env.config');
 const passport = require('../config/passportSetup');
 
 function authenticateGoogle(req, res, next) {
@@ -15,6 +15,8 @@ function authenticateGoogleCallback(req, res, next) {
     res.cookie('sessionToken', token, {
       httpOnly: false,
       maxAge: 3600000,
+      sameSite: COOKIE_SAMESITE_CONFIG,
+      secure: true,
     });
 
     return res.redirect(`${FRONT_URL}/store`);
