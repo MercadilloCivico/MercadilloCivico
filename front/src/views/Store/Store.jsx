@@ -39,7 +39,7 @@ const Store = () => {
   };
 
   useEffect(() => {
-    if (!allItems.length > 0) {
+    if (allItems.length > 0) {
       getFilters();
     }
   }, [filters]);

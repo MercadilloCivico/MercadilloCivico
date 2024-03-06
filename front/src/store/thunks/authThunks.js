@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { clearCart } from '../slices/cartSlice';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 // Thunk para realizar el inicio de sesión del usuario
@@ -37,9 +38,10 @@ export const register = createAsyncThunk('auth/register', async (userData, { rej
 });
 
 // Thunk para cerrar sesión del usuario
-export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
+export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await axios.post(`${VITE_API_URL}/logout`, {}, { withCredentials: true });
+    dispatch(clearCart());
     return data;
   } catch (error) {
     return rejectWithValue(error.response.data);
