@@ -11,6 +11,7 @@ import axios from 'axios';
 import Register from './views/Register/Register.jsx';
 import RecoveryPassword from './views/RecoveryPassword/RecoveryPassword.jsx';
 import NewPassword from './views/NewPassword/NewPassword.jsx';
+import PageNotFound from './views/PageNotFound/PageNotFound.jsx';
 
 import Profile from './views/Profile/Profile.jsx';
 import Login from './views/Login/login.jsx';
@@ -118,6 +119,8 @@ function App() {
         {isAdminPage && !isUserDetailPage && !isProductDetailPage && <AdminNav />}
 
         <Routes>
+          <Route path='*' element={<PageNotFound />} />
+
           <Route path='/' element={<Landing />} />
 
           <Route path='/store' element={<Store />} />

@@ -261,6 +261,9 @@ const CreateProduct = ({ products, setProducts }) => {
               placeholder='Descripcion'
               onChange={handleInput}
               className='py-2 px-2 border rounded-md'
+              rows={3}
+              maxRows={4}
+              multiline
             />
             <div className='text-crown-of-thorns-600 text-sm'>{errors.description}</div>
           </div>
@@ -310,7 +313,7 @@ const CreateProduct = ({ products, setProducts }) => {
           <Modal isOpen={isModalBackOpen} onRequestClose={() => setModalBackOpen(false)}>
             <div className='flex flex-col justify-center items-center space-y-8'>
               <span className='text-tuscany-950 font-semibold text-center mt-8'>
-                Estas seguro que deseas salir, se perderan todos los datos!
+                ¿Estas seguro que deseas salir? No se guardarán los datos.
               </span>
               <div className='flex justify-between items-center space-x-4'>
                 <button

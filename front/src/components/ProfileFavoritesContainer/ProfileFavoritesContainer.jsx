@@ -12,17 +12,20 @@ export default function ProfileFavoritesContainer() {
     <div
       className={'max-w-[1280px] p-2 pb-0 flex flex-col items-center mx-auto ' + style.historyAnim}>
       {userFavorites.length > 0 ? (
-        userFavorites.map((item) => {
+        userFavorites.map((product) => {
           return (
             <DropdownCard
-              id={item.id}
-              key={item.id}
-              img={item.img}
-              name={item.name}
-              price={item.price}
-              rating={item.rating}
-              description={item.description}
-              className='mb-2 max-w-[650px]'
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              description={product.description}
+              supplier={product.marca}
+              img={product.image}
+              // price={product.inventario.precio_final}
+              rating={product.calification}
+              // stock={product.inventario.stock}
+              // inventarioId={product.inventario.id}
+              className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
               userFavorites={userFavorites}
             />
           );

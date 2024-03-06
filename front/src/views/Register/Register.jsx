@@ -37,6 +37,14 @@ function Register() {
   });
   const [errors, setErrors] = useState({});
 
+  function checkImage(file) {
+    if (file.type === 'image/jpeg' || file.type === 'image/png') return true;
+    else {
+      dispatch(createToast('Por favor, sube un tipo de archivo PNG o JPEG'));
+      return false;
+    }
+  }
+
   const togglePasswordVisibility = (field) => {
     if (field === 'password' && showPassword !== !showPassword) {
       setShowPassword(!showPassword);
@@ -69,6 +77,9 @@ function Register() {
     if (name === 'photo') {
       // Si el campo es una imagen, actualiza el estado con el archivo seleccionado
       const imgFile = e.target.files[0];
+
+      if (!checkImage(imgFile)) return 0; // Si el check retorna false se termina la función
+
       if (imgFile) {
         const reader = new FileReader();
         reader.onload = () => {

@@ -231,14 +231,14 @@ export default function Profile() {
               {!editMode && (
                 <button
                   className={
-                    'absolute right-0 z-1 text-tuscany-100 m-2 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
+                    'absolute right-0 z-1 text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
                     style.editBtnAnim
                   }
                   onClick={() => {
                     setEditMode(true);
                   }}
                   type='text'>
-                  <MdEdit className='w-full h-full' />
+                  EDITAR PERFIL
                 </button>
               )}
               <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-600 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>

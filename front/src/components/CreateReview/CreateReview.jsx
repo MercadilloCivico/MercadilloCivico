@@ -131,6 +131,9 @@ const CreateReview = ({ id, productId, isModalOpen, setModalOpen, isOpenOnDetail
               placeholder='Comentario'
               name='coment'
               label='Comentario (opcional)'
+              rows={3}
+              maxRows={4}
+              multiline
             />
             {formErrors.coment && (
               <span className='text-pearl-bush-400 text-[0.5em] md:text-[0.7em] lg:text-[.9em] my-1'>

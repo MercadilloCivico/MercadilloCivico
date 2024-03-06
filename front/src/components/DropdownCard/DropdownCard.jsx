@@ -4,6 +4,7 @@ import { TiStarFullOutline } from 'react-icons/ti';
 import { TiHeartOutline } from 'react-icons/ti';
 import { TiHeartFullOutline } from 'react-icons/ti';
 import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
+import { addProductToCartDBThunk } from '../../store/thunks/cartThunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdBrokenImage } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +24,8 @@ export default function Card({
   rating,
   className,
   userFavorites,
+  stock,
+  inventarioId,
 }) {
   // Eventualmente recibirá también el id de producto
   // lazyImg será un downscale de la img real, se mostrará de fondo mientras carga la imágen real
@@ -32,18 +35,24 @@ export default function Card({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { idCarrito } = useSelector((state) => state.carrito);
   const { status } = useSelector((state) => state.favorites);
 
   // Traído de CartItem
   //#############################################################
 
-  const [producto, setProducto] = useState({
-    name: 'Manzana',
-    proveedor: 'Proveedor',
-    price: '100',
-    stock: 15,
-    cantidad: 1,
-  });
+  const agregarAlCarrito = async () => {
+    await dispatch(
+      addProductToCartDBThunk({
+        carritoId: idCarrito,
+        inventarioId,
+        cantidad,
+      })
+    );
+    await dispatch(createToast('Producto agregado al carrito'));
+  };
+
+  const [cantidad, setCantidad] = useState(1);
 
   const handleFavorite = async () => {
     if (isFav) {
@@ -64,15 +73,11 @@ export default function Card({
   }
 
   const agregarProducto = () => {
-    if (producto.cantidad < producto.stock) {
-      setProducto((prevProducto) => ({ ...prevProducto, cantidad: prevProducto.cantidad + 1 }));
-    }
+    setCantidad((prev) => prev + 1);
   };
 
   const quitarProducto = () => {
-    if (producto.cantidad > 1) {
-      setProducto((prevProducto) => ({ ...prevProducto, cantidad: prevProducto.cantidad - 1 }));
-    }
+    setCantidad((prev) => prev - 1);
   };
 
   //################################################################
@@ -152,9 +157,7 @@ export default function Card({
 
             <div
               className='bg-tuscany-600 flex flex-shrink-0 mx-2 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full hover:bg-pearl-bush-900 active:bg-pearl-bush-800 transition'
-              onClick={() => {
-                alert('Agregar producto al carrito de compras');
-              }}>
+              onClick={agregarAlCarrito}>
               <TbShoppingBagPlus class='w-[25px] h-[25px] text-tuscany-100' />
             </div>
           </div>
@@ -164,22 +167,22 @@ export default function Card({
               <button
                 onClick={quitarProducto}
                 className={`${
-                  producto.cantidad === 1
+                  cantidad === 1
                     ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                     : 'cursor-pointer'
                 } bg-tuscany-950 rounded-lg w-7 h-7 flex items-center justify-center border-none shadow-md text-tuscany-100 font-bold`}
-                disabled={producto.cantidad === 1}>
+                disabled={cantidad === 1}>
                 -
               </button>
-              <span className='mx-2 text-tuscany-950 font-bold text-md'>{producto.cantidad}</span>
+              <span className='mx-2 text-tuscany-950 font-bold text-md'>{cantidad}</span>
               <button
                 onClick={agregarProducto}
                 className={`${
-                  producto.cantidad === producto.stock
+                  cantidad === stock
                     ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                     : 'cursor-pointer'
                 } bg-tuscany-950 rounded-lg w-7 h-7  flex items-center justify-center border-none shadow-md text-tuscany-100 font-bold`}
-                disabled={producto.cantidad === producto.stock}>
+                disabled={cantidad === stock}>
                 +
               </button>
             </div>
