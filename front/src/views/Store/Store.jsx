@@ -109,10 +109,12 @@ const Store = () => {
               />
             </>
           ) : (
-            <div>
+            <div className='mx-auto'>
               <p className='text-tuscany-950'>Parece que no hay resultados...</p>
 
-              <p className='text-tuscany-950'>Intenta eliminar filtros o actualizar la página</p>
+              <p className='text-tuscany-950'>
+                Intenta eliminar filtros, actualizar la página o seleccionar un punto.
+              </p>
             </div>
           )}
         </div>
