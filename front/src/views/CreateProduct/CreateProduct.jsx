@@ -104,7 +104,6 @@ const CreateProduct = ({ products, setProducts }) => {
       };
       try {
         dispatch(addProductAsync(newProduct));
-        console.log(newProduct);
         alert(`El producto ${producto.name} ha sido creado con exito!`);
       } catch (error) {
         alert('Error al crear product: ' + error.message);

@@ -6,7 +6,11 @@ import { useState } from 'react';
 import Modal from '../../components/Modal/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchProductsAsync, logicDeleteProductAsync } from '../../store/thunks/productThunks';
+import {
+  fetchProductsAsync,
+  logicDeleteProductAsync,
+  trueDeleteProductAsync,
+} from '../../store/thunks/productThunks';
 
 const AdminProductDetail = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -127,6 +131,8 @@ const AdminProductDetail = () => {
                   className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em]'
                   onClick={() => {
                     alert(`El producto ${product.name} ha sido eliminado con éxito!`);
+                    dispatch(trueDeleteProductAsync(product.id));
+                    navigate(-1);
                     setModalOpen(false);
                   }}>
                   Eliminar
