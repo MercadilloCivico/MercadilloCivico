@@ -1,30 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCards, fetchPuntosSelector } from '../../store/thunks/cardsThunks.js';
+import {
+  fetchCards,
+  fetchFilteredCards,
+  fetchPuntosSelector,
+} from '../../store/thunks/cardsThunks.js';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
 import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
-import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 import { getGoogleCookie } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
-import Loading from '../Loading/Loading.jsx';
+import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
+import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
 
 const Store = () => {
   const dispatch = useDispatch();
-  const { puntos, status } = useSelector((state) => state.card);
+  const { puntos } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
-  const { items, filters } = useSelector((state) => state.card);
-
-  const dispatchFetchCards = async (filters) => {
-    if (filters.id) {
-      await dispatch(fetchCards(filters));
-    }
-  };
+  const { items, allItems, filteredItems, filters } = useSelector((state) => state.card);
 
   const firstRenderDispatch = async () => {
     dispatch(getGoogleCookie());
@@ -36,7 +34,13 @@ const Store = () => {
   };
 
   useEffect(() => {
-    dispatchFetchCards(filters);
+    if (!allItems.length > 0) {
+      dispatch(fetchCards(filters));
+    }
+  }, [filters]);
+
+  useEffect(() => {
+    dispatch(fetchFilteredCards(filters));
   }, [filters]);
 
   useEffect(() => {
@@ -77,9 +81,35 @@ const Store = () => {
 
       <StoreFilters />
 
-      <CardSwitch />
+      <div className='flex flex-row w-full max-w-[1500px] mx-auto'>
+        {items?.length > 0 ? (
+          <>
+            <div className='w-full max-w-[200px] hidden md:inline sticky h-full top-[55px]'>
+              <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
+              <FilterMenu
+                expanded={true}
+                activeFilterMenu={true}
+                className={
+                  'hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 sticky'
+                }
+              />
+            </div>
+            <Cards
+              allItems={items}
+              filteredItems={filteredItems}
+              className='w-full max-w-[1300px]'
+            />
+          </>
+        ) : (
+          <div className='mx-auto'>
+            <p className='text-tuscany-950'>Parece que no hay resultados...</p>
 
-      <div>{status === 'loading' ? <Loading /> : <Cards products={items} />}</div>
+            <p className='text-tuscany-950'>
+              Intenta eliminar filtros, actualizar la página o seleccionar un punto.
+            </p>
+          </div>
+        )}
+      </div>
 
       <Footer />
     </div>

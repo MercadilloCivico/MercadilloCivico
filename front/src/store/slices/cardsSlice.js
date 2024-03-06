@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCards, fetchPuntosSelector } from '../thunks/cardsThunks';
+import { fetchCards, fetchPuntosSelector, fetchFilteredCards } from '../thunks/cardsThunks';
 
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {
-    items: [],
     puntos: [],
     allItems: [],
+    filteredItems: [],
     filters: {
       id: '',
       name: '',
@@ -76,6 +76,19 @@ const cardsSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
+
+      .addCase(fetchFilteredCards.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchFilteredCards.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.filteredItems = action.payload;
+      })
+      .addCase(fetchFilteredCards.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+
       .addCase(fetchPuntosSelector.pending, (state) => {
         state.status = 'loading';
       })

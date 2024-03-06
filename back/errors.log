@@ -482,4 +482,3 @@
 2024-03-05 19:55:10 error: PUT /api/resenas/7 500 80ms
 2024-03-05 19:57:43 error: [object Object]
 2024-03-05 19:57:43 error: PUT /api/resenas/7 500 30ms
-2024-03-05 22:05:26 error: POST /api/login 500 299ms

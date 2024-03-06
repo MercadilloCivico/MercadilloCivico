@@ -21,7 +21,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
     else setMenuOpen(!menuOpen);
   }
 
-  const { items } = useSelector((state) => state.card);
+  const { allItems } = useSelector((state) => state.card);
 
   return (
     <>
@@ -80,7 +80,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
 
           {/* NAV END */}
           <div className='flex justify-end items-center w-full h-full space-x-[15px]'>
-            {items.length > 0 && (
+            {allItems.length > 0 && (
               <Link
                 to={'/cart'}
                 className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>

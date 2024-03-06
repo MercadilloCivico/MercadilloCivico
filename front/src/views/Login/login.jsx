@@ -19,7 +19,6 @@ import style from './login.module.css';
 
 function Login() {
   const dispatch = useDispatch();
-  // const { error } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });

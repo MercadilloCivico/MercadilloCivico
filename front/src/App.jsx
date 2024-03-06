@@ -60,11 +60,13 @@ function ProtectedRoute({ Component }) {
 }
 
 function CheckAlreadyLoggedIn({ Component }) {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   if (!token) return <Component />;
-  // dispatch(createToast('Ya has iniciado sesión'));
-  return <Navigate to='/store' />;
+  else {
+    dispatch(createToast('Acceso denegado: Tu sesión ya está activa.'));
+    return <Navigate to='/store' />;
+  }
 }
 
 function App() {
@@ -131,12 +133,15 @@ function App() {
           <Route path='/favorites' element={<ProtectedRoute Component={Favorites} />} />
           <Route path='/detail/:id' element={<Detail />} />
 
-          <Route path='/register' element={<Register />} />
-          <Route path='/recover_password' element={<RecoveryPassword />} />
-          <Route path='/new_password' element={<NewPassword />} />
+          <Route path='/register' element={<CheckAlreadyLoggedIn Component={Register} />} />
+          <Route
+            path='/recover_password'
+            element={<CheckAlreadyLoggedIn Component={RecoveryPassword} />}
+          />
+          <Route path='/new_password' element={<CheckAlreadyLoggedIn Component={NewPassword} />} />
 
           <Route path='/cart' element={<Cart />} />
-          <Route path='/login/:id?' element={<CheckAlreadyLoggedIn Component={Login} />} />
+          <Route path='/login/:id?' element={<Login />} />
           <Route path='/pasarela_de_pago' element={<PasarelaDePago />} />
 
           <Route path='/profile' element={<ProtectedRoute Component={Profile} />}>

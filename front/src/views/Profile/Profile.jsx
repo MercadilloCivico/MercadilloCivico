@@ -102,6 +102,7 @@ export default function Profile() {
       password: '',
       confirm: '', // Estos valores sólo se utilzan para que los de formData no estén vacíos al cargar info del usuario y la página rompa
     };
+    setIsLoading(false);
 
     setCurrentData(data);
   }
