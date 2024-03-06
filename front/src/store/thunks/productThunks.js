@@ -115,3 +115,27 @@ export const trueDeleteProductAsync = createAsyncThunk(
     }
   }
 );
+
+// Thunk para editar productos
+export const editProductAsync = createAsyncThunk(
+  'products/editProductAsync',
+  async (productData, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append('name', productData.name);
+      formData.append('description', productData.description);
+      formData.append('marca', productData.marca);
+      formData.append('image', productData.fiImg);
+      formData.append('idProveedorActual', productData.idProveedorActual);
+      formData.append('proveedoresCostos', JSON.stringify(productData.proveedoresCostos));
+      const response = await axios.put(`${VITE_API_URL}/product/edit/${productData.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

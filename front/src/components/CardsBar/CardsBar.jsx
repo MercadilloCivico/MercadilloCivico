@@ -20,14 +20,6 @@ const CardsBar = () => {
           <span>Ventas</span>
           <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
         </li>
-        <li className='hidden sm:flex items-center w-[13em]'>
-          <span>Stock</span>
-          <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
-        </li>
-        <li className='flex items-center w-[13em]'>
-          <span>Precio</span>
-          <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
-        </li>
         <br />
       </ul>
     </div>

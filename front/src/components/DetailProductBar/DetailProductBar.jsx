@@ -13,11 +13,23 @@ const DetailProductBar = () => {
           <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
         </li>
         <li className='flex items-center w-[13em]'>
-          <span>Precio</span>
+          <span>Precio de Compra</span>
+          <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
+        </li>
+        <li className='flex items-center w-[13em]'>
+          <span>Precio de Venta</span>
+          <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
+        </li>
+        <li className='flex items-center w-[13em]'>
+          <span>Stock Max</span>
           <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
         </li>
         <li className='flex items-center w-[13em]'>
           <span>Stock</span>
+          <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
+        </li>
+        <li className='flex items-center w-[13em]'>
+          <span>Stock Min</span>
           <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
         </li>
 

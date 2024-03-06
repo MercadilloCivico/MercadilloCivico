@@ -9,6 +9,7 @@ import providerReducer from './providerSlice';
 import cartReducer from './cartSlice';
 import favoritesReducer from './favoritesSlice';
 import adminReducer from './adminSlice';
+import salesPointReducer from './salesPointSlice';
 
 export {
   authReducer,
@@ -22,4 +23,5 @@ export {
   providerReducer,
   favoritesReducer,
   adminReducer,
+  salesPointReducer,
 };

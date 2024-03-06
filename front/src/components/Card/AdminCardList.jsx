@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const AdminCardList = ({ name, image, marca, disabled, sales, inventario, costo }) => {
+const AdminCardList = ({ name, image, marca, disabled, ventas }) => {
   const [charLimit, setCharLimit] = useState(50);
 
   useEffect(() => {
@@ -55,13 +55,7 @@ const AdminCardList = ({ name, image, marca, disabled, sales, inventario, costo 
           )}
         </li>
         <li className='hidden md:flex items-center w-[1em]'>
-          <span>{sales}</span>
-        </li>
-        <li className='hidden sm:flex items-center w-[1em]'>
-          <span>{inventario}</span>
-        </li>
-        <li className='flex items-center w-[1em]'>
-          <span>{costo}</span>
+          <span>{ventas || 0}</span>
         </li>
         <br />
       </ul>

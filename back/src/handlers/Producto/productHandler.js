@@ -151,13 +151,12 @@ class ProductHandler {
     }
   }
 
-  static async put(id, name, description, image, calification, marca, proveedoresCostos) {
+  static async put(id, name, description, image, marca, proveedoresCostos, idProveedorActual) {
     try {
       const updatedData = {};
 
       if (name) updatedData.name = name;
       if (description) updatedData.description = description;
-      if (calification) updatedData.calification = calification;
       if (marca) updatedData.marca = marca;
 
       if (proveedoresCostos) {
@@ -167,11 +166,12 @@ class ProductHandler {
             prisma.productoProveedor.update({
               where: {
                 proveedor_id_producto_id: {
-                  proveedor_id: proveedorCosto.proveedor_id,
+                  proveedor_id: Number(idProveedorActual),
                   producto_id: id,
                 },
               },
               data: {
+                proveedor_id: Number(proveedorCosto.proveedor_id),
                 costo: proveedorCosto.costo,
               },
             })
@@ -180,10 +180,10 @@ class ProductHandler {
       }
 
       if (image) {
-        validationImage(image);
-        eliminaPhotoUtil(id, 'Producto');
-        const secureUrl = await uploadToCloudinary(image);
+        validationImage(image[0]);
+        const secureUrl = await uploadToCloudinary(image[0]);
         updatedData.image = secureUrl;
+        await eliminaPhotoUtil(id, 'Producto');
       }
 
       await prisma.producto.update({

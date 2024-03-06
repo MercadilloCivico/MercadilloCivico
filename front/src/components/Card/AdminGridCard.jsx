@@ -3,7 +3,7 @@ import { IoMdMore } from 'react-icons/io';
 import MoreOptionsDropdown from '../MoreOptionsDropdown/MoreOptionsDropdown';
 import Modal from '../Modal/Modal';
 
-const AdminGridCard = ({ id, name, image, marca, disabled, sales, inventario, costo }) => {
+const AdminGridCard = ({ id, name, image, marca, disabled, ventas }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -54,15 +54,7 @@ const AdminGridCard = ({ id, name, image, marca, disabled, sales, inventario, co
         </li>
         <li className='flex justify-between mb-1'>
           <span className='opacity-70'>Ventas:</span>
-          <span className='font-semibold'>{sales}</span>
-        </li>
-        <li className='flex justify-between mb-1'>
-          <span className='opacity-70'>Stock:</span>
-          <span className='font-semibold'>{inventario}</span>
-        </li>
-        <li className='flex justify-between mb-1'>
-          <span className='opacity-70'>Precio:</span>
-          <span className='font-semibold'>{costo}</span>
+          <span className='font-semibold'>{ventas || 0}</span>
         </li>
       </ul>
       <div>

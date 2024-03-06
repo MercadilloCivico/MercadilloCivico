@@ -1,5 +1,5 @@
-import { useState } from 'react';
-//import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import validate from './validations';
 import CustomInput from '../../components/CustomInput/CustomInput';
@@ -10,24 +10,41 @@ import Modal from '../../components/Modal/Modal';
 import Logo from '../../assets/img/logo-simple.svg';
 import { FaImage } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
-// import { fetchProductsAsync } from '../../store/thunks/userThunks';
+import { fetchProductsAsync } from '../../store/thunks/productThunks';
+import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
+import { Box } from '@mui/material';
+import { editProductAsync } from '../../store/thunks/productThunks';
 
-const EditProduct = ({ products, setProducts }) => {
+const EditProduct = () => {
   const { id } = useParams();
   const [errors, setErrors] = useState({});
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalBackOpen, setModalBackOpen] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const producto = products?.find((product) => product.id.toString() === id);
-  const [editedProducto, setEditedProducto] = useState(producto);
-  //  const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //dispatch(fetchProductsAsync(id));
+  const { items } = useSelector((state) => state.products);
+  const producto = items?.find((product) => product.id.toString() === id);
+  const [editedProducto, setEditedProducto] = useState({});
 
-  //setEditedProduct({});
-  // }, []);
+  useEffect(() => {
+    dispatch(fetchProductsAsync());
+    dispatch(fetchProvidersAsync());
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    setEditedProducto({
+      image: producto.image,
+      proveedor: producto.proveedor[0]?.proveedor_id,
+      idProveedorActual: producto.proveedor[0]?.proveedor_id,
+      name: producto.name,
+      marca: producto.marca,
+      description: producto.description,
+      precio: producto.proveedor[0]?.costo,
+      proveedoresCostos: [],
+    });
+  }, [id, producto.description, producto.image, producto.marca, producto.name, producto.proveedor]);
 
   const openModal = () => {
     setModalOpen(true);
@@ -46,7 +63,7 @@ const EditProduct = ({ products, setProducts }) => {
           setEditedProducto({
             ...editedProducto,
             image: reader.result,
-            FiImg: imgFile,
+            fiImg: imgFile,
           });
         };
         setHasChanges(true);
@@ -75,12 +92,25 @@ const EditProduct = ({ products, setProducts }) => {
     );
 
     if (hasChanges && Object.keys(formErrors).length === 0) {
-      Object.assign(producto, editedProducto);
+      const newProduct = {
+        ...editedProducto,
+        id,
+        proveedoresCostos: [
+          {
+            proveedor_id: Number(editedProducto.proveedor),
+            costo: editedProducto.precio,
+          },
+        ],
+      };
 
-      setProducts([...products]);
-
-      alert('Tus cambios se han guardado con exito!');
-      navigate('/admin/products');
+      try {
+        dispatch(editProductAsync(newProduct));
+        alert('Tus cambios se han guardado con exito!');
+        navigate('/admin/products');
+        window.location.reload();
+      } catch (error) {
+        throw new Error(error);
+      }
     } else {
       alert('Por favor, complete todos los campos correctamente.');
     }
@@ -93,6 +123,15 @@ const EditProduct = ({ products, setProducts }) => {
       navigate(-1);
     }
   };
+  const { providerArray } = useSelector((state) => state.providers);
+
+  const providersOptions = providerArray?.map((provider) => {
+    return (
+      <option key={provider.id} value={provider.id}>
+        {provider.name_prov}
+      </option>
+    );
+  });
 
   return (
     <>
@@ -111,6 +150,73 @@ const EditProduct = ({ products, setProducts }) => {
           <div>
             <img src={Logo} alt='Mercadillo Cívico' className='w-[240px] mt-[.4em] p-1' />
             <form onSubmit={handleSubmit}>
+              <div>
+                {producto.image ? (
+                  <div className='relative flex items-end justify-center'>
+                    <img
+                      className='w-[10em] h-auto object-cover'
+                      src={editedProducto.image || null}
+                      alt='product-preview'
+                    />
+                    <>
+                      <input
+                        name='image'
+                        id='image'
+                        onChange={handleInput}
+                        type='file'
+                        accept='image/*'
+                        className='hidden absolute inset-0 w-full h-full cursor-pointer opacity-0'
+                      />
+                      <label
+                        htmlFor='image'
+                        className='text-tuscany-100 ml-2 mb-2 w-8 h-8 rounded-full p-2 hover:cursor-pointer bg-pearl-bush-950'>
+                        <MdEdit className='w-full h-full' />
+                      </label>
+                    </>
+                  </div>
+                ) : (
+                  <div className='flex flex-col justify-between mb-[8em] items-center text-tuscany-950'>
+                    <span>Ingrese una Imagen</span>
+                    <>
+                      <input
+                        name='image'
+                        id='image'
+                        onChange={handleInput}
+                        type='file'
+                        accept='image/*'
+                        className='hidden absolute'
+                      />
+                      <label
+                        htmlFor='image'
+                        className='absolute mx-[1em] w-[10em] h-auto p-2 hover:cursor-pointer text-tuscany-950'>
+                        <FaImage className='w-[10em] h-auto p-2' />
+                      </label>
+                    </>
+                  </div>
+                )}
+                <div className='text-crown-of-thorns-600'>{errors.image}</div>
+              </div>
+              <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
+                <label
+                  htmlFor='proveedor'
+                  className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
+                  Proveedor
+                </label>
+                <div className='flex flex-col bg-pearl-bush-100'>
+                  <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6'>
+                    <select
+                      name='proveedor'
+                      onChange={handleInput}
+                      className='bg-pearl-bush-100 text-pearl-bush-950 font-semibold rounded-sm p-4 w-full'
+                      value={editedProducto.proveedor}>
+                      <option disabled value='' className='text-pearl-bush-950 font-semibold'>
+                        Selecciona al proveedor
+                      </option>
+                      {providersOptions}
+                    </select>
+                  </Box>
+                </div>
+              </div>
               <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
                 <label
                   htmlFor='name'
@@ -161,55 +267,9 @@ const EditProduct = ({ products, setProducts }) => {
                 />
                 <div className='text-crown-of-thorns-600 text-sm'>{errors.description}</div>
               </div>
-              <div>
-                {producto.image ? (
-                  <div className='relative flex items-end justify-center'>
-                    <img
-                      className='w-[10em] h-auto object-cover'
-                      src={editedProducto.image || null}
-                      alt='product-preview'
-                    />
-                    <>
-                      <input
-                        name='image'
-                        id='image'
-                        onChange={handleInput}
-                        type='file'
-                        accept='image/*'
-                        className='hidden absolute inset-0 w-full h-full cursor-pointer opacity-0'
-                      />
-                      <label
-                        htmlFor='image'
-                        className='text-tuscany-100 ml-2 mb-2 w-8 h-8 rounded-full p-2 hover:cursor-pointer bg-pearl-bush-950'>
-                        <MdEdit className='w-full h-full' />
-                      </label>
-                    </>
-                  </div>
-                ) : (
-                  <div className='flex flex-col justify-between mb-[8em] items-center text-tuscany-950'>
-                    <span>Ingrese una Imagen</span>
-                    <>
-                      <input
-                        name='image'
-                        id='image'
-                        onChange={handleInput}
-                        type='file'
-                        accept='image/*'
-                        className='hidden absolute'
-                      />
-                      <label
-                        htmlFor='image'
-                        className='absolute mx-[1em] w-[10em] h-auto p-2 hover:cursor-pointer text-tuscany-950'>
-                        <FaImage className='w-[10em] h-auto p-2' />
-                      </label>
-                    </>
-                  </div>
-                )}
-                <div className='text-crown-of-thorns-600'>{errors.image}</div>
-              </div>
               <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
                 <label
-                  htmlFor='precio'
+                  htmlFor='costo'
                   className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
                   Precio
                 </label>
@@ -224,23 +284,6 @@ const EditProduct = ({ products, setProducts }) => {
                 />
                 <div className='text-crown-of-thorns-600 text-sm'>{errors.precio}</div>
               </div>
-              <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
-                <label
-                  htmlFor='stock'
-                  className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
-                  Stock
-                </label>
-                <CustomInput
-                  type='number'
-                  id='stock'
-                  name='stock'
-                  value={editedProducto.stock || ''}
-                  placeholder='Stock'
-                  onChange={handleInput}
-                  className='py-2 px-2 border rounded-md'
-                />
-                <div className='text-crown-of-thorns-600 text-sm'>{errors.stock}</div>
-              </div>
               <div className='my-[1em]'>
                 <CustomButton text='Guardar Cambios' type='submit' />
               </div>
@@ -248,7 +291,6 @@ const EditProduct = ({ products, setProducts }) => {
             <div className='fixed bottom-10 right-4 md:bottom-8 md:right-8 lg:bottom-12 lg:right-12 z-10'>
               <CustomButton text='Vista Previa' onClick={openModal} />
             </div>
-
             <div>
               <Modal isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>
                 <div className='flex flex-col justify-center items-center'>
