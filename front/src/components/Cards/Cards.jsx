@@ -2,6 +2,8 @@ import UserCard from '../Card/UserCard';
 import DropdownCard from '../DropdownCard/DropdownCard.jsx';
 import AdminCard from '../Card/AdminCard.jsx';
 import { useSelector } from 'react-redux';
+import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
+import OrderSelect from '../StoreFilters/OrderSelect.jsx';
 
 function Cards({ allItems, filteredItems, cardType, className }) {
   const { showDropdownCard } = useSelector((state) => state.store);
@@ -15,6 +17,11 @@ function Cards({ allItems, filteredItems, cardType, className }) {
   return (
     <div
       className={'py-3 flex flex-wrap space-between xsm:px-0 sm:px-10 justify-center ' + className}>
+      <div className='flex flex-row justify-around w-full max-w-[1024px]'>
+        <OrderSelect />
+        <CardSwitch />
+      </div>
+
       {showDropdownCard && cardType !== 'Admin'
         ? checkFiltered().map((product) => (
             <DropdownCard

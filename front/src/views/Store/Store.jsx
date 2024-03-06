@@ -11,7 +11,6 @@ import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
-import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 import { getGoogleCookie } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
@@ -83,9 +82,7 @@ const Store = () => {
 
       <StoreFilters />
 
-      <CardSwitch />
-
-      <div className='flex flex-row w-full max-w-[1366px] mx-auto'>
+      <div className='flex flex-row w-full max-w-[1500px] mx-auto'>
         {items?.length > 0 ? (
           <>
             <div className='w-full max-w-[200px] hidden md:inline'>
@@ -105,7 +102,7 @@ const Store = () => {
               <Cards
                 allItems={items}
                 filteredItems={filteredItems}
-                className='w-full max-w-[1200px] '
+                className='w-full max-w-[1300px]'
               />
             )}
           </>

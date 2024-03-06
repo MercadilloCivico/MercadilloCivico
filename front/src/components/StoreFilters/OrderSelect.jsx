@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -27,7 +26,7 @@ export default function OrderSelect() {
           value={sortValue}
           label='Ordenamiento'
           onChange={handleSortChange}
-          className='text-tuscany-950 w-[150px] h-10'>
+          className='text-tuscany-950 w-[170px] h-10'>
           <MenuItem value='order'>Ordenar</MenuItem>
           <MenuItem value='rating'>Mayor calificación</MenuItem>
           <MenuItem value='price-asc'>De mayor precio</MenuItem>
