@@ -18,7 +18,7 @@ const Detail = () => {
   const navigate = useNavigate();
   const [isFav, setIsFav] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const { idCarrito, status } = useSelector((state) => state.carrito);
+  const { idCarrito, status: statusCarrito } = useSelector((state) => state.carrito);
   const [producto, setProducto] = useState(null);
   const { id } = useParams();
   const { items } = useSelector((state) => state.card);
@@ -42,7 +42,7 @@ const Detail = () => {
       dispatch(addFavorite(id));
     }
   };
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isOpenOnDetail, setIsOpenOnDetail] = useState(true);
@@ -77,7 +77,7 @@ const Detail = () => {
       })
     );
     setTimeout(() => {
-      if (status === 'rejected') {
+      if (statusCarrito === 'rejected') {
         dispatch(createToast('El producto ya se encuentra en el carrito'));
       } else {
         dispatch(createToast('Producto agregado al carrito'));
@@ -157,12 +157,12 @@ const Detail = () => {
                     <ul className='text-start'>
                       <li className='text-tuscany-950 font-bold text-lg flex'>
                         {/* RATING */}
-                        <div className='flex flex-row justify-center mr-2'>
+                        {/* <div className='flex flex-row justify-center mr-2'>
                           <TiStarFullOutline className='h-[1.2em] w-[1.2em] text-tuscany-500' />
                           <span className='text-tuscany-950 text-lg font-semibold my-2'>
-                            {averageRating}
+                            {producto.calification}
                           </span>
-                        </div>
+                        </div> */}
 
                         {/* NOMBRE PRODUCTO */}
                         {producto && producto.name}
