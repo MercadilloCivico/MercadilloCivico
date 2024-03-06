@@ -24,7 +24,7 @@ export default function PageNotFound() {
                 onClick={() => {
                   navigate('/store');
                 }}
-                className='text-tuscany-600 cursor-pointer underline'>
+                className='text-tuscany-600 font-bold cursor-pointer underline'>
                 ¡Llévame!
               </span>
             </p>
