@@ -106,7 +106,8 @@ const EditProduct = () => {
       try {
         dispatch(editProductAsync(newProduct));
         alert('Tus cambios se han guardado con exito!');
-        navigate(-1);
+        navigate('/admin/products');
+        window.location.reload();
       } catch (error) {
         throw new Error(error);
       }
