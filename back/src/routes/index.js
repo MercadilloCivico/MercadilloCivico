@@ -12,11 +12,12 @@ const ReseñasController = require('../controllers/Reseñas/reseñasController')
 const HistorialController = require('../controllers/HistorialDeVenta/historialController');
 const FiltroController = require('../controllers/Filtros/filtroController');
 const datosTarjeta = require('../controllers/dataCard/datosTarjeta');
+const { checkAuthentication } = require('../../middleware/validationToken');
 
 const router = Router();
-
+// auth
+router.get('/auth/token', checkAuthentication);
 // user/auth
-
 router.get('/auth/google', middleware.authenticateGoogle);
 router.get('/auth/google/callback', middleware.authenticateGoogleCallback);
 router.get('/forgot/password', usuariosController.usuarios.recuperarContrasenia);

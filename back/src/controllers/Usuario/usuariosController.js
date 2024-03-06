@@ -171,7 +171,6 @@ class usuarios {
           maxAge: 3600000,
           sameSite: COOKIE_SAMESITE_CONFIG,
         });
-        console.log('🚀 ~ usuarios ~ login ~ COOKIE_SAMESITE_CONFIG:', COOKIE_SAMESITE_CONFIG);
         res.status(200).json({ access: true, token: tokenLog });
       }
     } catch (error) {
