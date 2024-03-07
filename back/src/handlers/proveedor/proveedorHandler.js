@@ -48,7 +48,15 @@ class proveedorHandlers {
       if (error1 !== undefined || error2 !== undefined) {
         throw new Error(error1 || error2);
       }
+      const existingProveedor = await prisma.proveedor.findUnique({
+        where: {
+          user_id: userid,
+        },
+      });
 
+      if (existingProveedor) {
+        throw new Error('El usuario ya es un proveedor.');
+      }
       const urlCamara = await uploadToFile(camaraDeComercio);
       const urlCertificado = await uploadToFile(certificadoBancario);
       await prisma.proveedor.create({

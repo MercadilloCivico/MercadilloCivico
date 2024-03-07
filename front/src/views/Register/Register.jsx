@@ -362,7 +362,7 @@ function Register() {
               onChange={() => setAcceptTerms(!acceptTerms)}
               disabled={!allFieldsCompleted()}
             />
-            <CheckboxBasic />
+            <CheckboxBasic label={'Quiero recibir notificaciones de MercadilloCivico'} />
 
             <CustomButton
               type='submit'

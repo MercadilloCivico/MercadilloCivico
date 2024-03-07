@@ -17,8 +17,6 @@ class datosTarjeta {
         datosCompra
       );
 
-      console.log('🚀 ~ datosTarjeta ~ data ~ idPagoSesion:', idPagoSesion);
-
       const jsonString = JSON.stringify(dataTarjeta);
       const base64String = btoa(encodeURIComponent(jsonString));
       // const solicitudPago = await axios.post('https://dev.sendfy.es/token', base64String);
@@ -32,9 +30,6 @@ class datosTarjeta {
         `https://backend-ry4n2dvhsq-lz.a.run.app/pay/${idPagoSesion}`,
         paymentInfo
       );
-
-      console.log('🚀 ~ datosTarjeta ~ data ~ solicitudPago:', solicitudPago);
-
       return res.status(200).json({ solicitudPago });
     } catch (error) {
       return res.status(401).json({ error: error.message });

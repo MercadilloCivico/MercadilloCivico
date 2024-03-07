@@ -40,7 +40,6 @@ export const getAllFavorite = createAsyncThunk(
       const { data } = await axios.get(`${VITE_API_URL}/favorites`, {
         withCredentials: true,
       });
-      console.log(data);
 
       return data;
     } catch (error) {

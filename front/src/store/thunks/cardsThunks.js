@@ -60,6 +60,7 @@ export const fetchFilteredCards = createAsyncThunk(
       const response = await axios.get(url, { params: querys });
       return response.data;
     } catch (error) {
+
       const errorInfo = {
         status: error.response?.status,
         statusText: error.response?.statusText,

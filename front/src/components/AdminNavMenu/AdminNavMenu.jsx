@@ -5,12 +5,11 @@ import { useState, useEffect } from 'react';
 export default function AdminNavMenu({ menuOpen, toggleMenu }) {
   const [render, setRender] = useState(false);
   let animationTimeout = null;
-
   useEffect(() => {
     if (menuOpen) {
       setRender(true);
       clearTimeout(animationTimeout); // Limpiar el timeout si estaba previamente configurado
-    } else if (!menuOpen) {
+    } else {
       animationTimeout = setTimeout(() => {
         setRender(false);
       }, 300);
@@ -77,6 +76,17 @@ export default function AdminNavMenu({ menuOpen, toggleMenu }) {
               onClick={waitAndToggle}
               className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
               Pedidos
+            </Link>
+          </li>
+
+          <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+
+          <li>
+            <Link
+              to='/admin/provider'
+              onClick={waitAndToggle}
+              className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
+              Proveedor
             </Link>
           </li>
 

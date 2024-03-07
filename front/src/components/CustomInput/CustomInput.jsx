@@ -15,9 +15,13 @@ const CustomInput = ({
   type,
   style,
   maxLength,
+
   rows,
   maxRows,
   multiline,
+
+  accept,
+  disabled,
 }) => {
   const handleChange = (event) => {
     onChange({
@@ -44,7 +48,9 @@ const CustomInput = ({
       rows={rows}
       multiline={multiline ? true : false}
       maxRows={maxRows}
+      accept={accept}
       inputProps={{ maxLength }}
+      disabled={disabled}
       InputProps={{
         startAdornment: StartIcon ? (
           <InputAdornment position='start'>

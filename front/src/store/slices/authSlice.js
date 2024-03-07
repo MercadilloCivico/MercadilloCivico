@@ -14,6 +14,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState: {
     token: null,
+    rol: '',
     status: 'idle', // 'idle', 'loading', 'succeeded', 'failed'
     error: null,
   },
@@ -61,6 +62,7 @@ export const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.token = action.payload.token;
+        state.rol = action.payload.rol;
         state.error = null;
       })
       .addCase(login.rejected, (state, action) => {
@@ -75,6 +77,7 @@ export const authSlice = createSlice({
         state.token = null;
         state.status = 'idle';
         state.error = null;
+        state.rol = '';
       })
       .addCase(logout.rejected, (state, action) => {
         state.status = 'failed';
