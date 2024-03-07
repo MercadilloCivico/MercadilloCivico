@@ -13,7 +13,7 @@ import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
 import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
 import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 const Store = () => {
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const Store = () => {
   const { idCarrito } = useSelector((state) => state.carrito);
   const { allItems, filteredItems } = useSelector((state) => state.card);
   const { token } = useParams();
+  const query = useLocation().search;
 
   const firstRenderDispatch = async () => {
     await dispatch(fetchPuntosSelector());
@@ -29,10 +30,13 @@ const Store = () => {
       await dispatch(getCartDBThunk());
     }
   };
+
   useEffect(() => {
-    if (token !== 'undefined' && token !== 'null' && token !== '') {
-      dispatch(getGoogleToken(token));
-    }
+    (() => {
+      if (query === '?auth=google') {
+        return dispatch(getGoogleToken(token));
+      }
+    })();
   }, [dispatch, token]);
 
   useEffect(() => {
