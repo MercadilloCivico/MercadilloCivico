@@ -19,7 +19,7 @@ export const deleteUserProfileAsync = createAsyncThunk(
   'users/deleteUserProfileAsync',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`${VITE_API_URL}/disable/user`, {
+      const response = await axios.delete(`${VITE_API_URL}/delete/user`, {
         withCredentials: true,
       });
 

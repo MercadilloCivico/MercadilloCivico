@@ -9,13 +9,11 @@ import {
 import { theme } from '../../utils/muiTheme';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilterId } from '../../store/slices/cardsSlice';
+import { fetchCards, fetchFilteredCards } from '../../store/thunks/cardsThunks';
 const CustomSelect = ({ label, options }) => {
   const dispatch = useDispatch();
   const { filters } = useSelector((state) => state.card);
 
-  const handleChange = (e) => {
-    e.target.value && dispatch(setFilterId(e.target.value));
-  };
   const customTheme = createTheme({
     ...theme,
     components: {
@@ -59,6 +57,15 @@ const CustomSelect = ({ label, options }) => {
       },
     },
   });
+  const getFilters = async () => {
+    await dispatch(fetchCards());
+    await dispatch(fetchFilteredCards(filters));
+  };
+
+  const handleChange = (e) => {
+    e.target.value && dispatch(setFilterId(e.target.value));
+    getFilters();
+  };
 
   return (
     <ThemeProvider theme={customTheme}>

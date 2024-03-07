@@ -1,10 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchCards,
-  fetchFilteredCards,
-  fetchPuntosSelector,
-} from '../../store/thunks/cardsThunks.js';
+import { fetchPuntosSelector } from '../../store/thunks/cardsThunks.js';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
 import BannerItem from '../../components/BannerItem/BannerItem';
@@ -22,7 +18,7 @@ const Store = () => {
   const dispatch = useDispatch();
   const { puntos } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
-  const { items, allItems, filteredItems, filters } = useSelector((state) => state.card);
+  const { items, filteredItems } = useSelector((state) => state.card);
 
   const firstRenderDispatch = async () => {
     dispatch(getGoogleCookie());
@@ -32,17 +28,6 @@ const Store = () => {
       await dispatch(getCartDBThunk());
     }
   };
-
-  const getFilters = async () => {
-    await dispatch(fetchCards(filters));
-    await dispatch(fetchFilteredCards(filters));
-  };
-
-  useEffect(() => {
-    if (allItems.length > 0) {
-      getFilters();
-    }
-  }, [filters]);
 
   useEffect(() => {
     firstRenderDispatch();
