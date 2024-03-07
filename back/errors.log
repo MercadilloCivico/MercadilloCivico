@@ -681,3 +681,7 @@
 2024-03-07 12:11:26 error: POST /api/login 500 380ms
 2024-03-07 12:15:39 error: [object Object]
 2024-03-07 12:15:39 error: GET /api/filtro/ 500 37ms
+2024-03-07 15:28:59 error: [object Object]
+2024-03-07 15:28:59 error: GET /api/filtro/ 500 26ms
+2024-03-07 15:43:09 error: [object Object]
+2024-03-07 15:43:09 error: GET /api/filtro/ 500 105ms
