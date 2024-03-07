@@ -10,40 +10,7 @@ import Footer from '../../components/Footer/Footer.jsx';
 import { LuLogIn } from 'react-icons/lu';
 import { validacionProveedor } from '../../utils/validation.js';
 import { addProvider } from '../../store/thunks/providerThunks.js';
-
-var municipiosPrincipales = {
-  Amazonas: ['Leticia', 'Puerto Nariño'],
-  Antioquía: ['Medellín', 'Bello', 'Envigado'],
-  Arauca: ['Arauca', 'Saravena'],
-  Atlántico: ['Barranquilla', 'Soledad', 'Malambo'],
-  Bolívar: ['Cartagena de Indias', 'Bolívar', 'Magangué'],
-  Boyacá: ['Tunja', 'Duitama', 'Sogamoso'],
-  Caldas: ['Manizales', 'Manzanares', 'La Dorada'],
-  Caquetá: ['Florencia', 'San Vicente del Caguán', 'Puerto Rico'],
-  Casanare: ['Yopal', 'Aguazul', 'Villanueva'],
-  Cauca: ['Popayán', 'Santander de Quilichao', 'Puerto Tejada'],
-  Cesar: ['Valledupar', 'Aguachica', 'Codazzi'],
-  Chocó: ['Quibdó', 'Istmina', 'Tadó'],
-  Córdoba: ['Montería', 'Sincelejo', 'Cereté'],
-  Cundinamarca: ['Bogotá', 'Soacha', 'Zipaquirá'],
-  Guaviare: ['San José del Guaviare', 'Calamar', 'Miraflores'],
-  Huila: ['Neiva', 'Pitalito', 'Garzón'],
-  'La Guajira': ['Riohacha', 'Maicao', 'Uribia'],
-  Magdalena: ['Santa Marta', 'Ciénaga', 'Fundación'],
-  Meta: ['Villavicencio', 'Acacías', 'Granada'],
-  Nariño: ['San Juan de Pasto', 'Ipiales', 'Tumaco'],
-  'Norte de Santander': ['San José de Cúcuta', 'Pamplona', 'Ocaña'],
-  Putumayo: ['Mocoa', 'Puerto Asís', 'Sibundoy'],
-  Quindío: ['Armenia', 'Calarcá', 'Quimbaya'],
-  Risaralda: ['Pereira', 'Dosquebradas', 'Santa Rosa de Cabal'],
-  'San Andrés y Providencia': ['San Andrés', 'Providencia'],
-  Santander: ['Bucaramanga', 'Floridablanca', 'Girón'],
-  Sucre: ['Sincelejo', 'Corozal', 'Santiago de Tolú'],
-  Tolima: ['Ibagué', 'Espinal', 'Melgar'],
-  'Valle del Cauca': ['Cali', 'Buenaventura', 'Palmira'],
-  Vaupés: ['Mitú', 'Carurú', 'Taraira'],
-  Vichada: ['Puerto Carreño', 'La Primavera', 'Santa Rosalía'],
-};
+import municipiosPrincipales from '../../utils/departamentos.js';
 
 function RegisterProvider() {
   const [errors, setErrors] = useState({});
