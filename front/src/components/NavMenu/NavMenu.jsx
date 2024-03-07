@@ -1,16 +1,18 @@
 import { Link } from 'react-router-dom';
 import style from './NavMenu.module.css';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function NavMenu({ menuOpen, toggleMenu }) {
   const [render, setRender] = useState(false);
+  const { rol } = useSelector((state) => state.auth);
   let animationTimeout = null;
 
   useEffect(() => {
     if (menuOpen) {
       setRender(true);
       clearTimeout(animationTimeout); // Limpiar el timeout si estaba previamente configurado
-    } else if (!menuOpen) {
+    } else {
       animationTimeout = setTimeout(() => {
         setRender(false);
       }, 300);
@@ -59,37 +61,52 @@ export default function NavMenu({ menuOpen, toggleMenu }) {
           </li>
 
           <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+          {rol === 'proveedor' ? (
+            <>
+              <li>
+                <Link
+                  to='/store'
+                  onClick={waitAndToggle}
+                  className='text-tuscany-800 text-3xl hover:text-tuscany-950 transition'>
+                  Proveedor
+                </Link>
+              </li>
+              <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link
+                  to='/store'
+                  onClick={waitAndToggle}
+                  className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
+                  Tienda
+                </Link>
+              </li>
 
-          <li>
-            <Link
-              to='/store'
-              onClick={waitAndToggle}
-              className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
-              Tienda
-            </Link>
-          </li>
+              <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
 
-          <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+              <li>
+                <Link
+                  to='/contact'
+                  onClick={waitAndToggle}
+                  className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
+                  Contacto
+                </Link>
+              </li>
 
-          <li>
-            <Link
-              to='/contact'
-              onClick={waitAndToggle}
-              className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
-              Contacto
-            </Link>
-          </li>
+              <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
 
-          <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
-
-          <li>
-            <Link
-              to='/favorites'
-              onClick={waitAndToggle}
-              className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
-              Favoritos
-            </Link>
-          </li>
+              <li>
+                <Link
+                  to='/profile/favorites'
+                  onClick={waitAndToggle}
+                  className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
+                  Favoritos
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     )

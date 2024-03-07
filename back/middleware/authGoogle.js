@@ -18,7 +18,6 @@ function authenticateGoogleCallback(req, res, next) {
       sameSite: COOKIE_SAMESITE_CONFIG,
       secure: true,
     });
-
     return res.redirect(`${FRONT_URL}/store`);
   })(req, res, next);
 }

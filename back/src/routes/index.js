@@ -26,7 +26,8 @@ router.post('/login', usuariosController.usuarios.login);
 router.post('/logout', usuariosController.usuarios.logout);
 router.put('/forgot/password', usuariosController.usuarios.contraseñaOlvidada);
 router.put('/update/user', usuariosController.usuarios.putUsuario);
-router.delete('/disable/user', usuariosController.usuarios.deleteUsuario);
+router.delete('/delete/user', usuariosController.usuarios.deleteUsuario);
+router.put('/disable/user', usuariosController.usuarios.deleteLogic);
 router.get('/user/info/:id?', usuariosController.usuarios.get);
 router.get('/user/profile', usuariosController.usuarios.getUser);
 
@@ -45,10 +46,10 @@ router.post('/favorites/:id', FavoriteControllers.addFav);
 router.delete('/favorites/:id', FavoriteControllers.removeFav);
 
 // proveedores
-
+router.get('/proveedor/profile', ProveedoresController.getProfile);
 router.get('/proveedor/:id?', ProveedoresController.getAll);
 router.post('/proveedor', validateMiddleware.validateProveedores, ProveedoresController.post);
-router.put('/proveedor/:id', ProveedoresController.put);
+router.put('/proveedor', ProveedoresController.put);
 router.delete('/proveedor/:id', ProveedoresController.delete);
 
 // carrito
@@ -63,8 +64,6 @@ router.put('/carrito_de_compras/cantidad', CarritoController.actualizarCantidad)
 
 router.get('/punto_de_venta/:id?', PuntoDeVentaController.get);
 router.post('/punto_de_venta', PuntoDeVentaController.post);
-// router.put('/punto_de_venta/:id', PuntoDeVentaController.put);
-// router.put('/punto_de_venta/:id', PuntoDeVentaController.addProveedor);
 router.put('/punto_de_venta/edit/:id', PuntoDeVentaController.put);
 router.put('/punto_de_venta/add/', PuntoDeVentaController.addProveedor);
 router.put('/punto_de_venta/remove/:id', PuntoDeVentaController.removeProveedor);

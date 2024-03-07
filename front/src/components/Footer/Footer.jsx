@@ -30,6 +30,11 @@ export default function Footer() {
               Política de cookies
             </Link>
           </li>
+          <li className='my-1'>
+            <Link to='/faqs' className='text-pearl-bush-700 hover:text-pearl-bush-900 transition'>
+              Preguntas frecuentes
+            </Link>
+          </li>
         </ul>
 
         <a

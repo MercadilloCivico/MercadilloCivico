@@ -15,7 +15,6 @@ const encrypt = async (encryptedText) => {
 
     // Intentar parsear el JSON descifrado
     const decryptedData = JSON.parse(decryptedBuffer.toString('utf-8'));
-    console.log('Objeto descifrado:', decryptedData);
     return decryptedData;
   } catch (error) {
     console.error('Error al descifrar:', error);

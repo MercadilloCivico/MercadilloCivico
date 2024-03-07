@@ -1,3 +1,4 @@
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 import { FaUser } from 'react-icons/fa6';
 import { MdEdit } from 'react-icons/md';
 
@@ -10,7 +11,7 @@ import { fetchUserProfileAsync, deleteUserProfileAsync } from '../../store/thunk
 import { logout } from '../../store/thunks/authThunks.js';
 import style from './ProfileAnims.module.css';
 import Loading from '../../views/Loading/Loading.jsx';
-
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton.jsx';
@@ -22,12 +23,21 @@ import {
   validatePassword,
   validateConfirm,
 } from './formControl.js';
+import RegisterProvider from '../../components/RegisterProvider/RegisterProvider.jsx';
+import municipiosPrincipales from '../../utils/departamentos.js';
+import CustomInput from '../../components/CustomInput/CustomInput.jsx';
+import { putProvider } from '../../store/thunks/providerThunks.js';
 
 export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   let [editMode, setEditMode] = useState(false);
+  const { rol } = useSelector((state) => state.auth);
+  const [perfilProveedor, setPerfilProveedor] = useState(false);
+  const [selectedDept, setSelectedDept] = useState('');
+  const [selectedMuni, setSelectedMuni] = useState('');
+  const [direccion, setDireccion] = useState('');
 
   const [currentData, setCurrentData] = useState({
     firstName: '',
@@ -46,6 +56,60 @@ export default function Profile() {
     confirm: '',
   });
 
+  const [currentDataProveedor, setCurrentDataProveedor] = useState({
+    camaraDeComercio: '',
+    certificadoBancario: '',
+    nameProv: '',
+    ubicacion: '',
+    tel: '',
+  });
+
+  const [formDataProveedor, setFormDataProveedor] = useState({
+    camaraDeComercio: null,
+    certificadoBancario: null,
+    nameProv: '',
+    ubicacion: [],
+    tel: '+57',
+  });
+  /* eslint-disable */
+  const [dataExtraProveedor, setDataExtraProveedor] = useState({
+    productos: [],
+    puntos_de_venta: [],
+    pedidos: [],
+  });
+  /* eslint-enable */
+  const [deptSelected, setDeptSelected] = useState(false);
+
+  const handlePDFChange = (e) => {
+    const { name } = e.target;
+    const file = e.target.files[0];
+    // Verificar si el archivo seleccionado es un PDF
+    if (file && file.type === 'application/pdf') {
+      setFormDataProveedor((prevFormData) => ({
+        ...prevFormData,
+        [name]: file,
+      }));
+    } else {
+      // Despachar toast
+    }
+  };
+
+  const handleDepartmentChange = (e) => {
+    const selectedDept = e.target.value;
+    setSelectedDept(selectedDept);
+    setDeptSelected(true);
+    // Actualizar formData.ubicacion al nombre del departamento seleccionado
+  };
+  const handleMunicipalityChange = (e) => {
+    const selectedMuni = e.target.value;
+    setSelectedMuni(selectedMuni);
+  };
+
+  const handleDirection = (e) => {
+    const value = e.target.value;
+    setDireccion(value);
+  };
+  /* eslint-disable */
   useEffect(() => {
     setIsLoading(true);
     // Lógica para cargar los datos del usuario (asumiendo que updateUserData() hace la llamada a la API)
@@ -53,7 +117,7 @@ export default function Profile() {
       setIsLoading(false);
     });
   }, [dispatch]);
-
+  /* eslint-enable */
   useEffect(() => {
     // Actualizar formData cuando currentData cambie
     setFormData(currentData);
@@ -66,10 +130,8 @@ export default function Profile() {
   useEffect(() => {
     if (editMode) {
       navigate('/profile');
-    } else {
-      navigate('/profile/history');
     }
-  }, [editMode]);
+  }, [editMode, navigate]);
 
   // Copia de la Data original sin modificar, para mostrar en los campos
 
@@ -102,6 +164,24 @@ export default function Profile() {
       password: '',
       confirm: '', // Estos valores sólo se utilzan para que los de formData no estén vacíos al cargar info del usuario y la página rompa
     };
+    const perfilP = await axios.get(`${VITE_API_URL}/proveedor/profile`, { withCredentials: true });
+    if (perfilP.data) {
+      const dataProveedor = {
+        camaraDeComercio: perfilP.data.camaraDeComercio,
+        certificadoBancario: perfilP.data.certificadoBancario,
+        nameProv: perfilP.data.name_prov,
+        ubicacion: perfilP.data.ubicacion,
+        tel: perfilP.data.tel,
+      };
+      const dataExtra = {
+        productos: perfilP.data.productos,
+        puntos_de_venta: perfilP.data.puntos_de_venta,
+        pedidos: perfilP.data.pedidos,
+      };
+      setPerfilProveedor(true);
+      setDataExtraProveedor(dataExtra);
+      setCurrentDataProveedor(dataProveedor);
+    }
     setIsLoading(false);
 
     setCurrentData(data);
@@ -131,9 +211,9 @@ export default function Profile() {
       }
       return 0;
     }
-
     // Si el input es un campo de texto
     // Actualizar solo los campos que cambian en lugar de todos
+
     if (formData[e.target.name] !== e.target.value) {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -142,8 +222,21 @@ export default function Profile() {
       return 0;
     }
   }
-
+  function handleNameProv(e) {
+    const { name, value } = e.target;
+    setCurrentDataProveedor({
+      ...currentDataProveedor,
+      [name]: value,
+    });
+    if (formDataProveedor[e.target.name] !== e.target.value) {
+      setFormDataProveedor((prevForm) => ({
+        ...prevForm,
+        [e.target.name]: e.target.value.trim(),
+      }));
+    }
+  }
   // validar errores en cada cambio del formData
+  /* eslint-disable */
   useEffect(() => {
     if (formData.email) {
       setErrors({
@@ -157,6 +250,7 @@ export default function Profile() {
       });
     }
   }, [formData]);
+  /* eslint-enable */
   const { token } = useSelector((state) => state.auth);
 
   async function handleSave() {
@@ -176,6 +270,8 @@ export default function Profile() {
       photo: formData.file || '',
     };
 
+    const responseP = await dispatch(putProvider(formDataProveedor));
+    console.log(responseP);
     const response = await dispatch(putUser(toSend));
     if (response.payload?.error) {
       dispatch(createToast(response.payload.error));
@@ -215,7 +311,10 @@ export default function Profile() {
 
   function hasChanged() {
     // verifica si se modificó algún campo
-    return JSON.stringify(formData) !== JSON.stringify(currentData);
+    return (
+      JSON.stringify(formData) !== JSON.stringify(currentData) ||
+      JSON.stringify(formDataProveedor) !== JSON.stringify(currentDataProveedor)
+    );
   }
 
   return (
@@ -356,6 +455,107 @@ export default function Profile() {
             </ul>
 
             {/* Botones al editar*/}
+            <div style={{ paddingBlock: '10px' }}>Información del Proveedor</div>
+            <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
+              <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                <label htmlFor='camaraDeComercio'>Ingrese PDF de la camara de comercio</label>
+                <input
+                  type='file'
+                  name='camaraDeComercio'
+                  accept='application/pdf'
+                  onChange={handlePDFChange}
+                />
+              </div>
+              <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                <label htmlFor='certificadoBancario'>Ingrese PDF del certificado bancario</label>
+                <input
+                  type='file'
+                  name='certificadoBancario'
+                  accept='application/pdf'
+                  onChange={handlePDFChange}
+                />
+              </div>
+              <TextField
+                onChange={handleNameProv}
+                className='w-[300px] m-2'
+                name='nameProv'
+                color='success'
+                id='outlined-helperText'
+                label='Nombre del Proveedor'
+                value={currentDataProveedor.nameProv}
+                helperText={errors.confirm}
+                error={errors.confirm ? true : false}
+              />
+              <TextField
+                onChange={handleNameProv}
+                className='w-[300px] m-2'
+                name='tel'
+                color='success'
+                id='outlined-helperText'
+                label='Telefono'
+                value={currentDataProveedor.tel}
+                helperText={errors.confirm}
+                error={errors.confirm ? true : false}
+              />
+              <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                <CustomInput
+                  label='Ubicacion'
+                  placeholder='direccion'
+                  name='direccion'
+                  type='text'
+                  value={direccion}
+                  onChange={handleDirection}
+                  maxLength={30}
+                  disabled={!selectedMuni}
+                />
+              </div>
+              <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                <label htmlFor='departamento' className='text-pearl-bush-950'>
+                  Departamento:
+                </label>
+                <select
+                  name='departamento'
+                  defaultValue={''}
+                  className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'
+                  onChange={handleDepartmentChange}
+                  disabled={deptSelected}>
+                  <option value='' disabled>
+                    Seleccione un departamento
+                  </option>
+                  {Object.keys(municipiosPrincipales).map((departamento, index) => (
+                    <option key={index} value={departamento}>
+                      {departamento}
+                    </option>
+                  ))}
+                </select>
+                <div className='text-crown-of-thorns-600'>{errors.departamento}</div>
+              </div>
+              <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                <label htmlFor='municipio' className='text-pearl-bush-950'>
+                  Municipio:
+                </label>
+                <select
+                  name='municipio'
+                  onChange={handleMunicipalityChange}
+                  disabled={!setSelectedDept}
+                  className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'>
+                  <option value='' disabled>
+                    Seleccione un municipio
+                  </option>
+                  {selectedDept &&
+                    municipiosPrincipales[selectedDept].map((municipio, index) => (
+                      <option key={index} value={municipio}>
+                        {municipio}
+                      </option>
+                    ))}
+                </select>
+                {!deptSelected && (
+                  <label className='text-crown-of-thorns-600'>
+                    Seleccione un Departamento para continuar
+                  </label>
+                )}
+              </div>
+            </ul>
             <div>
               {hasChanged() && !hasErrors() ? (
                 <CustomButton onClick={handleSave} text='Guardar' className='my-5 mx-2' />
@@ -392,14 +592,42 @@ export default function Profile() {
             </ul>
           </div>
         )}
+        {rol !== '' && !perfilProveedor ? (
+          <RegisterProvider />
+        ) : rol === 'proveedor' && !editMode ? (
+          <div>
+            <label>Empresa</label>
+            <label>{currentDataProveedor.nameProv}</label>
+            <label>Tel</label>
+            <label>{currentDataProveedor.tel}</label>
+            <label>Ubicacion</label>
+            <label>{currentDataProveedor.ubicacion}</label>
+            <label>Obtener camara de comercio</label>{' '}
+            <button
+              onClick={() => {
+                window.open(`${currentDataProveedor.camaraDeComercio}`, '_blank');
+              }}>
+              Aqui
+            </button>
+            <label>Obtener certificado bancario</label>{' '}
+            <button
+              onClick={() => {
+                window.open(`${currentDataProveedor.certificadoBancario}`, '_blank');
+              }}>
+              Aqui
+            </button>
+          </div>
+        ) : (
+          <div>
+            {!editMode && (
+              <div className='mt-[50px]'>
+                {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
+                <LinkTags />
 
-        {!editMode && (
-          <div className='mt-[50px]'>
-            {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
-            <LinkTags />
-
-            {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
-            <Outlet />
+                {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
+                <Outlet />
+              </div>
+            )}
           </div>
         )}
       </div>

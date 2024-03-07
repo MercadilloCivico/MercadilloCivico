@@ -33,7 +33,7 @@ class usuarios {
       const requiredFields = ['firstName', 'lastName', 'email', 'password'];
       const missingFields = requiredFields.filter((field) => !req.body[field]);
       if (missingFields.length > 0) throw new Error('Faltan los campos requeridos');
-      const { firstName, lastName, email, password, secondName } = req.body;
+      const { firstName, lastName, email, password, secondName, rol } = req.body;
       let photo;
       if (req.files) {
         photo = req.files.image;
@@ -48,7 +48,8 @@ class usuarios {
         email,
         password,
         secondName,
-        photo
+        photo,
+        rol
       );
       res.status(201).json(response);
     } catch (error) {
@@ -142,7 +143,6 @@ class usuarios {
       if (!decoded) {
         return res.status(401).json({ message: 'Acceso no autorizado' });
       }
-
       const response = await usuariosHandler.deleteUserHandler(decoded.id);
       return res.status(200).json(response);
     } catch (error) {
@@ -168,13 +168,13 @@ class usuarios {
       const { email, password } = req.body;
       const tokenLog = await usuariosHandler.authHandler(email, password);
       if (tokenLog) {
-        res.cookie('sessionToken', tokenLog, {
+        res.cookie('sessionToken', tokenLog.token, {
           httpOnly: true,
           maxAge: 3600000,
           sameSite: COOKIE_SAMESITE_CONFIG,
           secure: true,
         });
-        res.status(200).json({ access: true, token: tokenLog });
+        res.status(200).json({ access: true, token: tokenLog.token, rol: tokenLog.rol });
       }
     } catch (error) {
       res.status(500).json({ message: error.message, error: 'Error en el login' });
@@ -197,11 +197,29 @@ class usuarios {
   static async getUser(req, res) {
     try {
       const token = req.cookies.sessionToken;
+
       const decoded = jwt.verify(token, SECRET_JWT);
       if (!decoded) {
         return res.status(401).json({ message: 'Acceso no autorizado' });
       }
+
       const usuario = await usuariosHandler.getById(decoded.id);
+      return res.status(200).json(usuario);
+    } catch (error) {
+      return res.status(400).json({ error: 'id de sesión inválido' });
+    }
+  }
+
+  static async deleteLogic(req, res) {
+    try {
+      const token = req.cookies.sessionToken;
+      const decoded = jwt.verify(token, SECRET_JWT);
+      if (!decoded) {
+        return res.status(401).json({ message: 'Acceso no autorizado' });
+      }
+      const { valor } = req.body;
+      if (!valor) throw new Error('Especifique el valor');
+      const usuario = await usuariosHandler.deleteLogic(decoded.id, valor);
       return res.status(200).json(usuario);
     } catch (error) {
       return res.status(400).json({ error: 'id de sesión inválido' });

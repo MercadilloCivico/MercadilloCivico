@@ -62,7 +62,6 @@ export const postReviewAsyncThunk = createAsyncThunk(
       const response = await axios.post(`${VITE_API_URL}/resenas`, body, { withCredentials: true });
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -76,10 +75,8 @@ export const putReviewAsyncThunk = createAsyncThunk(
       const response = await axios.put(`${VITE_API_URL}/resenas/${id}`, body, {
         withCredentials: true,
       });
-      console.log('Estoy en aceptado');
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -97,7 +94,6 @@ export const deleteReviewAsyncThunk = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }

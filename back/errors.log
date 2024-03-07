@@ -601,3 +601,77 @@
 2024-03-06 18:52:22 error: GET /api/filtro/ 500 692ms
 2024-03-06 18:52:22 error: [object Object]
 2024-03-06 18:52:22 error: GET /api/filtro/ 500 21ms
+2024-03-06 19:27:01 error: [object Object]
+2024-03-06 19:27:01 error: GET /api/filtro/ 500 42ms
+2024-03-06 19:27:01 error: [object Object]
+2024-03-06 19:27:01 error: GET /api/filtro/ 500 18ms
+2024-03-06 19:36:03 error: [object Object]
+2024-03-06 19:36:03 error: GET /api/filtro/ 500 48ms
+2024-03-06 19:36:04 error: [object Object]
+2024-03-06 19:36:04 error: GET /api/filtro/ 500 24ms
+2024-03-06 20:03:10 error: [object Object]
+2024-03-06 20:03:10 error: GET /api/filtro/ 500 12ms
+2024-03-06 20:03:11 error: [object Object]
+2024-03-06 20:03:11 error: GET /api/filtro/ 500 18ms
+2024-03-06 20:10:07 error: [object Object]
+2024-03-06 20:10:07 error: GET /api/filtro/ 500 15ms
+2024-03-06 20:10:08 error: [object Object]
+2024-03-06 20:10:08 error: GET /api/filtro/ 500 25ms
+2024-03-06 20:17:21 error: [object Object]
+2024-03-06 20:17:21 error: GET /api/filtro/ 500 10ms
+2024-03-06 20:17:21 error: [object Object]
+2024-03-06 20:17:21 error: GET /api/filtro/ 500 10ms
+2024-03-06 20:20:33 error: [object Object]
+2024-03-06 20:20:33 error: GET /api/filtro/ 500 11ms
+2024-03-06 20:20:34 error: [object Object]
+2024-03-06 20:20:34 error: GET /api/filtro/ 500 7ms
+2024-03-06 20:22:52 error: [object Object]
+2024-03-06 20:22:52 error: GET /api/filtro/ 500 14ms
+2024-03-06 20:22:52 error: [object Object]
+2024-03-06 20:22:52 error: GET /api/filtro/ 500 14ms
+2024-03-06 20:23:33 error: [object Object]
+2024-03-06 20:23:33 error: GET /api/filtro/ 500 12ms
+2024-03-06 20:23:34 error: [object Object]
+2024-03-06 20:23:34 error: GET /api/filtro/ 500 14ms
+2024-03-06 20:25:50 error: [object Object]
+2024-03-06 20:25:50 error: GET /api/filtro/ 500 15ms
+2024-03-06 20:26:05 error: [object Object]
+2024-03-06 20:26:05 error: GET /api/filtro/ 500 11ms
+2024-03-06 20:28:54 error: [object Object]
+2024-03-06 20:28:54 error: GET /api/filtro/ 500 25ms
+2024-03-06 20:29:39 error: [object Object]
+2024-03-06 20:29:39 error: GET /api/filtro/ 500 19ms
+2024-03-06 20:31:00 error: [object Object]
+2024-03-06 20:31:00 error: GET /api/filtro/ 500 14ms
+2024-03-06 20:32:28 error: [object Object]
+2024-03-06 20:32:28 error: GET /api/filtro/ 500 13ms
+2024-03-06 20:33:54 error: [object Object]
+2024-03-06 20:33:54 error: GET /api/filtro/ 500 10ms
+2024-03-06 20:36:10 error: [object Object]
+2024-03-06 20:36:10 error: GET /api/filtro/ 500 99ms
+2024-03-07 01:13:03 error: [object Object]
+2024-03-07 01:13:03 error: GET /api/filtro/ 500 15ms
+2024-03-07 04:27:07 error: [object Object]
+2024-03-07 04:27:07 error: POST /api/proveedor/update 500 13ms
+2024-03-07 04:28:22 error: PUT /api/proveedor/update 500 2ms
+2024-03-07 04:29:55 error: PUT /api/proveedor/update 500 9ms
+2024-03-07 04:30:43 error: PUT /api/proveedor/update 500 3ms
+2024-03-07 04:32:07 error: PUT /api/proveedor/update 500 15ms
+2024-03-07 04:33:50 error: PUT /api/proveedor/update 500 6ms
+2024-03-07 04:36:09 error: PUT /api/proveedor 500 16ms
+2024-03-07 04:37:45 error: PUT /api/proveedor 500 4ms
+2024-03-07 04:38:35 error: PUT /api/proveedor 500 8ms
+2024-03-07 04:39:04 error: PUT /api/proveedor 500 5ms
+2024-03-07 04:39:26 error: PUT /api/proveedor 500 6ms
+2024-03-07 04:39:44 error: PUT /api/proveedor 500 7ms
+2024-03-07 04:41:15 error: PUT /api/proveedor 500 6369ms
+2024-03-07 04:42:49 error: PUT /api/proveedor 500 4970ms
+2024-03-07 04:43:31 error: PUT /api/proveedor 500 4158ms
+2024-03-07 04:44:08 error: PUT /api/proveedor 500 4357ms
+2024-03-07 04:44:46 error: PUT /api/proveedor 500 5751ms
+2024-03-07 04:45:20 error: PUT /api/proveedor 500 4825ms
+2024-03-07 04:46:20 error: PUT /api/proveedor 500 4537ms
+2024-03-07 04:48:14 error: PUT /api/proveedor 500 5728ms
+2024-03-07 04:53:15 error: PUT /api/proveedor 500 3ms
+2024-03-07 04:53:42 error: PUT /api/proveedor 500 2ms
+2024-03-07 04:58:11 error: PUT /api/proveedor 500 4517ms

@@ -34,9 +34,11 @@ class ProductController {
   static async logicDelete(req, res) {
     try {
       const { id } = req.params;
-      if (!id) throw new Error('Se necesita el id del producto de venta para desactivarlo');
+      const { valor } = req.body;
+      if (!id) throw new Error('Se necesita el id del producto para activar/desactivarlo');
+      if (!id) throw new Error('Se necesita el valor de disabled para activar/desactivarlo');
 
-      const response = await ProductHandler.logicDelete(id);
+      const response = await ProductHandler.logicDelete(id, valor);
       res.status(200).json(response);
     } catch (error) {
       res.status(500).json({ message: error.message, error: 'Error al desactivar el producto' });
@@ -46,7 +48,7 @@ class ProductController {
   static async trueDelete(req, res) {
     try {
       const { id } = req.params;
-      if (!id) throw new Error('Se necesita el id del punto de venta para eliminarlo');
+      if (!id) throw new Error('Se necesita el id del producto para eliminarlo');
       const response = await ProductHandler.trueDelete(id);
       res.status(200).json(response);
     } catch (error) {
