@@ -143,36 +143,10 @@ class usuariosHandler {
     try {
       const user = await prisma.usuario.findUnique({
         where: { id },
-        include: {
-          carrito: true,
-          proveedor: true,
-          compras: true,
-          resenas: true,
-          favorites: true,
-        },
       });
 
       if (!user) {
         return { usuarioEliminadoCorrectamente: false, mensaje: 'Usuario no encontrado' };
-      }
-
-      const { carrito, proveedor } = user;
-
-      if (carrito) {
-        // Eliminar el carrito antes de eliminar al usuario
-        await prisma.carrito_de_Compras.delete({
-          where: {
-            id: carrito.id,
-          },
-        });
-      }
-
-      if (proveedor) {
-        await prisma.proveedor.delete({
-          where: {
-            id: proveedor.id,
-          },
-        });
       }
 
       await prisma.usuario.delete({
@@ -220,6 +194,21 @@ class usuariosHandler {
   static async logoutHandler(token) {
     try {
       validTokens.delete(token);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  static async deleteLogic(id, valor) {
+    try {
+      await prisma.usuario.update({
+        where: {
+          id,
+        },
+        data: {
+          disabled: valor,
+        },
+      });
     } catch (error) {
       throw new Error(error);
     }

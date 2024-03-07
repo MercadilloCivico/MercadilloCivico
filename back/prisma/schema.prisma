@@ -9,6 +9,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model Usuario {
   id             String   @id @db.Uuid @default(uuid())
   first_name     String
@@ -31,7 +32,7 @@ model Usuario {
 model Proveedor {
   id           Int       @id @default(autoincrement())
   name_prov    String?
-  usuario      Usuario   @relation(fields: [user_id], references: [id])
+  usuario      Usuario   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id      String    @db.Uuid @unique
   ubicacion String
   tel String
@@ -47,9 +48,9 @@ model Proveedor {
 }
 
 model ProductoProveedor {
-  provedor Proveedor @relation(fields: [proveedor_id], references: [id])
+  provedor Proveedor @relation(fields: [proveedor_id], references: [id], onDelete: Cascade)
   proveedor_id Int
-  producto Producto @relation(fields: [producto_id], references: [id])
+  producto Producto @relation(fields: [producto_id], references: [id], onDelete: Cascade)
   producto_id String @db.Uuid
   costo Decimal
   @@id([proveedor_id,producto_id])
@@ -87,9 +88,9 @@ model Resena {
   id Int @id @default(autoincrement())
   coment String?
   calification Int
-  producto Producto @relation(fields: [producto_id], references: [id])
+  producto Producto @relation(fields: [producto_id], references: [id], onDelete: Cascade)
   producto_id String @db.Uuid
-  usuario Usuario @relation(fields: [usuario_id], references: [id])
+  usuario Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
   usuario_id String @db.Uuid
   fecha_creacion DateTime @default(now())
   fecha_actualizacion DateTime?
@@ -98,17 +99,17 @@ model Resena {
 model Carrito_de_Compras {
   id Int @id @default(autoincrement())
   productoEnCarrito Producto_En_Carrito[]
-  usuario Usuario @relation(fields: [user_id], references: [id])
+  usuario Usuario @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id String @db.Uuid @unique
 }
 
 model Inventario {
   id Int @id @default(autoincrement())
-  punto Punto_De_Venta @relation(fields: [punto_de_venta_id], references: [id])
+  punto Punto_De_Venta @relation(fields: [punto_de_venta_id], references: [id], onDelete: Cascade)
   punto_de_venta_id String @db.Uuid
-  producto Producto @relation(fields: [producto_id], references: [id])
+  producto Producto @relation(fields: [producto_id], references: [id], onDelete: Cascade)
   producto_id String @db.Uuid
-  proveedor Proveedor @relation(fields: [proveedor_id],references: [id])
+  proveedor Proveedor @relation(fields: [proveedor_id],references: [id], onDelete: Cascade)
   proveedor_id Int
   stock_min Int
   stock Int
@@ -120,9 +121,9 @@ model Inventario {
 
 model Producto_En_Carrito{
   ref Int? @default(autoincrement())
-  carrito Carrito_de_Compras @relation(fields: [carritoId], references: [id])
+  carrito Carrito_de_Compras @relation(fields: [carritoId], references: [id], onDelete: Cascade)
   carritoId Int
-  inventario Inventario @relation(fields: [inventarioId], references: [id])
+  inventario Inventario @relation(fields: [inventarioId], references: [id], onDelete: Cascade)
   inventarioId Int
   cantidad Int
   @@id([inventarioId, carritoId])
@@ -130,16 +131,16 @@ model Producto_En_Carrito{
 
 model Pedidos_Proveedor {
   id Int @id @default(autoincrement())
-  proveedor Proveedor @relation(fields: [prov_id],references: [id])
-  prov_id Int @unique 
-  productos Reponer_Existencias[]  
+  proveedor Proveedor @relation(fields: [prov_id],references: [id], onDelete: Cascade)
+  prov_id Int @unique
+  productos Reponer_Existencias[]
   fecha_inicio DateTime @default(now())
   fecha_entregado DateTime?
   estado String @default("pendiente")
 }
 model Reponer_Existencias{
   id Int @id @default(autoincrement())
- pedido Pedidos_Proveedor? @relation(fields: [pedido_id], references: [id])
+ pedido Pedidos_Proveedor? @relation(fields: [pedido_id], references: [id], onDelete: Cascade )
   pedido_id Int?
   punto_Venta_Id String
   producto String
@@ -147,7 +148,7 @@ model Reponer_Existencias{
 }
 model Historial_Compras {
   id Int @id @default(autoincrement())
-  usuario Usuario @relation(fields: [user_id], references: [id])
+  usuario Usuario @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id String @db.Uuid
   info_compra String
   fecha DateTime @default(now())
