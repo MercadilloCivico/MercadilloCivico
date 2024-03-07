@@ -5,7 +5,7 @@ const { SECRET_JWT } = require('../../../config/env.config');
 class FavoriteControllers {
   static async get(req, res) {
     try {
-      const token = req.cookies.sessionToken;
+      const { token } = req.cookies.sessionToken;
       const decoded = jwt.verify(token, SECRET_JWT);
       if (!decoded) {
         return res.status(401).json({ message: 'Acceso no autorizado' });
@@ -20,7 +20,7 @@ class FavoriteControllers {
 
   static async addFav(req, res) {
     try {
-      const token = req.cookies.sessionToken;
+      const { token } = req.cookies.sessionToken;
       const decoded = jwt.verify(token, SECRET_JWT);
       if (!decoded) {
         return res.status(401).json({ message: 'Acceso no autorizado' });
@@ -40,7 +40,7 @@ class FavoriteControllers {
   static async removeFav(req, res) {
     try {
       const { id } = req.params;
-      const token = req.cookies.sessionToken;
+      const { token } = req.cookies.sessionToken;
       const decoded = jwt.verify(token, SECRET_JWT);
       if (!decoded) {
         return res.status(401).json({ message: 'Acceso no autorizado' });
