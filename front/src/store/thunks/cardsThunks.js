@@ -4,15 +4,26 @@ const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchCards = createAsyncThunk(
   'cards/fetchCards',
-  async (info, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
+    const {
+      card: {
+        filters: { id },
+      },
+    } = getState();
+
     try {
-      const { id } = info;
       let url = `${VITE_API_URL}/filtro/${id}`;
 
       const response = await axios.get(url);
+
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response);
+      const errorInfo = {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+      };
+      return rejectWithValue(errorInfo);
     }
   }
 );
@@ -49,8 +60,12 @@ export const fetchFilteredCards = createAsyncThunk(
       const response = await axios.get(url, { params: querys });
       return response.data;
     } catch (error) {
-      console.log(error);
-      return rejectWithValue(error.response);
+      const errorInfo = {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+      };
+      return rejectWithValue(errorInfo);
     }
   }
 );
