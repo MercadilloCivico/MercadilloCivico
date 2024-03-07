@@ -99,7 +99,7 @@ export default function NavMenu({ menuOpen, toggleMenu }) {
 
               <li>
                 <Link
-                  to='/favorites'
+                  to='/profile/favorites'
                   onClick={waitAndToggle}
                   className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
                   Favoritos

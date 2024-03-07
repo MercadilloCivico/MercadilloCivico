@@ -9,8 +9,7 @@ export default function ProfileFavoritesContainer() {
   const { userFavorites } = useSelector((state) => state.favorites);
 
   return (
-    <div
-      className={'max-w-[1280px] p-2 pb-0 flex flex-col items-center mx-auto ' + style.historyAnim}>
+    <div className={'max-w-[1280px] p-2 pb-0 flex flex-wrap  mx-auto ' + style.historyAnim}>
       {userFavorites.length > 0 ? (
         userFavorites.map((product) => {
           return (
