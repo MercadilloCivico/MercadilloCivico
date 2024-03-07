@@ -71,8 +71,7 @@ class usuarios {
         res.redirect(`${FRONT_URL}/new_password`);
       }
     } catch (error) {
-      res.redirect(FRONT_URL);
-      res.status(500).json({ message: error.message, error: 'Error en el login' });
+      res.redirect(`${FRONT_URL}/Token_Invalido`);
     }
   }
 
