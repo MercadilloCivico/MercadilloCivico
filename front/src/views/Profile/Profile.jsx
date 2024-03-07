@@ -68,8 +68,6 @@ export default function Profile() {
   useEffect(() => {
     if (editMode) {
       navigate('/profile');
-    } else {
-      navigate('/profile/history');
     }
   }, [editMode, navigate]);
 

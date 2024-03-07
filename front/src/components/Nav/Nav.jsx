@@ -64,7 +64,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
                   <li>Tienda</li>
                 </Link>
                 <Link
-                  to='/favorites'
+                  to='/profile/favorites'
                   className='text-tuscany-800 hover:text-tuscany-950 transition'>
                   <li>Favoritos</li>
                 </Link>

@@ -69,22 +69,22 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
             {activePrices && (
               <ul className='text-left px-2'>
                 <li
-                  onClick={() => {
-                    dispatch(setFilterPrecio('bajo'));
+                  onClick={async () => {
+                    await dispatch(setFilterPrecio('bajo'));
                   }}
                   className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
                   Precios bajos
                 </li>
                 <li
-                  onClick={() => {
-                    dispatch(setFilterPrecio('medio'));
+                  onClick={async () => {
+                    await dispatch(setFilterPrecio('medio'));
                   }}
                   className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
                   Precios medios
                 </li>
                 <li
-                  onClick={() => {
-                    dispatch(setFilterPrecio('alto'));
+                  onClick={async () => {
+                    await dispatch(setFilterPrecio('alto'));
                   }}
                   className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
                   Precios altos
