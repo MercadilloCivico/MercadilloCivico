@@ -32,7 +32,7 @@ model Proveedor {
   id           Int       @id @default(autoincrement())
   name_prov    String?
   usuario      Usuario   @relation(fields: [user_id], references: [id])
-  user_id      String    @db.Uuid @unique
+  user_id      String    @db.Uuid @unique 
   ubicacion String
   tel String
   camaraDeComercio String

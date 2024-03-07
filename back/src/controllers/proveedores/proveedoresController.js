@@ -1,6 +1,7 @@
+const jwt = require('jsonwebtoken');
 const proveedorHandlers = require('../../handlers/proveedor/proveedorHandler');
-// const jwt = require('jsonwebtoken');
-// const { SECRET_JWT } = require('../../../config/env.config');
+const { SECRET_JWT } = require('../../../config/env.config');
+
 class ProveedoresController {
   static async getAll(req, res) {
     try {
@@ -24,12 +25,13 @@ class ProveedoresController {
 
   static async post(req, res) {
     try {
-      const { nameProv, ubicacion, tel, userid } = req.body;
+      const { nameProv, ubicacion, tel } = req.body;
       const { camaraDeComercio, certificadoBancario } = req.files;
-      //   const token = req.cookies.sessionToken;
-
-      // falta prueba con el front
-      //   const decoded = jwt.verify(token, SECRET_JWT);
+      const token = req.cookies.sessionToken;
+      const decoded = jwt.verify(token, SECRET_JWT);
+      if (!decoded) {
+        throw new Error('session invalida registrese');
+      }
 
       await proveedorHandlers.post(
         nameProv,
@@ -37,7 +39,7 @@ class ProveedoresController {
         tel,
         camaraDeComercio,
         certificadoBancario,
-        userid
+        decoded.id
       );
 
       res.status(200).json({

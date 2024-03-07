@@ -49,7 +49,6 @@ export const fetchFilteredCards = createAsyncThunk(
       const response = await axios.get(url, { params: querys });
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response);
     }
   }

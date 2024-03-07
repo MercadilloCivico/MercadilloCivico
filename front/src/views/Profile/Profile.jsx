@@ -22,12 +22,14 @@ import {
   validatePassword,
   validateConfirm,
 } from './formControl.js';
+import RegisterProvider from '../../components/RegisterProvider/RegisterProvider.jsx';
 
 export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   let [editMode, setEditMode] = useState(false);
+  const { rol } = useSelector((state) => state.auth);
 
   const [currentData, setCurrentData] = useState({
     firstName: '',
@@ -52,7 +54,7 @@ export default function Profile() {
     updateUserData().then(() => {
       setIsLoading(false);
     });
-  }, [dispatch]);
+  }, [dispatch, updateUserData]);
 
   useEffect(() => {
     // Actualizar formData cuando currentData cambie
@@ -69,7 +71,7 @@ export default function Profile() {
     } else {
       navigate('/profile/history');
     }
-  }, [editMode]);
+  }, [editMode, navigate]);
 
   // Copia de la Data original sin modificar, para mostrar en los campos
 
@@ -156,7 +158,7 @@ export default function Profile() {
         confirm: validateConfirm(formData.confirm, formData.password),
       });
     }
-  }, [formData]);
+  }, [formData, errors]);
   const { token } = useSelector((state) => state.auth);
 
   async function handleSave() {
@@ -392,14 +394,19 @@ export default function Profile() {
             </ul>
           </div>
         )}
+        {rol !== '' ? (
+          <RegisterProvider />
+        ) : (
+          <div>
+            {!editMode && (
+              <div className='mt-[50px]'>
+                {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
+                <LinkTags />
 
-        {!editMode && (
-          <div className='mt-[50px]'>
-            {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
-            <LinkTags />
-
-            {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
-            <Outlet />
+                {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
+                <Outlet />
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -1,4 +1,7 @@
 const onlyLetters = /^[A-Za-zÁáÉéÍíÓóÚúÑñ]{1,15}$/;
+const onlyNumbers = /^[0-9+]+$/;
+const onlyLettersAndSpaces = /^[A-Za-z\s]+$/;
+
 const strongPassword =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&°|,;.:{[\]}/+\\\-_"#()='¿¡<>])[A-Za-z\d@$!%*?&°|,;.:{[\]}/+\\\-_"#()='¿¡<>]{6,15}$/;
 
@@ -93,6 +96,30 @@ export const registerValidation = ({
   emailValidation(email, errors);
   passwordValidation(password, errors);
   repeatPasswordValidation(password, repeatPassword, errors);
+  return errors;
+};
+
+export const validacionProveedor = (data) => {
+  const errors = {};
+
+  // validar nombre de proveedor
+  if (!data.nameProv || !data.nameProv.trim()) {
+    errors.nameProv = 'Nombre de proveedor obligatorio';
+  } else if (data.nameProv.length < 3) {
+    errors.nameProv = 'Nombre de proveedor debe tener al menos 3 caracteres';
+  } else if (!onlyLettersAndSpaces.test(data.nameProv)) {
+    errors.nameProv = 'Nombre de proveedor solo puede contener letras';
+  }
+
+  // validar el telefono
+  if (!data.tel || !data.tel.trim()) {
+    errors.tel = 'Número de teléfono obligatorio';
+  } else if (!onlyNumbers.test(data.tel)) {
+    errors.tel = 'Número de teléfono inválido';
+  }
+
+  // validar la ubicación
+
   return errors;
 };
 

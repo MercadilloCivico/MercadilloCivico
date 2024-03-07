@@ -1,7 +1,7 @@
 import { FormControlLabel, FormGroup } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
-function CheckboxRequired({ checked, onChange, disabled }) {
+function CheckboxRequired({ checked, onChange, disabled, label }) {
   return (
     <>
       <FormGroup className=''>
@@ -12,6 +12,7 @@ function CheckboxRequired({ checked, onChange, disabled }) {
               checked={checked}
               onChange={onChange}
               disabled={disabled}
+              label={label}
               sx={{
                 color: '#c55d38',
                 '&.Mui-checked': {
@@ -28,7 +29,7 @@ function CheckboxRequired({ checked, onChange, disabled }) {
   );
 }
 
-function CheckboxBasic() {
+function CheckboxBasic({ label }) {
   return (
     <>
       <FormGroup className=''>
@@ -43,7 +44,7 @@ function CheckboxBasic() {
               }}
             />
           }
-          label='Quiero recibir información nutricional'
+          label={label}
           className='flex self-start text-pearl-bush-950 py-2 min-w-[240px] m-auto '
         />
       </FormGroup>

@@ -21,7 +21,9 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
     else setMenuOpen(!menuOpen);
   }
 
-  const { allItems } = useSelector((state) => state.card);
+  // const { allItems } = useSelector((state) => state.card);
+  const { items } = useSelector((state) => state.card);
+  const { rol } = useSelector((state) => state.auth);
 
   return (
     <>
@@ -44,7 +46,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
 
           {/* Agregar estilos a links activos más adelante */}
           <ul className='hidden lg:flex items-center space-x-10 h-full w-full'>
-            <Link className='ml-5' to={'/'}>
+            <Link className='ml-5' to='/'>
               <li className='h-[55px] w-[55px]'>
                 <img className='h-full w-full object-contain' src={LogoMC} alt='Logo' />
               </li>
@@ -52,12 +54,22 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
             <Link to='/' className='text-tuscany-800 hover:text-tuscany-950 transition'>
               <li>Inicio</li>
             </Link>
-            <Link to='/store' className='text-tuscany-800 hover:text-tuscany-950 transition'>
-              <li>Tienda</li>
-            </Link>
-            <Link to='/favorites' className='text-tuscany-800 hover:text-tuscany-950 transition'>
-              <li>Favoritos</li>
-            </Link>
+            {rol === 'proveedor' ? (
+              <Link to='/store' className='text-tuscany-800 hover:text-tuscany-950 transition'>
+                <li>Proveedor</li>
+              </Link>
+            ) : (
+              <>
+                <Link to='/store' className='text-tuscany-800 hover:text-tuscany-950 transition'>
+                  <li>Tienda</li>
+                </Link>
+                <Link
+                  to='/favorites'
+                  className='text-tuscany-800 hover:text-tuscany-950 transition'>
+                  <li>Favoritos</li>
+                </Link>
+              </>
+            )}
           </ul>
 
           {/* NAV MIDDLE */}
@@ -80,7 +92,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
 
           {/* NAV END */}
           <div className='flex justify-end items-center w-full h-full space-x-[15px]'>
-            {allItems.length > 0 && (
+            {items.length > 0 && rol !== 'proveedor' && (
               <Link
                 to={'/cart'}
                 className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
