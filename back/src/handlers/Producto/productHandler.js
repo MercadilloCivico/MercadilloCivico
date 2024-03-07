@@ -47,9 +47,9 @@ class ProductHandler {
     }
   }
 
-  static async logicDelete(id) {
+  static async logicDelete(id, valor) {
     try {
-      const producto = await prisma.producto.findFirst({
+      const producto = await prisma.producto.findUnique({
         where: {
           id,
         },
@@ -62,7 +62,7 @@ class ProductHandler {
           id,
         },
         data: {
-          disabled: true,
+          disabled: valor,
         },
       });
 
@@ -76,7 +76,7 @@ class ProductHandler {
 
   static async trueDelete(id) {
     try {
-      const producto = await prisma.producto.findFirst({
+      const producto = await prisma.producto.findUnique({
         where: {
           id,
         },
