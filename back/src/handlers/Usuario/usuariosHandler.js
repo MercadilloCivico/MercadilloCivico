@@ -13,6 +13,7 @@ class usuariosHandler {
   static async getAll() {
     try {
       const usuarios = await prisma.usuario.findMany({
+        where: { rol: 'user' },
         include: {
           resenas: true,
           carrito: true,

@@ -23,11 +23,11 @@ const AdminGridCard = ({ id, name, image, marca, disabled, ventas }) => {
   };
 
   return (
-    <div className='max-w-[300px] bg-pearl-bush-200 text-tuscany-950 p-4 rounded-md m-2'>
-      <div className='mb-4 rounded-md'>
+    <div className='max-w-[300px] bg-pearl-bush-200 text-tuscany-950 p-4 rounded-md m-2 flex flex-col justify-center items-center'>
+      <div className='w-[280px] h-[280px] mb-4 rounded-md'>
         <img src={image} alt='ProductImg' className='w-full h-full object-cover rounded-md' />
       </div>
-      <div className='flex justify-between items-center'>
+      <div className='w-[280px] flex justify-between items-center'>
         <h2 className='font-bold text-lg text-start mb-2'>{limitAndEllipsis(name, 20)}</h2>{' '}
         <div className='ml-2 h-[25px] flex items-center font-semibold cursor-pointer opacity-90 bg-[#0000004b] backdrop-blur-[3px] px-1 rounded-md'>
           <IoMdMore
@@ -39,7 +39,7 @@ const AdminGridCard = ({ id, name, image, marca, disabled, ventas }) => {
           )}
         </div>
       </div>
-      <ul className='text-sm'>
+      <ul className='w-[280px] text-sm'>
         <li className='flex justify-between mb-1'>
           <span className='opacity-70'>Marca:</span>
           <span className='font-semibold'>{limitAndEllipsis(marca, 12)}</span>
