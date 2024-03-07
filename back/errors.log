@@ -675,3 +675,7 @@
 2024-03-07 04:53:15 error: PUT /api/proveedor 500 3ms
 2024-03-07 04:53:42 error: PUT /api/proveedor 500 2ms
 2024-03-07 04:58:11 error: PUT /api/proveedor 500 4517ms
+2024-03-07 15:28:59 error: [object Object]
+2024-03-07 15:28:59 error: GET /api/filtro/ 500 26ms
+2024-03-07 15:43:09 error: [object Object]
+2024-03-07 15:43:09 error: GET /api/filtro/ 500 105ms
