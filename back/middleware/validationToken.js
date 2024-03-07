@@ -3,7 +3,7 @@ const { SECRET_JWT } = require('../config/env.config');
 
 async function checkAuthentication(req, res) {
   try {
-    const { token } = req.cookies.sessionToken;
+    const token = req.cookies.sessionToken;
 
     if (!token) {
       return res.status(401).json({ message: 'Token ha expirado', redirectToLogin: true });

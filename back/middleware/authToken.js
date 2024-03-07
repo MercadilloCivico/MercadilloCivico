@@ -3,7 +3,7 @@ const { SECRET_JWT } = require('../config/env.config');
 // const { validTokens } = require('../src/handlers/authHandler');
 
 function authenticateToken(req, res, next) {
-  const { token } = req.cookies.sessionToken;
+  const token = req.cookies.sessionToken;
 
   if (!token) {
     return res.status(401).json({ message: 'Acceso no autorizado' });

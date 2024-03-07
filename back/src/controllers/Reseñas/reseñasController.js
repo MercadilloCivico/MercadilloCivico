@@ -23,7 +23,7 @@ class ReseñasController {
   static async post(req, res) {
     try {
       const { productId, coment, calification } = req.body;
-      const { token } = req.cookies.sessionToken;
+      const token = req.cookies.sessionToken;
       const { id } = jwt.verify(token, SECRET_JWT);
       if (!id) {
         return res.status(401).json({ message: 'Acceso no autorizado' });

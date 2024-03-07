@@ -5,7 +5,7 @@ const { SECRET_JWT } = require('../../../config/env.config');
 class ProveedoresController {
   static async getProfile(req, res) {
     try {
-      const { token } = req.cookies.sessionToken;
+      const token = req.cookies.sessionToken;
       const decoded = jwt.verify(token, SECRET_JWT);
       if (!decoded) {
         throw new Error('session invalida registrese');
@@ -41,7 +41,7 @@ class ProveedoresController {
     try {
       const { nameProv, ubicacion, tel } = req.body;
       const { camaraDeComercio, certificadoBancario } = req.files;
-      const { token } = req.cookies.sessionToken;
+      const token = req.cookies.sessionToken;
       const decoded = jwt.verify(token, SECRET_JWT);
       if (!decoded) {
         throw new Error('session invalida registrese');
@@ -67,7 +67,7 @@ class ProveedoresController {
   static async put(req, res) {
     try {
       const { nameProv, ubicacion, tel } = req.body;
-      const { token } = req.cookies.sessionToken;
+      const token = req.cookies.sessionToken;
       const decoded = jwt.verify(token, SECRET_JWT);
       if (!decoded) {
         throw new Error('session invalida');

@@ -5,7 +5,7 @@ const CarritoHandler = require('../../handlers/Carrito/carritoHandler');
 class CarritoController {
   static async get(req, res) {
     try {
-      const { token } = req.cookies.sessionToken;
+      const token = req.cookies.sessionToken;
       // Este es el id del usuario del cual se esta solicitando el carrito.
       const { id } = jwt.verify(token, SECRET_JWT);
       if (!id) return res.status(401).json({ message: 'Acceso no autorizado' });
