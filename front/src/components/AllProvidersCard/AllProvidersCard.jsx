@@ -28,7 +28,7 @@ const AllProvidersCard = () => {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={() => {
-          navigate('/admin/supliers');
+          navigate('/admin/provider');
         }}>
         <span
           className={`text-[.8em] md:text-[.9em] ${hovered ? 'text-tuscany-600' : 'text-tuscany-400'} `}>

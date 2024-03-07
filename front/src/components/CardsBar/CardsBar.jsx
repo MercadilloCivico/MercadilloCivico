@@ -16,9 +16,12 @@ const CardsBar = () => {
           <span>Estado</span>
           <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
         </li>
-        <li className='hidden md:flex items-center w-[13em]'>
+        <li className='hidden sm:flex items-center w-[13em]'>
           <span>Ventas</span>
           <TbArrowsDownUp className='hover:text-tuscany-600 cursor-pointer' />
+        </li>
+        <li className='hidden md:flex items-center w-[13em]'>
+          <span>Editar</span>
         </li>
         <br />
       </ul>

@@ -29,7 +29,7 @@ const AdminGridCard = ({ id, name, image, marca, disabled, ventas }) => {
       </div>
       <div className='w-[280px] flex justify-between items-center'>
         <h2 className='font-bold text-lg text-start mb-2'>{limitAndEllipsis(name, 20)}</h2>{' '}
-        <div className='ml-2 h-[25px] flex items-center font-semibold cursor-pointer opacity-90 bg-[#0000004b] backdrop-blur-[3px] px-1 rounded-md'>
+        <div className='ml-2 h-[25px] flex items-center font-semibold cursor-pointer bg-[#0000004b] backdrop-blur-[3px] px-1 rounded-md'>
           <IoMdMore
             className='h-[18px] w-[18px] text-[white]'
             onClick={() => setDropdownVisible(!dropdownVisible)}
