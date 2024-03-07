@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchProvidersAsync, addProvider } from '../thunks/providerThunks.js';
+import { fetchProvidersAsync, addProvider, putProvider } from '../thunks/providerThunks.js';
 
 const providersSlice = createSlice({
   name: 'providers',
@@ -32,6 +32,16 @@ const providersSlice = createSlice({
         state.status = 'succeeded';
       })
       .addCase(addProvider.rejected, (state) => {
+        state.status = 'failed';
+      });
+    builder
+      .addCase(putProvider.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(putProvider.fulfilled, (state) => {
+        state.status = 'succeeded';
+      })
+      .addCase(putProvider.rejected, (state) => {
         state.status = 'failed';
       });
   },

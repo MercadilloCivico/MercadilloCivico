@@ -649,3 +649,29 @@
 2024-03-06 20:33:54 error: GET /api/filtro/ 500 10ms
 2024-03-06 20:36:10 error: [object Object]
 2024-03-06 20:36:10 error: GET /api/filtro/ 500 99ms
+2024-03-07 01:13:03 error: [object Object]
+2024-03-07 01:13:03 error: GET /api/filtro/ 500 15ms
+2024-03-07 04:27:07 error: [object Object]
+2024-03-07 04:27:07 error: POST /api/proveedor/update 500 13ms
+2024-03-07 04:28:22 error: PUT /api/proveedor/update 500 2ms
+2024-03-07 04:29:55 error: PUT /api/proveedor/update 500 9ms
+2024-03-07 04:30:43 error: PUT /api/proveedor/update 500 3ms
+2024-03-07 04:32:07 error: PUT /api/proveedor/update 500 15ms
+2024-03-07 04:33:50 error: PUT /api/proveedor/update 500 6ms
+2024-03-07 04:36:09 error: PUT /api/proveedor 500 16ms
+2024-03-07 04:37:45 error: PUT /api/proveedor 500 4ms
+2024-03-07 04:38:35 error: PUT /api/proveedor 500 8ms
+2024-03-07 04:39:04 error: PUT /api/proveedor 500 5ms
+2024-03-07 04:39:26 error: PUT /api/proveedor 500 6ms
+2024-03-07 04:39:44 error: PUT /api/proveedor 500 7ms
+2024-03-07 04:41:15 error: PUT /api/proveedor 500 6369ms
+2024-03-07 04:42:49 error: PUT /api/proveedor 500 4970ms
+2024-03-07 04:43:31 error: PUT /api/proveedor 500 4158ms
+2024-03-07 04:44:08 error: PUT /api/proveedor 500 4357ms
+2024-03-07 04:44:46 error: PUT /api/proveedor 500 5751ms
+2024-03-07 04:45:20 error: PUT /api/proveedor 500 4825ms
+2024-03-07 04:46:20 error: PUT /api/proveedor 500 4537ms
+2024-03-07 04:48:14 error: PUT /api/proveedor 500 5728ms
+2024-03-07 04:53:15 error: PUT /api/proveedor 500 3ms
+2024-03-07 04:53:42 error: PUT /api/proveedor 500 2ms
+2024-03-07 04:58:11 error: PUT /api/proveedor 500 4517ms

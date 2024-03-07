@@ -133,7 +133,7 @@ class usuariosHandler {
 
       const token = jwt.sign({ id: user.id }, SECRET_JWT, { expiresIn: '1h' });
       validTokens.add(token);
-      return token;
+      return { token, rol: user.rol };
     } catch (error) {
       throw new Error(error);
     }

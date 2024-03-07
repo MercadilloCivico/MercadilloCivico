@@ -46,10 +46,10 @@ router.post('/favorites/:id', FavoriteControllers.addFav);
 router.delete('/favorites/:id', FavoriteControllers.removeFav);
 
 // proveedores
-
+router.get('/proveedor/profile', ProveedoresController.getProfile);
 router.get('/proveedor/:id?', ProveedoresController.getAll);
 router.post('/proveedor', validateMiddleware.validateProveedores, ProveedoresController.post);
-router.put('/proveedor/:id', ProveedoresController.put);
+router.put('/proveedor', ProveedoresController.put);
 router.delete('/proveedor/:id', ProveedoresController.delete);
 
 // carrito

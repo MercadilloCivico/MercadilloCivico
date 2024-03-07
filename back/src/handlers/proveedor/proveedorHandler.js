@@ -13,6 +13,24 @@ class proveedorHandlers {
     }
   }
 
+  static async userProfile(id) {
+    try {
+      const proveedor = await prisma.proveedor.findFirst({
+        where: {
+          user_id: id,
+        },
+        include: {
+          productos: true,
+          puntos_de_venta: true,
+          pedidos: true,
+        },
+      });
+      return proveedor;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   static async getById(id) {
     try {
       const proveedor = await prisma.proveedor.findFirst({
@@ -83,23 +101,41 @@ class proveedorHandlers {
       if (nameProv) dataUpdate.name_prov = nameProv;
       if (ubicacion) dataUpdate.ubicacion = ubicacion;
       if (tel) dataUpdate.tel = tel;
-      const error1 = validationPdf(camaraDeComercio);
-      const error2 = validationPdf(certificadoBancario);
-      if (error1 !== undefined || error2 !== undefined) {
-        throw new Error(error1 || error2);
-      }
       if (camaraDeComercio) {
+        const error1 = validationPdf(camaraDeComercio);
+        if (error1 !== undefined) {
+          throw new Error(error1);
+        }
+        const { publicIdCamara } = await prisma.proveedor.findFirst({
+          where: {
+            user_id: id,
+          },
+        });
+        await deleteFile(publicIdCamara);
         const urlCamara = await uploadToFile(camaraDeComercio);
-        dataUpdate.camaraDeComercio = urlCamara;
+        dataUpdate.camaraDeComercio = urlCamara.URL;
+        dataUpdate.publicIdCamara = urlCamara.public_id;
       }
+
       if (certificadoBancario) {
+        const error2 = validationPdf(certificadoBancario);
+        if (error2 !== undefined) {
+          throw new Error(error2);
+        }
+        const { publicIdCertificado } = await prisma.proveedor.findFirst({
+          where: {
+            user_id: id,
+          },
+        });
+        await deleteFile(publicIdCertificado);
         const urlCertificado = await uploadToFile(certificadoBancario);
-        dataUpdate.certificadoBancario = urlCertificado;
+        dataUpdate.certificadoBancario = urlCertificado.URL;
+        dataUpdate.publicIdCertificado = urlCertificado.public_id;
       }
       // token
       await prisma.proveedor.update({
         where: {
-          id,
+          user_id: id,
         },
         data: dataUpdate,
       });
@@ -120,10 +156,10 @@ class proveedorHandlers {
       }
       const { camaraDeComercio, certificadoBancario } = proveedor;
       if (camaraDeComercio) {
-        deleteFile(proveedor.publicIdCamara);
+        await deleteFile(proveedor.publicIdCamara);
       }
       if (certificadoBancario) {
-        deleteFile(proveedor.publicIdCertificado);
+        await deleteFile(proveedor.publicIdCertificado);
       }
       await prisma.proveedor.delete({
         where: {

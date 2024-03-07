@@ -92,7 +92,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
 
           {/* NAV END */}
           <div className='flex justify-end items-center w-full h-full space-x-[15px]'>
-            {items.length > 0 && rol !== 'proveedor' && (
+            {items && items.length > 0 && rol !== 'proveedor' && (
               <Link
                 to={'/cart'}
                 className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
