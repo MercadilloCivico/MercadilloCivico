@@ -60,23 +60,12 @@ const cardsSlice = createSlice({
       })
       .addCase(fetchCards.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        if (
-          state.filters.id !== '' &&
-          Object.values(state.filters)
-            .slice(1)
-            .every((value) => value === '')
-        ) {
-          state.items = action.payload;
-          state.allItems = action.payload;
-        } else {
-          state.items = action.payload;
-        }
+        state.allItems = action.payload;
       })
       .addCase(fetchCards.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       })
-
       .addCase(fetchFilteredCards.pending, (state) => {
         state.status = 'loading';
       })
@@ -88,7 +77,6 @@ const cardsSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-
       .addCase(fetchPuntosSelector.pending, (state) => {
         state.status = 'loading';
       })

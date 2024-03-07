@@ -18,7 +18,7 @@ const Store = () => {
   const dispatch = useDispatch();
   const { puntos } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
-  const { items, filteredItems } = useSelector((state) => state.card);
+  const { allItems, filteredItems } = useSelector((state) => state.card);
 
   const firstRenderDispatch = async () => {
     dispatch(getGoogleCookie());
@@ -68,7 +68,7 @@ const Store = () => {
       <StoreFilters />
 
       <div className='flex flex-row w-full max-w-[1500px] mx-auto'>
-        {items?.length > 0 ? (
+        {allItems?.length > 0 ? (
           <>
             <div className='w-full max-w-[200px] hidden md:inline sticky h-full top-[55px]'>
               <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
@@ -81,7 +81,7 @@ const Store = () => {
               />
             </div>
             <Cards
-              allItems={items}
+              allItems={allItems}
               filteredItems={filteredItems}
               className='w-full max-w-[1300px]'
             />
