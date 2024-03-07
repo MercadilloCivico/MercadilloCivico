@@ -87,6 +87,7 @@ function App() {
         } catch (error) {
           if (error.response.data.redirectToLogin) {
             setOpen(false);
+
             await dispatch(logout());
           }
         }
