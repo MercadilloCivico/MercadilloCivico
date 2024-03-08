@@ -685,6 +685,72 @@
 2024-03-07 15:28:59 error: GET /api/filtro/ 500 26ms
 2024-03-07 15:43:09 error: [object Object]
 2024-03-07 15:43:09 error: GET /api/filtro/ 500 105ms
+2024-03-07 18:26:10 error: [object Object]
+2024-03-07 18:26:10 error: GET /api/session/payment 500 43ms
+2024-03-07 18:28:49 error: [object Object]
+2024-03-07 18:28:49 error: GET /api/session/payment 500 43ms
+2024-03-07 18:28:51 error: [object Object]
+2024-03-07 18:28:51 error: GET /api/session/payment 500 14ms
+2024-03-07 18:31:58 error: [object Object]
+2024-03-07 18:31:58 error: GET /api/session/payment 500 31ms
+2024-03-07 18:32:00 error: [object Object]
+2024-03-07 18:32:00 error: GET /api/session/payment 500 12ms
+2024-03-07 18:35:41 error: [object Object]
+2024-03-07 18:35:42 error: GET /api/session/payment 500 47ms
+2024-03-07 18:36:17 error: [object Object]
+2024-03-07 18:36:17 error: GET /api/session/payment 500 52ms
+2024-03-07 18:36:19 error: [object Object]
+2024-03-07 18:36:19 error: GET /api/session/payment 500 16ms
+2024-03-07 18:36:20 error: [object Object]
+2024-03-07 18:36:20 error: GET /api/session/payment 500 10ms
+2024-03-07 18:37:45 error: [object Object]
+2024-03-07 18:37:45 error: GET /api/session/payment 500 69ms
+2024-03-07 18:37:46 error: [object Object]
+2024-03-07 18:37:46 error: GET /api/session/payment 500 13ms
+2024-03-07 18:37:46 error: [object Object]
+2024-03-07 18:37:46 error: GET /api/session/payment 500 9ms
+2024-03-07 18:37:47 error: [object Object]
+2024-03-07 18:37:47 error: GET /api/session/payment 500 8ms
+2024-03-07 18:37:47 error: [object Object]
+2024-03-07 18:37:47 error: GET /api/session/payment 500 9ms
+2024-03-07 18:37:47 error: [object Object]
+2024-03-07 18:37:47 error: GET /api/session/payment 500 8ms
+2024-03-07 18:39:36 error: [object Object]
+2024-03-07 18:39:36 error: GET / 500 99ms
+2024-03-07 18:54:18 error: [object Object]
+2024-03-07 18:54:18 error: GET /api/session/payment 500 53ms
+2024-03-07 18:55:35 error: [object Object]
+2024-03-07 18:55:35 error: GET /api/session/payment 500 12ms
+2024-03-07 18:57:39 error: [object Object]
+2024-03-07 18:57:39 error: GET /api/session/payment 500 13ms
+2024-03-07 19:01:44 error: [object Object]
+2024-03-07 19:01:44 error: GET /favicon.ico 500 22ms
+2024-03-07 19:01:50 error: [object Object]
+2024-03-07 19:01:50 error: GET /favicon.ico 500 12ms
+2024-03-07 19:04:10 error: GET /api/session/payment 500 2095ms
+2024-03-07 19:04:10 error: [object Object]
+2024-03-07 19:04:10 error: GET /favicon.ico 500 22ms
+2024-03-07 19:04:20 error: GET /api/session/payment 500 458ms
+2024-03-07 19:04:20 error: [object Object]
+2024-03-07 19:04:20 error: GET /favicon.ico 500 9ms
+2024-03-07 19:04:25 error: GET /api/session/payment 500 453ms
+2024-03-07 19:04:25 error: [object Object]
+2024-03-07 19:04:25 error: GET /favicon.ico 500 11ms
+2024-03-07 19:04:44 error: GET /api/session/payment 500 452ms
+2024-03-07 19:09:25 error: GET /api/session/payment 500 1002ms
+2024-03-07 19:12:05 error: GET /api/session/payment 500 1372ms
+2024-03-07 19:25:54 error: [object Object]
+2024-03-07 19:25:54 error: GET /api/filtro/ 500 21ms
+2024-03-07 19:29:15 error: [object Object]
+2024-03-07 19:29:16 error: GET /api/filtro/ 500 27ms
+2024-03-07 19:37:48 error: GET /api/session/payment 500 857ms
+2024-03-07 19:42:33 error: GET /api/session/payment?price=17000 500 980ms
+2024-03-07 19:45:40 error: [object Object]
+2024-03-07 19:45:40 error: GET /api/filtro/ 500 23ms
+2024-03-07 20:10:35 error: [object Object]
+2024-03-07 20:10:35 error: GET /api/filtro/ 500 28ms
+2024-03-07 21:04:03 error: [object Object]
+2024-03-07 21:04:03 error: GET /api/filtro/ 500 41ms
 2024-03-07 15:59:43 error: POST /api/login 500 176ms
 2024-03-07 17:17:52 error: PUT /api/proveedor 500 2ms
 2024-03-07 18:33:38 error: PUT /api/proveedor 500 2ms
@@ -695,8 +761,4 @@
 2024-03-07 18:43:18 error: PUT /api/proveedor 500 0ms
 2024-03-07 18:44:07 error: PUT /api/proveedor 500 0ms
 2024-03-07 18:45:35 error: PUT /api/proveedor 500 1ms
-2024-03-07 18:47:58 error: PUT /api/proveedor 500 8ms
-2024-03-07 21:14:30 error: PUT /api/proveedor 500 311ms
-2024-03-07 21:14:38 error: PUT /api/proveedor 500 103ms
-2024-03-07 21:15:03 error: PUT /api/proveedor 500 233ms
-2024-03-07 21:30:40 error: PUT /api/proveedor 500 321ms
+

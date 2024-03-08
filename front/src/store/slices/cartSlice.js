@@ -5,6 +5,7 @@ import {
   getCartDBThunk,
   getCartIdThunk,
   removeProductFromCartDBThunk,
+  stripePaymentMethod,
   updateProductQtyDBThunk,
 } from '../thunks/cartThunks';
 
@@ -24,6 +25,9 @@ export const cartSlice = createSlice({
       state.totalPrice = 0;
       state.error = null;
       state.status = 'idle';
+    },
+    setTotalPrice: (state, action) => {
+      state.totalPrice = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -93,10 +97,21 @@ export const cartSlice = createSlice({
       .addCase(cleanCartDBThunk.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.error;
+      })
+      .addCase(stripePaymentMethod.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(stripePaymentMethod.fulfilled, (state) => {
+        state.status = 'succeeded';
+        state.error = null;
+      })
+      .addCase(stripePaymentMethod.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.error;
       });
   },
 });
 
-export const { clearCart } = cartSlice.actions;
+export const { clearCart, setTotalPrice } = cartSlice.actions;
 
 export default cartSlice.reducer;
