@@ -18,13 +18,16 @@ export const login = createAsyncThunk('auth/login', async (userData, { rejectWit
 // Thunk para registrar un nuevo usuario
 export const register = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
   const formData = new FormData();
-
+  console.log(userData);
   formData.append('firstName', userData.firstName);
   formData.append('lastName', userData.lastName);
   formData.append('email', userData.email);
   formData.append('password', userData.password);
+  formData.append('rol', userData.rol);
+
   if (userData.secondName) formData.append('secondName', userData.secondName);
   if (userData.photo) formData.append('image', userData.photo);
+
   try {
     const response = await axios.post(`${VITE_API_URL}/register`, formData, {
       headers: {

@@ -25,8 +25,9 @@ import {
 } from './formControl.js';
 import RegisterProvider from '../../components/RegisterProvider/RegisterProvider.jsx';
 import municipiosPrincipales from '../../utils/departamentos.js';
-import CustomInput from '../../components/CustomInput/CustomInput.jsx';
 import { putProvider } from '../../store/thunks/providerThunks.js';
+import { validacionProveedor } from '../../utils/validation.js';
+import CustomInput from '../../components/CustomInput/CustomInput.jsx';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -261,6 +262,8 @@ export default function Profile() {
         [e.target.name]: e.target.value.trim(),
       }));
     }
+
+    setErrors(validacionProveedor({ ...formData, [name]: value }));
   }
   // validar errores en cada cambio del formData
   /* eslint-disable */
@@ -483,105 +486,130 @@ export default function Profile() {
             {/* Botones al editar*/}
             {perfilProveedor && (
               <div>
-                <div style={{ paddingBlock: '10px' }}>Información del Proveedor</div>
-                <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <label htmlFor='camaraDeComercio'>Ingrese PDF de la camara de comercio</label>
-                    <input
-                      type='file'
-                      name='camaraDeComercio'
-                      accept='application/pdf'
-                      onChange={handlePDFChange}
-                    />
-                  </div>
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <label htmlFor='certificadoBancario'>
-                      Ingrese PDF del certificado bancario
-                    </label>
-                    <input
-                      type='file'
-                      name='certificadoBancario'
-                      accept='application/pdf'
-                      onChange={handlePDFChange}
-                    />
-                  </div>
-                  <TextField
-                    onChange={handleNameProv}
-                    className='w-[300px] m-2'
-                    name='nameProv'
-                    color='success'
-                    id='outlined-helperText'
-                    label='Nombre del Proveedor'
-                    value={currentDataProveedor.nameProv}
-                    helperText={errors.confirm}
-                    error={errors.confirm ? true : false}
-                  />
-                  <TextField
-                    onChange={handleNameProv}
-                    className='w-[300px] m-2'
-                    name='tel'
-                    color='success'
-                    id='outlined-helperText'
-                    label='Telefono'
-                    value={currentDataProveedor.tel}
-                    helperText={errors.confirm}
-                    error={errors.confirm ? true : false}
-                  />
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <CustomInput
-                      label='Ubicacion'
-                      name='direccion'
-                      type='text'
-                      value={currentDataProveedor.ubicacion[2]}
-                      onChange={handleDirection}
-                      maxLength={30}
-                    />
-                  </div>
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <label htmlFor='departamento' className='text-pearl-bush-950'>
-                      Departamento:
-                    </label>
-                    <select
-                      name='departamento'
-                      defaultValue={`${currentDataProveedor.ubicacion[0]}`}
-                      className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'
-                      onChange={handleDepartmentChange}>
-                      <option value='' disabled>
-                        Seleccione un departamento
-                      </option>
-                      {Object.keys(municipiosPrincipales).map((departamento, index) => (
-                        <option key={index} value={departamento}>
-                          {departamento}
-                        </option>
-                      ))}
-                    </select>
-                    <div className='text-crown-of-thorns-600'>{errors.departamento}</div>
-                  </div>
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <label htmlFor='municipio' className='text-pearl-bush-950'>
-                      Municipio:
-                    </label>
-                    <select
-                      name='municipio'
-                      onChange={handleMunicipalityChange}
-                      defaultValue={currentDataProveedor.ubicacion[1]}
-                      className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'>
-                      <option value=''>Seleccione un municipio</option>
-                      {municipiosPrincipales[currentDataProveedor.ubicacion[0]].map(
-                        (municipio, index) => (
-                          <option key={index} value={municipio}>
-                            {municipio}
-                          </option>
-                        )
-                      )}
-                    </select>
-                    {currentDataProveedor.ubicacion[1] === 'sin dato' && (
-                      <label className='text-crown-of-thorns-600'>
-                        Por favor, seleccione un municipio
+                <div className='p-4 m-4 text-pearl-bush-950 font-bold bg-tuscany-200 rounded-sm'>
+                  Información del Proveedor
+                </div>
+                <div className='flex flex-col justify-center '>
+                  <ul className='flex flex-wrap justify-around max-w-[800px] mx-auto rounded-md bg-tuscany-200'>
+                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto mt-5'>
+                      <label htmlFor='camaraDeComercio' className='text-pearl-bush-950 font-medium'>
+                        Ingrese PDF de la camara de comercio
                       </label>
-                    )}
-                  </div>
-                </ul>
+                      <input
+                        type='file'
+                        name='camaraDeComercio'
+                        accept='application/pdf'
+                        onChange={handlePDFChange}
+                        className='w-[300px] m-2 bg-pearl-bush-100 p-2'
+                      />
+                    </div>
+
+                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto mt-5'>
+                      <label
+                        htmlFor='certificadoBancario'
+                        className='text-pearl-bush-950 font-medium'>
+                        Ingrese PDF del certificado bancario
+                      </label>
+                      <input
+                        type='file'
+                        name='certificadoBancario'
+                        accept='application/pdf'
+                        onChange={handlePDFChange}
+                        className='w-[300px] m-2 bg-pearl-bush-100 p-2'
+                      />
+                    </div>
+
+                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mt-3'>
+                      <CustomInput
+                        onChange={handleNameProv}
+                        className='w-[300px] bg-pearl-bush-100'
+                        name='nameProv'
+                        color='success'
+                        id='outlined-helperText'
+                        label='Nombre del Proveedor'
+                        value={currentDataProveedor.nameProv}
+                        maxLength={30}
+                      />
+                      {errors.nameProv && (
+                        <span className='text-crown-of-thorns-600 text-xs'>{errors.nameProv}</span>
+                      )}
+                    </div>
+
+                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mt-3'>
+                      <CustomInput
+                        onChange={handleNameProv}
+                        className='w-[300px] bg-pearl-bush-100'
+                        name='tel'
+                        color='success'
+                        id='outlined-helperText'
+                        label='Telefono'
+                        value={currentDataProveedor.tel}
+                        maxLength={12}
+                      />
+                      {errors.tel && (
+                        <span className='text-crown-of-thorns-600 text-xs'>{errors.tel}</span>
+                      )}
+                    </div>
+
+                    <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
+                      <label htmlFor='departamento' className='text-pearl-bush-950 font-medium'>
+                        Departamento:
+                      </label>
+                      <select
+                        name='departamento'
+                        defaultValue={`${currentDataProveedor.ubicacion[0]}`}
+                        className='border-tuscany-950 hover:custom-border-2 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer p-3'
+                        onChange={handleDepartmentChange}>
+                        <option value=''>Seleccione un departamento</option>
+                        {Object.keys(municipiosPrincipales).map((departamento, index) => (
+                          <option key={index} value={departamento}>
+                            {departamento}
+                          </option>
+                        ))}
+                      </select>
+                      {currentDataProveedor.ubicacion[1] === 'sin dato' && (
+                        <span className='text-tuscany-200'>Por favor, seleccione un municipio</span>
+                      )}
+                    </div>
+
+                    <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
+                      <label htmlFor='municipio' className='text-pearl-bush-950 font-medium'>
+                        Municipio:
+                      </label>
+                      <select
+                        name='municipio'
+                        onChange={handleMunicipalityChange}
+                        defaultValue={currentDataProveedor.ubicacion[1]}
+                        className='border-tuscany-950 hover:custom-border-2 p-3 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer'>
+                        <option value=''>Seleccione un municipio</option>
+                        {municipiosPrincipales[currentDataProveedor.ubicacion[0]].map(
+                          (municipio, index) => (
+                            <option key={index} value={municipio}>
+                              {municipio}
+                            </option>
+                          )
+                        )}
+                      </select>
+                      {currentDataProveedor.ubicacion[1] === 'sin dato' && (
+                        <span className='text-crown-of-thorns-600'>
+                          Por favor, seleccione un municipio
+                        </span>
+                      )}
+                    </div>
+
+                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mb-5 mt-3'>
+                      <TextField
+                        label='Ubicacion'
+                        name='direccion'
+                        type='text'
+                        className='w-[300px] m-2 bg-pearl-bush-100'
+                        value={currentDataProveedor.ubicacion[2]}
+                        onChange={handleDirection}
+                        maxLength={30}
+                      />
+                    </div>
+                  </ul>
+                </div>
               </div>
             )}
             <div>
@@ -620,30 +648,46 @@ export default function Profile() {
             </ul>
           </div>
         )}
-        {rol !== 'user' && !perfilProveedor ? (
+        {rol === 'proveedor' && !perfilProveedor ? (
           <RegisterProvider />
         ) : rol === 'proveedor' && !editMode ? (
-          <div>
-            <label>Empresa</label>
-            <label>{currentDataProveedor.nameProv}</label>
-            <label>Tel</label>
-            <label>{currentDataProveedor.tel}</label>
-            <label>Ubicacion</label>
-            <label>{currentDataProveedor.ubicacion}</label>
-            <label>Obtener camara de comercio</label>{' '}
-            <button
-              onClick={() => {
-                window.open(`${currentDataProveedor.camaraDeComercio}`, '_blank');
-              }}>
-              Aqui
-            </button>
-            <label>Obtener certificado bancario</label>{' '}
-            <button
-              onClick={() => {
-                window.open(`${currentDataProveedor.certificadoBancario}`, '_blank');
-              }}>
-              Aqui
-            </button>
+          <div className='w-full max-w-[900px] my-5 mx-auto'>
+            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
+              <span className='text-tuscany-950 font-bold'>Empresa</span>
+              <span>{currentDataProveedor.nameProv}</span>
+            </div>
+            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
+              <span className='text-tuscany-950 font-bold'>Telefono</span>
+              <span>{currentDataProveedor.tel}</span>
+            </div>
+            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
+              <span className='text-tuscany-950 font-bold'>Ubicacion</span>
+              <span>{currentDataProveedor.ubicacion}</span>
+            </div>
+            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
+              <span className='text-tuscany-950 font-bold'>Obtener camara de comercio</span>{' '}
+              <div>
+                <CustomButton
+                  className='w-[150px] my-1 mx-auto'
+                  text={'Aqui'}
+                  onClick={() => {
+                    window.open(`${currentDataProveedor.camaraDeComercio}`, '_blank');
+                  }}
+                />
+              </div>
+            </div>
+            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto'>
+              <span className='text-tuscany-950 font-bold'>Obtener certificado bancario</span>{' '}
+              <span>
+                <CustomButton
+                  text={'Aqui'}
+                  className='w-[150px] my-1 mx-auto'
+                  onClick={() => {
+                    window.open(`${currentDataProveedor.certificadoBancario}`, '_blank');
+                  }}
+                />
+              </span>
+            </div>
           </div>
         ) : (
           <div>
