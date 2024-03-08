@@ -1,4 +1,7 @@
-export default function SupplierPoint({
+import UpdatePointModal from './UpdatePointModal.jsx';
+import { useState } from 'react';
+
+export default function AdminPointsCard({
   companyName,
   address,
   postalCode,
@@ -7,13 +10,27 @@ export default function SupplierPoint({
   image,
   className,
 }) {
+  const [modal, setModal] = useState(false);
+
+  function handleOpen() {
+    setModal(true);
+  }
+
+  function handleClose() {
+    console.log('fasdadfgdf');
+    setModal(false);
+  }
+
   return (
-    <div>
+    <>
+      {modal && <UpdatePointModal modal={modal} handleClose={handleClose} />}
+
       <div
         className={
           'flex bg-tuscany-100 text-tuscany-950 overflow-hidden rounded-xl outline outline-[1px] outline-solid outline-tuscany-600 ' +
           className
-        }>
+        }
+        onClick={handleOpen}>
         <div className='w-[125px] h-[125px] flex-shrink-0'>
           <img src={image} className='w-full h-full  object-cover'></img>
         </div>
@@ -44,6 +61,6 @@ export default function SupplierPoint({
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
