@@ -53,9 +53,9 @@ const AdminProductDetail = () => {
         </div>
       </header>
 
-      <div className='flex flex-col m-4 mt-[4em] p-2'>
-        <div className='flex justify-between xsm:space-x-80 sm:space-x-96 items-center'>
-          <div className='flex items-center'>
+      <div className='flex flex-col justify-center mx-auto mt-[4em] p-2'>
+        <div className='flex flex-col lg:flex-row lg:justify-between lg:space-x-40 mx-auto items-center'>
+          <div className='flex flex-col md:flex-row items-center'>
             <div className='w-[9em] h-[9em] mr-2 rounded-md flex items-center justify-center'>
               <img
                 src={product.image}
@@ -91,34 +91,47 @@ const AdminProductDetail = () => {
               </li>
             </ul>
           </div>
-          <div className='flex flex-col justify-start items-center space-y-3'>
+          <div className='flex lg:flex-col justify-center lg:justify-start items-center space-x-2 lg:space-x-0 lg:space-y-3 mt-2 lg:mt-0'>
             <button
-              className='w-[7em] p-2 border-none rounded-md bg-tuscany-500 text-pearl-bush-100 font-semibold hover:bg-tuscany-600 cursor-pointer'
+              className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-tuscany-500 text-pearl-bush-100 font-semibold hover:bg-tuscany-600 cursor-pointer'
               onClick={() => {
                 navigate(`/admin/products/edit/${product.id}`);
               }}>
               Editar
             </button>
+            {product.disabled ? (
+              <button
+                className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#599d64] text-pearl-bush-100 font-semibold hover:bg-[#3a8651] cursor-pointer'
+                onClick={() => {
+                  dispatch(logicDeleteProductAsync(product.id));
+                  navigate(-1);
+                }}>
+                Activar
+              </button>
+            ) : (
+              <button
+                className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#59719d] text-tuscany-950 font-semibold hover:bg-[#cccccc] cursor-pointer'
+                onClick={() => {
+                  dispatch(logicDeleteProductAsync(product.id));
+                  navigate(-1);
+                }}>
+                Suspender
+              </button>
+            )}
             <button
-              className='w-[7em] p-2 border-none rounded-md bg-[#59719d] text-tuscany-950 font-semibold hover:bg-[#cccccc] cursor-pointer'
-              onClick={() => {
-                dispatch(logicDeleteProductAsync(product.id));
-                navigate(-1);
-              }}>
-              Suspender
-            </button>
-            <button
-              className='w-[7em] p-2 border-none rounded-md bg-crown-of-thorns-600 text-pearl-bush-100 font-semibold hover:bg-crown-of-thorns-700 cursor-pointer'
+              className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-crown-of-thorns-600 text-pearl-bush-100 font-semibold hover:bg-crown-of-thorns-700 cursor-pointer'
               onClick={openModal}>
               Eliminar
             </button>
           </div>
         </div>
-        <CardsProductBar producto={product} />
-        <br />
-        <h3 className='text-start text-tuscany-950 font-semibold'>Reseñas:</h3>
-        <AdminReviews reviews={product.reseñas} />
-        <br />
+        <div className=''>
+          <CardsProductBar producto={product} />
+        </div>
+        <div className='mx-2'>
+          <h3 className='text-start text-tuscany-950 font-semibold'>Reseñas:</h3>
+          <AdminReviews reviews={product.reseñas} />
+        </div>
         <div>Ventas</div>
         <div>
           <Modal isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>

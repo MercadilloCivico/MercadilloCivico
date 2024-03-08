@@ -11,6 +11,7 @@ const validateMiddleware = require('../../middleware/validateMiddleware');
 const ReseñasController = require('../controllers/Reseñas/reseñasController');
 const HistorialController = require('../controllers/HistorialDeVenta/historialController');
 const FiltroController = require('../controllers/Filtros/filtroController');
+const AdminFiltrosController = require('../controllers/AdminFiltros/adminFiltrosController');
 const datosTarjeta = require('../controllers/dataCard/datosTarjeta');
 const { checkAuthentication } = require('../../middleware/validationToken');
 const StripeController = require('../controllers/Stripe/stripeController');
@@ -90,6 +91,7 @@ router.delete('/historialCompra/:id', HistorialController.delete);
 
 // Filtros
 router.get('/filtro/:id', validateMiddleware.validateFilter, FiltroController.filterProductos);
+router.get('/productos/filtro', AdminFiltrosController.filtrarProductos);
 
 // datosTarjeta
 

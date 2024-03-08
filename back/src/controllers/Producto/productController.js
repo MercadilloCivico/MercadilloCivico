@@ -61,7 +61,7 @@ class ProductController {
       const { id } = req.params;
       const { name } = req.query;
       if (name) {
-        const product = await ProductHandler.getNameById(name);
+        const product = await ProductHandler.getName(name);
         return res.status(200).json(product);
       }
       if (id) {

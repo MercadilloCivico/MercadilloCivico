@@ -5,10 +5,10 @@ const CardsProductBar = ({ producto }) => {
   const { inventario } = producto;
 
   return (
-    <div className='py-3 flex justify-center flex-wrap space-between xsm:px-0 sm:px-10 max-w-[1366px] mx-auto'>
+    <div className='py-3 flex justify-center items-center max-w-[1366px] mx-auto'>
       <div className='max-h-[15vh] overflow-y-auto'>
         <DetailProductBar />
-        <div className='flex flex-col'>
+        <div className='flex flex-col justify-center items-center'>
           {inventario.map((data) => (
             <CardProductBar
               key={data.id}

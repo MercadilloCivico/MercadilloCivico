@@ -1,7 +1,13 @@
+import CardsAdminDashboard from '../../components/CardsAdminDashboard/CardsAdminDashboard';
+import CustomBreadcrumbs from '../../components/CustomBreadcrumbs/CustomBreadcrumbs';
+
 const AdminDashboard = () => {
   return (
     <div>
-      <span>AdminDashboard</span>
+      <div className='m-2'>
+        <CustomBreadcrumbs />
+      </div>
+      <CardsAdminDashboard />
     </div>
   );
 };
