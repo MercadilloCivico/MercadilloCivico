@@ -296,8 +296,11 @@ export default function Profile() {
         formData.firstName.charAt(0).toUpperCase() +
         formData.firstName.slice(1).toLocaleLowerCase(),
       secondName:
-        formData.secondName.charAt(0).toUpperCase() +
-        formData.secondName.slice(1).toLocaleLowerCase(),
+        formData.secondName === ''
+          ? ''
+          : formData.secondName.charAt(0).toUpperCase() +
+            formData.secondName.slice(1).toLocaleLowerCase(),
+
       lastName:
         formData.lastName.charAt(0).toUpperCase() + formData.lastName.slice(1).toLocaleLowerCase(),
       email: formData.email,
