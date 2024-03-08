@@ -60,9 +60,9 @@ class usuarios {
   static async recuperarContrasenia(req, res) {
     try {
       const { email, password } = req.query;
-      const response = await usuariosHandler.authHandler(email, password);
-      if (response) {
-        res.cookie('sessionToken', response, {
+      const { token } = await usuariosHandler.authHandler(email, password);
+      if (token) {
+        res.cookie('sessionToken', token, {
           httpOnly: true,
           maxAge: 3600000,
           sameSite: COOKIE_SAMESITE_CONFIG,
@@ -77,7 +77,7 @@ class usuarios {
 
   static async putUsuario(req, res) {
     try {
-      let { token } = req.cookies.sessionToken;
+      let token = req.cookies.sessionToken;
       const decoded = jwt.verify(token, SECRET_JWT);
       if (!decoded) {
         return res.status(401).json({ message: 'Acceso no autorizado' });
