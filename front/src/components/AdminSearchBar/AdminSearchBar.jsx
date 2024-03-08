@@ -2,6 +2,7 @@ import { IoCloseSharp, IoGridOutline } from 'react-icons/io5';
 import { CiFilter, CiBoxList, CiSearch } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsersAsync } from '../../store/thunks/userThunks';
+import { fetchProductsAsync } from '../../store/thunks/productThunks';
 import { useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { switchAdminCard, switchView } from '../../store/slices/adminSlice';
@@ -12,6 +13,7 @@ const AdminSearchBar = () => {
   const { view } = useSelector((state) => state.admin);
   const [searchValue, setSearchValue] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const isAdminProducts = useMatch('/admin/products');
 
   const handleFilters = () => {
     setShowFilters(!showFilters);
@@ -20,29 +22,29 @@ const AdminSearchBar = () => {
   const handleSearch = (e) => {
     const { value } = e.target;
     setSearchValue(value);
-    dispatch(fetchUsersAsync(value));
+    if (!isAdminProducts) dispatch(fetchUsersAsync(value));
+    else dispatch(fetchProductsAsync(value));
   };
 
   const handleClearSearch = () => {
     setSearchValue('');
-    dispatch(fetchUsersAsync(''));
+    if (!isAdminProducts) dispatch(fetchUsersAsync(''));
+    else dispatch(fetchProductsAsync(''));
   };
 
   const handleCard = () => {
-    if (view !== 'list') {
+    if (view !== 'list' && isAdminProducts) {
       dispatch(switchView('list'));
       dispatch(switchAdminCard());
     }
   };
 
   const handleGrid = () => {
-    if (view !== 'grid') {
+    if (view !== 'grid' && isAdminProducts) {
       dispatch(switchView('grid'));
       dispatch(switchAdminCard());
     }
   };
-
-  const isAdminProducts = useMatch('/admin/products');
 
   return (
     <div className='flex justify-center mx-4 my- relative z-20'>

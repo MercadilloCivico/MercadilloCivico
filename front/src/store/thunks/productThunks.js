@@ -5,9 +5,9 @@ const VITE_API_URL = import.meta.env.VITE_API_URL;
 // Thunk para obtener productos (todos o por ID)
 export const fetchProductsAsync = createAsyncThunk(
   'products/fetchProductsAsync',
-  async (pid, { rejectWithValue }) => {
+  async (param, { rejectWithValue }) => {
     try {
-      const url = pid ? `${VITE_API_URL}/product/${pid}` : `${VITE_API_URL}/product`;
+      const url = param ? `${VITE_API_URL}/product/?name=${param}` : `${VITE_API_URL}/product`;
       const response = await axios.get(url);
       return response.data;
     } catch (error) {

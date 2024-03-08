@@ -136,18 +136,17 @@ class ProductHandler {
   static async getName(name) {
     try {
       const productos = await prisma.producto.findMany({
-        where: {
-          name: {
-            contains: name,
-          },
-        },
         include: {
           resenas: true,
           proveedor: true,
           inventario: true,
         },
       });
-      return productos;
+      const productosName = productos.filter((p) => {
+        const productName = p.name;
+        return productName.toLowerCase().startsWith(name.toLowerCase());
+      });
+      return productosName;
     } catch (error) {
       throw new Error(error.message);
     }

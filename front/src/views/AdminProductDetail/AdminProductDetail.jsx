@@ -91,7 +91,7 @@ const AdminProductDetail = () => {
               </li>
             </ul>
           </div>
-          <div className='flex lg:flex-col justify-center lg:justify-start items-center space-x-2 lg:space-x-0 lg:space-y-3'>
+          <div className='flex lg:flex-col justify-center lg:justify-start items-center space-x-2 lg:space-x-0 lg:space-y-3 mt-2 lg:mt-0'>
             <button
               className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-tuscany-500 text-pearl-bush-100 font-semibold hover:bg-tuscany-600 cursor-pointer'
               onClick={() => {
