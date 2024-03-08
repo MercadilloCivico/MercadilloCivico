@@ -46,6 +46,12 @@ export const authSlice = createSlice({
         state.error = null;
       }
     },
+    getGoogleToken(state, action) {
+      state.token = action.payload;
+      state.rol = 'user';
+      state.status = 'succeeded';
+      state.error = null;
+    },
     setStatus(state, action) {
       state.status = action.payload;
     },
@@ -139,6 +145,7 @@ export const {
   googleAuth,
   getGoogleCookie,
   googleErrorChecker,
+  getGoogleToken,
 } = authSlice.actions;
 
 export default authSlice.reducer;

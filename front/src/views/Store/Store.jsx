@@ -7,27 +7,37 @@ import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
-import { getGoogleCookie } from '../../store/slices/authSlice.js';
+import { getGoogleToken } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
 import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
 import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
+import { useLocation, useParams } from 'react-router-dom';
 
 const Store = () => {
   const dispatch = useDispatch();
   const { puntos } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
-  const { items, filteredItems } = useSelector((state) => state.card);
+  const { allItems, filteredItems } = useSelector((state) => state.card);
+  const { token } = useParams();
+  const query = useLocation().search;
 
   const firstRenderDispatch = async () => {
-    dispatch(getGoogleCookie());
     await dispatch(fetchPuntosSelector());
     if (idCarrito === null) {
       await dispatch(getCartIdThunk());
       await dispatch(getCartDBThunk());
     }
   };
+
+  useEffect(() => {
+    (() => {
+      if (query === '?auth=google') {
+        return dispatch(getGoogleToken(token));
+      }
+    })();
+  }, [dispatch, token]);
 
   useEffect(() => {
     firstRenderDispatch();
@@ -68,7 +78,7 @@ const Store = () => {
       <StoreFilters />
 
       <div className='flex flex-row w-full max-w-[1500px] mx-auto'>
-        {items?.length > 0 ? (
+        {allItems?.length > 0 ? (
           <>
             <div className='w-full max-w-[200px] hidden md:inline sticky h-full top-[55px]'>
               <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
@@ -81,7 +91,7 @@ const Store = () => {
               />
             </div>
             <Cards
-              allItems={items}
+              allItems={allItems}
               filteredItems={filteredItems}
               className='w-full max-w-[1300px]'
             />

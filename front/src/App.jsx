@@ -87,6 +87,7 @@ function App() {
         } catch (error) {
           if (error.response.data.redirectToLogin) {
             setOpen(false);
+
             await dispatch(logout());
           }
         }
@@ -124,7 +125,7 @@ function App() {
           <Route path='*' element={<PageNotFound />} />
 
           <Route path='/' element={<Landing />} />
-          <Route path='/store' element={<Store />} />
+          <Route path='/store/:token?' element={<Store />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/favorites' element={<ProtectedRoute Component={Favorites} />} />
           <Route path='/detail/:id' element={<Detail />} />

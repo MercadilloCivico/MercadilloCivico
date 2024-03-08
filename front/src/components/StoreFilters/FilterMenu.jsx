@@ -6,10 +6,11 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { LuFilter } from 'react-icons/lu';
 
 import { setFilterMarca, setFilterPrecio } from '../../store/slices/cardsSlice';
+import { fetchFilteredCards } from '../../store/thunks/cardsThunks';
 
 export default function FilterMenu({ className, activeFilterMenu, toggleFilterMenu, expanded }) {
   const dispatch = useDispatch();
-  const { allItems } = useSelector((state) => state.card);
+  const { allItems, filters } = useSelector((state) => state.card);
 
   const allBrands = [...allItems].map((product) => product.marca);
 
@@ -19,6 +20,13 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
   const [activeBrands, setActiveBrands] = useState(expanded);
   const [activeDeals, setActiveDeals] = useState(expanded);
   const menuRef = useRef(null);
+
+  useEffect(() => {
+    const fetch = async () => {
+      await dispatch(fetchFilteredCards(filters));
+    };
+    fetch();
+  }, [filters]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -69,22 +77,22 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
             {activePrices && (
               <ul className='text-left px-2'>
                 <li
-                  onClick={async () => {
-                    await dispatch(setFilterPrecio('bajo'));
+                  onClick={() => {
+                    dispatch(setFilterPrecio('bajo'));
                   }}
                   className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
                   Precios bajos
                 </li>
                 <li
-                  onClick={async () => {
-                    await dispatch(setFilterPrecio('medio'));
+                  onClick={() => {
+                    dispatch(setFilterPrecio('medio'));
                   }}
                   className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
                   Precios medios
                 </li>
                 <li
-                  onClick={async () => {
-                    await dispatch(setFilterPrecio('alto'));
+                  onClick={() => {
+                    dispatch(setFilterPrecio('alto'));
                   }}
                   className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
                   Precios altos
