@@ -47,6 +47,7 @@ export const putProvider = createAsyncThunk(
       if (dataForm.ubicacion) {
         ubicacionString = dataForm.ubicacion.join('-');
       }
+      console.log('🚀 ~ dataForm:', ubicacionString);
       const formData = new FormData();
       formData.append('nameProv', dataForm.nameProv);
       formData.append('ubicacion', ubicacionString);
