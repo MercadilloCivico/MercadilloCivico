@@ -33,7 +33,7 @@ class usuarios {
       const requiredFields = ['firstName', 'lastName', 'email', 'password'];
       const missingFields = requiredFields.filter((field) => !req.body[field]);
       if (missingFields.length > 0) throw new Error('Faltan los campos requeridos');
-      const { firstName, lastName, email, password, secondName, rol } = req.body;
+      const { firstName, lastName, email, password, secondName, rol, subscribeBlog } = req.body;
       let photo;
       if (req.files) {
         photo = req.files.image;
@@ -50,7 +50,8 @@ class usuarios {
         password,
         secondName,
         photo,
-        rol
+        rol,
+        subscribeBlog
       );
       res.status(201).json(response);
     } catch (error) {

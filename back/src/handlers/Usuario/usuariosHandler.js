@@ -70,7 +70,18 @@ class usuariosHandler {
     }
   }
 
-  static async registerHandler(firstName, lastName, email, password, secondName, photo, rol) {
+  static async registerHandler(
+    firstName,
+    lastName,
+    email,
+    password,
+    secondName,
+    photo,
+    rol,
+    subscribeBlog
+  ) {
+    if (subscribeBlog === 'false') subscribeBlog = false;
+    else subscribeBlog = true;
     try {
       const repeatEmail = await prisma.usuario.findFirst({
         where: { email },
@@ -108,6 +119,7 @@ class usuariosHandler {
           password: hashPassword,
           photo: secureUrl,
           rol,
+          subscribe_blog: subscribeBlog,
         },
       });
 

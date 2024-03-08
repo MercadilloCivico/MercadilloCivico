@@ -24,6 +24,7 @@ function Register() {
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
+
   // Estado para los datos del formulario y los errores de validación
   const [formData, setFormData] = useState({
     photo: null,
@@ -34,6 +35,7 @@ function Register() {
     password: '',
     repeatPassword: '',
     imgPreview: '',
+    subscribeBlog: false,
   });
   const [errors, setErrors] = useState({});
 
@@ -147,6 +149,7 @@ function Register() {
           email: '',
           password: '',
           repeatPassword: '',
+          subscribeBlog: false,
         });
 
         navigate('/login');
@@ -187,6 +190,7 @@ function Register() {
           email: '',
           password: '',
           repeatPassword: '',
+          subscribeBlog: false,
         });
         navigate('/login');
       } else {
@@ -195,6 +199,13 @@ function Register() {
         }
       }
     }
+  };
+
+  const handleSubscribeBlog = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      subscribeBlog: event.target.checked,
+    }));
   };
 
   return (
@@ -362,7 +373,11 @@ function Register() {
               onChange={() => setAcceptTerms(!acceptTerms)}
               disabled={!allFieldsCompleted()}
             />
-            <CheckboxBasic label={'Quiero recibir notificaciones de MercadilloCivico'} />
+            <CheckboxBasic
+              checked={formData?.subscribeBlog}
+              onChange={handleSubscribeBlog}
+              label={'Quiero recibir notificaciones de MercadilloCivico'}
+            />
 
             <CustomButton
               type='submit'

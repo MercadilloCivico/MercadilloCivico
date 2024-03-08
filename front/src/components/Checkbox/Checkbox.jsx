@@ -29,13 +29,15 @@ function CheckboxRequired({ checked, onChange, disabled, label }) {
   );
 }
 
-function CheckboxBasic({ label }) {
+function CheckboxBasic({ checked, onChange, label }) {
   return (
     <>
       <FormGroup className=''>
         <FormControlLabel
           control={
             <Checkbox
+              checked={checked}
+              onChange={onChange}
               sx={{
                 color: '#c55d38',
                 '&.Mui-checked': {
