@@ -498,7 +498,6 @@ export default function Profile() {
             {/* Botones al editar*/}
             {perfilProveedor && (
               <div>
-
                 <div className='p-4 m-4 text-pearl-bush-950 font-bold bg-tuscany-200 rounded-sm'>
                   Información del Proveedor
                 </div>
@@ -563,7 +562,16 @@ export default function Profile() {
                         <span className='text-crown-of-thorns-600 text-xs'>{errors.tel}</span>
                       )}
                     </div>
-
+                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mt-3'>
+                      <CustomInput
+                        label='Ubicacion'
+                        name='direccion'
+                        type='text'
+                        value={currentDataProveedor.ubicacion[2]}
+                        onChange={handleDirection}
+                        maxLength={30}
+                      />
+                    </div>
                     <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
                       <label htmlFor='departamento' className='text-pearl-bush-950 font-medium'>
                         Departamento:
@@ -577,113 +585,20 @@ export default function Profile() {
                         {Object.keys(municipiosPrincipales).map((departamento, index) => (
                           <option key={index} value={departamento}>
                             {departamento}
-
-                <div style={{ paddingBlock: '10px' }}>Información del Proveedor</div>
-                <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <label htmlFor='camaraDeComercio'>Ingrese PDF de la camara de comercio</label>
-                    <input
-                      type='file'
-                      name='camaraDeComercio'
-                      accept='application/pdf'
-                      onChange={handlePDFChange}
-                    />
-                  </div>
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <label htmlFor='certificadoBancario'>
-                      Ingrese PDF del certificado bancario
-                    </label>
-                    <input
-                      type='file'
-                      name='certificadoBancario'
-                      accept='application/pdf'
-                      onChange={handlePDFChange}
-                    />
-                  </div>
-                  <TextField
-                    onChange={handleNameProv}
-                    className='w-[300px] m-2'
-                    name='nameProv'
-                    color='success'
-                    id='outlined-helperText-nameProv'
-                    label='Nombre del Proveedor'
-                    value={currentDataProveedor.nameProv}
-                    helperText={errors.confirm}
-                    error={errors.confirm ? true : false}
-                  />
-                  <TextField
-                    onChange={handleNameProv}
-                    className='w-[300px] m-2'
-                    name='tel'
-                    color='success'
-                    id='outlined-helperText-tel'
-                    label='Telefono'
-                    value={currentDataProveedor.tel}
-                    helperText={errors.confirm}
-                    error={errors.confirm ? true : false}
-                  />
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <CustomInput
-                      label='Ubicacion'
-                      name='direccion'
-                      type='text'
-                      value={currentDataProveedor.ubicacion[2]}
-                      onChange={handleDirection}
-                      maxLength={30}
-                    />
-                  </div>
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <label htmlFor='departamento' className='text-pearl-bush-950'>
-                      Departamento:
-                    </label>
-                    <select
-                      name='departamento'
-                      defaultValue={`${currentDataProveedor.ubicacion[0]}`}
-                      className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'
-                      onChange={handleDepartmentChange}>
-                      <option value='' disabled>
-                        Seleccione un departamento
-                      </option>
-                      {Object.keys(municipiosPrincipales).map((departamento, index) => (
-                        <option key={index} value={departamento}>
-                          {departamento}
-                        </option>
-                      ))}
-                    </select>
-                    <div className='text-crown-of-thorns-600'>{errors.departamento}</div>
-                  </div>
-                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-                    <label htmlFor='municipio' className='text-pearl-bush-950'>
-                      Municipio:
-                    </label>
-                    <select
-                      name='municipio'
-                      onChange={handleMunicipalityChange}
-                      defaultValue={currentDataProveedor.ubicacion[1]}
-                      className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'>
-                      <option value=''>Seleccione un municipio</option>
-                      {municipiosPrincipales[currentDataProveedor.ubicacion[0]].map(
-                        (municipio, index) => (
-                          <option key={index} value={municipio}>
-                            {municipio}
-
                           </option>
                         ))}
                       </select>
-                      {currentDataProveedor.ubicacion[1] === 'sin dato' && (
-                        <span className='text-tuscany-200'>Por favor, seleccione un municipio</span>
-                      )}
+                      <div className='text-crown-of-thorns-600'>{errors.departamento}</div>
                     </div>
-
-                    <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
-                      <label htmlFor='municipio' className='text-pearl-bush-950 font-medium'>
+                    <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                      <label htmlFor='municipio' className='text-pearl-bush-950'>
                         Municipio:
                       </label>
                       <select
                         name='municipio'
                         onChange={handleMunicipalityChange}
                         defaultValue={currentDataProveedor.ubicacion[1]}
-                        className='border-tuscany-950 hover:custom-border-2 p-3 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer'>
+                        className='border-tuscany-950 hover:custom-border-2 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer p-3'>
                         <option value=''>Seleccione un municipio</option>
                         {municipiosPrincipales[currentDataProveedor.ubicacion[0]].map(
                           (municipio, index) => (
@@ -694,22 +609,10 @@ export default function Profile() {
                         )}
                       </select>
                       {currentDataProveedor.ubicacion[1] === 'sin dato' && (
-                        <span className='text-crown-of-thorns-600'>
+                        <label className='text-crown-of-thorns-600'>
                           Por favor, seleccione un municipio
-                        </span>
+                        </label>
                       )}
-                    </div>
-
-                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mb-5 mt-3'>
-                      <TextField
-                        label='Ubicacion'
-                        name='direccion'
-                        type='text'
-                        className='w-[300px] m-2 bg-pearl-bush-100'
-                        value={currentDataProveedor.ubicacion[2]}
-                        onChange={handleDirection}
-                        maxLength={30}
-                      />
                     </div>
                   </ul>
                 </div>
