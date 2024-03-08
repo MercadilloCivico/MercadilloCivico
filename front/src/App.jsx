@@ -94,7 +94,7 @@ function App() {
         }
       }
     };
-    const timerId = setInterval(checkAuthentication, 1000 * 60 * 30);
+    const timerId = setInterval(checkAuthentication, 1000 * 60 * 5);
     return () => clearInterval(timerId);
   }, [dispatch, open]);
 

@@ -1,10 +1,13 @@
 import CustomButton from '../../components/CustomButton/CustomButton.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreatePointModal from './CreatePointModal.jsx';
 import AdminPointsCards from '../../components/AdminPointsCards/AdminPointsCards.jsx';
+import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks.js';
+import { useDispatch } from 'react-redux';
 
 export default function AdminPoints() {
   const [modal, setModal] = useState(false);
+  const dispatch = useDispatch();
 
   function handleOpen() {
     setModal(true);
@@ -14,6 +17,12 @@ export default function AdminPoints() {
     console.log('fasdadfgdf');
     setModal(false);
   }
+
+  useEffect(() => {
+    (async function () {
+      await dispatch(fetchSalesPointsAsync());
+    })();
+  }, []);
 
   return (
     <div className='px-2'>
