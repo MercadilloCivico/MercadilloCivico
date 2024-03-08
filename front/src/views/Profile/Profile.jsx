@@ -60,6 +60,13 @@ export default function Profile() {
     ubicacion: [],
     tel: '',
   });
+  const [currentDataProveedorMemory, setCurrentDataProveedorMemory] = useState({
+    camaraDeComercio: '',
+    certificadoBancario: '',
+    nameProv: '',
+    ubicacion: [],
+    tel: '',
+  });
 
   const [formDataProveedor, setFormDataProveedor] = useState({
     camaraDeComercio: null,
@@ -207,6 +214,7 @@ export default function Profile() {
         setPerfilProveedor(true);
         setDataExtraProveedor(dataExtra);
         setCurrentDataProveedor(dataProveedor);
+        setCurrentDataProveedorMemory(dataProveedor);
       }
     }
     setIsLoading(false);
@@ -322,9 +330,10 @@ export default function Profile() {
     setEditMode(false);
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     // setEditMode(false);
-    dispatch(deleteUserProfileAsync());
+    await dispatch(deleteUserProfileAsync());
+    await dispatch(logout());
     dispatch(createToast('Petición enviada'));
   }
 
@@ -338,8 +347,8 @@ export default function Profile() {
   function hasChanged() {
     // verifica si se modificó algún campo
     return (
-      JSON.stringify(formData) !== JSON.stringify(currentData) ||
-      JSON.stringify(formDataProveedor) !== JSON.stringify(currentDataProveedor)
+      JSON.stringify(formData) !== JSON.stringify(currentData) &&
+      JSON.stringify(formDataProveedor) !== JSON.stringify(currentDataProveedorMemory)
     );
   }
 
