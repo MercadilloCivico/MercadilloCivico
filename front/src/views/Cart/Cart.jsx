@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cleanCartDBThunk, getCartDBThunk } from '../../store/thunks/cartThunks';
 import { createToast } from '../../store/slices/toastSlice';
 import { GiFruitBowl } from 'react-icons/gi';
+import { setTotalPrice } from '../../store/slices/cartSlice';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -38,8 +39,7 @@ const Cart = () => {
   }, 0);
 
   const comprar = () => {
-    // dispatch(createToast('Compra realizada'));
-    console.log('hola');
+    dispatch(setTotalPrice(precioTotal));
   };
 
   const dispatch = useDispatch();
