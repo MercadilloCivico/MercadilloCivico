@@ -13,6 +13,7 @@ const HistorialController = require('../controllers/HistorialDeVenta/historialCo
 const FiltroController = require('../controllers/Filtros/filtroController');
 const datosTarjeta = require('../controllers/dataCard/datosTarjeta');
 const { checkAuthentication } = require('../../middleware/validationToken');
+const StripeController = require('../controllers/Stripe/stripeController');
 
 const router = Router();
 // auth
@@ -93,5 +94,8 @@ router.get('/filtro/:id', validateMiddleware.validateFilter, FiltroController.fi
 // datosTarjeta
 
 router.post('/payment', datosTarjeta.data);
+
+// Stripe
+router.get('/session/payment', StripeController.createSession);
 
 module.exports = router;
