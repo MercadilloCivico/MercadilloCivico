@@ -1,8 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { ExtractJwt, Strategy: JWTStrategy } = require('passport-jwt');
-const { SECRET_JWT, CLIENT_ID, CLIENT_SECRET, API_URL } = require('./env.config');
+const { CLIENT_ID, CLIENT_SECRET, API_URL } = require('./env.config');
 const prisma = require('../db_connection');
 const CarritoHandler = require('../src/handlers/Carrito/carritoHandler');
 
@@ -59,22 +58,4 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// revisar
-passport.use(
-  new JWTStrategy(
-    {
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: SECRET_JWT,
-    },
-    (payload, done) => {
-      // Esta función se llama cuando el token JWT ha sido verificado con éxito
-
-      // payload: Contiene la información del usuario almacenada en el token
-
-      // done: Una función que se llama para indicar si la autenticación fue exitosa o no
-      // null indica que no hay errores, y se pasa el objeto payload como argumento, que representa al usuario autenticado
-      return done(null, payload);
-    }
-  )
-);
 module.exports = passport;

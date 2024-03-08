@@ -36,10 +36,10 @@ router.get('/user/profile', usuariosController.usuarios.getUser);
 // products
 
 router.get('/product/:id?', ProductController.get);
-router.post('/postProduct', ProductController.post);
-router.delete('/productoLogic/:id', ProductController.logicDelete);
-router.delete('/productoTrue/:id', ProductController.trueDelete);
-router.put('/product/edit/:id', ProductController.put);
+router.post('/postProduct', middleware.protectRoute, ProductController.post);
+router.delete('/productoLogic/:id', middleware.protectRoute, ProductController.logicDelete);
+router.delete('/productoTrue/:id', middleware.protectRoute, ProductController.trueDelete);
+router.put('/product/edit/:id', middleware.protectRoute, ProductController.put);
 
 // favorites
 
@@ -65,17 +65,26 @@ router.put('/carrito_de_compras/cantidad', CarritoController.actualizarCantidad)
 // punto de venta
 
 router.get('/punto_de_venta/:id?', PuntoDeVentaController.get);
-router.post('/punto_de_venta', PuntoDeVentaController.post);
-router.put('/punto_de_venta/edit/:id', PuntoDeVentaController.put);
-router.put('/punto_de_venta/add/', PuntoDeVentaController.addProveedor);
-router.put('/punto_de_venta/remove/:id', PuntoDeVentaController.removeProveedor);
-router.delete('/punto_de_venta/:id', PuntoDeVentaController.delete);
+router.post('/punto_de_venta', middleware.protectRoute, PuntoDeVentaController.post);
+router.put('/punto_de_venta/edit/:id', middleware.protectRoute, PuntoDeVentaController.put);
+router.put('/punto_de_venta/add/', middleware.protectRoute, PuntoDeVentaController.addProveedor);
+router.put(
+  '/punto_de_venta/remove/:id',
+  middleware.protectRoute,
+  PuntoDeVentaController.removeProveedor
+);
+router.delete('/punto_de_venta/:id', middleware.protectRoute, PuntoDeVentaController.delete);
 
 // Inventario
-router.post('/inventario', validateMiddleware.validateInventario, InventarioController.post);
+router.post(
+  '/inventario',
+  middleware.protectRoute,
+  validateMiddleware.validateInventario,
+  InventarioController.post
+);
 router.get('/inventario/:id?', InventarioController.get);
-router.put('/inventario/', InventarioController.put);
-router.delete('/inventario/:id', InventarioController.delete);
+router.put('/inventario/', middleware.protectRoute, InventarioController.put);
+router.delete('/inventario/:id', middleware.protectRoute, InventarioController.delete);
 
 // Reseñas
 router.get('/resenas/:id?', ReseñasController.get);
