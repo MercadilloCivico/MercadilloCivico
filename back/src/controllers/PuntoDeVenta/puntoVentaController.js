@@ -18,25 +18,20 @@ class PuntoDeVentaController {
   static async post(req, res) {
     try {
       const { companyName, address, postalCode, contactEmail, contactTel } = req.body;
-      const image = req.file;
+      const { image } = req.files;
 
-      const necessaryFields = [
-        'companyName',
-        'address',
-        'postalCode',
-        'contactTel',
-        'contactEmail',
-      ];
+      const necessaryFields = ['companyName', 'address', 'postalCode', 'contactTel'];
       const fieldsMissing = necessaryFields.filter((field) => !req.body[field]);
       if (fieldsMissing.length > 0)
         throw new Error(`Campos requeridos faltantes ${fieldsMissing.join(', ')}`);
+
       const response = await PuntoDeVentaHandlers.post(
         companyName,
         address,
         postalCode,
         contactEmail,
         contactTel,
-        image
+        image[0]
       );
       return res.status(200).json(response);
     } catch (error) {

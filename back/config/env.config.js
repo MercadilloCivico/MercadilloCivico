@@ -29,6 +29,7 @@ const {
   MERCHANT_ID,
   API_URL,
   COOKIE_SAMESITE_CONFIG,
+  STRIPE_KEY,
 } = process.env;
 
 module.exports = {
@@ -49,4 +50,5 @@ module.exports = {
   MERCHANT_ID,
   API_URL,
   COOKIE_SAMESITE_CONFIG,
+  STRIPE_KEY,
 };

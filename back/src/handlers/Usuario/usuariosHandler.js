@@ -7,7 +7,7 @@ const validationImage = require('../../utils/validations/validationImage');
 const { SECRET_JWT } = require('../../../config/env.config');
 
 const validTokens = new Set();
-const sendRecoveryEmail = require('../../utils/mails');
+const { sendRecoveryEmail, registerEmail } = require('../../utils/mails');
 
 class usuariosHandler {
   static async getAll() {
@@ -70,7 +70,7 @@ class usuariosHandler {
     }
   }
 
-  static async registerHandler(firstName, lastName, email, password, secondName, photo) {
+  static async registerHandler(firstName, lastName, email, password, secondName, photo, rol) {
     try {
       const repeatEmail = await prisma.usuario.findFirst({
         where: { email },
@@ -98,6 +98,7 @@ class usuariosHandler {
         secureUrl =
           'https://previews.123rf.com/images/jpgon/jpgon1411/jpgon141100514/33774342-ilustraci%C3%B3n-de-un-avatar-de-manzana-que-llevaba-gafas.jpg';
       }
+
       const newUser = await prisma.usuario.create({
         data: {
           first_name: firstName,
@@ -106,9 +107,12 @@ class usuariosHandler {
           email,
           password: hashPassword,
           photo: secureUrl,
+          rol,
         },
       });
+
       await CarritoHandler.post(newUser.id);
+      await registerEmail(newUser.email, newUser.first_name);
       return {
         registradoExitosamente: true,
       };

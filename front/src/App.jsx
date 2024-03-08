@@ -12,6 +12,7 @@ import Register from './views/Register/Register.jsx';
 import RecoveryPassword from './views/RecoveryPassword/RecoveryPassword.jsx';
 import NewPassword from './views/NewPassword/NewPassword.jsx';
 import PageNotFound from './views/PageNotFound/PageNotFound.jsx';
+import AdminPoints from './views/AdminPoints/AdminPoints.jsx';
 
 import Profile from './views/Profile/Profile.jsx';
 import Login from './views/Login/login.jsx';
@@ -93,7 +94,7 @@ function App() {
         }
       }
     };
-    const timerId = setInterval(checkAuthentication, 1000 * 60 * 30);
+    const timerId = setInterval(checkAuthentication, 1000 * 60 * 5);
     return () => clearInterval(timerId);
   }, [dispatch, open]);
 
@@ -167,10 +168,13 @@ function App() {
           <Route path='/admin/provider' element={<Providers />} />
           <Route path='/admin/users' element={<AdminUsers />} />
           <Route path='/admin/users/detail/:id' element={<UserDetail />} />
+          <Route path='/admin/points' element={<AdminPoints />} />
+
           <Route path='/supplier' element={<SupplierDashboard />}>
             <Route path='/supplier/settings' element={<SupplierSettings />} />
             <Route path='/supplier/points' element={<SupplierPoints />} />
           </Route>
+
           <Route path='/politica_de_cookies' element={<PoliticaCookies />} />
           <Route path='/aviso_legal' element={<AvisoLegal />} />
           <Route path='/politica_de_privacidad' element={<PoliticaPrivacidad />} />

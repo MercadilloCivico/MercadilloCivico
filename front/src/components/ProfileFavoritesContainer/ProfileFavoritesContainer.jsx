@@ -30,7 +30,7 @@ export default function ProfileFavoritesContainer() {
           );
         })
       ) : (
-        <p className='text-tuscany-950 flex items-center text-lg mt-12'>
+        <p className='text-tuscany-950 flex items-center justify-center mx-auto text-lg mt-12'>
           <LuHeartCrack className='flex items-center h-5 w-5 mr-1' /> No tienes favoritos.
         </p>
       )}

@@ -84,44 +84,41 @@ function RegisterProvider() {
 
         <div className='max-w-[400px] min-w-[250px] mx-auto'>
           <p className='text-pearl-bush-950 text-xl'>Ingresa tus datos para registrarte</p>
-          <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-            <label htmlFor='camaraDeComercio'>Ingrese PDF de la camara de comercio</label>
+
+          <div className='self-center max-w-[350px] min-w-[250px] mx-auto mt-5'>
+            <label htmlFor='camaraDeComercio' className='text-pearl-bush-950 font-medium'>
+              Ingrese PDF de la camara de comercio
+            </label>
             <input
               type='file'
               name='camaraDeComercio'
               accept='application/pdf'
               onChange={handlePDFChange}
+              className='w-[300px] m-2 bg-pearl-bush-100 p-2'
             />
           </div>
-          <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-            <label htmlFor='certificadoBancario'>Ingrese PDF del certificado bancario</label>
+
+          <div className='self-center max-w-[350px] min-w-[250px] mx-auto mt-5'>
+            <label htmlFor='certificadoBancario' className='text-pearl-bush-950 font-medium'>
+              Ingrese PDF del certificado bancario
+            </label>
             <input
               type='file'
               name='certificadoBancario'
               accept='application/pdf'
               onChange={handlePDFChange}
+              className='w-[300px] m-2 bg-pearl-bush-100 p-2'
             />
           </div>
-          <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-            <CustomInput
-              label='Nombre del proveedor'
-              placeholder='Nombre del proveedor'
-              name='nameProv'
-              type='text'
-              value={formData.nameProv}
-              onChange={handleInput}
-              maxLength={16}
-            />
-            <div className='text-crown-of-thorns-600'>{errors.nameProv}</div>
-          </div>
-          <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-            <label htmlFor='departamento' className='text-pearl-bush-950'>
+
+          <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
+            <label htmlFor='departamento' className='text-pearl-bush-950 font-medium'>
               Departamento:
             </label>
             <select
               name='departamento'
               defaultValue={''}
-              className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'
+              className='border-tuscany-950 hover:custom-border-2 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer p-3'
               onChange={handleDepartmentChange}
               disabled={deptSelected}>
               <option value='' disabled>
@@ -135,15 +132,16 @@ function RegisterProvider() {
             </select>
             <div className='text-crown-of-thorns-600'>{errors.departamento}</div>
           </div>
-          <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
-            <label htmlFor='municipio' className='text-pearl-bush-950'>
+
+          <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
+            <label htmlFor='municipio' className='text-pearl-bush-950 font-medium'>
               Municipio:
             </label>
             <select
               name='municipio'
               onChange={handleMunicipalityChange}
               disabled={!setSelectedDept}
-              className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'>
+              className='border-tuscany-950 hover:custom-border-2 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer p-3'>
               <option value='' disabled>
                 Seleccione un municipio
               </option>
@@ -160,6 +158,20 @@ function RegisterProvider() {
               </label>
             )}
           </div>
+
+          <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+            <CustomInput
+              label='Nombre del proveedor'
+              placeholder='Nombre del proveedor'
+              name='nameProv'
+              type='text'
+              value={formData.nameProv}
+              onChange={handleInput}
+              maxLength={16}
+            />
+            <div className='text-crown-of-thorns-600'>{errors.nameProv}</div>
+          </div>
+
           <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
             <CustomInput
               label='Ubicacion'
@@ -175,6 +187,7 @@ function RegisterProvider() {
               {!selectedMuni && 'Seleccione un municipio primero'}
             </div>
           </div>
+
           <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
             <CustomInput
               label='Telefono'

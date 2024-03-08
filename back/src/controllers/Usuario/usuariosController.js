@@ -42,6 +42,7 @@ class usuarios {
       if (error !== null) {
         throw new Error(error);
       }
+
       const response = await usuariosHandler.registerHandler(
         firstName,
         lastName,

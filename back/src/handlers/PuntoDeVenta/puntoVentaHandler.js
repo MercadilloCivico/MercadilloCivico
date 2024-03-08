@@ -56,14 +56,15 @@ class PuntoDeVentaHandlers {
   static async post(companyName, address, postalCode, contactEmail, contactTel, image) {
     try {
       const emailRepeat = await prisma.punto_De_Venta.findFirst({
-        where: { contact_email: contactEmail },
+        where: { address },
       });
+
       if (emailRepeat)
         throw new Error('Ya se encuentra otro punto de venta registrado con el mismo email');
       let secureUrl;
       if (image) {
         validationImage(image);
-        secureUrl = uploadToCloudinary(image);
+        secureUrl = await uploadToCloudinary(image);
       }
       const puntoNuevo = await prisma.punto_De_Venta.create({
         data: {
@@ -81,8 +82,7 @@ class PuntoDeVentaHandlers {
       });
       await this.generateQr(puntoNuevo.id);
       return {
-        message: 'Punto de Venta creado exitosamente',
-        data: puntoNuevo,
+        puntoNuevo,
       };
     } catch (error) {
       throw new Error(error);

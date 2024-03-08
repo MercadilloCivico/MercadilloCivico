@@ -51,7 +51,7 @@ app.use(
 );
 app.disable('x-powered-by');
 app.use(helmet.noSniff());
-
+app.use(express.urlencoded({ extended: false }));
 app.use(corsConfig);
 app.use(express.json());
 app.use(handleFileUpload);
