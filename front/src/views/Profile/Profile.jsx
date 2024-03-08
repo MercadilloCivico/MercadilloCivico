@@ -271,7 +271,7 @@ export default function Profile() {
       }));
     }
 
-    setErrors(validacionProveedor({ ...formData, [name]: value }));
+    setErrors(validacionProveedor({ ...currentDataProveedor, [name]: value }));
   }
   // validar errores en cada cambio del formData
   /* eslint-disable */
@@ -293,13 +293,14 @@ export default function Profile() {
 
   async function handleSave() {
     setIsLoading(true);
+
     const toSend = {
       // envía el nombre con el formato correcto en caso de estar mal
       firstName:
         formData.firstName.charAt(0).toUpperCase() +
         formData.firstName.slice(1).toLocaleLowerCase(),
       secondName:
-        formData.secondName === ''
+        formData.secondName === null || formData.secondName === ''
           ? ''
           : formData.secondName.charAt(0).toUpperCase() +
             formData.secondName.slice(1).toLocaleLowerCase(),
@@ -310,7 +311,6 @@ export default function Profile() {
       password: formData.password,
       photo: formData.file || '',
     };
-
     await dispatch(putProvider(formDataProveedor));
     const response = await dispatch(putUser(toSend));
     if (response.payload?.error) {

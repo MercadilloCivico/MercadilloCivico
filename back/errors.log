@@ -770,5 +770,9 @@
 2024-03-08 15:47:10 error: GET /favicon.ico 500 7ms
 2024-03-08 15:49:40 error: [object Object]
 2024-03-08 15:49:40 error: GET /favicon.ico 500 8ms
+<<<<<<< Updated upstream
 2024-03-08 15:05:00 error: POST /api/login 500 309ms
 2024-03-08 15:21:19 error: POST /api/login 500 563ms
+=======
+2024-03-08 16:39:14 error: PUT /api/proveedor 500 185ms
+>>>>>>> Stashed changes
