@@ -57,6 +57,8 @@ import Providers from './views/Providers/Providers.jsx';
 import PaymentSuccess from './views/PasarelaDePago/PaymentSuccess.jsx';
 import PaymentError from './views/PasarelaDePago/PaymentError.jsx';
 
+import PointDetail from './views/PointDetail/PointDetail.jsx';
+
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
@@ -176,6 +178,8 @@ function App() {
             <Route path='/supplier/settings' element={<SupplierSettings />} />
             <Route path='/supplier/points' element={<SupplierPoints />} />
           </Route>
+
+          <Route path='/point/detail/:id' element={<PointDetail />} />
 
           <Route path='/politica_de_cookies' element={<PoliticaCookies />} />
           <Route path='/aviso_legal' element={<AvisoLegal />} />

@@ -1,36 +1,29 @@
-import UpdatePointModal from './UpdatePointModal.jsx';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function AdminPointsCard({
-  companyName,
+  company_name,
   address,
-  postalCode,
-  contactEmail,
-  contactTel,
+  postal_code,
+  contact_email,
+  contact_tel,
   image,
   className,
+  id,
 }) {
-  const [modal, setModal] = useState(false);
+  const navigate = useNavigate();
 
-  function handleOpen() {
-    setModal(true);
-  }
-
-  function handleClose() {
-    console.log('fasdadfgdf');
-    setModal(false);
+  function goToDetail() {
+    navigate(`/point/detail/${id}`);
   }
 
   return (
     <>
-      {modal && <UpdatePointModal modal={modal} handleClose={handleClose} />}
-
       <div
         className={
           'flex bg-tuscany-100 text-tuscany-950 overflow-hidden rounded-xl outline outline-[1px] outline-solid outline-tuscany-600 ' +
           className
         }
-        onClick={handleOpen}>
+        onClick={goToDetail}>
         <div className='w-[125px] h-[125px] flex-shrink-0'>
           <img src={image} className='w-full h-full  object-cover'></img>
         </div>
@@ -42,21 +35,21 @@ export default function AdminPointsCard({
                 {address}
               </span>
               <span className='text-tuscany-600 xsm:hidden sm:inline text-lg sm:text-xl font-semibold line-clamp-1 px-2'>
-                {address} ({postalCode})
+                {address} ({postal_code})
               </span>
             </div>
 
             <span className='xsm:hidden sm:inline text-tuscany-800 opacity-70 text-lg sm:text-xl font-semibold line-clamp-1 px-2'>
-              {companyName}
+              {company_name}
             </span>
           </div>
 
           <div className='flex flex-wrap sm:mt-1'>
             <span className='text-tuscany-800 opacity-70 text-sm sm:text-[15px] mx-2'>
-              {contactEmail}
+              {contact_email}
             </span>
             <span className='text-tuscany-800 opacity-70 text-sm sm:text-[15px] mx-2'>
-              {contactTel}
+              {contact_tel}
             </span>
           </div>
         </div>

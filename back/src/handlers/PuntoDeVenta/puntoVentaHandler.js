@@ -3,6 +3,7 @@ const prisma = require('../../../db_connection');
 const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
 const validationImage = require('../../utils/validations/validationImage');
 const uploadToCloudinary = require('../uploadToCloudinary');
+const deleteFromCloudinaryByUrl = require('../deleteCloudinary');
 
 class PuntoDeVentaHandlers {
   static async getById(id) {
@@ -122,7 +123,7 @@ class PuntoDeVentaHandlers {
     }
   }
 
-  static async delete(id) {
+  static async logicDelete(id) {
     try {
       const findCompany = await prisma.punto_De_Venta.findFirst({
         where: {
@@ -140,6 +141,31 @@ class PuntoDeVentaHandlers {
       });
       return {
         message: 'Punto de Venta desactivado exitosamente',
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  static async trueDelete(id) {
+    try {
+      const findCompany = await prisma.punto_De_Venta.findFirst({
+        where: {
+          id,
+        },
+      });
+
+      if (!findCompany) throw new Error('No se encuentra el punto de venta en la base de datos');
+      if (findCompany.image) {
+        await deleteFromCloudinaryByUrl(findCompany.image);
+      }
+      await prisma.punto_De_Venta.delete({
+        where: {
+          id,
+        },
+      });
+      return {
+        message: 'Punto de Venta eliminado exitosamente',
       };
     } catch (error) {
       throw new Error(error);
