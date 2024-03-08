@@ -13,12 +13,12 @@ function authenticateGoogleCallback(req, res, next) {
     }
     const token = jwt.sign({ id: user.id }, SECRET_JWT, { expiresIn: '1h' });
     res.cookie('sessionToken', token, {
-      httpOnly: false,
+      httpOnly: true,
       maxAge: 3600000,
       sameSite: COOKIE_SAMESITE_CONFIG,
       secure: true,
     });
-    return res.redirect(`${FRONT_URL}/store`);
+    return res.redirect(`${FRONT_URL}/store/${token}/?auth=google`);
   })(req, res, next);
 }
 
