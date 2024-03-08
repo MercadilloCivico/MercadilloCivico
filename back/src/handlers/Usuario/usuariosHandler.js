@@ -7,7 +7,7 @@ const validationImage = require('../../utils/validations/validationImage');
 const { SECRET_JWT } = require('../../../config/env.config');
 
 const validTokens = new Set();
-const sendRecoveryEmail = require('../../utils/mails');
+const { sendRecoveryEmail, registerEmail } = require('../../utils/mails');
 
 class usuariosHandler {
   static async getAll() {
@@ -107,6 +107,7 @@ class usuariosHandler {
         },
       });
       await CarritoHandler.post(newUser.id);
+      await registerEmail(newUser.email, newUser.first_name);
       return {
         registradoExitosamente: true,
       };
