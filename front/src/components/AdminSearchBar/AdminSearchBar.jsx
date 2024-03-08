@@ -79,7 +79,7 @@ const AdminSearchBar = () => {
                 <div className='flex justify-center w-[.5em] h-[.5em] items-center bg-pearl-bush-100 clip-polygon'>
                   {''}
                 </div>
-                <AdminFilterDropdown />
+                <AdminFilterDropdown handleFilters={handleFilters} />
               </div>
             )}
           </div>

@@ -135,3 +135,31 @@ export const editProductAsync = createAsyncThunk(
     }
   }
 );
+
+// Thunk para filtrar productos
+export const fetchFilteredProducts = createAsyncThunk(
+  'products/fetchFilteredProducts',
+  async ({ filtroPrecio, filtroEstado }, { rejectWithValue }) => {
+    try {
+      let url = `${VITE_API_URL}/productos/filtro`;
+      let querys = {};
+
+      if (filtroPrecio) {
+        querys.filtroPrecio = filtroPrecio;
+      }
+      if (filtroEstado) {
+        querys.filtroEstado = filtroEstado;
+      }
+
+      if (Object.keys(querys).length === 0) {
+        const response = await axios.get(url);
+        return response.data;
+      }
+
+      const response = await axios.get(url, { params: querys });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
