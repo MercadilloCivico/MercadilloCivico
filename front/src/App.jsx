@@ -54,6 +54,8 @@ import { getAllFavorite } from './store/thunks/favoritesThuks.js';
 import { logout } from './store/thunks/authThunks.js';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 import Providers from './views/Providers/Providers.jsx';
+import PaymentSuccess from './views/PasarelaDePago/PaymentSuccess.jsx';
+import PaymentError from './views/PasarelaDePago/PaymentError.jsx';
 
 function ProtectedRoute({ Component }) {
   const dispatch = useDispatch();
@@ -178,6 +180,9 @@ function App() {
           <Route path='/politica_de_cookies' element={<PoliticaCookies />} />
           <Route path='/aviso_legal' element={<AvisoLegal />} />
           <Route path='/politica_de_privacidad' element={<PoliticaPrivacidad />} />
+
+          <Route path='/payment_success' element={<PaymentSuccess />} />
+          <Route path='/payment_error' element={<PaymentError />} />
         </Routes>
       </div>
     </ThemeProvider>
