@@ -83,3 +83,15 @@ export const cleanCartDBThunk = createAsyncThunk(
     }
   }
 );
+
+export const stripePaymentMethod = createAsyncThunk(
+  'cart/stripePaymentMethod',
+  async (price, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${VITE_API_URL}/session/payment?price=${price}`);
+      return data.url;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

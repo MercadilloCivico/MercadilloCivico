@@ -61,6 +61,13 @@ export default function Profile() {
     ubicacion: [],
     tel: '',
   });
+  const [currentDataProveedorMemory, setCurrentDataProveedorMemory] = useState({
+    camaraDeComercio: '',
+    certificadoBancario: '',
+    nameProv: '',
+    ubicacion: [],
+    tel: '',
+  });
 
   const [formDataProveedor, setFormDataProveedor] = useState({
     camaraDeComercio: null,
@@ -208,6 +215,7 @@ export default function Profile() {
         setPerfilProveedor(true);
         setDataExtraProveedor(dataExtra);
         setCurrentDataProveedor(dataProveedor);
+        setCurrentDataProveedorMemory(dataProveedor);
       }
     }
     setIsLoading(false);
@@ -291,8 +299,11 @@ export default function Profile() {
         formData.firstName.charAt(0).toUpperCase() +
         formData.firstName.slice(1).toLocaleLowerCase(),
       secondName:
-        formData.secondName.charAt(0).toUpperCase() +
-        formData.secondName.slice(1).toLocaleLowerCase(),
+        formData.secondName === ''
+          ? ''
+          : formData.secondName.charAt(0).toUpperCase() +
+            formData.secondName.slice(1).toLocaleLowerCase(),
+
       lastName:
         formData.lastName.charAt(0).toUpperCase() + formData.lastName.slice(1).toLocaleLowerCase(),
       email: formData.email,
@@ -325,9 +336,10 @@ export default function Profile() {
     setEditMode(false);
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     // setEditMode(false);
-    dispatch(deleteUserProfileAsync());
+    await dispatch(deleteUserProfileAsync());
+    await dispatch(logout());
     dispatch(createToast('Petición enviada'));
   }
 
@@ -342,7 +354,7 @@ export default function Profile() {
     // verifica si se modificó algún campo
     return (
       JSON.stringify(formData) !== JSON.stringify(currentData) ||
-      JSON.stringify(formDataProveedor) !== JSON.stringify(currentDataProveedor)
+      JSON.stringify(currentDataProveedor) !== JSON.stringify(currentDataProveedorMemory)
     );
   }
 
@@ -416,7 +428,7 @@ export default function Profile() {
                 name='firstName'
                 className='w-[300px] m-2'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-firstName'
                 label='Nombre'
                 defaultValue={currentData.firstName}
                 helperText={errors.firstName}
@@ -428,7 +440,7 @@ export default function Profile() {
                 name='secondName'
                 className='w-[300px] m-2'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-secondName'
                 label='Segundo nombre'
                 defaultValue={currentData.secondName}
                 helperText={errors.secondName}
@@ -440,7 +452,7 @@ export default function Profile() {
                 name='lastName'
                 className='w-[300px] m-2'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-lastName'
                 label='Apellido'
                 defaultValue={currentData.lastName}
                 helperText={errors.lastName}
@@ -452,7 +464,7 @@ export default function Profile() {
                 className='w-[300px] m-2'
                 name='email'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-email'
                 label='Email'
                 defaultValue={currentData.email}
                 helperText={errors.email}
@@ -465,7 +477,7 @@ export default function Profile() {
                 type='password'
                 name='password'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-password'
                 label='Contraseña'
                 helperText={errors.password}
                 error={errors.password ? true : false}
@@ -476,7 +488,7 @@ export default function Profile() {
                 className='w-[300px] m-2'
                 name='confirm'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-confirm'
                 label='Confirma la contraseña'
                 helperText={errors.confirm}
                 error={errors.confirm ? true : false}
@@ -486,6 +498,7 @@ export default function Profile() {
             {/* Botones al editar*/}
             {perfilProveedor && (
               <div>
+
                 <div className='p-4 m-4 text-pearl-bush-950 font-bold bg-tuscany-200 rounded-sm'>
                   Información del Proveedor
                 </div>
@@ -564,6 +577,96 @@ export default function Profile() {
                         {Object.keys(municipiosPrincipales).map((departamento, index) => (
                           <option key={index} value={departamento}>
                             {departamento}
+
+                <div style={{ paddingBlock: '10px' }}>Información del Proveedor</div>
+                <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
+                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                    <label htmlFor='camaraDeComercio'>Ingrese PDF de la camara de comercio</label>
+                    <input
+                      type='file'
+                      name='camaraDeComercio'
+                      accept='application/pdf'
+                      onChange={handlePDFChange}
+                    />
+                  </div>
+                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                    <label htmlFor='certificadoBancario'>
+                      Ingrese PDF del certificado bancario
+                    </label>
+                    <input
+                      type='file'
+                      name='certificadoBancario'
+                      accept='application/pdf'
+                      onChange={handlePDFChange}
+                    />
+                  </div>
+                  <TextField
+                    onChange={handleNameProv}
+                    className='w-[300px] m-2'
+                    name='nameProv'
+                    color='success'
+                    id='outlined-helperText-nameProv'
+                    label='Nombre del Proveedor'
+                    value={currentDataProveedor.nameProv}
+                    helperText={errors.confirm}
+                    error={errors.confirm ? true : false}
+                  />
+                  <TextField
+                    onChange={handleNameProv}
+                    className='w-[300px] m-2'
+                    name='tel'
+                    color='success'
+                    id='outlined-helperText-tel'
+                    label='Telefono'
+                    value={currentDataProveedor.tel}
+                    helperText={errors.confirm}
+                    error={errors.confirm ? true : false}
+                  />
+                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                    <CustomInput
+                      label='Ubicacion'
+                      name='direccion'
+                      type='text'
+                      value={currentDataProveedor.ubicacion[2]}
+                      onChange={handleDirection}
+                      maxLength={30}
+                    />
+                  </div>
+                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                    <label htmlFor='departamento' className='text-pearl-bush-950'>
+                      Departamento:
+                    </label>
+                    <select
+                      name='departamento'
+                      defaultValue={`${currentDataProveedor.ubicacion[0]}`}
+                      className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'
+                      onChange={handleDepartmentChange}>
+                      <option value='' disabled>
+                        Seleccione un departamento
+                      </option>
+                      {Object.keys(municipiosPrincipales).map((departamento, index) => (
+                        <option key={index} value={departamento}>
+                          {departamento}
+                        </option>
+                      ))}
+                    </select>
+                    <div className='text-crown-of-thorns-600'>{errors.departamento}</div>
+                  </div>
+                  <div className='my-[25px] flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto'>
+                    <label htmlFor='municipio' className='text-pearl-bush-950'>
+                      Municipio:
+                    </label>
+                    <select
+                      name='municipio'
+                      onChange={handleMunicipalityChange}
+                      defaultValue={currentDataProveedor.ubicacion[1]}
+                      className='border-tuscany-950 hover:custom-border-2 p-1 text-tuscany-950 hover:text-tuscany-500 outline-none rounded-sm custom-transparent-bg cursor-pointer'>
+                      <option value=''>Seleccione un municipio</option>
+                      {municipiosPrincipales[currentDataProveedor.ubicacion[0]].map(
+                        (municipio, index) => (
+                          <option key={index} value={municipio}>
+                            {municipio}
+
                           </option>
                         ))}
                       </select>

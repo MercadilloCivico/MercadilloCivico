@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchSalesPointsAsync } from '../thunks/salesPointThunks';
+import { fetchSalesPointsAsync, postPuntoDeVenta } from '../thunks/salesPointThunks';
 
 const salesPointSlice = createSlice({
   name: 'salesPoint',
@@ -21,6 +21,18 @@ const salesPointSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchSalesPointsAsync.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload.message;
+      });
+    builder
+      .addCase(postPuntoDeVenta.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(postPuntoDeVenta.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.items.push(action.payload.puntoNuevo);
+      })
+      .addCase(postPuntoDeVenta.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload.message;
       });
