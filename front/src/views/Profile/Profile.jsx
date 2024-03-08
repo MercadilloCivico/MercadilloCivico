@@ -347,8 +347,8 @@ export default function Profile() {
   function hasChanged() {
     // verifica si se modificó algún campo
     return (
-      JSON.stringify(formData) !== JSON.stringify(currentData) &&
-      JSON.stringify(formDataProveedor) !== JSON.stringify(currentDataProveedorMemory)
+      JSON.stringify(formData) !== JSON.stringify(currentData) ||
+      JSON.stringify(currentDataProveedor) !== JSON.stringify(currentDataProveedorMemory)
     );
   }
 
@@ -422,7 +422,7 @@ export default function Profile() {
                 name='firstName'
                 className='w-[300px] m-2'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-firstName'
                 label='Nombre'
                 defaultValue={currentData.firstName}
                 helperText={errors.firstName}
@@ -434,7 +434,7 @@ export default function Profile() {
                 name='secondName'
                 className='w-[300px] m-2'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-secondName'
                 label='Segundo nombre'
                 defaultValue={currentData.secondName}
                 helperText={errors.secondName}
@@ -446,7 +446,7 @@ export default function Profile() {
                 name='lastName'
                 className='w-[300px] m-2'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-lastName'
                 label='Apellido'
                 defaultValue={currentData.lastName}
                 helperText={errors.lastName}
@@ -458,7 +458,7 @@ export default function Profile() {
                 className='w-[300px] m-2'
                 name='email'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-email'
                 label='Email'
                 defaultValue={currentData.email}
                 helperText={errors.email}
@@ -471,7 +471,7 @@ export default function Profile() {
                 type='password'
                 name='password'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-password'
                 label='Contraseña'
                 helperText={errors.password}
                 error={errors.password ? true : false}
@@ -482,7 +482,7 @@ export default function Profile() {
                 className='w-[300px] m-2'
                 name='confirm'
                 color='success'
-                id='outlined-helperText'
+                id='outlined-helperText-confirm'
                 label='Confirma la contraseña'
                 helperText={errors.confirm}
                 error={errors.confirm ? true : false}
@@ -519,7 +519,7 @@ export default function Profile() {
                     className='w-[300px] m-2'
                     name='nameProv'
                     color='success'
-                    id='outlined-helperText'
+                    id='outlined-helperText-nameProv'
                     label='Nombre del Proveedor'
                     value={currentDataProveedor.nameProv}
                     helperText={errors.confirm}
@@ -530,7 +530,7 @@ export default function Profile() {
                     className='w-[300px] m-2'
                     name='tel'
                     color='success'
-                    id='outlined-helperText'
+                    id='outlined-helperText-tel'
                     label='Telefono'
                     value={currentDataProveedor.tel}
                     helperText={errors.confirm}
