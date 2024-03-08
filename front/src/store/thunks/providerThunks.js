@@ -7,7 +7,9 @@ export const fetchProvidersAsync = createAsyncThunk(
   async (pid, { rejectWithValue }) => {
     try {
       const url = pid ? `${VITE_API_URL}/proveedor/${pid}` : `${VITE_API_URL}/proveedor`;
-      const response = await axios.get(url);
+      const response = await axios.get(url, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
