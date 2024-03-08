@@ -2,7 +2,8 @@ import { IoCloseSharp, IoGridOutline } from 'react-icons/io5';
 import { CiFilter, CiBoxList, CiSearch } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsersAsync } from '../../store/thunks/userThunks';
-import { fetchProductsAsync } from '../../store/thunks/productThunks';
+import { fetchFilteredProducts } from '../../store/thunks/productThunks';
+import { setName } from '../../store/slices/productSlice';
 import { useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { switchAdminCard, switchView } from '../../store/slices/adminSlice';
@@ -11,6 +12,7 @@ import AdminFilterDropdown from '../AdminFilterDropdown/AdminFilterDropdown';
 const AdminSearchBar = () => {
   const dispatch = useDispatch();
   const { view } = useSelector((state) => state.admin);
+  const { filters } = useSelector((state) => state.products);
   const [searchValue, setSearchValue] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const isAdminProducts = useMatch('/admin/products');
@@ -19,17 +21,28 @@ const AdminSearchBar = () => {
     setShowFilters(!showFilters);
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     const { value } = e.target;
     setSearchValue(value);
+    dispatch(setName(value));
     if (!isAdminProducts) dispatch(fetchUsersAsync(value));
-    else dispatch(fetchProductsAsync(value));
+    else {
+      await dispatch(fetchFilteredProducts(filters));
+    }
   };
 
-  const handleClearSearch = () => {
+  const handleClearSearch = async () => {
     setSearchValue('');
     if (!isAdminProducts) dispatch(fetchUsersAsync(''));
-    else dispatch(fetchProductsAsync(''));
+    else {
+      dispatch(setName(''));
+      await dispatch(
+        fetchFilteredProducts({
+          ...filters,
+          name: '',
+        })
+      );
+    }
   };
 
   const handleCard = () => {

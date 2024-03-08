@@ -20,6 +20,7 @@ export const productSlice = createSlice({
       id: '',
       filtroEstado: '',
       filtroPrecio: '',
+      name: '',
     },
   },
   reducers: {
@@ -45,6 +46,9 @@ export const productSlice = createSlice({
     },
     setFilterPrecio: (state, action) => {
       state.filters.filtroPrecio = action.payload;
+    },
+    setName: (state, action) => {
+      state.filters.name = action.payload;
     },
     resetFilters: (state) => {
       state.filters = {
@@ -168,6 +172,7 @@ export const {
   setError,
   setFilterEstado,
   setFilterPrecio,
+  setName,
   resetFilters,
 } = productSlice.actions;
 

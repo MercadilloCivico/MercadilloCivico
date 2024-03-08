@@ -139,7 +139,7 @@ export const editProductAsync = createAsyncThunk(
 // Thunk para filtrar productos
 export const fetchFilteredProducts = createAsyncThunk(
   'products/fetchFilteredProducts',
-  async ({ filtroPrecio, filtroEstado }, { rejectWithValue }) => {
+  async ({ filtroPrecio, filtroEstado, name }, { rejectWithValue }) => {
     try {
       let url = `${VITE_API_URL}/productos/filtro`;
       let querys = {};
@@ -149,6 +149,9 @@ export const fetchFilteredProducts = createAsyncThunk(
       }
       if (filtroEstado) {
         querys.filtroEstado = filtroEstado;
+      }
+      if (name) {
+        querys.name = name;
       }
 
       if (Object.keys(querys).length === 0) {

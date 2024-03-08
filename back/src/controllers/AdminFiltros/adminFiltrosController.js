@@ -3,11 +3,13 @@ const AdminFiltrosHandler = require('../../handlers/AdminFiltros/adminFiltrosHan
 class AdminFiltrosController {
   static async filtrarProductos(req, res) {
     try {
-      const { filtroPrecio, filtroEstado } = req.query;
+      const { filtroPrecio, filtroEstado, name } = req.query;
+      console.log(req.query);
 
       const productosFiltrados = await AdminFiltrosHandler.filtrarProductos(
         filtroPrecio,
-        filtroEstado
+        filtroEstado,
+        name
       );
 
       res.status(200).json(productosFiltrados);
