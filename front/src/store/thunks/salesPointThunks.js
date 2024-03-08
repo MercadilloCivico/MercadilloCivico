@@ -14,3 +14,28 @@ export const fetchSalesPointsAsync = createAsyncThunk(
     }
   }
 );
+
+export const postPuntoDeVenta = createAsyncThunk(
+  'salesPoints/post',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const formSend = new FormData();
+      formSend.append('companyName', formData.companyName);
+      formSend.append('address', formData.address);
+      formSend.append('postalCode', formData.postalCode);
+      formSend.append('contactEmail', formData.contactEmail);
+      formSend.append('contactTel', formData.contactTel);
+      formSend.append('image', formData.image);
+
+      const response = await axios.post(`${VITE_API_URL}/punto_de_venta`, formSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

@@ -5,6 +5,7 @@ import { MdEdit } from 'react-icons/md';
 import { LuStore } from 'react-icons/lu';
 import { useDispatch } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice';
+import { postPuntoDeVenta } from '../../store/thunks/salesPointThunks';
 
 export default function CreatePointModal({ handleClose, modal }) {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export default function CreatePointModal({ handleClose, modal }) {
   }
 
   function handleChange(e) {
-    if (e.target.name === 'photo') {
+    if (e.target.name === 'image') {
       const imgFile = e.target.files[0];
 
       if (!checkImage(imgFile)) return 0;
@@ -39,7 +40,7 @@ export default function CreatePointModal({ handleClose, modal }) {
           setFormData({
             ...formData,
             imgPreview: reader.result,
-            photo: imgFile,
+            image: imgFile,
           });
         };
         reader.readAsDataURL(imgFile);
@@ -48,6 +49,13 @@ export default function CreatePointModal({ handleClose, modal }) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault;
+
+    const { payload } = await dispatch(postPuntoDeVenta(formData));
+    // dispatch(createToast(data.message))
+    console.log(payload);
+  };
 
   return (
     modal === true && (
@@ -62,24 +70,24 @@ export default function CreatePointModal({ handleClose, modal }) {
                 <div className='mb-[45px] outline outline-2 relative outline-tuscany-950 mx-auto w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 object-cover overflow-hidden'>
                   <>
                     <input
-                      name='photo'
-                      id='photo'
+                      name='image'
+                      id='image'
                       onChange={handleChange}
                       type='file'
                       accept='image/*'
                       className='hidden absolute'
                     />
                     <label
-                      htmlFor='photo'
+                      htmlFor='image'
                       className='text-tuscany-100 absolute m-[5px] bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
                       <MdEdit className='w-full h-full' />
                     </label>
                   </>
 
-                  {formData.photo && !formData.imgPreview ? (
+                  {formData.image && !formData.imgPreview ? (
                     <img
                       className='w-full h-full object-cover'
-                      src={formData.photo}
+                      src={formData.image}
                       alt='foto de perfil'></img>
                   ) : formData.imgPreview ? (
                     <img
@@ -140,7 +148,7 @@ export default function CreatePointModal({ handleClose, modal }) {
               </div>
             </div>
 
-            <CustomButton text='Crear punto' className='my-4 mx-2' />
+            <CustomButton text='Crear punto' onClick={handleSubmit} className='my-4 mx-2' />
 
             <CustomButton text='Cancelar' className='my-4 mx-2' onClick={handleClose} />
           </div>
