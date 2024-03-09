@@ -809,3 +809,7 @@
 2024-03-08 19:01:17 error: GET /api/filtro/ 500 131ms
 2024-03-09 11:11:03 error: [object Object]
 2024-03-09 11:11:03 error: GET /api/filtro/ 500 33ms
+2024-03-09 15:18:04 error: [object Object]
+2024-03-09 15:18:04 error: GET /api/filtro/ 500 33ms
+2024-03-09 16:19:29 error: [object Object]
+2024-03-09 16:19:29 error: GET /api/filtro/ 500 79ms

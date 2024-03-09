@@ -122,7 +122,6 @@ export const editProductAsync = createAsyncThunk(
       formData.append('description', productData.description);
       formData.append('marca', productData.marca);
       formData.append('image', productData.fiImg);
-      formData.append('idProveedorActual', productData.idProveedorActual);
       formData.append('proveedoresCostos', JSON.stringify(productData.proveedoresCostos));
       const response = await axios.put(`${VITE_API_URL}/product/edit/${productData.id}`, formData, {
         headers: {

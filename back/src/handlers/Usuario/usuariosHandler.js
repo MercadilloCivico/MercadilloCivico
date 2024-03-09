@@ -217,16 +217,27 @@ class usuariosHandler {
     }
   }
 
-  static async deleteLogic(id, valor) {
+  static async deleteLogic(id) {
     try {
+      const usuario = await prisma.usuario.findFirst({
+        where: { id },
+      });
+
+      if (!usuario) throw new Error('El usuario no se encuentra en la base de datos');
+
+      const updatedDisabled = !usuario.disabled;
+
       await prisma.usuario.update({
         where: {
           id,
         },
         data: {
-          disabled: valor,
+          disabled: updatedDisabled,
         },
       });
+      return {
+        message: `El usuario se ha ${updatedDisabled ? 'desactivado' : 'activado'} exitosamente`,
+      };
     } catch (error) {
       throw new Error(error);
     }

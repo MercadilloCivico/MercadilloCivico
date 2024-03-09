@@ -3,6 +3,13 @@ import CustomButton from '../CustomButton/CustomButton';
 import { FaUserCircle } from 'react-icons/fa';
 
 const AdminUserCard = ({ id, name, lastName, img, rol, disabled }) => {
+  const limitAndEllipsis = (text, limit) => {
+    if (text?.length > limit) {
+      return `${text?.slice(0, limit - 3)}...`;
+    }
+    return text;
+  };
+
   return (
     <article className=' m-2 flex flex-col justify-center items-center bg-pearl-bush-200 rounded-lg relative p-3 w-[180px] md:w-[200px] lg:w-[240px] shadow-md '>
       <div className='rounded-full overflow-hidden w-[6em] h-[6em] relative'>
@@ -17,8 +24,12 @@ const AdminUserCard = ({ id, name, lastName, img, rol, disabled }) => {
         )}
       </div>
       <ul className='flex flex-col space-y-0'>
-        <li className='my-0 text-[1.2rem] font-semibold mt-4 text-tuscany-950'>{name}</li>
-        <li className='my-0 text-[1.2rem] font-semibold mt-4 text-tuscany-950'>{lastName}</li>
+        <li className='my-0 text-[1.2rem] font-semibold mt-4 text-tuscany-950'>
+          {limitAndEllipsis(name, 10)}
+        </li>
+        <li className='my-0 text-[1.2rem] font-semibold mt-4 text-tuscany-950'>
+          {limitAndEllipsis(lastName, 10)}
+        </li>
       </ul>
       {disabled ? (
         <small className=' text-crown-of-thorns-900'>{rol} suspendido</small>

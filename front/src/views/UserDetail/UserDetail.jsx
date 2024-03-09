@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsersAsync } from '../../store/thunks/userThunks';
+import {
+  fetchUsersAsync,
+  logicDeleteUsersAsync,
+  trueDeleteUsersAsync,
+} from '../../store/thunks/userThunks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoCloseSharp } from 'react-icons/io5';
@@ -82,6 +86,14 @@ const UserDetail = () => {
               <span>{`Email: ${usuario.email}`}</span>
             </li>
             <li>
+              <span>Estado: </span>
+              {usuario.disabled ? (
+                <span className='bg-[#59719d71] text-[#59719D] rounded-md  px-2'>Inactivo</span>
+              ) : (
+                <span className='bg-[#2ba9727e] text-[#2BA972] rounded-md  px-2'>Activo</span>
+              )}
+            </li>
+            <li>
               <span>
                 {`Suscrito al blog: `}
                 {usuario.subscribe_blog ? (
@@ -97,6 +109,27 @@ const UserDetail = () => {
             </li>
           </ul>
         </div>
+        <div>
+          {usuario.disabled ? (
+            <button
+              className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#599d64] text-pearl-bush-100 font-semibold hover:bg-[#3a8651] cursor-pointer'
+              onClick={() => {
+                dispatch(logicDeleteUsersAsync(usuario?.id));
+                navigate(-1);
+              }}>
+              Activar
+            </button>
+          ) : (
+            <button
+              className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#59719d] text-tuscany-950 font-semibold hover:bg-[#cccccc] cursor-pointer'
+              onClick={() => {
+                dispatch(logicDeleteUsersAsync(usuario?.id));
+                navigate(-1);
+              }}>
+              Suspender
+            </button>
+          )}
+        </div>
         <CustomButton text='Eliminar Usuario' className='my-1 w-[16em]' onClick={openModal} />
         <div>
           <Modal isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>
@@ -108,9 +141,9 @@ const UserDetail = () => {
                 <button
                   className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em]'
                   onClick={() => {
-                    alert(
-                      `El usuario ${usuario.first_name} ${usuario.last_name} ha sido eliminado con éxito!`
-                    );
+                    alert(`El usuario ${usuario?.first_name} ha sido eliminado con éxito!`);
+                    dispatch(trueDeleteUsersAsync(usuario?.id));
+                    navigate(-1);
                     setModalOpen(false);
                   }}>
                   Eliminar
