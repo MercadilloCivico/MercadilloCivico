@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { IoMdMore } from 'react-icons/io';
 import MoreOptionsDropdown from '../MoreOptionsDropdown/MoreOptionsDropdown';
 import Modal from '../Modal/Modal';
+import { trueDeleteProductAsync } from '../../store/thunks/productThunks';
+import { useDispatch } from 'react-redux';
 
 const AdminGridCard = ({ id, name, image, marca, disabled, ventas }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const limitAndEllipsis = (text, limit) => {
     if (text?.length > limit) {
@@ -68,7 +71,8 @@ const AdminGridCard = ({ id, name, image, marca, disabled, ventas }) => {
                 className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em]'
                 onClick={() => {
                   alert(`El producto ${name} ha sido eliminado con éxito!`);
-                  setModalOpen(false);
+                  dispatch(trueDeleteProductAsync(id));
+                  +setModalOpen(false);
                 }}>
                 Eliminar
               </button>
