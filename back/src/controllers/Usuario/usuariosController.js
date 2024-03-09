@@ -218,12 +218,32 @@ class usuarios {
       if (!decoded) {
         return res.status(401).json({ message: 'Acceso no autorizado' });
       }
-      const { valor } = req.body;
-      if (!valor) throw new Error('Especifique el valor');
-      const usuario = await usuariosHandler.deleteLogic(decoded.id, valor);
+      const usuario = await usuariosHandler.deleteLogic(decoded.id);
       return res.status(200).json(usuario);
     } catch (error) {
       return res.status(400).json({ error: 'id de sesión inválido' });
+    }
+  }
+
+  static async deleteUserByAdmin(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) throw new Error('Se necesita el id del usuario para eliminarlo');
+      const response = await usuariosHandler.deleteUserHandler(id);
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).json(error.message);
+    }
+  }
+
+  static async deleteLogicByAdmin(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) throw new Error('Se necesita el id del usuario para activar/desactivarlo');
+      const response = await usuariosHandler.deleteLogic(id);
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).json(error.message);
     }
   }
 }
