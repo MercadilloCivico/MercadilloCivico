@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchSalesPointsAsync, postPuntoDeVenta } from '../thunks/salesPointThunks';
+import {
+  fetchSalesPointsAsync,
+  postPuntoDeVenta,
+  deletePuntoDeVenta,
+  putPuntoDeVenta,
+} from '../thunks/salesPointThunks';
 
 const salesPointSlice = createSlice({
   name: 'salesPoint',
@@ -35,6 +40,28 @@ const salesPointSlice = createSlice({
       .addCase(postPuntoDeVenta.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload.message;
+      });
+    builder
+      .addCase(deletePuntoDeVenta.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deletePuntoDeVenta.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        const idToRemove = action.meta.arg;
+        state.items = state.items.filter((product) => product.id !== idToRemove);
+      })
+      .addCase(deletePuntoDeVenta.rejected, (state) => {
+        state.status = 'failed';
+      });
+    builder
+      .addCase(putPuntoDeVenta.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(putPuntoDeVenta.fulfilled, (state) => {
+        state.status = 'succeeded';
+      })
+      .addCase(putPuntoDeVenta.rejected, (state) => {
+        state.status = 'failed';
       });
   },
 });

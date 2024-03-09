@@ -52,14 +52,17 @@ export default function CreatePointModal({ handleClose, modal }) {
   const handleSubmit = async (e) => {
     e.preventDefault;
 
-    const { payload } = await dispatch(postPuntoDeVenta(formData));
-    // dispatch(createToast(data.message))
-    console.log(payload);
+    try {
+      const response = await dispatch(postPuntoDeVenta(formData));
+      dispatch(createToast(response.message));
+    } catch (err) {
+      dispatch(createToast(err));
+    }
   };
 
   return (
     modal === true && (
-      <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-[#00000070]'>
+      <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center z-[15] bg-[#00000070]'>
         <div className='bg-tuscany-50 rounded-xl max-w-[600px] mx-auto shadow-lg h-full max-h-[600px] overflow-hidden'>
           <div style={{ scrollbarWidth: 'thin' }} className='h-full overflow-auto px-2 '>
             <h3 className='text-tuscany-950 text-2xl mt-4'>Crear un punto de venta</h3>
@@ -141,7 +144,7 @@ export default function CreatePointModal({ handleClose, modal }) {
 
                 <TextField
                   onChange={handleChange}
-                  name='contactMail'
+                  name='contactEmail'
                   label='Correo de contacto'
                   className='max-w-[250px] m-2 bg-tuscany-50'
                 />
