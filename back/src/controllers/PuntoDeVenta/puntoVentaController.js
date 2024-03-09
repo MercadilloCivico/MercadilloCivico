@@ -20,6 +20,8 @@ class PuntoDeVentaController {
       const { companyName, address, postalCode, contactEmail, contactTel } = req.body;
       const { image } = req.files;
 
+      console.log(contactEmail);
+
       const necessaryFields = ['companyName', 'address', 'postalCode', 'contactTel'];
       const fieldsMissing = necessaryFields.filter((field) => !req.body[field]);
       if (fieldsMissing.length > 0)
@@ -61,11 +63,22 @@ class PuntoDeVentaController {
     }
   }
 
-  static async delete(req, res) {
+  static async logicDelete(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) throw new Error('Se necesita el id del punto de venta para desactivarlo');
+      const response = await PuntoDeVentaHandlers.logicDelete(id);
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  static async trueDelete(req, res) {
     try {
       const { id } = req.params;
       if (!id) throw new Error('Se necesita el id del punto de venta para eliminarlo');
-      const response = await PuntoDeVentaHandlers.delete(id);
+      const response = await PuntoDeVentaHandlers.trueDelete(id);
       return res.status(200).json(response);
     } catch (error) {
       return res.status(400).json({ error: error.message });

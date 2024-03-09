@@ -12,11 +12,12 @@ export default function AdminPointsCards({ className }) {
             className='my-2'
             key={point.id}
             image={point.image}
-            companyName={point.companyName}
+            company_name={point.company_name}
             address={point.address}
-            postalCode={point.postalCode}
-            contactEmail={point.contactEmail}
-            contactTel={point.contactTel}
+            postal_code={point.postal_code}
+            contact_email={point.contact_email}
+            contact_tel={point.contact_tel}
+            id={point.id}
           />
         );
       })}

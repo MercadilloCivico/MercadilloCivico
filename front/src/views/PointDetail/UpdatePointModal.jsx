@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { TextField } from '@mui/material';
-import CustomButton from '../CustomButton/CustomButton';
+import CustomButton from '../../components/CustomButton/CustomButton';
 import { MdEdit } from 'react-icons/md';
 import { LuStore } from 'react-icons/lu';
 import { useDispatch } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice';
+import { putPuntoDeVenta } from '../../store/thunks/salesPointThunks';
+import { useParams } from 'react-router-dom';
 
 export default function UpdatePointModal({ handleClose, modal }) {
   const dispatch = useDispatch();
-  // Settear un objeto con los valores sin cambiar e inicializar el formData con esos valores
+  const { id } = useParams();
 
   const [formData, setFormData] = useState({
     companyName: '',
@@ -29,7 +31,7 @@ export default function UpdatePointModal({ handleClose, modal }) {
   }
 
   function handleChange(e) {
-    if (e.target.name === 'photo') {
+    if (e.target.name === 'image') {
       const imgFile = e.target.files[0];
 
       if (!checkImage(imgFile)) return 0;
@@ -40,7 +42,7 @@ export default function UpdatePointModal({ handleClose, modal }) {
           setFormData({
             ...formData,
             imgPreview: reader.result,
-            photo: imgFile,
+            image: imgFile,
           });
         };
         reader.readAsDataURL(imgFile);
@@ -49,13 +51,19 @@ export default function UpdatePointModal({ handleClose, modal }) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault;
+
+    await dispatch(putPuntoDeVenta({ id, formData }));
+    dispatch(createToast('Punto de venta actualizado exitosamente.'));
+  };
 
   return (
     modal === true && (
-      <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-[#00000070]'>
+      <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center z-[15] bg-[#00000070]'>
         <div className='bg-tuscany-50 rounded-xl max-w-[600px] mx-auto shadow-lg h-full max-h-[600px] overflow-hidden'>
           <div style={{ scrollbarWidth: 'thin' }} className='h-full overflow-auto px-2 '>
-            <h3 className='text-tuscany-950 text-2xl mt-4'>Actualizar punto de venta</h3>
+            <h3 className='text-tuscany-950 text-2xl mt-4'>Actualizar este punto de venta</h3>
             <div className='flex flex-wrap justify-around py-4'>
               {/* IMG CONTAINER */}
 
@@ -63,24 +71,24 @@ export default function UpdatePointModal({ handleClose, modal }) {
                 <div className='mb-[45px] outline outline-2 relative outline-tuscany-950 mx-auto w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 object-cover overflow-hidden'>
                   <>
                     <input
-                      name='photo'
-                      id='photo'
+                      name='image'
+                      id='image'
                       onChange={handleChange}
                       type='file'
                       accept='image/*'
                       className='hidden absolute'
                     />
                     <label
-                      htmlFor='photo'
+                      htmlFor='image'
                       className='text-tuscany-100 absolute m-[5px] bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
                       <MdEdit className='w-full h-full' />
                     </label>
                   </>
 
-                  {formData.photo && !formData.imgPreview ? (
+                  {formData.image && !formData.imgPreview ? (
                     <img
                       className='w-full h-full object-cover'
-                      src={formData.photo}
+                      src={formData.image}
                       alt='foto de perfil'></img>
                   ) : formData.imgPreview ? (
                     <img
@@ -98,7 +106,7 @@ export default function UpdatePointModal({ handleClose, modal }) {
                 Imágen de la tienda *
               </span>
               <p className='text-tuscany-950 w-full'>
-                Cambia los campos con los datos que quieras actualizar.
+                Completa la información del punto de venta que quieres crear.
               </p>
 
               {/* RESTO DE INPUTS */}
@@ -134,14 +142,14 @@ export default function UpdatePointModal({ handleClose, modal }) {
 
                 <TextField
                   onChange={handleChange}
-                  name='contactMail'
+                  name='contactEmail'
                   label='Correo de contacto'
                   className='max-w-[250px] m-2 bg-tuscany-50'
                 />
               </div>
             </div>
 
-            <CustomButton text='Actualizar punto' className='my-4 mx-2' />
+            <CustomButton text='Actualizar punto' onClick={handleSubmit} className='my-4 mx-2' />
 
             <CustomButton text='Cancelar' className='my-4 mx-2' onClick={handleClose} />
           </div>
