@@ -5,8 +5,6 @@ import style from './historyAnim.module.css';
 export default function ProfileHistoryCard({ lazyImg, img, name, price, amount, date, className }) {
   // Recibe por props: img, name, price, amount, date y eventualmente recibirá el id de producto
   // lazyImg será un downscale de la img real, se mostrará de fondo mientras carga la imágen real
-
-  console.log(img);
   return (
     <div
       className={
