@@ -5,9 +5,6 @@ const validate = (data) => {
     errors.name = 'El nombre del producto es obligatorio';
   } else if (/^\s/.test(data.name)) {
     errors.name = 'El nombre no puede comenzar con un espacio en blanco';
-    // } else if (!/^[a-zA-Z\s]+$/.test(data.name)) {
-    //   errors.name = 'El nombre solo puede contener letras y espacios';
-    // para poder agregar puntos, o números como las unidades de un producto o abreviaciones
   } else if (data.name.length > 15) {
     errors.name = 'El nombre no puede tener más de 15 caracteres';
   }
@@ -35,12 +32,6 @@ const validate = (data) => {
 
   if (!data.photo) {
     errors.photo = 'La imagen es obligatoria';
-  }
-
-  if (data.costo <= 0 || /^\d*\.?\d*$/.test(data.costo) === false || /^0\d/.test(data.costo)) {
-    errors.costo = 'Ingrese un precio válido mayor que cero';
-  } else if (data.costo > 9999) {
-    errors.costo = 'El precio no puede ser mayor a $9999';
   }
 
   return errors;

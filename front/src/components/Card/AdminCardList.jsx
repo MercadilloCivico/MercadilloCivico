@@ -97,7 +97,7 @@ const AdminCardList = ({ id, name, image, marca, disabled, ventas }) => {
                 onClick={() => {
                   alert(`El producto ${name} ha sido eliminado con éxito!`);
                   dispatch(trueDeleteProductAsync(id));
-                  +setModalOpen(false);
+                  setModalOpen(false);
                 }}>
                 Eliminar
               </button>

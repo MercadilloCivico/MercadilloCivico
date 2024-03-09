@@ -152,7 +152,7 @@ class ProductHandler {
     }
   }
 
-  static async put(id, name, description, image, marca, proveedoresCostos, idProveedorActual) {
+  static async put(id, name, description, image, marca, proveedoresCostos) {
     try {
       const updatedData = {};
 
@@ -161,18 +161,37 @@ class ProductHandler {
       if (marca) updatedData.marca = marca;
 
       if (proveedoresCostos) {
+        // Eliminar proveedores costos que ya no están presentes
+        const proveedoresIds = proveedoresCostos.map(
+          (proveedorCosto) => proveedorCosto.proveedor_id
+        );
+        await prisma.productoProveedor.deleteMany({
+          where: {
+            producto_id: id,
+            NOT: {
+              proveedor_id: {
+                in: proveedoresIds,
+              },
+            },
+          },
+        });
+
         //! Actualiza la relación existente entre el proveedor y el producto, esto es muy importante
         await Promise.all(
           proveedoresCostos.map((proveedorCosto) =>
-            prisma.productoProveedor.update({
+            prisma.productoProveedor.upsert({
               where: {
                 proveedor_id_producto_id: {
-                  proveedor_id: Number(idProveedorActual),
+                  proveedor_id: Number(proveedorCosto.proveedor_id),
                   producto_id: id,
                 },
               },
-              data: {
+              update: {
+                costo: proveedorCosto.costo,
+              },
+              create: {
                 proveedor_id: Number(proveedorCosto.proveedor_id),
+                producto_id: id,
                 costo: proveedorCosto.costo,
               },
             })
