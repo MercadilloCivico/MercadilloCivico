@@ -20,7 +20,7 @@ const validateMiddleware = {
       }
       next();
     } catch (error) {
-      res.status(500).json({ message: error.message, error: 'Error al crear proveedor' });
+      return res.status(500).json({ message: error.message, error: 'Error al crear proveedor' });
     }
     return true;
   },

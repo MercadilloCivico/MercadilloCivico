@@ -20,9 +20,9 @@ class HistorialController {
   static async getAll(req, res) {
     try {
       const reponse = await HistorialHandler.getAll();
-      res.status(200).json(reponse);
+      return res.status(200).json(reponse);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -31,9 +31,9 @@ class HistorialController {
       const { id } = req.params;
       if (!id) throw new Error('Se necesita el id');
       const reponse = await HistorialHandler.getById(id);
-      res.status(200).json(reponse);
+      return res.status(200).json(reponse);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -42,9 +42,9 @@ class HistorialController {
       const { id } = req.params;
       if (!id) throw new Error('Se necesita el id del historial para eliminarlo');
       const response = await HistorialHandler.delete(id);
-      res.status(200).json(response);
+      return res.status(200).json(response);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
 }

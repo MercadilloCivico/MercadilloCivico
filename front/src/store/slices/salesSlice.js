@@ -14,6 +14,7 @@ export const salesSlice = createSlice({
       })
       .addCase(completedSale.fulfilled, (state) => {
         state.status = 'succeeded';
+        state.error = null;
       })
       .addCase(completedSale.rejected, (state, action) => {
         state.status = 'failed';
