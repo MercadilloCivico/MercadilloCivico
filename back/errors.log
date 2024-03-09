@@ -803,3 +803,7 @@
 2024-03-08 21:35:56 error: [object Object]
 2024-03-08 21:35:56 error: GET /api/filtro/ 500 36ms
 2024-03-08 16:39:14 error: PUT /api/proveedor 500 185ms
+2024-03-08 17:53:30 error: [object Object]
+2024-03-08 17:53:30 error: GET /api/filtro/ 500 81ms
+2024-03-08 19:01:17 error: [object Object]
+2024-03-08 19:01:17 error: GET /api/filtro/ 500 131ms
