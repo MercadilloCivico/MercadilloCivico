@@ -772,3 +772,7 @@
 2024-03-08 15:49:40 error: GET /favicon.ico 500 8ms
 2024-03-08 15:05:00 error: POST /api/login 500 309ms
 2024-03-08 15:21:19 error: POST /api/login 500 563ms
+2024-03-08 17:53:30 error: [object Object]
+2024-03-08 17:53:30 error: GET /api/filtro/ 500 81ms
+2024-03-08 19:01:17 error: [object Object]
+2024-03-08 19:01:17 error: GET /api/filtro/ 500 131ms

@@ -55,7 +55,7 @@ export const fetchFilteredCards = createAsyncThunk(
       }
       if (Object.keys(querys).length === 0) {
         const response = await axios.get(url); // Sin parámetros
-        console.log(response);
+
         return response.data;
       }
       const response = await axios.get(url, { params: querys });
