@@ -65,15 +65,12 @@ router.put('/carrito_de_compras/cantidad', CarritoController.actualizarCantidad)
 // punto de venta
 
 router.get('/punto_de_venta/:id?', PuntoDeVentaController.get);
-router.post('/punto_de_venta', middleware.protectRoute, PuntoDeVentaController.post);
-router.put('/punto_de_venta/edit/:id', middleware.protectRoute, PuntoDeVentaController.put);
-router.put('/punto_de_venta/add/', middleware.protectRoute, PuntoDeVentaController.addProveedor);
-router.put(
-  '/punto_de_venta/remove/:id',
-  middleware.protectRoute,
-  PuntoDeVentaController.removeProveedor
-);
-router.delete('/punto_de_venta/:id', middleware.protectRoute, PuntoDeVentaController.delete);
+router.post('/punto_de_venta', PuntoDeVentaController.post);
+router.put('/punto_de_venta/edit/:id', PuntoDeVentaController.put);
+router.put('/punto_de_venta/add/', PuntoDeVentaController.addProveedor);
+router.put('/punto_de_venta/remove/:id', PuntoDeVentaController.removeProveedor);
+router.delete('/punto_de_venta_logic/:id', PuntoDeVentaController.logicDelete);
+router.delete('/punto_de_venta_true/:id', PuntoDeVentaController.trueDelete);
 
 // Inventario
 router.post(

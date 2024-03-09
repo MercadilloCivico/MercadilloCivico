@@ -762,17 +762,3 @@
 2024-03-07 18:44:07 error: PUT /api/proveedor 500 0ms
 2024-03-07 18:45:35 error: PUT /api/proveedor 500 1ms
 2024-03-07 18:47:58 error: PUT /api/proveedor 500 8ms
-2024-03-08 15:12:33 error: POST /api/login 500 377ms
-2024-03-08 15:12:40 error: POST /api/login 500 189ms
-2024-03-08 15:12:56 error: [object Object]
-2024-03-08 15:12:56 error: GET /api/filtro/ 500 7ms
-2024-03-08 15:47:10 error: [object Object]
-2024-03-08 15:47:10 error: GET /favicon.ico 500 7ms
-2024-03-08 15:49:40 error: [object Object]
-2024-03-08 15:49:40 error: GET /favicon.ico 500 8ms
-<<<<<<< Updated upstream
-2024-03-08 15:05:00 error: POST /api/login 500 309ms
-2024-03-08 15:21:19 error: POST /api/login 500 563ms
-=======
-2024-03-08 16:39:14 error: PUT /api/proveedor 500 185ms
->>>>>>> Stashed changes
