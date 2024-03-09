@@ -8,13 +8,12 @@ class ReseñasController {
       const { id } = req.params;
       if (id) {
         const reseña = await ReseñasHandler.getById();
-        res.status(200).json(reseña);
-      } else {
-        const reseñas = await ReseñasHandler.getAll();
-        res.status(200).json(reseñas);
+        return res.status(200).json(reseña);
       }
+      const reseñas = await ReseñasHandler.getAll();
+      return res.status(200).json(reseñas);
     } catch (error) {
-      res.status(400).json({
+      return res.status(400).json({
         message: error.message,
       });
     }
@@ -45,12 +44,12 @@ class ReseñasController {
       const { id } = req.params;
       const { coment, calification } = req.body;
       const updateReseña = await ReseñasHandler.put(Number(id), coment, calification);
-      res.status(200).json({
+      return res.status(200).json({
         message: 'Reseña actualizada exitosamente',
         data: updateReseña,
       });
     } catch (error) {
-      res.status(400).json({
+      return res.status(400).json({
         message: error.message,
       });
     }
@@ -60,11 +59,11 @@ class ReseñasController {
     try {
       const { id } = req.params;
       await ReseñasHandler.delete(Number(id));
-      res.status(200).json({
+      return res.status(200).json({
         message: 'Reseña eliminada exitosamente',
       });
     } catch (error) {
-      res.status(400).json({
+      return res.status(400).json({
         message: error.message,
       });
     }
