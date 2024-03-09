@@ -8,7 +8,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import AdminCardPreview from '../../components/Card/AdminCardPreview';
 import Modal from '../../components/Modal/Modal';
 import Logo from '../../assets/img/logo-simple.svg';
-import { FaImage } from 'react-icons/fa';
+import { FaImage, FaTrash } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
 import { fetchProductsAsync } from '../../store/thunks/productThunks';
 import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
@@ -21,6 +21,8 @@ const EditProduct = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalBackOpen, setModalBackOpen] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [proveedor, setProveedor] = useState('');
+  const [costo, setCosto] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -32,17 +34,14 @@ const EditProduct = () => {
     dispatch(fetchProductsAsync());
     dispatch(fetchProvidersAsync());
   }, [dispatch, id]);
-
   useEffect(() => {
     setEditedProducto({
+      id,
       image: producto.image,
-      proveedor: producto.proveedor[0]?.proveedor_id,
-      idProveedorActual: producto.proveedor[0]?.proveedor_id,
       name: producto.name,
       marca: producto.marca,
       description: producto.description,
-      precio: producto.proveedor[0]?.costo,
-      proveedoresCostos: [],
+      proveedoresCostos: producto.proveedor,
     });
   }, [id, producto.description, producto.image, producto.marca, producto.name, producto.proveedor]);
 
@@ -70,6 +69,12 @@ const EditProduct = () => {
 
         reader.readAsDataURL(imgFile);
       }
+    } else if (name === 'proveedorSeleccionado') {
+      const selectedProvider = providerArray.find((provider) => provider.id === parseInt(value));
+      setProveedor(selectedProvider.id);
+      setHasChanges(true);
+    } else if (name === 'costo') {
+      setCosto(value);
     } else {
       setEditedProducto({
         ...editedProducto,
@@ -86,31 +91,25 @@ const EditProduct = () => {
 
     const formErrors = validate(producto);
     setErrors(formErrors);
+    console.log(editedProducto);
 
     const hasChanges = Object.keys(editedProducto).some(
       (key) => editedProducto[key] !== producto[key]
     );
 
     if (hasChanges && Object.keys(formErrors).length === 0) {
-      const newProduct = {
-        ...editedProducto,
-        id,
-        proveedoresCostos: [
-          {
-            proveedor_id: Number(editedProducto.proveedor),
-            costo: editedProducto.precio,
-          },
-        ],
-      };
-
       try {
-        dispatch(editProductAsync(newProduct));
+        dispatch(editProductAsync(editedProducto));
         alert('Tus cambios se han guardado con exito!');
         navigate('/admin/products');
-        window.location.reload();
+        // window.location.reload();
       } catch (error) {
         throw new Error(error);
       }
+      setHasChanges(false);
+
+      setProveedor('');
+      setCosto('');
     } else {
       alert('Por favor, complete todos los campos correctamente.');
     }
@@ -132,6 +131,52 @@ const EditProduct = () => {
       </option>
     );
   });
+
+  const handleAddProveedorCosto = () => {
+    if (proveedor && costo) {
+      const existentProvider = editedProducto.proveedoresCostos.find(
+        (prov) => prov.proveedor_id === proveedor
+      );
+
+      if (!existentProvider) {
+        setEditedProducto((prevProducto) => ({
+          ...prevProducto,
+          proveedoresCostos: [
+            ...prevProducto.proveedoresCostos,
+            {
+              proveedor_id: proveedor,
+              costo: costo,
+            },
+          ],
+        }));
+
+        setProveedor('');
+        setCosto('');
+      } else {
+        alert('Proveedor ya seleccionado. Por favor, elige otro proveedor.');
+      }
+    } else {
+      alert('Por favor, selecciona un proveedor y un costo antes de agregar.');
+    }
+  };
+
+  const handleRemoveProveedorCosto = (proveedorId) => {
+    const updatedProveedoresCostos = editedProducto.proveedoresCostos.filter(
+      (prov) => prov.proveedor_id !== proveedorId
+    );
+
+    setEditedProducto((prevProducto) => ({
+      ...prevProducto,
+      proveedoresCostos: updatedProveedoresCostos,
+    }));
+  };
+
+  const limitAndEllipsis = (text, limit) => {
+    if (text?.length > limit) {
+      return `${text?.slice(0, limit - 3)}...`;
+    }
+    return text;
+  };
 
   return (
     <>
@@ -198,27 +243,6 @@ const EditProduct = () => {
               </div>
               <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
                 <label
-                  htmlFor='proveedor'
-                  className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
-                  Proveedor
-                </label>
-                <div className='flex flex-col bg-pearl-bush-100'>
-                  <Box className='max-w-64 mx-auto w-[100vw] pt-4 pb-6'>
-                    <select
-                      name='proveedor'
-                      onChange={handleInput}
-                      className='bg-pearl-bush-100 text-pearl-bush-950 font-semibold rounded-sm p-4 w-full'
-                      value={editedProducto.proveedor}>
-                      <option disabled value='' className='text-pearl-bush-950 font-semibold'>
-                        Selecciona al proveedor
-                      </option>
-                      {providersOptions}
-                    </select>
-                  </Box>
-                </div>
-              </div>
-              <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
-                <label
                   htmlFor='name'
                   className='text-pearl-bush-950 text-sm self-start font-semibold mb-1'>
                   Nombre del Producto
@@ -267,23 +291,68 @@ const EditProduct = () => {
                 />
                 <div className='text-crown-of-thorns-600 text-sm'>{errors.description}</div>
               </div>
-              <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
-                <label
-                  htmlFor='costo'
-                  className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
-                  Precio
-                </label>
-                <CustomInput
-                  type='number'
-                  id='precio'
-                  name='precio'
-                  value={editedProducto.precio || ''}
-                  placeholder='Precio'
-                  onChange={handleInput}
-                  className='py-2 px-2 border rounded-md'
-                />
-                <div className='text-crown-of-thorns-600 text-sm'>{errors.precio}</div>
+              <label
+                htmlFor='proveedor'
+                className='text-pearl-bush-950 self-start text-sm font-semibold mb-1'>
+                Proveedores Costo
+              </label>
+              <div className='flex items-center max-w-[600px] min-w-[250px] mx-auto px-4'>
+                {/* Proveedor */}
+                <div className='flex bg-pearl-bush-100 w-1/2'>
+                  <Box className='max-w-64 mx-auto'>
+                    <select
+                      name='proveedorSeleccionado'
+                      onChange={handleInput}
+                      value={proveedor}
+                      className='bg-pearl-bush-100 text-pearl-bush-950 font-semibold rounded-sm p-4 w-full '>
+                      <option className='text-pearl-bush-950 font-semibold' value={''}>
+                        Selecciona al proveedor
+                      </option>
+                      {providersOptions}
+                    </select>
+                  </Box>
+                </div>
+                {/* Costo */}
+                <div className='flex w-1/2'>
+                  <CustomInput
+                    type='number'
+                    id='costo'
+                    name='costo'
+                    value={costo}
+                    placeholder='Precio'
+                    onChange={handleInput}
+                    className='max-w-64 py-2 px-2 border rounded-md'
+                  />
+                </div>
               </div>
+              <div className='flex my-4 justify-center items-center max-w-[300px] sm:max-w-[600px] mx-auto'>
+                <CustomButton text='Agregar Proveedor y Costo' onClick={handleAddProveedorCosto} />
+              </div>
+              <div className='flex flex-col self-center max-w-[600px] min-w-[250px] mx-auto px-4'>
+                <h3 className='flex justify-start text-tuscany-950 font-semibold custom-border-b'>
+                  Proveedores Costos
+                </h3>
+                {editedProducto.proveedoresCostos?.length > 0 ? (
+                  editedProducto.proveedoresCostos?.map((provCosto) => {
+                    const supplier = providerArray.find((p) => p.id === provCosto.proveedor_id);
+                    return (
+                      <div
+                        key={provCosto.proveedor_id}
+                        className='flex justify-between items-center mb-2'>
+                        <span className='text-tuscany-950'>{`Proveedor: ${limitAndEllipsis(supplier?.name_prov, 7)}, Costo: ${provCosto.costo}`}</span>
+                        <button
+                          onClick={() => handleRemoveProveedorCosto(provCosto.proveedor_id)}
+                          className='w-[1.5em] text-[1em] my-2 p-1 border-none rounded-sm flex justify-center cursor-pointer bg-[#c24949] hover:bg-[#993939]'>
+                          <FaTrash className='text-pearl-bush-100' />
+                        </button>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <span className='text-tuscany-950'>Aqui se veran los proveedores y costos</span>
+                )}
+              </div>
+
               <div className='my-[1em]'>
                 <CustomButton text='Guardar Cambios' type='submit' />
               </div>

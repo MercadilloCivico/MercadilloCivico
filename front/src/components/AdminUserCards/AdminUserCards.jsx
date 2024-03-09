@@ -2,7 +2,7 @@ import AdminUserCard from '../AdminUserCard/AdminUserCard';
 
 const AdminUserCards = ({ users }) => {
   return (
-    <div className='w-full p-4 mt-5 flex flex-wrap justify-center sm:justify-between items-center'>
+    <div className='w-full p-4 mt-5 max-h-[65vh] overflow-y-auto flex flex-wrap justify-center sm:justify-between items-center'>
       {users.map((user) => (
         <AdminUserCard
           key={user.id}
