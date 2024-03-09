@@ -21,8 +21,8 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
     else setMenuOpen(!menuOpen);
   }
 
-  // const { allItems } = useSelector((state) => state.card);
-  const { items } = useSelector((state) => state.card);
+  const { allItems: items } = useSelector((state) => state.card);
+  // const { items } = useSelector((state) => state.card);
   const { rol } = useSelector((state) => state.auth);
 
   return (

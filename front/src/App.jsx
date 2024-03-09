@@ -67,6 +67,22 @@ function ProtectedRoute({ Component }) {
   return <Navigate to='/login' />;
 }
 
+function AdminProtectedRoute({ Component }) {
+  const dispatch = useDispatch();
+  const { token, rol } = useSelector((state) => state.auth);
+  if (token !== null && rol === 'admin') return <Component />;
+  dispatch(createToast('Este contenido es solo para administradores.'));
+  return <Navigate to='/store' />;
+}
+
+function SupplierProtectedRoute({ Component }) {
+  const dispatch = useDispatch();
+  const { token, rol } = useSelector((state) => state.auth);
+  if (token !== null && rol === 'proveedor') return <Component />;
+  dispatch(createToast('Este contenido es solo para proveedores.'));
+  return <Navigate to='/store' />;
+}
+
 function CheckAlreadyLoggedIn({ Component }) {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
@@ -155,7 +171,7 @@ function App() {
           <Route path='/faqs' element={<Faqs />} />
           <Route path='/faqs/:category/page?/:page?' element={<CategoryFaqs />} />
           <Route path='/faqs/detail/:id' element={<DetailFaq />} />
-          <Route path='/admin' element={<AdminDashboard />} />
+          <Route path='/admin' element={<AdminProtectedRoute Component={AdminDashboard} />} />
           <Route
             path='/admin/products'
             element={<AdminProducts products={products} setProducts={setProducts} />}
@@ -174,7 +190,9 @@ function App() {
           <Route path='/admin/users/detail/:id' element={<UserDetail />} />
           <Route path='/admin/points' element={<AdminPoints />} />
 
-          <Route path='/supplier' element={<SupplierDashboard />}>
+          <Route
+            path='/supplier'
+            element={<SupplierProtectedRoute Component={SupplierDashboard} />}>
             <Route path='/supplier/settings' element={<SupplierSettings />} />
             <Route path='/supplier/points' element={<SupplierPoints />} />
           </Route>

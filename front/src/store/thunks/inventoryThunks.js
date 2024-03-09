@@ -34,9 +34,12 @@ export const updateInventoryThunk = createAsyncThunk(
   'inventory/update',
   async (inventoryData, { rejectWithValue }) => {
     try {
-      const response = await axios.put(VITE_API_URL, inventoryData);
+      const response = await axios.put(`${VITE_API_URL}/inventario`, inventoryData, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }

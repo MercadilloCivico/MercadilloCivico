@@ -8,7 +8,7 @@ class StripeController {
       const precioFinal = Number(`${price.toString()}00`);
 
       const session = await stripe.checkout.sessions.create({
-        success_url: `${FRONT_URL}/store`,
+        success_url: `${FRONT_URL}/payment_success`,
         // Esta direccion deberia redirigir a un componente donde se le indique al usuario que realizo correctamente la transaccion
         cancel_url: `${FRONT_URL}/pasarela_de_pago`,
         // Esta direccion deberia redirigir al usuario al carrito de compras
@@ -29,10 +29,10 @@ class StripeController {
       });
       return res.status(200).json({ url: session.url });
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json({ message: 'Error al crear la sesión de pago en Stripe.', error: error.message });
+      // return res
+      //   .status(500)
+      //   .json({ message: 'Error al crear la sesión de pago en Stripe.', error: error.message });
+      return res.redirect(`${FRONT_URL}/payment_error`);
     }
   }
 }
