@@ -226,7 +226,7 @@ const Detail = () => {
                   {producto.description}
                 </p>
 
-                {producto.description.length > 100 && (
+                {producto.description?.length > 100 && (
                   <button
                     onClick={toggleDescription}
                     className='text-tuscany-600 border-none custom-transparent-bg text-[0.8em] md:text-base font-bold cursor-pointer underline'>
