@@ -80,7 +80,7 @@ router.post(
   InventarioController.post
 );
 router.get('/inventario/:id?', InventarioController.get);
-router.put('/inventario/', middleware.protectRoute, InventarioController.put);
+router.put('/inventario/', InventarioController.put);
 router.delete('/inventario/:id', middleware.protectRoute, InventarioController.delete);
 
 // Reseñas
