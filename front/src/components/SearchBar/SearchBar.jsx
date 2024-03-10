@@ -10,8 +10,8 @@ export default function SearchBar({ className }) {
     dispatch(setFilterName(e.target.value));
   };
 
-  const handleSearch = () => {
-    filters.id && dispatch(fetchCards(filters));
+  const handleSearch = async () => {
+    filters.id && (await dispatch(fetchCards(filters)));
   };
 
   return (

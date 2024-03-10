@@ -9,7 +9,9 @@ const AllProvidersCard = () => {
   const { providerArray } = useSelector((state) => state.providers);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchProvidersAsync());
+    (async () => {
+      await dispatch(fetchProvidersAsync());
+    })();
   }, [dispatch]);
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();

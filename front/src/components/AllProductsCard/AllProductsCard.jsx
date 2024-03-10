@@ -9,7 +9,9 @@ const AllProductsCard = () => {
   const { items } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchProductsAsync());
+    (async () => {
+      await dispatch(fetchProductsAsync());
+    })();
   }, [dispatch]);
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();

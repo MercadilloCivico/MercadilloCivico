@@ -9,7 +9,9 @@ const AdminUsers = () => {
   const { items } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchUsersAsync());
+    (async () => {
+      await dispatch(fetchUsersAsync());
+    })();
   }, [dispatch]);
   return (
     <div>

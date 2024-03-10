@@ -42,9 +42,11 @@ const CardProductBar = ({ idPuntoVenta, precioVenta, idSuplier, stock, stockMin,
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProvidersAsync(idSuplier));
-    dispatch(fetchSalesPointsAsync(idPuntoVenta));
-  }, [dispatch]);
+    (async () => {
+      await dispatch(fetchProvidersAsync(idSuplier));
+      await dispatch(fetchSalesPointsAsync(idPuntoVenta));
+    })();
+  }, [dispatch, idPuntoVenta, idSuplier]);
 
   const truncatedSuplier =
     providerArray.name_prov?.length > charLimit

@@ -56,24 +56,31 @@ const CreateReview = ({ id, productId, isModalOpen, setModalOpen, isOpenOnDetail
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validateReviewForm(review);
     if (Object.keys(errors).length === 0) {
-      if (isOpenOnDetail) {
-        dispatch(postReviewAsyncThunk(review));
-        setModalOpen(false);
-        dispatch(fetchCards(filters));
-        dispatch(createToast('Reseña creada con éxito'));
-      } else {
-        dispatch(putReviewAsyncThunk({ id, body: review }));
-        setModalOpen(false);
-        dispatch(fetchCards(filters));
-        dispatch(createToast('Reseña actualizada con éxito'));
+      try {
+        if (isOpenOnDetail) {
+          await dispatch(postReviewAsyncThunk(review));
+          setModalOpen(false);
+          await dispatch(fetchCards(filters));
+          dispatch(createToast('Reseña creada con éxito'));
+        } else {
+          await dispatch(putReviewAsyncThunk({ id, body: review }));
+          setModalOpen(false);
+          await dispatch(fetchCards(filters));
+          dispatch(createToast('Reseña actualizada con éxito'));
+        }
+      } catch (error) {
+        console.error(error);
+        dispatch(
+          createToast('Ocurrió un error al procesar tu solicitud. Por favor, inténtalo de nuevo.')
+        );
       }
     } else {
       setFormErrors(errors);
-      alert('Por favor, corrige los errores en el formulario');
+      dispatch(createToast('Por favor, corrige los errores en el formulario'));
     }
   };
 

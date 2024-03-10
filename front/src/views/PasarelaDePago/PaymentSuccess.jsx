@@ -5,17 +5,21 @@ import { useEffect } from 'react';
 import { cleanCartDBThunk } from '../../store/thunks/cartThunks';
 import { completedSale } from '../../store/thunks/salesThunks';
 import { updateInventoryThunk } from '../../store/thunks/inventoryThunks';
+import { createToast } from '../../store/slices/toastSlice';
 
 function PaymentSuccess() {
   const { items, totalPrice, idCarrito } = useSelector((state) => state.carrito);
   const { allItems, puntos } = useSelector((state) => state.card);
   const dispatch = useDispatch();
+
   const productosComprados = allItems.filter((p) => {
     return items.productoEnCarrito.some((producto) => producto.inventarioId === p.inventario.id);
   });
+
   const puntoDeVenta = puntos.filter(
     (p) => p.id === productosComprados[0].inventario.punto_de_venta_id
   )[0];
+
   const arrayProductos = productosComprados.map((p) => {
     const pEnCarrito = items.productoEnCarrito.filter((i) => i.inventarioId === p.inventario.id)[0];
     return {
@@ -36,21 +40,25 @@ function PaymentSuccess() {
             productos: arrayProductos,
           })
         );
-        await arrayProductos.map((p) => {
-          dispatch(
-            updateInventoryThunk({
-              id: p.inventarioId,
-              cantidad: p.stock - p.cantidad,
-            })
-          );
-        });
+
+        await Promise.all(
+          arrayProductos.map((p) =>
+            dispatch(
+              updateInventoryThunk({
+                id: p.inventarioId,
+                cantidad: p.stock - p.cantidad,
+              })
+            )
+          )
+        );
+
         await dispatch(cleanCartDBThunk(idCarrito));
       } catch (error) {
-        console.log(error);
+        dispatch(createToast(error));
       }
     };
     acciones();
-  }, []);
+  });
 
   return (
     <div className='flex flex-col items-center justify-center p-4 my-10 mx-auto rounded-lg shadow-lg max-w-md'>

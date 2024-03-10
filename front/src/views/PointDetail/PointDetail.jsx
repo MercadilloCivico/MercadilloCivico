@@ -31,7 +31,6 @@ export default function PointDetail() {
   }
 
   function handleClose() {
-    console.log('fasdadfgdf');
     setModal(false);
   }
 
@@ -40,7 +39,7 @@ export default function PointDetail() {
       const response = await dispatch(fetchSalesPointsAsync());
       setPoint(response.payload.filter((item) => item.id === id)[0]);
     })();
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   function handleDelete() {
     (async function () {
@@ -56,7 +55,10 @@ export default function PointDetail() {
 
       <div className='p-2 flex flex-col items-center'>
         <div className='rounded-t-xl overflow-hidden w-[200px] h-[200px] bg-pearl-bush-200 p-6'>
-          <img src={point.image} className='w-full h-full object-cover rounded-xl'></img>
+          <img
+            src={point.image}
+            className='w-full h-full object-cover rounded-xl'
+            alt='Imagen de punto de venta'></img>
         </div>
 
         <div className='bg-pearl-bush-200 rounded-t-xl max-w-[500px] w-full text-left'>

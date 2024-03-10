@@ -60,37 +60,71 @@ import PaymentError from './views/PasarelaDePago/PaymentError.jsx';
 import PointDetail from './views/PointDetail/PointDetail.jsx';
 
 function ProtectedRoute({ Component }) {
-  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  if (token !== null) return <Component />;
-  dispatch(createToast('Debes iniciar sesión para acceder a esta página'));
-  return <Navigate to='/login' />;
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!token) {
+      dispatch(createToast('Debes iniciar sesión para acceder a esta página'));
+    }
+  }, [dispatch, token]);
+
+  if (!token) {
+    return <Navigate to='/login' />;
+  }
+
+  return <Component />;
 }
 
 function AdminProtectedRoute({ Component }) {
-  const dispatch = useDispatch();
   const { token, rol } = useSelector((state) => state.auth);
-  if (token !== null && rol === 'admin') return <Component />;
-  dispatch(createToast('Este contenido es solo para administradores.'));
-  return <Navigate to='/store' />;
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!(token !== null && rol === 'admin')) {
+      dispatch(createToast('Este contenido es solo para administradores.'));
+    }
+  }, [dispatch, token, rol]);
+
+  if (!(token !== null && rol === 'admin')) {
+    return <Navigate to='/store' />;
+  }
+
+  return <Component />;
 }
 
 function SupplierProtectedRoute({ Component }) {
-  const dispatch = useDispatch();
   const { token, rol } = useSelector((state) => state.auth);
-  if (token !== null && rol === 'proveedor') return <Component />;
-  dispatch(createToast('Este contenido es solo para proveedores.'));
-  return <Navigate to='/store' />;
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!(token !== null && rol === 'proveedor')) {
+      dispatch(createToast('Este contenido es solo para proveedores.'));
+    }
+  }, [dispatch, token, rol]);
+
+  if (!(token !== null && rol === 'proveedor')) {
+    return <Navigate to='/store' />;
+  }
+
+  return <Component />;
 }
 
 function CheckAlreadyLoggedIn({ Component }) {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  if (!token) return <Component />;
-  else {
-    dispatch(createToast('Tu sesión ya está activa.'));
+
+  useEffect(() => {
+    if (token) {
+      dispatch(createToast('Tu sesión ya está activa.'));
+    }
+  }, [dispatch, token]);
+
+  if (token) {
     return <Navigate to='/store' />;
   }
+
+  return <Component />;
 }
 
 function App() {
@@ -127,13 +161,11 @@ function App() {
   const isUserDetailPage = useMatch('/admin/users/detail/:id');
   const isProductDetailPage = useMatch('/admin/products/detail/:id');
 
-  const getFavorites = async () => {
-    if (token) await dispatch(getAllFavorite());
-  };
-
   useEffect(() => {
-    getFavorites();
-  }, [dispatch, getFavorites, token]);
+    (async () => {
+      if (token) await dispatch(getAllFavorite());
+    })();
+  }, [dispatch, token]);
 
   return (
     <ThemeProvider theme={theme}>
