@@ -85,13 +85,14 @@ const validateMiddleware = {
 
   validateInventario: async (req, res, next) => {
     try {
-      const { puntoDeVntaId, productoId, cantidad, precio, stockMin, stockMax } = req.body;
-      if (!puntoDeVntaId || !productoId || !stockMin || !stockMax || !cantidad || !precio) {
+      const { puntoDeVentaId, productoId, cantidad, precio, stockMin, stockMax } = req.body;
+
+      if (!puntoDeVentaId || !productoId || !stockMin || !stockMax || !cantidad || !precio) {
         return res.status(400).json({ message: 'Todos los campos son requeridos' });
       }
       const inventario = await prisma.inventario.findFirst({
         where: {
-          punto_de_venta_id: puntoDeVntaId,
+          punto_de_venta_id: puntoDeVentaId,
           producto_id: productoId,
         },
       });

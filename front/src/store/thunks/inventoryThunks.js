@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 // Crear un nuevo inventory
@@ -7,7 +8,9 @@ export const createInventoryThunk = createAsyncThunk(
   'inventory/create',
   async (inventoryData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(VITE_API_URL, inventoryData);
+      const response = await axios.post(`${VITE_API_URL}/inventario`, inventoryData, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -50,7 +53,9 @@ export const deleteInventoryThunk = createAsyncThunk(
   'inventory/delete',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`${VITE_API_URL}/${id}`);
+      const response = await axios.delete(`${VITE_API_URL}/inventario/${id}`, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

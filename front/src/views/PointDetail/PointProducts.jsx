@@ -1,6 +1,6 @@
 import PointProduct from './PointProduct.jsx';
 import CustomButton from '../../components/CustomButton/CustomButton.jsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import NewInventoryModal from './NewInventoryModal.jsx';
 import { useDispatch } from 'react-redux';
 import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks.js';
@@ -10,46 +10,21 @@ export default function PointProducts({ className, pointId, address, name }) {
   // name, description, marca, proveedoresCostos, photo
 
   const dispatch = useDispatch();
-  const [inventario, setInventario] = useState();
+  const [punto, setPunto] = useState([]);
+  const pointIdRef = useRef(pointId);
+
+  useEffect(() => {
+    pointIdRef.current = pointId;
+  }, [pointId]);
 
   useEffect(() => {
     (async function () {
-      const { payload } = await dispatch(fetchSalesPointsAsync(pointId));
-      setInventario(payload.inventario);
-      // setInventarioGot(inventario);
+      const { payload } = await dispatch(fetchSalesPointsAsync(pointIdRef.current));
+      setPunto(payload);
     })();
-  }, [dispatch]);
+  }, [dispatch, pointIdRef.current]);
 
-  console.log(inventario);
-
-  const [modal, setModal] = useState(true);
-
-  const arr = [
-    {
-      puntoDeVentaId: 66,
-      productId: 44,
-      proveedorId: 0,
-      cantidad: 66,
-      stockMin: 15,
-      stockMax: 550,
-    },
-    {
-      puntoDeVentaId: 66,
-      productId: 44,
-      proveedorId: 0,
-      cantidad: 66,
-      stockMin: 15,
-      stockMax: 99,
-    },
-    {
-      puntoDeVentaId: 66,
-      productId: 44,
-      proveedorId: 0,
-      cantidad: 66,
-      stockMin: 15,
-      stockMax: 99,
-    },
-  ];
+  const [modal, setModal] = useState(false);
 
   function openModal() {
     setModal(true);
@@ -72,19 +47,22 @@ export default function PointProducts({ className, pointId, address, name }) {
       )}
       <div className={className}>
         <h3 className='text-tuscany-600'>Productos de este punto</h3>
-        {arr.map((product) => {
-          return (
+        {punto && punto.inventario && !punto.inventario.length < 1 ? (
+          punto.inventario.map((item) => (
             <PointProduct
-              key={product.id}
-              puntoDeVentaId={product.puntoDeVentaId}
-              productId={product.productId}
-              proveedorId={product.proveedorId}
-              cantidad={product.cantidad}
-              stockMin={product.stockMin}
-              stockMax={product.stockMax}
+              key={item.id}
+              inventarioId={item.id}
+              puntoDeVentaId={item.punto_de_venta_id}
+              productoId={item.producto_id}
+              proveedorId={item.proveedor_id}
+              cantidad={item.stock}
+              stockMin={item.stock_min}
+              stockMax={item.stock_max}
             />
-          );
-        })}
+          ))
+        ) : (
+          <p>No hay productos</p>
+        )}
 
         <CustomButton onClick={openModal} text='Agregar producto' />
       </div>

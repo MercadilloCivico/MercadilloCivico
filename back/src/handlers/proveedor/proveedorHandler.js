@@ -6,7 +6,11 @@ const deleteFile = require('../deleteToFiles');
 class proveedorHandlers {
   static async getAll() {
     try {
-      const proveedor = await prisma.proveedor.findMany();
+      const proveedor = await prisma.proveedor.findMany({
+        include: {
+          productos: true,
+        },
+      });
       return proveedor;
     } catch (error) {
       throw new Error(error);

@@ -37,8 +37,8 @@ class inventario {
 
   static async put(req, res) {
     try {
-      const { id, cantidad, precio, stockMin, stockMax } = req.body;
-      await inventarioHandler.put(id, cantidad, precio, stockMin, stockMax);
+      const { inventarioId, price, stockMin, stockMax, providerId, cantidad } = req.body;
+      await inventarioHandler.put(inventarioId, price, stockMin, stockMax, providerId, cantidad);
       return res.status(200).json({ message: 'Inventario actualizado' });
     } catch (error) {
       return res.status(400).json({ error: error.message });
@@ -48,6 +48,7 @@ class inventario {
   static async delete(req, res) {
     try {
       const { id } = req.params;
+      console.log(id);
       await inventarioHandler.delete(id);
       return res.status(200).json({ message: 'Inventario eliminado' });
     } catch (error) {

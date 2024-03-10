@@ -8,6 +8,7 @@ import {
   putReviewAsyncThunk,
   trueDeleteProductAsync,
   fetchFilteredProducts,
+  fetchProductIdsAsync,
 } from '../thunks/productThunks';
 
 export const productSlice = createSlice({
@@ -114,6 +115,19 @@ export const productSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchProductsAsync.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload.message;
+      });
+
+    // Manejo de obtener productos por ID
+    builder
+      .addCase(fetchProductIdsAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchProductIdsAsync.fulfilled, (state) => {
+        state.status = 'succeeded';
+      })
+      .addCase(fetchProductIdsAsync.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload.message;
       });
