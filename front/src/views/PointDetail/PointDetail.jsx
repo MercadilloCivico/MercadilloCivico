@@ -34,21 +34,24 @@ export default function PointDetail() {
     })();
   }, [dispatch, id]);
 
+  /* eslint-disable */
   useEffect(() => {
-    // Obtener la cadena base64 de los datos del Uint8Array
-    setQrBase64(bufferToBase64(point.qr_code.data));
-  }, [point]);
-
-  function bufferToBase64(buffer) {
     if (point && point.qr_code && point.qr_code.data) {
-      let binary = '';
-      const bytes = new Uint8Array(buffer);
-      for (let i = 0; i < bytes.byteLength; i++) {
-        binary += String.fromCharCode(bytes[i]);
+      function bufferToBase64(buffer) {
+        let binary = '';
+        const bytes = new Uint8Array(buffer);
+        for (let i = 0; i < bytes.byteLength; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary);
       }
-      return btoa(binary);
+      /* eslint-enable */
+
+      // Obtener la cadena base64 de los datos del Uint8Array
+      console.log(point.qr_code.data);
+      setQrBase64(bufferToBase64(point.qr_code.data));
     }
-  }
+  }, [point]);
 
   function handleDelete() {
     (async function () {
