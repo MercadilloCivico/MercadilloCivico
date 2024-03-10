@@ -22,8 +22,8 @@ export const register = createAsyncThunk('auth/register', async (userData, { rej
   formData.append('lastName', userData.lastName);
   formData.append('email', userData.email);
   formData.append('password', userData.password);
-  formData.append('rol', userData.rol);
-  formData.append('subscribeBlog', userData.subscribeBlog);
+  formData.append('rol', userData.rol ? userData.rol : 'user');
+  formData.append('subscribeBlog', userData.subscribeBlog ? userData.subscribeBlog : false);
 
   if (userData.secondName) formData.append('secondName', userData.secondName);
   if (userData.photo) formData.append('image', userData.photo);

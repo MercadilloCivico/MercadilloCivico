@@ -32,6 +32,9 @@ router.delete('/delete/user', usuariosController.usuarios.deleteUsuario);
 router.put('/disable/user', usuariosController.usuarios.deleteLogic);
 router.get('/user/info/:id?', usuariosController.usuarios.get);
 router.get('/user/profile', usuariosController.usuarios.getUser);
+// rutas para los delete de usuario desde admin
+router.delete('/delete/usuario/:id', usuariosController.usuarios.deleteUserByAdmin);
+router.put('/disable/usuario/:id', usuariosController.usuarios.deleteLogicByAdmin);
 
 // products
 
@@ -80,7 +83,7 @@ router.post(
   InventarioController.post
 );
 router.get('/inventario/:id?', InventarioController.get);
-router.put('/inventario/', middleware.protectRoute, InventarioController.put);
+router.put('/inventario/', InventarioController.put);
 router.delete('/inventario/:id', middleware.protectRoute, InventarioController.delete);
 
 // Reseñas

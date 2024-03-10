@@ -45,7 +45,9 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCartDBThunk());
+    (async () => {
+      await dispatch(getCartDBThunk());
+    })();
   }, [dispatch]);
 
   function EmptyCart() {

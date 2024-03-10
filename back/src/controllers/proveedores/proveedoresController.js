@@ -56,11 +56,11 @@ class ProveedoresController {
         decoded.id
       );
 
-      res.status(200).json({
+      return res.status(200).json({
         message: 'Proveedoredor creado exitosamente',
       });
     } catch (error) {
-      res.status(500).json({ message: error.message, error: 'Error al crear proveedor' });
+      return res.status(500).json({ message: error.message, error: 'Error al crear proveedor' });
     }
   }
 
@@ -81,11 +81,13 @@ class ProveedoresController {
         camaraDeComercio,
         certificadoBancario
       );
-      res.status(200).json({
+      return res.status(200).json({
         message: 'Proveedoredor actualizado exitosamente',
       });
     } catch (error) {
-      res.status(500).json({ message: error.message, error: 'Error al actualizar proveedor' });
+      return res
+        .status(500)
+        .json({ message: error.message, error: 'Error al actualizar proveedor' });
     }
   }
 
@@ -93,11 +95,11 @@ class ProveedoresController {
     try {
       const { id } = req.params;
       await proveedorHandlers.delete(id);
-      res.status(200).json({
+      return res.status(200).json({
         message: 'Proveedoredor eliminado exitosamente',
       });
     } catch (error) {
-      res.status(500).json({ message: error.message, error: 'Error al eliminar proveedor' });
+      return res.status(500).json({ message: error.message, error: 'Error al eliminar proveedor' });
     }
   }
 }

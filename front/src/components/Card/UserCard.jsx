@@ -29,14 +29,18 @@ const UserCard = ({
   const navigate = useNavigate();
 
   const agregarAlCarrito = async () => {
-    await dispatch(
-      addProductToCartDBThunk({
-        carritoId: idCarrito,
-        inventarioId,
-        cantidad,
-      })
-    );
-    await dispatch(createToast('Producto agregado al carrito'));
+    try {
+      await dispatch(
+        addProductToCartDBThunk({
+          carritoId: idCarrito,
+          inventarioId,
+          cantidad,
+        })
+      );
+      dispatch(createToast('Producto agregado al carrito'));
+    } catch (error) {
+      dispatch(createToast('Error agregando al carrito'));
+    }
   };
 
   const agregarProducto = () => {
@@ -46,11 +50,17 @@ const UserCard = ({
   const quitarProducto = () => {
     setCantidad((prev) => prev - 1);
   };
-  const handleFavorite = () => {
-    if (isFav) {
-      dispatch(removeFavorite(id));
-    } else {
-      dispatch(addFavorite(id));
+  const handleFavorite = async () => {
+    try {
+      if (isFav) {
+        await dispatch(removeFavorite(id));
+        dispatch(createToast('Producto eliminado de favoritos'));
+      } else {
+        await dispatch(addFavorite(id));
+        dispatch(createToast('Producto agregado a favoritos'));
+      }
+    } catch (error) {
+      dispatch(createToast('Error al agregar a favoritos'));
     }
   };
 
@@ -62,7 +72,7 @@ const UserCard = ({
   useEffect(() => {
     if (userFavorites.some((favorite) => favorite.id === id)) setIsFav(true);
     else setIsFav(false);
-  }, []);
+  }, [userFavorites, id]);
 
   return (
     <div
@@ -115,12 +125,12 @@ const UserCard = ({
           <div className='flex px-2 justify-between'>
             <div
               className='bg-tuscany-600 flex flex-shrink-0 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full cursor-pointer hover:bg-tuscany-700 active:bg-tuscany-800 transition'
-              onClick={() => {
+              onClick={async () => {
                 if (isFavLoading()) {
                   dispatch(createToast('Espera antes de agregar o eliminar otro favorito'));
                 } else {
                   setIsFav(!isFav);
-                  handleFavorite();
+                  await handleFavorite();
                 }
               }}>
               {isFav ? (

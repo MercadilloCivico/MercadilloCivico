@@ -25,3 +25,29 @@ export const fetchUsersAsync = createAsyncThunk(
     }
   }
 );
+
+// Thunk para eliminar un usuario lógicamente
+export const logicDeleteUsersAsync = createAsyncThunk(
+  'users/logicDeleteUsersAsync',
+  async (uid, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`${VITE_API_URL}/disable/usuario/${uid}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Thunk para eliminar un usuario permanentemente
+export const trueDeleteUsersAsync = createAsyncThunk(
+  'users/trueDeleteUsersAsync',
+  async (uid, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`${VITE_API_URL}/delete/usuario/${uid}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);

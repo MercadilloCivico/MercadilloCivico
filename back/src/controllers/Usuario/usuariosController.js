@@ -13,18 +13,21 @@ class usuarios {
     try {
       const { id } = req.params;
       const { name } = req.query;
+
       if (id) {
         const usuario = await usuariosHandler.getById(id);
-        res.status(200).json(usuario);
-      } else if (name) {
-        const usuario = await usuariosHandler.getByName(name);
-        res.status(200).json(usuario);
-      } else {
-        const users = await usuariosHandler.getAll();
-        res.status(200).json(users);
+        return res.status(200).json(usuario);
       }
+
+      if (name) {
+        const usuario = await usuariosHandler.getByName(name);
+        return res.status(200).json(usuario);
+      }
+
+      const users = await usuariosHandler.getAll();
+      return res.status(200).json(users);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -53,9 +56,9 @@ class usuarios {
         rol,
         subscribeBlog
       );
-      res.status(201).json(response);
+      return res.status(201).json(response);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -156,11 +159,11 @@ class usuarios {
       const { email } = req.body;
       const response = await usuariosHandler.putEmailValidator(email);
       if (!response) {
-        res.status(400).json(response);
+        return res.status(400).json(response);
       }
-      res.status(200).send('Se ha enviado una nueva contraseña a su correo');
+      return res.status(200).send('Se ha enviado una nueva contraseña a su correo');
     } catch (error) {
-      res.status(400).send(error.message);
+      return res.status(400).send(error.message);
     }
   }
 
@@ -175,10 +178,11 @@ class usuarios {
           sameSite: COOKIE_SAMESITE_CONFIG,
           secure: true,
         });
-        res.status(200).json({ access: true, token: tokenLog.token, rol: tokenLog.rol });
+        return res.status(200).json({ access: true, token: tokenLog.token, rol: tokenLog.rol });
       }
+      return res.status(401).json({ access: false, message: 'Usuario o contraseña incorrectos' });
     } catch (error) {
-      res.status(500).json({ message: error.message, error: 'Error en el login' });
+      return res.status(500).json({ message: error.message, error: 'Error en el login' });
     }
   }
 
@@ -189,9 +193,9 @@ class usuarios {
       res.clearCookie('sessionToken', {
         httpOnly: true,
       });
-      res.status(200).json({ message: 'Cierre de sesión exitoso' });
+      return res.status(200).json({ message: 'Cierre de sesión exitoso' });
     } catch (error) {
-      res.status(500).json({ message: error.message, error: 'Error en el logout' });
+      return res.status(500).json({ message: error.message, error: 'Error en el logout' });
     }
   }
 
@@ -218,12 +222,32 @@ class usuarios {
       if (!decoded) {
         return res.status(401).json({ message: 'Acceso no autorizado' });
       }
-      const { valor } = req.body;
-      if (!valor) throw new Error('Especifique el valor');
-      const usuario = await usuariosHandler.deleteLogic(decoded.id, valor);
+      const usuario = await usuariosHandler.deleteLogic(decoded.id);
       return res.status(200).json(usuario);
     } catch (error) {
       return res.status(400).json({ error: 'id de sesión inválido' });
+    }
+  }
+
+  static async deleteUserByAdmin(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) throw new Error('Se necesita el id del usuario para eliminarlo');
+      const response = await usuariosHandler.deleteUserHandler(id);
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).json(error.message);
+    }
+  }
+
+  static async deleteLogicByAdmin(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) throw new Error('Se necesita el id del usuario para activar/desactivarlo');
+      const response = await usuariosHandler.deleteLogic(id);
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).json(error.message);
     }
   }
 }

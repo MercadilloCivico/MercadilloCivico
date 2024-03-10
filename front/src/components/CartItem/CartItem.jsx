@@ -17,7 +17,7 @@ const CartItem = ({ className, p }) => {
   useEffect(() => {
     async () => await dispatch(getCartDBThunk());
     setQty(p.cantidad);
-  }, [dispatch, p.cantidad]);
+  }, [dispatch, p.cantidad, status]);
 
   const productos = items.filter((i) => i.inventario.id === p.inventarioId);
   const producto = productos[0];
@@ -79,7 +79,7 @@ const CartItem = ({ className, p }) => {
         <ul className='text-start'>
           <li className='font-bold text-tuscany-950 text-base '>{producto.name}</li>
           <li className='text-tuscany-950 text-opacity-40 text-sm font-medium'>
-            {producto.proveedor.name}
+            {producto.proveedor?.name}
           </li>
         </ul>
       </div>

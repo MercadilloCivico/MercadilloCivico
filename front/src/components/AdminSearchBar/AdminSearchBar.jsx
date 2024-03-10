@@ -25,7 +25,7 @@ const AdminSearchBar = () => {
     const { value } = e.target;
     setSearchValue(value);
     dispatch(setName(value));
-    if (!isAdminProducts) dispatch(fetchUsersAsync(value));
+    if (!isAdminProducts) await dispatch(fetchUsersAsync(value));
     else {
       await dispatch(fetchFilteredProducts(filters));
     }
@@ -33,7 +33,7 @@ const AdminSearchBar = () => {
 
   const handleClearSearch = async () => {
     setSearchValue('');
-    if (!isAdminProducts) dispatch(fetchUsersAsync(''));
+    if (!isAdminProducts) await dispatch(fetchUsersAsync(''));
     else {
       dispatch(setName(''));
       await dispatch(
@@ -60,7 +60,7 @@ const AdminSearchBar = () => {
   };
 
   return (
-    <div className='flex justify-center mx-4 my- relative z-20'>
+    <div className='flex justify-center mx-4 my- relative z-10'>
       <div className='w-[90%]  flex justify-center items-center bg-pearl-bush-200 text-tuscany-950 p-2 md:p-4 space-x-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-500'>
         <div className='flex items-center justify-between bg-pearl-bush-100 text-[.7em] sm:text-[.9em] md:text-[1em] p-1 sm:p-2 md:p-3 w-full hover:custom-border-2 hover:text-tuscany-600 rounded-lg'>
           <CiSearch className='h-6 w-6 opacity-30' />

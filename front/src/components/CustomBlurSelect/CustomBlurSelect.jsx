@@ -57,14 +57,11 @@ const CustomSelect = ({ label, options }) => {
       },
     },
   });
-  const getFilters = async () => {
+
+  const handleChange = async (e) => {
+    e.target.value && dispatch(setFilterId(e.target.value));
     await dispatch(fetchCards());
     await dispatch(fetchFilteredCards(filters));
-  };
-
-  const handleChange = (e) => {
-    e.target.value && dispatch(setFilterId(e.target.value));
-    getFilters();
   };
 
   return (
@@ -76,8 +73,7 @@ const CustomSelect = ({ label, options }) => {
         <Select
           variant='standard'
           labelId='custom-select-label'
-          // value={filters.id}
-          defaultValue={filters.id}
+          value={filters.id || ''}
           label={label}
           onChange={handleChange}
           className='bg-transparent border-none focus:ring-0 text-start ps-3 font-semibold text-pearl-bush-100'

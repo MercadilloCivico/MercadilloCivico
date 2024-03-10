@@ -12,7 +12,9 @@ const AdminProducts = () => {
   const { items } = useSelector((state) => state.products);
 
   useEffect(() => {
-    dispatch(fetchProductsAsync());
+    (async () => {
+      await dispatch(fetchProductsAsync());
+    })();
   }, [dispatch]);
 
   return (

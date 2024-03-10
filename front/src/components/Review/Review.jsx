@@ -28,9 +28,9 @@ const Review = ({
   const [user, setUser] = useState({});
   const { items } = useSelector((state) => state.user);
   const { items: carrito } = useSelector((state) => state.carrito);
-  const { status } = useSelector((state) => state.products);
+
   useEffect(() => {
-    const userdata = async () => {
+    const userData = async () => {
       try {
         if (usuario_id) {
           await dispatch(fetchUsersAsync());
@@ -38,15 +38,15 @@ const Review = ({
           setUser(user);
           setIsLoading(false);
         } else {
-          throw new Error('No se encuentra el usuario id');
+          dispatch(createToast('No se encuentra el usuario'));
         }
       } catch (error) {
         setIsLoading(false);
-        alert(error);
+        dispatch(createToast('Error al cargar el usuario'));
       }
     };
-    userdata();
-  }, []);
+    userData();
+  }, [dispatch, items, usuario_id]);
 
   const handleReport = () => {
     dispatch(createToast('Comentario Reportado'));
@@ -56,15 +56,13 @@ const Review = ({
     setDeleteModal((prev) => !prev);
   };
 
-  const handleDelete = () => {
-    dispatch(deleteReviewAsyncThunk(id));
-    setTimeout(() => {
-      if (status === 'rejected') {
-        dispatch(createToast('Error al eliminar el comentario'));
-      } else {
-        dispatch(createToast('Comentario Eliminado'));
-      }
-    }, 2000);
+  const handleDelete = async () => {
+    try {
+      await dispatch(deleteReviewAsyncThunk(id));
+      dispatch(createToast('Comentario Eliminado'));
+    } catch {
+      dispatch(createToast('Error al eliminar el comentario'));
+    }
   };
 
   return (
@@ -112,8 +110,8 @@ const Review = ({
                   <div className='flex gap-4'>
                     <CustomButton
                       text={'Si'}
-                      onClick={() => {
-                        handleDelete();
+                      onClick={async () => {
+                        await handleDelete();
                         handleModal();
                       }}
                     />

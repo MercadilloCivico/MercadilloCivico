@@ -20,7 +20,7 @@ const validateMiddleware = {
       }
       next();
     } catch (error) {
-      res.status(500).json({ message: error.message, error: 'Error al crear proveedor' });
+      return res.status(500).json({ message: error.message, error: 'Error al crear proveedor' });
     }
     return true;
   },
@@ -127,15 +127,15 @@ const validateMiddleware = {
   },
   validateHistorial: async (req, res, next) => {
     try {
-      const { idUsuario, precioFinal, puntoDeVenta, productos } = req.body;
+      const { precioFinal, puntoDeVenta, productos } = req.body;
 
-      const uuidRegex =
-        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      // const uuidRegex =
+      //   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-      // Verificar que id_usuario sea un UUID válido
-      if (!uuidRegex.test(idUsuario)) {
-        return res.status(400).json({ error: 'El id_usuario no es válido' });
-      }
+      // // Verificar que id_usuario sea un UUID válido
+      // if (!uuidRegex.test(idUsuario)) {
+      //   return res.status(400).json({ error: 'El id_usuario no es válido' });
+      // }
 
       // Verificar que precio_final sea un número
       if (typeof precioFinal !== 'number') {

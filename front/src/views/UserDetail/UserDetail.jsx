@@ -1,27 +1,32 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsersAsync } from '../../store/thunks/userThunks';
+import {
+  fetchUsersAsync,
+  logicDeleteUsersAsync,
+  trueDeleteUsersAsync,
+} from '../../store/thunks/userThunks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoCloseSharp } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Modal from '../../components/Modal/Modal';
+import { createToast } from '../../store/slices/toastSlice';
 
 const UserDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { items } = useSelector((state) => state.user);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const usuario = items?.find((item) => item.id === id);
 
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(fetchUsersAsync(id));
+    (async () => {
+      await dispatch(fetchUsersAsync(id));
+    })();
   }, [id, dispatch]);
 
   const openModal = () => {
@@ -45,23 +50,23 @@ const UserDetail = () => {
       <div className='w-full mx-auto '>
         <div className='bg-pearl-bush-500'>
           <img
-            src={usuario.photo}
+            src={usuario?.photo}
             alt='User Avatar'
             className='w-32 h-32 rounded-full shadow-lg transform translate-y-2/4 transition-transform duration-200 hover:scale-130 mx-auto'
           />
         </div>
         <div className='text-center mt-[4em] text-tuscany-950 py-1 px-4'>
-          <h2 className='text-center px-4'>{`${usuario.first_name} ${usuario.last_name}`}</h2>
-          <span className='opacity-50'>{usuario.rol}</span>
+          <h2 className='text-center px-4'>{`${usuario?.first_name} ${usuario?.last_name}`}</h2>
+          <span className='opacity-50'>{usuario?.rol}</span>
         </div>
         <div className='flex flex-col'>
           <ul className='flex justify-center items-center space-x-10'>
             <li className='flex flex-col p-2 text-[1.2em] text-center rounded-md hover:bg-pearl-bush-200 cursor-pointer'>
-              <span className='font-bold  text-tuscany-500'>{usuario.resenas.length}</span>
+              <span className='font-bold  text-tuscany-500'>{usuario?.resenas.length}</span>
               <small className='text-tuscany-950 opacity-50'>Compras</small>
             </li>
             <li className='flex flex-col p-2 text-[1.2em] text-center rounded-md hover:bg-pearl-bush-200 cursor-pointer'>
-              <span className='font-bold  text-tuscany-500'>{usuario.compras.length}</span>
+              <span className='font-bold  text-tuscany-500'>{usuario?.compras.length}</span>
               <small className='text-tuscany-950 opacity-50'>Reseñas</small>
             </li>
           </ul>
@@ -73,18 +78,26 @@ const UserDetail = () => {
             </li>
             <li>
               <span>
-                {usuario.second_name
+                {usuario?.second_name
                   ? `Nombre completo: ${usuario?.first_name} ${usuario?.second_name} ${usuario?.last_name}`
                   : `Nombre completo: ${usuario?.first_name} ${usuario?.last_name}`}
               </span>
             </li>
             <li>
-              <span>{`Email: ${usuario.email}`}</span>
+              <span>{`Email: ${usuario?.email}`}</span>
+            </li>
+            <li>
+              <span>Estado: </span>
+              {usuario?.disabled ? (
+                <span className='bg-[#59719d71] text-[#59719D] rounded-md  px-2'>Inactivo</span>
+              ) : (
+                <span className='bg-[#2ba9727e] text-[#2BA972] rounded-md  px-2'>Activo</span>
+              )}
             </li>
             <li>
               <span>
                 {`Suscrito al blog: `}
-                {usuario.subscribe_blog ? (
+                {usuario?.subscribe_blog ? (
                   <>
                     <FaCheck className='text-[#10B981]' />
                   </>
@@ -97,6 +110,27 @@ const UserDetail = () => {
             </li>
           </ul>
         </div>
+        <div>
+          {usuario?.disabled ? (
+            <button
+              className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#599d64] text-pearl-bush-100 font-semibold hover:bg-[#3a8651] cursor-pointer'
+              onClick={() => {
+                dispatch(logicDeleteUsersAsync(usuario?.id));
+                navigate('/admin/users');
+              }}>
+              Activar
+            </button>
+          ) : (
+            <button
+              className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#59719d] text-tuscany-950 font-semibold hover:bg-[#cccccc] cursor-pointer'
+              onClick={async () => {
+                await dispatch(logicDeleteUsersAsync(usuario?.id));
+                navigate('/admin/users');
+              }}>
+              Suspender
+            </button>
+          )}
+        </div>
         <CustomButton text='Eliminar Usuario' className='my-1 w-[16em]' onClick={openModal} />
         <div>
           <Modal isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>
@@ -107,11 +141,23 @@ const UserDetail = () => {
               <div className='flex justify-between'>
                 <button
                   className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em]'
-                  onClick={() => {
-                    alert(
-                      `El usuario ${usuario.first_name} ${usuario.last_name} ha sido eliminado con éxito!`
-                    );
-                    setModalOpen(false);
+                  onClick={async () => {
+                    try {
+                      await dispatch(trueDeleteUsersAsync(usuario?.id));
+                      dispatch(
+                        createToast(
+                          `El usuario ${usuario?.first_name} ha sido eliminado con éxito!`
+                        )
+                      );
+                      navigate('/admin/users');
+                      setModalOpen(false);
+                    } catch (error) {
+                      dispatch(
+                        createToast(
+                          `Error al eliminar el usuario ${usuario?.first_name}, por favor intente nuevamente.`
+                        )
+                      );
+                    }
                   }}>
                   Eliminar
                 </button>

@@ -27,20 +27,17 @@ const Detail = () => {
 
   function isFavLoading() {
     if (status === 'loading') return true;
-    else return false;
+    return false;
   }
 
   useEffect(() => {
     if (userFavorites.some((favorite) => favorite.id === id)) setIsFav(true);
     else setIsFav(false);
-  }, []);
+  }, [id, userFavorites]);
 
-  const handleFavorite = () => {
-    if (isFav) {
-      dispatch(removeFavorite(id));
-    } else {
-      dispatch(addFavorite(id));
-    }
+  const handleFavorite = async () => {
+    if (isFav) await dispatch(removeFavorite(id));
+    else await dispatch(addFavorite(id));
   };
 
   const [isLoading, setIsLoading] = useState(true);
@@ -50,40 +47,40 @@ const Detail = () => {
     setModalOpen(true);
   };
   useEffect(() => {
-    dispatch(fetchCards({ id: filters.id }));
-    axios
-      .get(`${VITE_API_URL}/product/${id}`)
-      .then(({ data }) => {
-        const prod = allItems.filter((i) => i.id === data.id)[0];
-        setProducto(prod);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
-  }, [id]);
+    (async () => {
+      await dispatch(fetchCards({ id: filters.id }));
+      await axios
+        .get(`${VITE_API_URL}/product/${id}`)
+        .then(({ data }) => {
+          const prod = allItems.filter((i) => i.id === data.id)[0];
+          setProducto(prod);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setIsLoading(false);
+        });
+    })();
+  }, [dispatch, filters.id, id, allItems]);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
 
   const [cantidad, setCantidad] = useState(1);
-  const agregarAlCarrito = () => {
-    dispatch(
+  const agregarAlCarrito = async () => {
+    await dispatch(
       addProductToCartDBThunk({
         carritoId: idCarrito,
         inventarioId: producto.inventario.id,
         cantidad,
       })
     );
-    setTimeout(() => {
-      if (statusCarrito === 'rejected') {
-        dispatch(createToast('El producto ya se encuentra en el carrito'));
-      } else {
-        dispatch(createToast('Producto agregado al carrito'));
-      }
-    }, 1000);
+    if (statusCarrito === 'rejected') {
+      dispatch(createToast('El producto ya se encuentra en el carrito'));
+    } else {
+      dispatch(createToast('Producto agregado al carrito'));
+    }
   };
   const agregarProducto = () => {
     setCantidad((prev) => prev + 1);
@@ -110,12 +107,12 @@ const Detail = () => {
               <h3 className='text-xl'>Detalles del producto</h3>
               {isFav ? (
                 <div
-                  onClick={() => {
+                  onClick={async () => {
                     if (isFavLoading()) {
                       dispatch(createToast('Espera antes de agregar o eliminar otro favorito'));
                     } else {
                       setIsFav(!isFav);
-                      handleFavorite();
+                      await handleFavorite();
                     }
                   }}
                   className=' absolute cursor-pointer w-[25px] h-[25px] my-auto right-[10px] top-0 bottom-0'>
@@ -123,12 +120,12 @@ const Detail = () => {
                 </div>
               ) : (
                 <div
-                  onClick={() => {
+                  onClick={async () => {
                     if (isFavLoading()) {
                       dispatch(createToast('Espera antes de agregar o eliminar otro favorito'));
                     } else {
                       setIsFav(!isFav);
-                      handleFavorite();
+                      await handleFavorite();
                     }
                   }}
                   className=' absolute cursor-pointer w-[25px] h-[25px] my-auto right-[10px] top-0 bottom-0'>
@@ -226,7 +223,7 @@ const Detail = () => {
                   {producto.description}
                 </p>
 
-                {producto.description.length > 100 && (
+                {producto.description?.length > 100 && (
                   <button
                     onClick={toggleDescription}
                     className='text-tuscany-600 border-none custom-transparent-bg text-[0.8em] md:text-base font-bold cursor-pointer underline'>
