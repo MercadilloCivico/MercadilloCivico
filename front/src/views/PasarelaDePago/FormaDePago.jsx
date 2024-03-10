@@ -3,6 +3,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { stripePaymentMethod } from '../../store/thunks/cartThunks';
+import { createToast } from '../../store/slices/toastSlice';
 
 export default function FormaDePago({ nextStep }) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -17,7 +18,7 @@ export default function FormaDePago({ nextStep }) {
       const { payload } = await dispatch(stripePaymentMethod(totalPrice));
       window.location.href = payload;
     } catch (error) {
-      alert(error);
+      dispatch(createToast(error));
     }
   };
   const isNextButtonDisabled = !selectedPaymentMethod;

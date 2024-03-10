@@ -9,7 +9,9 @@ const AllUsersCard = () => {
   const { items } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchUsersAsync());
+    (async () => {
+      await dispatch(fetchUsersAsync());
+    })();
   }, [dispatch]);
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();

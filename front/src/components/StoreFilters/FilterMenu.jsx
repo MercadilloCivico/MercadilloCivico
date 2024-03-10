@@ -26,7 +26,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
       await dispatch(fetchFilteredCards(filters));
     };
     fetch();
-  }, [filters]);
+  }, [dispatch, filters]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -39,7 +39,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [menuRef]);
+  }, [menuRef, toggleFilterMenu]);
 
   return (
     activeFilterMenu && (

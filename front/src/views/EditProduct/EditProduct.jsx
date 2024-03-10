@@ -14,6 +14,7 @@ import { fetchProductsAsync } from '../../store/thunks/productThunks';
 import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
 import { Box } from '@mui/material';
 import { editProductAsync } from '../../store/thunks/productThunks';
+import { createToast } from '../../store/slices/toastSlice';
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -31,9 +32,12 @@ const EditProduct = () => {
   const [editedProducto, setEditedProducto] = useState({});
 
   useEffect(() => {
-    dispatch(fetchProductsAsync());
-    dispatch(fetchProvidersAsync());
+    (async () => {
+      await dispatch(fetchProductsAsync());
+      await dispatch(fetchProvidersAsync());
+    })();
   }, [dispatch, id]);
+
   useEffect(() => {
     setEditedProducto({
       id,
@@ -86,7 +90,7 @@ const EditProduct = () => {
     setErrors(validate({ ...producto, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formErrors = validate(producto);
@@ -99,19 +103,18 @@ const EditProduct = () => {
 
     if (hasChanges && Object.keys(formErrors).length === 0) {
       try {
-        dispatch(editProductAsync(editedProducto));
-        alert('Tus cambios se han guardado con exito!');
+        await dispatch(editProductAsync(editedProducto));
+        dispatch(createToast('Tus cambios se han guardado con exito!'));
         navigate('/admin/products');
         // window.location.reload();
       } catch (error) {
-        throw new Error(error);
+        dispatch(createToast('Error modificando producto'));
       }
       setHasChanges(false);
-
       setProveedor('');
       setCosto('');
     } else {
-      alert('Por favor, complete todos los campos correctamente.');
+      dispatch(createToast('Por favor, complete todos los campos correctamente.'));
     }
   };
 

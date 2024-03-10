@@ -15,6 +15,7 @@ import {
   DialogTitle,
   Button,
 } from '@mui/material';
+import { createToast } from '../../store/slices/toastSlice';
 
 export default function NavUser() {
   const { token } = useSelector((state) => state.auth);
@@ -35,18 +36,14 @@ export default function NavUser() {
     setOpen(false);
   };
 
-  async function fetchData() {
-    const { payload } = await dispatch(fetchUserProfileAsync());
-    setPicture(payload.photo);
-  }
-
   useEffect(() => {
-    (async function () {
+    (async () => {
       if (token) {
-        fetchData();
+        const { payload } = await dispatch(fetchUserProfileAsync());
+        setPicture(payload.photo);
       }
     })();
-  }, [token]);
+  }, [dispatch, token]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -67,9 +64,14 @@ export default function NavUser() {
   }, [menuRef]);
 
   const handleLogout = async () => {
-    await dispatch(logout());
-    token !== null && navigate('/login');
-    handleClose();
+    try {
+      await dispatch(logout());
+      if (token !== null) navigate('/login');
+      handleClose();
+      dispatch(createToast('Cierre de sesión exitoso.'));
+    } catch (error) {
+      dispatch(createToast('Error al cerrar sesión.'));
+    }
   };
 
   function handleMenuIcon() {
@@ -87,7 +89,7 @@ export default function NavUser() {
               onClick={handleMenuIcon}
               className='cursor-pointer w-[35px] h-[35px] rounded-md overflow-hidden'>
               {picture ? (
-                <img className='w-full h-full object-cover' src={picture}></img>
+                <img className='w-full h-full object-cover' src={picture} alt='profile pic'></img>
               ) : (
                 <Skeleton variant='rectangular' width={35} height={35} />
               )}

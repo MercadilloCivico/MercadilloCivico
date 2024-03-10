@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import ProfileHistoryCard from '../ProfileHistoryCard/ProfileHistoryCard';
 import { useEffect, useState } from 'react';
 import { fetchUserProfileAsync } from '../../store/thunks/profileThunks';
+import { createToast } from '../../store/slices/toastSlice';
 
 export default function ProfileHistoryContainer() {
   // Debe recibir un array de objetos por props
@@ -13,11 +14,11 @@ export default function ProfileHistoryContainer() {
         const { payload } = await dispatch(fetchUserProfileAsync());
         setCompras(payload.compras);
       } catch (error) {
-        console.log(error);
+        dispatch(createToast('Error cargando información de usuario'));
       }
     };
     fetchCompras();
-  }, []);
+  }, [dispatch]);
   const info = compras.map((c) => {
     const info = c.info_compra.split('-');
     const objeto = {};

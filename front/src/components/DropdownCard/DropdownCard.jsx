@@ -49,7 +49,7 @@ export default function Card({
         cantidad,
       })
     );
-    await dispatch(createToast('Producto agregado al carrito'));
+    dispatch(createToast('Producto agregado al carrito'));
   };
 
   const [cantidad, setCantidad] = useState(1);
@@ -65,7 +65,7 @@ export default function Card({
   useEffect(() => {
     if (userFavorites.some((favorite) => favorite.id === id)) setIsFav(true);
     else setIsFav(false);
-  }, []);
+  }, [id, userFavorites]);
 
   function isFavLoading() {
     if (status === 'loading') return true;
@@ -111,12 +111,12 @@ export default function Card({
 
           {isFav ? (
             <div
-              onClick={() => {
+              onClick={async () => {
                 if (isFavLoading()) {
                   dispatch(createToast('Espera antes de agregar o eliminar otro favorito'));
                 } else {
                   setIsFav(!isFav);
-                  handleFavorite();
+                  await handleFavorite();
                 }
               }}
               className='absolute bottom-0 m-1 w-[25px] h-[25px]'>
@@ -124,12 +124,12 @@ export default function Card({
             </div>
           ) : (
             <div
-              onClick={() => {
+              onClick={async () => {
                 if (isFavLoading()) {
                   dispatch(createToast('Espera antes de agregar o eliminar otro favorito'));
                 } else {
                   setIsFav(!isFav);
-                  handleFavorite();
+                  await handleFavorite();
                 }
               }}
               className='absolute bottom-0 m-1 w-[25px] h-[25px]'>

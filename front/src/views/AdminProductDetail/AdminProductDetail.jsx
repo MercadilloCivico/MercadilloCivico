@@ -11,6 +11,7 @@ import {
   logicDeleteProductAsync,
   trueDeleteProductAsync,
 } from '../../store/thunks/productThunks';
+import { createToast } from '../../store/slices/toastSlice';
 
 const AdminProductDetail = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -21,7 +22,9 @@ const AdminProductDetail = () => {
   const { items } = useSelector((state) => state.products);
 
   useEffect(() => {
-    dispatch(fetchProductsAsync());
+    (async () => {
+      await dispatch(fetchProductsAsync());
+    })();
   }, [dispatch]);
 
   const navigate = useNavigate();
@@ -102,8 +105,8 @@ const AdminProductDetail = () => {
             {product.disabled ? (
               <button
                 className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#599d64] text-pearl-bush-100 font-semibold hover:bg-[#3a8651] cursor-pointer'
-                onClick={() => {
-                  dispatch(logicDeleteProductAsync(product.id));
+                onClick={async () => {
+                  await dispatch(logicDeleteProductAsync(product.id));
                   navigate(-1);
                 }}>
                 Activar
@@ -111,8 +114,8 @@ const AdminProductDetail = () => {
             ) : (
               <button
                 className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#59719d] text-tuscany-950 font-semibold hover:bg-[#cccccc] cursor-pointer'
-                onClick={() => {
-                  dispatch(logicDeleteProductAsync(product.id));
+                onClick={async () => {
+                  await dispatch(logicDeleteProductAsync(product.id));
                   navigate(-1);
                 }}>
                 Suspender
@@ -142,11 +145,17 @@ const AdminProductDetail = () => {
               <div className='flex justify-between'>
                 <button
                   className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em]'
-                  onClick={() => {
-                    alert(`El producto ${product.name} ha sido eliminado con éxito!`);
-                    dispatch(trueDeleteProductAsync(product.id));
-                    navigate(-1);
-                    setModalOpen(false);
+                  onClick={async () => {
+                    try {
+                      await dispatch(trueDeleteProductAsync(product.id));
+                      dispatch(
+                        createToast(`El producto ${product.name} ha sido eliminado con éxito!`)
+                      );
+                      navigate(-1);
+                      setModalOpen(false);
+                    } catch (error) {
+                      dispatch(createToast(`Error eliminando el producto`));
+                    }
                   }}>
                   Eliminar
                 </button>
