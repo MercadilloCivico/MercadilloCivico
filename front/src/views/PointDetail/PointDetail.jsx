@@ -9,22 +9,13 @@ import { createToast } from '../../store/slices/toastSlice.js';
 import UpdatePointModal from './UpdatePointModal.jsx';
 
 export default function PointDetail() {
-  /* 
-        company_name,
-        address,
-        postal_code,
-        contact_email,
-        contact_tel,
-        image,
-        className,
-        id 
-    */
   const { id } = useParams();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [point, setPoint] = useState({});
   const [modal, setModal] = useState(false);
+  const [qrBase64, setQrBase64] = useState();
 
   function handleOpen() {
     setModal(true);
@@ -38,8 +29,26 @@ export default function PointDetail() {
     (async function () {
       const response = await dispatch(fetchSalesPointsAsync());
       setPoint(response.payload.filter((item) => item.id === id)[0]);
+
+      console.log(response);
     })();
   }, [dispatch, id]);
+
+  useEffect(() => {
+    // Obtener la cadena base64 de los datos del Uint8Array
+    setQrBase64(bufferToBase64(point.qr_code.data));
+  }, [point]);
+
+  function bufferToBase64(buffer) {
+    if (point && point.qr_code && point.qr_code.data) {
+      let binary = '';
+      const bytes = new Uint8Array(buffer);
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    }
+  }
 
   function handleDelete() {
     (async function () {
@@ -59,6 +68,15 @@ export default function PointDetail() {
             src={point.image}
             className='w-full h-full object-cover rounded-xl'
             alt='Imagen de punto de venta'></img>
+        </div>
+        <div className='rounded-t-xl overflow-hidden w-[200px] h-[200px] bg-pearl-bush-200 p-6'>
+          {point.qr_code && (
+            <img
+              src={`data:image/png;base64,${qrBase64}`}
+              alt='QR Code'
+              style={{ maxWidth: '100%', height: 'auto' }}
+            />
+          )}
         </div>
 
         <div className='bg-pearl-bush-200 rounded-t-xl w-full '>

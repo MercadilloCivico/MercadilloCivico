@@ -14,6 +14,8 @@ import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js
 import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
 import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
 import { useLocation, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks.js';
 
 const Store = () => {
   const dispatch = useDispatch();
@@ -21,7 +23,18 @@ const Store = () => {
   const { idCarrito } = useSelector((state) => state.carrito);
   const { allItems, filteredItems } = useSelector((state) => state.card);
   const { token } = useParams();
+  const { puntoId } = useParams();
   const query = useLocation().search;
+
+  const [pointData, setPointData] = useState();
+  // Info del punto que se carga si hay un id de punto en params
+  useEffect(() => {
+    (async function () {
+      const { payload } = await dispatch(fetchSalesPointsAsync(puntoId));
+      console.log(payload);
+      setPointData(payload);
+    })();
+  }, [dispatch]);
 
   const firstRenderDispatch = async () => {
     await dispatch(fetchPuntosSelector());
@@ -53,8 +66,14 @@ const Store = () => {
   return (
     <div className='flex flex-col min-h-[calc(100vh-55px)]'>
       <div className='flex flex-col bg-hippie-green-950'>
-        <Box className='max-w-64 mx-auto w-[100vw] pt-4 mt-4 lg:mt-0 pb-6 lg:translate-y-[40%]'>
-          <CustomSelect label='Localización' options={citiesOptions} />
+        <Box className={`max-w-64 mx-auto w-[100vw] pt-4 mt-4 lg:mt-0 pb-6 lg:translate-y-[40%]`}>
+          <CustomSelect
+            className={puntoId && 'hidden'}
+            label='Localización'
+            options={citiesOptions}
+          />
+
+          <p className={!puntoId && 'hidden'}>Estas en {pointData && pointData.address}</p>
         </Box>
       </div>
 
