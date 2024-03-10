@@ -5,11 +5,11 @@ export default function AdminPointsCards({ className }) {
   const { items } = useSelector((state) => state.salesPoint);
 
   return (
-    <div className={className}>
+    <div className={`${className} mt-4 w-full max-w-[1280px] flex flex-wrap justify-center`}>
       {items.map((point) => {
         return (
           <AdminPoint
-            className='my-2'
+            className='mb-4 max-w-[800px] w-full'
             key={point.id}
             image={point.image}
             company_name={point.company_name}
@@ -18,6 +18,8 @@ export default function AdminPointsCards({ className }) {
             contact_email={point.contact_email}
             contact_tel={point.contact_tel}
             id={point.id}
+            proveedores={point.proveedores}
+            inventario={point.inventario}
           />
         );
       })}

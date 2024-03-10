@@ -9,6 +9,8 @@ export default function AdminPointsCard({
   image,
   className,
   id,
+  inventario,
+  proveedores,
 }) {
   const navigate = useNavigate();
 
@@ -20,16 +22,16 @@ export default function AdminPointsCard({
     <>
       <div
         className={
-          'flex bg-tuscany-100 text-tuscany-950 overflow-hidden rounded-xl outline outline-[1px] outline-solid outline-tuscany-600 ' +
+          'flex bg-pearl-bush-100 transition hover:bg-tuscany-100 cursor-pointer text-tuscany-950 overflow-hidden rounded-xl outline outline-[1px] outline-solid outline-tuscany-600 ' +
           className
         }
         onClick={goToDetail}>
-        <div className='w-[125px] h-[125px] flex-shrink-0'>
+        <div className='w-[125px] h-[125px] flex-shrink-0 relative'>
           <img src={image} className='w-full h-full  object-cover'></img>
         </div>
 
         <div className='text-left flex flex-col w-full'>
-          <div className='flex xsm:flex-col sm:flex-row justify-between w-full'>
+          <div className='flex xsm:flex-col sm:flex-row justify-between w-full bg'>
             <div className='flex flec-col'>
               <span className='text-tuscany-600 sm:hidden text-lg sm:text-xl font-semibold line-clamp-1 px-2'>
                 {address}
@@ -45,12 +47,33 @@ export default function AdminPointsCard({
           </div>
 
           <div className='flex flex-wrap sm:mt-1'>
-            <span className='text-tuscany-800 opacity-70 text-sm sm:text-[15px] mx-2'>
-              {contact_email}
-            </span>
+            {contact_email && contact_email.length > 0 && (
+              <span className='text-tuscany-800 opacity-70 text-sm sm:text-[15px] mx-2'>
+                {contact_email}
+              </span>
+            )}
             <span className='text-tuscany-800 opacity-70 text-sm sm:text-[15px] mx-2'>
               {contact_tel}
             </span>
+          </div>
+
+          <div className='bg-tuscany-200 mt-auto rounded-tr-xl py-1'>
+            <ul className='px-2 sm:block xsm:hidden'>
+              <li>
+                {!inventario || inventario.length < 1 ? '0' : inventario.length} productos en
+                inventario
+              </li>
+              <li>
+                {!proveedores || proveedores.length < 1 ? '0' : inventario.length} proveedores
+              </li>
+            </ul>
+
+            <ul className='px-2 hidden xsm:block sm:hidden '>
+              <li>Productos: {!inventario || inventario.length < 1 ? '0' : inventario.length}</li>
+              <li>
+                Proveedores: {!proveedores || proveedores.length < 1 ? '0' : inventario.length}
+              </li>
+            </ul>
           </div>
         </div>
       </div>

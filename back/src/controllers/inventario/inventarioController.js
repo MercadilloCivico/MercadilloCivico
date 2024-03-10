@@ -18,11 +18,11 @@ class inventario {
 
   static async post(req, res) {
     try {
-      const { puntoDeVntaId, productoId, proveedorId, cantidad, precio, stockMin, stockMax } =
+      const { puntoDeVentaId, productoId, proveedorId, cantidad, precio, stockMin, stockMax } =
         req.body;
       await inventarioHandler.post(
         proveedorId,
-        puntoDeVntaId,
+        puntoDeVentaId,
         productoId,
         cantidad,
         precio,

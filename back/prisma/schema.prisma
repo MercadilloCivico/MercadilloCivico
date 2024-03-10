@@ -58,7 +58,7 @@ model ProductoProveedor {
 
 model Producto {
   id            String    @id @db.Uuid @default(uuid())
-  name          String
+  name          String    @unique
   description   String?
   image         String
   calification  Int       @default(5)
