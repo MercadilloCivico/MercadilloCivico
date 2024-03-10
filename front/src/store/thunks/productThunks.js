@@ -15,7 +15,18 @@ export const fetchProductsAsync = createAsyncThunk(
     }
   }
 );
-
+export const fetchProductIdsAsync = createAsyncThunk(
+  'products/fetchProductIdsAsync',
+  async (param, { rejectWithValue }) => {
+    try {
+      const url = `${VITE_API_URL}/product/${param}`;
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 // Thunk para agregar un producto
 export const addProductAsync = createAsyncThunk(
   'products/addProductAsync',

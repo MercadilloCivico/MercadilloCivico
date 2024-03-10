@@ -2,42 +2,50 @@ import { useEffect, useState } from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { useDispatch } from 'react-redux';
 import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
-import { fetchProductsAsync } from '../../store/thunks/productThunks';
+import { fetchProductIdsAsync } from '../../store/thunks/productThunks';
 import CustomInput from '../../components/CustomInput/CustomInput';
+import { updateInventoryThunk, deleteInventoryThunk } from '../../store/thunks/inventoryThunks';
 
-export default function PointProduct({
-  cantidad,
-  stockMin,
-  stockMax,
-  // puntoDeVentaId,
-  productId,
-  // proveedorId,
-}) {
+export default function PointProduct({ cantidad, stockMin, stockMax, productoId, inventarioId }) {
   const dispatch = useDispatch();
   const [contador, setContador] = useState(0);
   const [modal, setModal] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    inventarioId,
+  });
 
   const [providers, setProviders] = useState();
+  const [producto, setProducto] = useState();
 
   useEffect(() => {
     // CARGAR AL ABRIR MODAL
+    // condicionar que traiga solo los proveedores del producto como en el handleProduct
+
     if (modal) {
       (async function () {
         const { payload } = await dispatch(fetchProvidersAsync());
-        setProviders(payload);
+        let proveedorProducto = [];
+        payload.forEach((e) => {
+          e.productos.filter((element) => {
+            if (element.producto_id === productoId) {
+              proveedorProducto.push({ name_prov: e.name_prov, id: e.id });
+            }
+          });
+        });
+        setProviders(proveedorProducto);
       })();
     }
 
     // Cargar datos del producto al cargar inventario
     (async function () {
-      const productData = await dispatch(fetchProductsAsync(productId));
-      console.log(productData);
+      const { payload } = await dispatch(fetchProductIdsAsync(productoId));
+      setProducto(payload);
     })();
   }, [dispatch, modal]); // fin del useEffect
 
   function agregarProducto(num = 1) {
-    if (cantidad + num >= stockMax) {
+    console.log(stockMax);
+    if (contador + num >= stockMax) {
       setContador(stockMax);
       return 0;
     }
@@ -45,15 +53,26 @@ export default function PointProduct({
   }
 
   function handleOnChange(e) {
-    e.preventDefault();
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setFormData({ ...formData, cantidad: contador });
+    const response = await dispatch(updateInventoryThunk(formData));
+    console.log(response);
+  }
+
+  async function handleDelete() {
+    const response = await dispatch(deleteInventoryThunk(inventarioId));
+    console.log(response);
   }
 
   return (
     <>
       {modal && (
         <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center z-[15] bg-[#00000070]'>
-          <div className='bg-tuscany-50 rounded-xl max-w-[600px] mx-auto shadow-lg w-full px-4 h-full max-h-[650px] overflow-hidden'>
+          <div className='bg-tuscany-50 rounded-xl max-w-[600px] mx-auto shadow-lg w-full px-4 h-full max-h-[650px] overflow-auto'>
             {/* MAIN CONTAINER */}
             <div className='flex flex-col'>
               <div className='text-tuscany-950 mt-4'>
@@ -61,13 +80,13 @@ export default function PointProduct({
                 <p className='text-tuscany-950'>Modifica este producto </p>
               </div>
 
-              <form className='text-tuscany-950 flex flex-col mx-4'>
+              <form className='text-tuscany-950 flex flex-col mx-4' onSubmit={handleSubmit}>
                 {/* Selección de stock */}
                 <label>Actualizar stock</label>
                 <div className='flex flex-col max-w-[215px] w-full mx-auto'>
                   <div className='flex flex-row justify-between items-center'>
                     <button
-                      className={`bg-tuscany-600 rounded-xl border-none h-[35px] w-[35px] text-tuscany-100 ${contador - 10 < 0 && 'opacity-60'} m-1`}
+                      className={`bg-tuscany-600 hover:bg-tuscany-700 transition active:bg-tuscany-800 font-semibold rounded-xl border-none h-[35px] w-[35px] text-tuscany-100 ${contador - 10 < 0 && 'opacity-60'} m-1`}
                       disabled={contador - 10 < 0}
                       onClick={(e) => {
                         e.preventDefault();
@@ -77,7 +96,7 @@ export default function PointProduct({
                     </button>
 
                     <button
-                      className={`bg-tuscany-600 rounded-xl border-none h-[35px] w-[35px] text-tuscany-100 ${contador === 0 && 'opacity-60'} m-1`}
+                      className={`bg-tuscany-600 hover:bg-tuscany-700 transition active:bg-tuscany-800 font-semibold rounded-xl border-none h-[35px] w-[35px] text-tuscany-100 ${contador === 0 && 'opacity-60'} m-1`}
                       disabled={contador === 0}
                       onClick={(e) => {
                         e.preventDefault();
@@ -89,7 +108,7 @@ export default function PointProduct({
                     <span className='text-tuscany-950 font-semibold mx-1 w-[25px]'>{contador}</span>
 
                     <button
-                      className={`bg-tuscany-600 rounded-xl border-none h-[35px] w-[35px] text-tuscany-100 ${contador >= stockMax && 'opacity-60'} m-1`}
+                      className={`bg-tuscany-600 hover:bg-tuscany-700 transition active:bg-tuscany-800 font-semibold rounded-xl border-none h-[35px] w-[35px] text-tuscany-100 ${contador >= stockMax && 'opacity-60'} m-1`}
                       disabled={contador >= stockMax}
                       onClick={(e) => {
                         e.preventDefault();
@@ -99,7 +118,7 @@ export default function PointProduct({
                     </button>
 
                     <button
-                      className={`bg-tuscany-600 rounded-xl border-none h-[35px] w-[35px] text-tuscany-100 ${contador >= stockMax || (contador + 10 > stockMax && 'opacity-60')} m-1`}
+                      className={`bg-tuscany-600 hover:bg-tuscany-700 transition active:bg-tuscany-800 font-semibold rounded-xl border-none h-[35px] w-[35px] text-tuscany-100 ${(contador >= stockMax || contador + 10 > stockMax) && 'opacity-60'} m-1`}
                       disabled={contador >= stockMax || contador + 10 > stockMax}
                       onClick={(e) => {
                         e.preventDefault();
@@ -111,11 +130,11 @@ export default function PointProduct({
 
                   <div>
                     <button
-                      className={`bg-tuscany-600 rounded-xl border-none h-[35px] w-[100px] text-tuscany-100 ${contador >= stockMax && 'opacity-60'} m-1`}
+                      className={`bg-tuscany-600 hover:bg-tuscany-700 transition active:bg-tuscany-800 font-semibold rounded-xl border-none h-[35px] w-[100px] text-tuscany-100 ${contador >= stockMax && 'opacity-60'} m-1`}
                       disabled={contador >= stockMax}
                       onClick={(e) => {
                         e.preventDefault();
-                        agregarProducto(stockMax - cantidad);
+                        agregarProducto(stockMax);
                       }}>
                       Max.
                     </button>
@@ -147,6 +166,7 @@ export default function PointProduct({
                   name='price'
                   placeholder='PRECIO'
                   onChange={handleOnChange}
+                  label='Precio'
                 />
 
                 {/* Stock min */}
@@ -155,12 +175,14 @@ export default function PointProduct({
                   name='stockMin'
                   placeholder='stockMin'
                   onChange={handleOnChange}
+                  label='Stock mínimo'
                 />
                 <CustomInput
                   className='bg-tuscany-50 my-4'
                   name='stockMax'
                   placeholder='stockMax'
                   onChange={handleOnChange}
+                  label='Stock máximo'
                 />
 
                 <div className='my-4 flex justify-around'>
@@ -170,8 +192,9 @@ export default function PointProduct({
                       setModal(false);
                     }}
                     text='Cancelar'
+                    label='Stock mínimo'
                   />
-                  <CustomButton text='Agregar' />
+                  <CustomButton text='Update' type='submit' />
                 </div>
               </form>
             </div>
@@ -179,25 +202,29 @@ export default function PointProduct({
         </div>
       )}
 
-      <div className='w-full h-[80px] bg-pearl-bush-300 my-2 flex items-center px-2'>
-        <div className='h-[65px] w-[65px] bg-pearl-bush-600 rounded-xl'>
-          <img className=''></img>
-        </div>
+      {producto && (
+        <div className='w-full h-[80px] bg-pearl-bush-300 my-2 flex items-center px-2'>
+          <div className='h-[65px] w-[65px] bg-pearl-bush-600 rounded-xl'>
+            <img className='w-full h-full object-cover' src={producto.image}></img>
+          </div>
 
-        <div>
-          <p>{}</p>
-          <p>{cantidad} items</p>
-          <p>mín: {stockMin}</p>
-          <p>máx: {stockMax}</p>
-        </div>
+          <div className='flex'>
+            <p>{producto.name}</p>
+            <p>{cantidad} items</p>
+            <p>mín: {stockMin}</p>
+            <p>máx: {stockMax}</p>
+          </div>
 
-        <CustomButton
-          onClick={() => {
-            setModal(true);
-          }}
-          text='Agregar'
-        />
-      </div>
+          <CustomButton
+            onClick={() => {
+              setModal(true);
+            }}
+            text='Agregar'
+          />
+
+          <CustomButton onClick={handleDelete} text='Borrar' />
+        </div>
+      )}
     </>
   );
 }

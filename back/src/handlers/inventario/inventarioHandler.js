@@ -24,48 +24,39 @@ class inventarioHandler {
     }
   }
 
-  static async post(puntoDeVentaId) {
-    // proveedorId, productoId, cantidad, precio, stockMin, stockMax
+  static async post(proveedorId, puntoDeVentaId, productoId, cantidad, precio, stockMin, stockMax) {
     try {
-      const productoEnPuntoDeVenta = await prisma.punto_De_Venta.findFirst({
-        where: {
-          id: puntoDeVentaId,
+      await prisma.inventario.create({
+        data: {
+          punto_de_venta_id: puntoDeVentaId,
+          producto_id: productoId,
+          stock: parseInt(cantidad, 10),
+          precio_final: parseInt(precio, 10),
+          stock_min: parseInt(stockMin, 10),
+          stock_max: parseInt(stockMax, 10),
+          proveedor_id: parseInt(proveedorId, 10),
         },
         include: {
-          inventario: true,
+          productoEnCarrito: true,
         },
       });
-      console.log(productoEnPuntoDeVenta);
-      // await prisma.inventario.create({
-      //   data: {
-      //     punto_de_venta_id: puntoDeVentaId,
-      //     producto_id: productoId,
-      //     stock: cantidad,
-      //     precio_final: precio.toFixed(3),
-      //     stock_min: stockMin,
-      //     stock_max: stockMax,
-      //     proveedor_id: proveedorId,
-      //   },
-      //   include: {
-      //     productoEnCarrito: true,
-      //   },
-      // });
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  static async put(id, cantidad, precio, stockMin, stockMax) {
+  static async put(inventarioId, price, stockMin, stockMax, providerId, cantidad) {
     try {
       const dataI = {};
-      if (cantidad) dataI.stock = cantidad;
-      if (stockMin) dataI.stock_min = stockMin;
-      if (stockMax) dataI.stock_max = stockMax;
-      if (precio) dataI.precio_final = precio.toFixed(3);
-
+      if (cantidad) dataI.stock = parseInt(cantidad, 10);
+      if (stockMin) dataI.stock_min = parseInt(stockMin, 10);
+      if (stockMax) dataI.stock_max = parseInt(stockMax, 10);
+      if (price) dataI.precio_final = parseInt(price, 10);
+      if (inventarioId) dataI.id = parseInt(inventarioId, 10);
+      if (providerId) dataI.proveedor_id = parseInt(providerId, 10);
       await prisma.inventario.update({
         where: {
-          id: parseInt(id, 10),
+          id: parseInt(inventarioId, 10),
         },
         data: {
           ...dataI,
