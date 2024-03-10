@@ -10,7 +10,7 @@
     "prisma:generate:dev": "dotenv -e .env.development -- npx prisma generate",
     "prisma:push:dev": "dotenv -e .env.development -- npx prisma db push",
     "prisma:generate:prod": "dotenv -e .env.production -- npx prisma generate",
-    "prisma:push:prod": "dotenv -e .env.production -- npx prisma db push",
+    "prisma:push:prod": "dotenv -e .env.production -- npx prisma db push --accept-data-loss",
     "lint": "eslint ./src --ext .js",
     "render:deploy": "npm run prisma:generate:prod && npm run prisma:push:prod && npm run start"
   },
