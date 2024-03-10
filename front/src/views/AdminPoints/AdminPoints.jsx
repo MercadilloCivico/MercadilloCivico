@@ -34,7 +34,7 @@ export default function AdminPoints() {
         className='fixed bottom-0 right-0 m-4'
       />
 
-      <AdminPointsCards className='' />
+      <AdminPointsCards className='mb-4 w-full max-w-[1280px] mx-auto' />
     </div>
   );
 }
