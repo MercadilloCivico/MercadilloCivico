@@ -60,25 +60,25 @@ const CardProductBar = ({ idPuntoVenta, precioVenta, idSuplier, stock, stockMin,
   return (
     <div className='hover:bg-pearl-bush-200  text-tuscany-950 font-semibold rounded-md'>
       <ul className='flex justify-between items-center text-start text-[.8em]'>
-        <li className='flex items-center w-[1em]'>
+        <li className='flex items-center w-[15em]'>
           <span className='overflow-ellipsis whitespace-nowrap'>{truncatedSuplier}</span>
         </li>
-        <li className='hidden sm:flex items-center w-[1em]'>
+        <li className='hidden sm:flex items-center w-[15em]'>
           <span className='overflow-ellipsis whitespace-nowrap'>{truncatedPuntoDeVenta}</span>
         </li>
-        <li className='hidden lg:flex items-center w-[1em]'>
+        <li className='hidden lg:flex items-center w-[15em]'>
           <span>$0</span>
         </li>
-        <li className='hidden sm:flex items-center w-[1em]'>
+        <li className='hidden sm:flex items-center w-[15em]'>
           <span>{precioVenta}</span>
         </li>
-        <li className='hidden md:flex items-center w-[1em]'>
+        <li className='hidden md:flex items-center w-[15em]'>
           <span>{stockMax}</span>
         </li>
-        <li className='flex items-center w-[1em]'>
+        <li className='flex items-center w-[15em]'>
           <span>{stock}</span>
         </li>
-        <li className='hidden md:flex items-center w-[1em]'>
+        <li className='hidden md:flex items-center w-[15em]'>
           <span>{stockMin}</span>
         </li>
         <br />
