@@ -1,7 +1,7 @@
 import { TbShoppingBagPlus } from 'react-icons/tb';
 import { TiStarFullOutline, TiHeartOutline } from 'react-icons/ti';
 
-const AdminCardPreview = ({ name, supplier, img, price, rating, className }) => {
+const AdminCardPreview = ({ name, supplier, img, rating, className }) => {
   return (
     <div
       className={
@@ -22,10 +22,6 @@ const AdminCardPreview = ({ name, supplier, img, price, rating, className }) => 
           <div className='flex flex-col items-start'>
             <span className='line-clamp-2 text-sm text-left'>{name}</span>
             <span className='text-xs line-clamp-1 text-left opacity-60'>{supplier}</span>
-          </div>
-
-          <div>
-            <span className='text-xl text-right font-semibold text-tuscany-600'>${price}</span>
           </div>
         </div>
 
