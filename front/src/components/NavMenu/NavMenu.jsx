@@ -50,6 +50,7 @@ export default function NavMenu({ menuOpen, toggleMenu }) {
             </svg>
           </button>
         </header>
+
         <ul className='flex flex-col items-center mt-6 space-y-4 w-full px-5 font-bold'>
           <li>
             <Link
@@ -73,6 +74,14 @@ export default function NavMenu({ menuOpen, toggleMenu }) {
               </li>
               <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
             </>
+          ) : rol === 'admin' ? (
+            <li>
+              <Link
+                to='/admin'
+                className='text-tuscany-800 text-3xl hover:text-tuscany-950 transition'>
+                <li>Admin</li>
+              </Link>
+            </li>
           ) : (
             <>
               <li>

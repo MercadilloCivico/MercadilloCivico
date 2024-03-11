@@ -83,6 +83,17 @@ export default function AdminNavMenu({ menuOpen, toggleMenu }) {
 
           <li>
             <Link
+              to='/admin/points'
+              onClick={waitAndToggle}
+              className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
+              Puntos de venta
+            </Link>
+          </li>
+
+          <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+
+          <li>
+            <Link
               to='/admin/provider'
               onClick={waitAndToggle}
               className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
@@ -102,12 +113,24 @@ export default function AdminNavMenu({ menuOpen, toggleMenu }) {
           </li>
 
           <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+
           <li>
             <Link
               to='/admin/company'
               onClick={waitAndToggle}
               className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
               FAQs
+            </Link>
+          </li>
+
+          <div className='max-w-[600px] w-full h-[1px] bg-tuscany-950 opacity-30'></div>
+
+          <li>
+            <Link
+              to='/'
+              onClick={waitAndToggle}
+              className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
+              Salir
             </Link>
           </li>
         </ul>
