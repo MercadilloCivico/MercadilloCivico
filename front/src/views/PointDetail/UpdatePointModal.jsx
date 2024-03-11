@@ -7,6 +7,9 @@ import { useDispatch } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice';
 import { putPuntoDeVenta } from '../../store/thunks/salesPointThunks';
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks';
+import { Skeleton } from '@mui/material';
 
 export default function UpdatePointModal({ handleClose, modal }) {
   const dispatch = useDispatch();
@@ -21,6 +24,15 @@ export default function UpdatePointModal({ handleClose, modal }) {
     image: '',
     imgPreview: '',
   });
+
+  const [currentData, setCurrentData] = useState({});
+
+  useEffect(() => {
+    (async function () {
+      const response = await dispatch(fetchSalesPointsAsync(id));
+      setCurrentData(response.payload);
+    })();
+  }, [dispatch]);
 
   function checkImage(file) {
     if (file.type === 'image/jpeg' || file.type === 'image/png') return true;
@@ -61,7 +73,7 @@ export default function UpdatePointModal({ handleClose, modal }) {
   return (
     modal === true && (
       <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center z-[15] bg-[#00000070]'>
-        <div className='bg-tuscany-50 rounded-xl max-w-[600px] mx-auto shadow-lg h-full max-h-[600px] overflow-hidden'>
+        <div className='bg-tuscany-50 min-[600px]:rounded-xl max-w-[600px] mx-auto shadow-lg h-full sm:max-h-[600px]  min-[600px]:max-h-full  overflow-hidden'>
           <div style={{ scrollbarWidth: 'thin' }} className='h-full overflow-auto px-2 '>
             <h3 className='text-tuscany-950 text-2xl mt-4'>Actualizar este punto de venta</h3>
             <div className='flex flex-wrap justify-around py-4'>
@@ -110,43 +122,82 @@ export default function UpdatePointModal({ handleClose, modal }) {
               </p>
 
               {/* RESTO DE INPUTS */}
+              {currentData.address ? (
+                <div>
+                  <TextField
+                    onChange={handleChange}
+                    name='companyName'
+                    label='Nombre de empresa'
+                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    defaultValue={currentData.company_name}
+                  />
 
-              <div>
-                <TextField
-                  onChange={handleChange}
-                  name='companyName'
-                  label='Nombre de empresa'
-                  className='max-w-[250px] m-2 bg-tuscany-50'
-                />
+                  <TextField
+                    onChange={handleChange}
+                    name='address'
+                    label='Dirección'
+                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    defaultValue={currentData.address}
+                  />
 
-                <TextField
-                  onChange={handleChange}
-                  name='address'
-                  label='Dirección'
-                  className='max-w-[250px] m-2 bg-tuscany-50'
-                />
+                  <TextField
+                    onChange={handleChange}
+                    name='postalCode'
+                    label='Código postal'
+                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    defaultValue={currentData.postal_code}
+                  />
 
-                <TextField
-                  onChange={handleChange}
-                  name='postalCode'
-                  label='Código postal'
-                  className='max-w-[250px] m-2 bg-tuscany-50'
-                />
+                  <TextField
+                    onChange={handleChange}
+                    name='contactTel'
+                    label='Teléfono de contacto'
+                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    defaultValue={currentData.contact_tel}
+                  />
 
-                <TextField
-                  onChange={handleChange}
-                  name='contactTel'
-                  label='Teléfono de contacto'
-                  className='max-w-[250px] m-2 bg-tuscany-50'
-                />
-
-                <TextField
-                  onChange={handleChange}
-                  name='contactEmail'
-                  label='Correo de contacto'
-                  className='max-w-[250px] m-2 bg-tuscany-50'
-                />
-              </div>
+                  <TextField
+                    onChange={handleChange}
+                    name='contactEmail'
+                    label='Correo de contacto'
+                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    defaultValue={currentData.contact_email}
+                  />
+                </div>
+              ) : (
+                <div className='flex flex-wrap justify-center'>
+                  <Skeleton
+                    variant='rectangular'
+                    animation={'wave'}
+                    width={225}
+                    className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
+                  />
+                  <Skeleton
+                    variant='rectangular'
+                    animation={'wave'}
+                    width={225}
+                    className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
+                  />
+                  <Skeleton
+                    variant='rectangular'
+                    animation={'wave'}
+                    width={225}
+                    className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
+                  />
+                  <Skeleton
+                    variant='rectangular'
+                    animation={'wave'}
+                    width={225}
+                    className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
+                  />
+                  <Skeleton
+                    variant='rectangular'
+                    animation={'wave'}
+                    width={225}
+                    className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
+                  />
+                </div>
+              )}
             </div>
 
             <CustomButton text='Actualizar punto' onClick={handleSubmit} className='my-4 mx-2' />

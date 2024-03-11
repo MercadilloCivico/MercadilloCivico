@@ -7,6 +7,7 @@ export default function AdminPointsCardsSkeleton() {
         className='mb-4 max-w-[800px] w-full mx-auto rounded-xl'
         variant='rectangular'
         height={125}
+        animation='slide'
       />
 
       <div className='opacity-80'>
@@ -14,6 +15,7 @@ export default function AdminPointsCardsSkeleton() {
           className='mb-4 max-w-[800px] w-full mx-auto rounded-xl'
           variant='rectangular'
           height={125}
+          animation='slide'
         />
       </div>
 
@@ -22,6 +24,7 @@ export default function AdminPointsCardsSkeleton() {
           className='mb-4 max-w-[800px] w-full mx-auto rounded-xl'
           variant='rectangular'
           height={125}
+          animation='slide'
         />
       </div>
       <div className='opacity-40'>
@@ -29,6 +32,7 @@ export default function AdminPointsCardsSkeleton() {
           className='mb-4 max-w-[800px] w-full mx-auto rounded-xl'
           variant='rectangular'
           height={125}
+          animation='slide'
         />
       </div>
       <div className='opacity-20'>
@@ -36,6 +40,7 @@ export default function AdminPointsCardsSkeleton() {
           className='mb-4 max-w-[800px] w-full mx-auto rounded-xl'
           variant='rectangular'
           height={125}
+          animation='slide'
         />
       </div>
     </div>
