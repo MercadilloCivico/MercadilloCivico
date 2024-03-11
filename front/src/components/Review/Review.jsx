@@ -73,7 +73,11 @@ const Review = ({
         <>
           <div className='flex justify-start items-center text-[.7em] md:text-[.9em] lg:text-[1.2em] pl-2 pt-2 text-tuscany-950'>
             {user && user.photo ? (
-              <img src={user.photo} alt='' width={25} className='rounded-full' />
+              <img
+                src={user.photo}
+                alt=''
+                className='rounded-full h-[30px] w-[30px] object-cover'
+              />
             ) : (
               <FaUser />
             )}
