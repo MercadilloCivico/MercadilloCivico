@@ -178,6 +178,16 @@ export default function Profile() {
     email: '',
   });
 
+  // Notificar si hubo un error
+  useEffect(() => {
+    if (
+      (!currentData.firstName || currentData.firstName.toLowerCase() === 'undefined') &&
+      !isLoading
+    ) {
+      dispatch(createToast('Ocurrio un error. Intenta actualizar la página.'));
+    }
+  }, [currentData]);
+
   function checkNull(value) {
     if (value && value.toLowerCase() === 'null') return '';
     else return value;
