@@ -7,7 +7,7 @@ import style from './LandingAnim.module.css';
 
 function Home() {
   return (
-    <div className={`${style.landingAnim}`}>
+    <div className={`${style.landingAnim} `}>
       <h1 className='hidden text-cabbage-pont-950'>Mercadillo Cívico</h1>
       <img src={LogoHome} alt='Mercadillo Cívico' className='w-[240px] mt-[50px] p-[10px]' />
 

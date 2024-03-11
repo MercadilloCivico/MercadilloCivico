@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setOrderCalificacion, setOrderPrecio } from '../../store/slices/cardsSlice';
 
 export default function OrderSelect() {
-  let [sortValue, setSortValue] = useState(null);
+  let [sortValue, setSortValue] = useState('');
   const dispatch = useDispatch();
 
   function handleSortChange(e) {

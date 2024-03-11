@@ -47,6 +47,8 @@ export default function PointProducts({ className, pointId, address, name }) {
       )}
       <div className={className}>
         <h3 className='text-tuscany-600'>Productos de este punto</h3>
+
+        <CustomButton className='mb-2' onClick={openModal} text='Agregar producto' />
         {punto && punto.inventario && !punto.inventario.length < 1 ? (
           punto.inventario.map((item) => (
             <PointProduct
@@ -63,8 +65,6 @@ export default function PointProducts({ className, pointId, address, name }) {
         ) : (
           <p>No hay productos</p>
         )}
-
-        <CustomButton onClick={openModal} text='Agregar producto' />
       </div>
     </>
   );

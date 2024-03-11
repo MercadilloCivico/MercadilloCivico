@@ -5,6 +5,9 @@ import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
 import { fetchProductIdsAsync } from '../../store/thunks/productThunks';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import { updateInventoryThunk, deleteInventoryThunk } from '../../store/thunks/inventoryThunks';
+import { LuPenSquare } from 'react-icons/lu';
+import { LuTrash2 } from 'react-icons/lu';
+import { Skeleton } from '@mui/material';
 
 export default function PointProduct({ cantidad, stockMin, stockMax, productoId, inventarioId }) {
   const dispatch = useDispatch();
@@ -202,28 +205,55 @@ export default function PointProduct({ cantidad, stockMin, stockMax, productoId,
         </div>
       )}
 
-      {producto && (
-        <div className='w-full h-[80px] bg-pearl-bush-300 my-2 flex items-center px-2'>
-          <div className='h-[65px] w-[65px] bg-pearl-bush-600 rounded-xl'>
+      {producto ? (
+        <div className='w-full h-[80px] bg-pearl-bush-300 mt-2 mb-[30px] flex items-center px-2 relative border-[1px] border-tuscany-600 border-solid rounded-lg'>
+          <div className='h-[65px] w-[65px] bg-pearl-bush-600 rounded-lg flex-shrink-0 overflow-hidden'>
             <img className='w-full h-full object-cover' src={producto.image}></img>
           </div>
 
-          <div className='flex'>
-            <p>{producto.name}</p>
-            <p>{cantidad} items</p>
-            <p>mín: {stockMin}</p>
-            <p>máx: {stockMax}</p>
+          <div className='flex h-full w-full justify-between'>
+            <div className='flex flex-col text-left ml-2 h-full mt-1 text-tuscany-950'>
+              <span className='text-tuscany-600 font-semibold line-clamp-1 text-lg'>
+                {producto.name}
+              </span>
+              <span className='mb-auto'>
+                <span className='text-tuscany-600 font-semibold text-lg'>{cantidad}</span> restantes
+              </span>
+            </div>
+
+            <div className='text-tuscany-950 flex flex-col h-full text-left mt-1 flex-shrink-0'>
+              <span>
+                Mín: <span className='text-tuscany-600 font-semibold text-lg'>{stockMin}</span>
+              </span>
+              <span>
+                Máx: <span className='text-tuscany-600 font-semibold text-lg'>{stockMax}</span>
+              </span>
+            </div>
           </div>
 
-          <CustomButton
-            onClick={() => {
-              setModal(true);
-            }}
-            text='Agregar'
-          />
+          <div className='absolute right-0 bottom-[-20px] w-[100px] flex justify-around items-center'>
+            <button
+              className='w-[40px] h-[40px] rounded-xl border-none bg-tuscany-600 hover:bg-tuscany-700 active:bg-tuscany-800 transition'
+              onClick={() => {
+                setModal(true);
+              }}>
+              <LuPenSquare className='w-full h-full text-tuscany-100 p-2' />
+            </button>
 
-          <CustomButton onClick={handleDelete} text='Borrar' />
+            <button
+              className='w-[40px] h-[40px] rounded-xl border-none bg-tuscany-600 hover:bg-tuscany-700 active:bg-tuscany-800 transition'
+              onClick={handleDelete}>
+              <LuTrash2 className='w-full h-full text-tuscany-100 p-2' />
+            </button>
+          </div>
         </div>
+      ) : (
+        <Skeleton
+          className='w-full h-[80px] mt-2 mb-[30px] rounded-xl'
+          variant='rectangular'
+          height={80}
+          width={'full'}
+        />
       )}
     </>
   );

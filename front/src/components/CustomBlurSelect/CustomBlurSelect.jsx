@@ -9,10 +9,24 @@ import {
 import { theme } from '../../utils/muiTheme';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilterId } from '../../store/slices/cardsSlice';
+import { useParams } from 'react-router-dom';
 import { fetchCards, fetchFilteredCards } from '../../store/thunks/cardsThunks';
-const CustomSelect = ({ label, options }) => {
+import { useEffect } from 'react';
+const CustomSelect = ({ label, options, className }) => {
   const dispatch = useDispatch();
   const { filters } = useSelector((state) => state.card);
+
+  const { puntoId } = useParams();
+
+  useEffect(() => {
+    if (puntoId) {
+      (async function () {
+        dispatch(setFilterId(puntoId));
+        await dispatch(fetchCards());
+        await dispatch(fetchFilteredCards(puntoId));
+      })();
+    }
+  }, [puntoId]);
 
   const customTheme = createTheme({
     ...theme,
@@ -65,31 +79,34 @@ const CustomSelect = ({ label, options }) => {
   };
 
   return (
-    <ThemeProvider theme={customTheme}>
-      <FormControl fullWidth className='custom-transparent-bg'>
-        <InputLabel id='custom-select-label' className='text-pearl-bush-100'>
-          {label}
-        </InputLabel>
-        <Select
-          variant='standard'
-          labelId='custom-select-label'
-          value={filters.id || ''}
-          label={label}
-          onChange={handleChange}
-          className='bg-transparent border-none focus:ring-0 text-start ps-3 font-semibold text-pearl-bush-100'
-          inputProps={{
-            classes: {
-              icon: 'text-pearl-bush-100',
-            },
-          }}>
-          {options.map((option, index) => (
-            <MenuItem key={index} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </ThemeProvider>
+    <div className={className}>
+      <ThemeProvider theme={customTheme}>
+        <FormControl fullWidth className='custom-transparent-bg'>
+          <InputLabel id='custom-select-label' className='text-pearl-bush-100'>
+            {label}
+          </InputLabel>
+          <Select
+            variant='standard'
+            labelId='custom-select-label'
+            value={filters.id || ''}
+            label={label}
+            type
+            onChange={handleChange}
+            className='bg-transparent border-none focus:ring-0 text-start ps-3 font-semibold text-pearl-bush-100'
+            inputProps={{
+              classes: {
+                icon: 'text-pearl-bush-100',
+              },
+            }}>
+            {options.map((option, index) => (
+              <MenuItem key={index} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </ThemeProvider>
+    </div>
   );
 };
 

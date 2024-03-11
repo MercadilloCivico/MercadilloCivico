@@ -33,9 +33,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: -moz-scrollbars-vertical;
+  overflow-y: scroll;
 }
 
 /* Por alguna razon aparece la barra de overflow en la parte inferior de la pantalla sin esto */
 body {
   overflow-x: hidden;
+  overflow-y: hidden;
 }
