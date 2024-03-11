@@ -70,10 +70,12 @@ export default function PointDetail() {
     <>
       {modal && <UpdatePointModal modal={modal} handleClose={handleClose} />}
 
-      <PointDetailSkeleton className={`${status === 'loading' ? 'inline' : 'hidden'}`} />
+      <PointDetailSkeleton
+        className={`${status === 'loading' && !point.id ? 'inline' : 'hidden'}`}
+      />
 
       <div
-        className={`flex flex-col items-center max-w-[1280px] mx-auto my-4 ${status === 'loading' && 'hidden'}`}>
+        className={`flex flex-col items-center max-w-[1280px] mx-auto my-4 ${status === 'loading' && !point.id && 'hidden'}`}>
         <div className='rounded-t-xl overflow-hidden w-[200px] h-[200px] bg-pearl-bush-200 p-6 relative'>
           <img
             src={point.image}

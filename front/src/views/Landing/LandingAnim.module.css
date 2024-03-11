@@ -1,13 +1,11 @@
 .landingAnim {
-    animation-name: landing-appear;
-    animation-duration: 1s;
+  animation-name: landing-appear;
+  animation-duration: 0.8s;
 }
 
 @keyframes landing-appear {
-    0% {
-        transform: translateY(100vh);
-        opacity: 0
-    }
-
-
+  0% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
 }
