@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { useEffect } from 'react';
 import { useSnapCarousel } from 'react-snap-carousel';
 const Carrousel = () => {
   const { scrollRef, snapPointIndexes, next, prev, pages, goTo, activePageIndex } =
@@ -15,7 +16,17 @@ const Carrousel = () => {
     'https://sietefotografos.com/wp-content/uploads/2020/01/photo-1500964757637-c85e8a162699.jpeg',
     'https://www.vaticannews.va/content/dam/vaticannews/multimedia/2018/10/30/OCEANOaem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1000.563.jpeg',
   ];
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (activePageIndex < pages.length - 1) {
+        next();
+      } else {
+        goTo(0);
+      }
+    }, 3000);
 
+    return () => clearInterval(interval);
+  }, [next, goTo, activePageIndex, pages.length]);
   const styles = {
     root: {},
     scroll: {
@@ -100,9 +111,6 @@ const Carrousel = () => {
           {String.fromCharCode(8594)}
         </button>
       </div>
-      {/* <div style={styles.pageIndicator}>
-        {activePageIndex + 1} / {pages.length}
-      </div> */}
     </div>
   );
 };
