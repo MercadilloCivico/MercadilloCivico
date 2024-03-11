@@ -75,28 +75,28 @@ export default function PointDetail() {
       />
 
       <div
-        className={`flex flex-col items-center max-w-[1280px] mx-auto my-4 ${status === 'loading' && !point.id && 'hidden'}`}>
-        <div className='rounded-t-xl overflow-hidden w-[200px] h-[200px] bg-pearl-bush-200 p-6 relative'>
-          <img
-            src={point.image}
-            className='w-full h-full object-cover rounded-xl'
-            alt='Imagen de punto de venta'></img>
-          <p className='absolute bottom-[-1px] text-sm italic opacity-60 left-0 right-0 mx-auto w-[200px] text-tuscany-800'>
-            Presiona para ver el QR
-          </p>
-        </div>
-
-        <div className='rounded-t-xl overflow-hidden w-[200px] h-[200px] p-6 absolute z-1'>
-          {point.qr_code && (
+        className={`mt-4 relative shadow-sm flex flex-col items-center max-w-[1280px] mx-auto my-4 ${status === 'loading' && !point.id && 'hidden'}`}>
+        <div className='bg-pearl-bush-200 rounded-t-xl w-full px-2 '>
+          <div className='mt-4 mx-auto rounded-xl overflow-hidden w-[200px] h-[200px] p-6 relative bg-pearl-bush-300 '>
             <img
-              src={`data:image/png;base64,${qrBase64}`}
-              alt='QR Code'
-              className='opacity-0 scale-75 w-full h-full shadow-md rounded-xl hover:scale-100 hover:opacity-100 transition'
-            />
-          )}
-        </div>
+              src={point.image}
+              className='w-full h-full object-cover rounded-xl'
+              alt='Imagen de punto de venta'></img>
+            <p className='absolute bottom-[-1px] text-sm italic opacity-60 left-0 right-0 mx-auto w-[200px] text-tuscany-800'>
+              Presiona para ver el QR
+            </p>
+          </div>
 
-        <div className='bg-pearl-bush-200 rounded-t-xl w-full px-2'>
+          <div className=' mx-auto left-0 right-0 top-0 mt-4 rounded-t-xl overflow-hidden w-[200px] h-[200px] p-6 absolute z-1'>
+            {point.qr_code && (
+              <img
+                src={`data:image/png;base64,${qrBase64}`}
+                alt='QR Code'
+                className='opacity-0 scale-75 w-full h-full shadow-md rounded-xl hover:scale-100 hover:opacity-100 transition'
+              />
+            )}
+          </div>
+
           <ul className='mt-4 text-tuscany-600'>
             <li className='text-4xl font-semibold flex items-center justify-center'>
               {point.address}

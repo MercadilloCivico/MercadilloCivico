@@ -77,7 +77,7 @@ const Review = ({
             ) : (
               <FaUser />
             )}
-            <span className='mx-1 text-center'>{`${user && user.first_name ? user.first_name : ''} ${user && user.second_name ? user.second_name : ''} ${user && user.last_name ? user.last_name : ''}`}</span>
+            <span className='mx-1 text-center'>{`${user && user.first_name ? user.first_name : ''} ${user && user.second_name && user.second_name.toLowerCase() === 'null' ? user.second_name : ''} ${user && user.last_name ? user.last_name : ''}`}</span>
           </div>
           <div className='flex justify-start pl-2 items-center text-[.8em] md:text-[1em] lg:text-[1.15em] text-tuscany-950 my-1'>
             <Box component='fieldset' p={0} borderColor='transparent'>

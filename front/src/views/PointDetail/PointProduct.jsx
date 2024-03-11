@@ -253,6 +253,7 @@ export default function PointProduct({ cantidad, stockMin, stockMax, productoId,
           variant='rectangular'
           height={80}
           width={'full'}
+          animation='wave'
         />
       )}
     </>

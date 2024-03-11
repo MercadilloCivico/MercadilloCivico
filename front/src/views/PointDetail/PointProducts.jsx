@@ -63,7 +63,10 @@ export default function PointProducts({ className, pointId, address, name }) {
             />
           ))
         ) : (
-          <p>No hay productos</p>
+          <p className='text-lg text-tuscany-950 my-4 mx-auto max-w-[600px] p-2'>
+            No hay productos para este punto. Crea un inventario y agregale stock de un producto
+            utilizando el botón de arriba.
+          </p>
         )}
       </div>
     </>

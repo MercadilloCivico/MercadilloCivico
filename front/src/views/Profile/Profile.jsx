@@ -178,6 +178,16 @@ export default function Profile() {
     email: '',
   });
 
+  // Notificar si hubo un error
+  useEffect(() => {
+    if (
+      (!currentData.firstName || currentData.firstName.toLowerCase() === 'undefined') &&
+      !isLoading
+    ) {
+      dispatch(createToast('Ocurrio un error. Intenta actualizar la página.'));
+    }
+  }, [currentData]);
+
   function checkNull(value) {
     if (value && value.toLowerCase() === 'null') return '';
     else return value;
@@ -364,10 +374,8 @@ export default function Profile() {
         {isLoading ? (
           <Loading />
         ) : (
-          <div>
-            <div
-              style={{ backgroundImage: "url('https://picsum.photos/600/300')" }}
-              className='max-w-[1280px] mx-auto h-[150px] bg-pearl-bush-950 bg-cover bg-center relative'>
+          <div className='px-2 mt-2'>
+            <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
               {!editMode && (
                 <button
                   className={
