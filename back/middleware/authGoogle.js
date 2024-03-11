@@ -19,7 +19,7 @@ function authenticateGoogleCallback(req, res, next) {
       sameSite: COOKIE_SAMESITE_CONFIG,
       secure: true,
     });
-    return res.redirect(`${FRONT_URL}/store/${token}/?auth=google`);
+    return res.redirect(`${FRONT_URL}/${token}/?auth=google`);
   })(req, res, next);
 }
 

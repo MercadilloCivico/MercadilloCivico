@@ -1,11 +1,26 @@
 import LogoHome from '../../assets/img/logo-full.svg';
 import CustomButton from '../../components/CustomButton/CustomButton.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 import style from './LandingAnim.module.css';
+import { getGoogleToken } from '../../store/slices/authSlice.js';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 function Home() {
+  const { token } = useParams();
+  const dispatch = useDispatch();
+  const query = useLocation().search;
+
+  useEffect(() => {
+    (() => {
+      if (query === '?auth=google') {
+        return dispatch(getGoogleToken(token));
+      }
+    })();
+  }, [dispatch, token, query]);
+
   return (
     <div className={`${style.landingAnim} `}>
       <h1 className='hidden text-cabbage-pont-950'>Mercadillo Cívico</h1>

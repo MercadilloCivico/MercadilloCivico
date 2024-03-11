@@ -170,10 +170,10 @@ function App() {
         <Routes>
           <Route path='*' element={<PageNotFound />} />
 
-          <Route path='/' element={<Landing />} />
+          <Route path='/:token?' element={<Landing />} />
 
           <Route path='/store' element={<Store />} />
-          <Route path='/store/:token?/:puntoId' element={<Store />} />
+          <Route path='/store/:puntoId' element={<Store />} />
 
           <Route path='/contact' element={<Contact />} />
           <Route path='/favorites' element={<ProtectedRoute Component={Favorites} />} />
