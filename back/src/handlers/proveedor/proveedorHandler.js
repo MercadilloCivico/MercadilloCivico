@@ -81,7 +81,7 @@ class proveedorHandlers {
       }
       const urlCamara = await uploadToFile(camaraDeComercio);
       const urlCertificado = await uploadToFile(certificadoBancario);
-      await prisma.proveedor.create({
+      const proveedor = await prisma.proveedor.create({
         data: {
           name_prov: nameProv,
           ubicacion,
@@ -94,6 +94,7 @@ class proveedorHandlers {
           active: true,
         },
       });
+      console.log(proveedor);
     } catch (error) {
       throw new Error(error.message);
     }
