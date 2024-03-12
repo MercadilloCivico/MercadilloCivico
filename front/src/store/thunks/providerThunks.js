@@ -4,9 +4,24 @@ const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchProvidersAsync = createAsyncThunk(
   'providers/fetchProvidersAsync',
-  async (pid, { rejectWithValue }) => {
+  async (param, { rejectWithValue }) => {
     try {
-      const url = pid ? `${VITE_API_URL}/proveedor/${pid}` : `${VITE_API_URL}/proveedor`;
+      const regexNumeros = /^\d+$/;
+      const regexLetras = /^[a-zA-Z]+$/;
+      if (param && regexNumeros.test(param)) {
+        const url = `${VITE_API_URL}/proveedor/${param}`;
+        const response = await axios.get(url, {
+          withCredentials: true,
+        });
+        return response.data;
+      } else if (param && regexLetras.test(param)) {
+        const url = `${VITE_API_URL}/proveedor/?name=${param}`;
+        const response = await axios.get(url, {
+          withCredentials: true,
+        });
+        return response.data;
+      }
+      const url = `${VITE_API_URL}/proveedor`;
       const response = await axios.get(url, {
         withCredentials: true,
       });
@@ -16,6 +31,21 @@ export const fetchProvidersAsync = createAsyncThunk(
     }
   }
 );
+
+// export const fetchProvidersByNameAsync = createAsyncThunk(
+//   'providers/fetchProvidersByNameAsync',
+//   async (param, { rejectWithValue }) => {
+//     try {
+//       const url = `${VITE_API_URL}/proveedor/?name=${param}`;
+//       const response = await axios.get(url, {
+//         withCredentials: true,
+//       });
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
 export const addProvider = createAsyncThunk(
   'providers/addProvider',

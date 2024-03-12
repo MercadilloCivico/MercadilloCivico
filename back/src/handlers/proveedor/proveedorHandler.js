@@ -50,14 +50,13 @@ class proveedorHandlers {
 
   static async getNameById(name) {
     try {
-      const proveedores = await prisma.proveedor.findMany({
-        where: {
-          name_prov: {
-            contains: name,
-          },
-        },
+      const proveedores = await prisma.proveedor.findMany();
+
+      const proveedoresName = proveedores.filter((p) => {
+        const proveedorName = p.name_prov;
+        return proveedorName.toLowerCase().startsWith(name.toLowerCase());
       });
-      return proveedores;
+      return proveedoresName;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -94,7 +93,8 @@ class proveedorHandlers {
           active: true,
         },
       });
-      console.log(proveedor);
+
+      return proveedor;
     } catch (error) {
       throw new Error(error.message);
     }

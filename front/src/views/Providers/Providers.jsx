@@ -27,14 +27,16 @@ const Providers = () => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  // const { items } = useSelector((state) => state.providers);
+  // const { providerArray } = useSelector((state) => state.providers);
   const [isModalOpen, setModalOpen] = useState(false);
   const [providers, setProviders] = useState([]);
+  const [searchProviders, setSearchProviders] = useState('');
 
   useEffect(() => {
     (async function () {
       try {
-        const { payload } = await dispatch(fetchProvidersAsync());
+        const { payload } = await dispatch(fetchProvidersAsync(searchProviders));
+        console.log(payload);
         let providerUser = await Promise.all(
           payload.map(async (e) => {
             try {
@@ -52,7 +54,7 @@ const Providers = () => {
         console.log('error', error);
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, searchProviders]);
 
   const openModal = () => {
     setModalOpen(true);
@@ -96,7 +98,7 @@ const Providers = () => {
         <CustomBreadcrumbs />
       </div>
       <div>
-        <AdminSearchBar />
+        <AdminSearchBar setSearchProviders={setSearchProviders} />
       </div>
       <div className='flex justify-end items-center'>
         <CustomButton
