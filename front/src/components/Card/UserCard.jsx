@@ -3,7 +3,7 @@ import { TbShoppingBagPlus } from 'react-icons/tb';
 import { TiStarFullOutline, TiHeartOutline, TiHeartFullOutline } from 'react-icons/ti';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProductToCartDBThunk } from '../../store/thunks/cartThunks';
+import { addProductToCartDBThunk, getCartDBThunk } from '../../store/thunks/cartThunks';
 import { createToast } from '../../store/slices/toastSlice';
 import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
 
@@ -24,9 +24,14 @@ const UserCard = ({
   let [isFav, setIsFav] = useState(false);
   const dispatch = useDispatch();
   const { idCarrito } = useSelector((state) => state.carrito);
+  const {
+    items: { productoEnCarrito },
+  } = useSelector((state) => state.carrito);
   const { status } = useSelector((state) => state.favorites);
   const [cantidad, setCantidad] = useState(1);
   const navigate = useNavigate();
+
+  const isInCart = productoEnCarrito.some((producto) => producto.inventarioId === inventarioId);
 
   const agregarAlCarrito = async () => {
     try {
@@ -37,6 +42,7 @@ const UserCard = ({
           cantidad,
         })
       );
+      await dispatch(getCartDBThunk());
       dispatch(createToast('Producto agregado al carrito'));
     } catch (error) {
       dispatch(createToast('Error agregando al carrito'));
@@ -140,11 +146,16 @@ const UserCard = ({
               )}
             </div>
 
-            <div className='bg-tuscany-600 flex flex-shrink-0 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full cursor-pointer hover:bg-tuscany-700 active:bg-tuscany-800 transition'>
-              <TbShoppingBagPlus
-                className='w-[20px] h-[20px] text-tuscany-100'
-                onClick={agregarAlCarrito}
-              />
+            <div
+              className={`${isInCart ? 'bg-[#a8a8a8] hover:bg-[#a8a8a8] active:bg-[#a8a8a8] cursor-not-allowed' : 'bg-tuscany-600 hover:bg-tuscany-700 active:bg-tuscany-800 cursor-pointer'} flex flex-shrink-0 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full   transition`}>
+              {isInCart ? (
+                <TbShoppingBagPlus className='w-[20px] h-[20px] text-tuscany-100' />
+              ) : (
+                <TbShoppingBagPlus
+                  className='w-[20px] h-[20px] text-tuscany-100'
+                  onClick={agregarAlCarrito}
+                />
+              )}
             </div>
           </div>
 

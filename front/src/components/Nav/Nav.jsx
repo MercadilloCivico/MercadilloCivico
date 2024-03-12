@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import LogoMC from '../../assets/images/LogoMC.png';
 import NavMenu from '../NavMenu/NavMenu.jsx';
@@ -9,13 +9,13 @@ import { LuShoppingCart } from 'react-icons/lu';
 import NavUser from '../NavUser/NavUser.jsx';
 
 import { useSelector } from 'react-redux';
-// import { useSelector, useDispatch } from 'react-redux';
+import { Badge } from '@mui/material';
 // import {selectLoggenIn, login,logout} from '../../store/thunks/authThunks.js';
 
 const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const location = useLocation();
-
   function toggleMenu(bool) {
     if (bool === false)
       setMenuOpen(false); // debe ser estrictamente false, de otra manera si no se le pasa un bool también será false
@@ -23,8 +23,15 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
   }
 
   const { allItems: items } = useSelector((state) => state.card);
-  // const { items } = useSelector((state) => state.card);
+  const {
+    items: { productoEnCarrito },
+  } = useSelector((state) => state.carrito);
+
   const { rol } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    setCartCount(productoEnCarrito?.length);
+  }, [productoEnCarrito]);
 
   return (
     <>
@@ -103,7 +110,17 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
               <Link
                 to={'/cart'}
                 className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
-                <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
+                <Badge
+                  badgeContent={cartCount ? cartCount : 0}
+                  color='success'
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  max={99}
+                  showZero>
+                  <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
+                </Badge>
               </Link>
             )}
             <div

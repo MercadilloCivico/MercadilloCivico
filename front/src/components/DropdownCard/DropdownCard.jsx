@@ -4,7 +4,7 @@ import { TiStarFullOutline } from 'react-icons/ti';
 import { TiHeartOutline } from 'react-icons/ti';
 import { TiHeartFullOutline } from 'react-icons/ti';
 import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
-import { addProductToCartDBThunk } from '../../store/thunks/cartThunks';
+import { addProductToCartDBThunk, getCartDBThunk } from '../../store/thunks/cartThunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdBrokenImage } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -37,6 +37,11 @@ export default function Card({
 
   const { idCarrito } = useSelector((state) => state.carrito);
   const { status } = useSelector((state) => state.favorites);
+  const {
+    items: { productoEnCarrito },
+  } = useSelector((state) => state.carrito);
+
+  const isInCart = productoEnCarrito.some((producto) => producto.inventarioId === inventarioId);
 
   // Traído de CartItem
   //#############################################################
@@ -49,6 +54,7 @@ export default function Card({
         cantidad,
       })
     );
+    await dispatch(getCartDBThunk());
     dispatch(createToast('Producto agregado al carrito'));
   };
 
@@ -156,9 +162,15 @@ export default function Card({
             </ul>
 
             <div
-              className='bg-tuscany-600 flex flex-shrink-0 mx-2 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full hover:bg-pearl-bush-900 active:bg-pearl-bush-800 transition'
-              onClick={agregarAlCarrito}>
-              <TbShoppingBagPlus class='w-[25px] h-[25px] text-tuscany-100' />
+              className={`${isInCart ? 'bg-[#a8a8a8] hover:bg-[#a8a8a8] active:bg-[#a8a8a8] cursor-not-allowed' : 'bg-tuscany-600 hover:bg-pearl-bush-900 active:bg-pearl-bush-800 cursor-pointer'} flex flex-shrink-0 mx-2 space-x-2 items-center justify-center w-[40px] h-[40px] rounded-full transition`}>
+              {isInCart ? (
+                <TbShoppingBagPlus className='w-[25px] h-[25px] text-tuscany-100' />
+              ) : (
+                <TbShoppingBagPlus
+                  className='w-[25px] h-[25px] text-tuscany-100'
+                  onClick={agregarAlCarrito}
+                />
+              )}
             </div>
           </div>
 
