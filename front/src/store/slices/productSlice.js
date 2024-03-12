@@ -19,10 +19,10 @@ export const productSlice = createSlice({
     status: 'idle',
     error: null,
     filters: {
-      id: '',
       filtroEstado: '',
       filtroMarca: '',
       name: '',
+      orderType: '',
     },
   },
   reducers: {
@@ -52,11 +52,15 @@ export const productSlice = createSlice({
     setName: (state, action) => {
       state.filters.name = action.payload;
     },
+    setOrderType: (state, action) => {
+      state.filters.orderType = action.payload;
+    },
     resetFilters: (state) => {
       state.filters = {
         ...state.filters,
         filtroEstado: '',
         filtroMarca: '',
+        orderType: '',
       };
     },
   },
@@ -189,6 +193,7 @@ export const {
   setFilterEstado,
   setFilterMarca,
   setName,
+  setOrderType,
   resetFilters,
 } = productSlice.actions;
 

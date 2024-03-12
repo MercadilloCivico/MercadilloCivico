@@ -3,9 +3,10 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 class AdminFiltrosHandler {
-  static async filtrarProductos(filtroMarca, filtroEstado, name) {
+  static async filtrarProductos(filtroMarca, filtroEstado, name, orderType) {
     try {
       let whereConditions = {};
+      let order = {};
 
       if (filtroMarca) {
         whereConditions = {
@@ -14,8 +15,39 @@ class AdminFiltrosHandler {
         };
       }
 
+      if (orderType === 'nameAsc') {
+        order = {
+          name: 'asc',
+        };
+      } else if (orderType === 'nameDesc') {
+        order = {
+          name: 'desc',
+        };
+      } else if (orderType === 'marcaAsc') {
+        order = {
+          marca: 'asc',
+        };
+      } else if (orderType === 'marcaDesc') {
+        order = {
+          marca: 'desc',
+        };
+      } else if (orderType === 'estadoAsc') {
+        order = {
+          disabled: 'asc',
+        };
+      } else if (orderType === 'estadoDesc') {
+        order = {
+          disabled: 'desc',
+        };
+      } else if (orderType === 'ventas') {
+        order = {
+          ventas: 'desc',
+        };
+      }
+
       const productos = await prisma.producto.findMany({
         where: whereConditions,
+        orderBy: order,
         include: {
           inventario: true,
           resenas: true,

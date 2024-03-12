@@ -39,7 +39,9 @@ const AdminFilterDropdown = ({ handleFilters }) => {
   };
 
   return (
-    <div className='bg-pearl-bush-100 text-tuscany-950 absolute top-full mt-[0em] p-2 space-y-4 rounded-md shadow-lg'>
+    <div
+      className='bg-pearl-bush-100 text-tuscany-950 absolute top-full mt-[0em] p-2 space-y-4 rounded-md shadow-lg'
+      onMouseLeave={handleFilters}>
       <div className='flex flex-col'>
         <label className='text-tuscany-950 text-sm text-start'>Marca</label>
         <select
