@@ -55,10 +55,18 @@ const AdminCardList = ({ id, name, image, marca, disabled, ventas }) => {
       <ul className='flex justify-between items-center text-start text-[.8em]'>
         <li className='flex items-center w-[1em]'>
           <img src={image} alt='ImgProduct' className='w-[.8em] h-[.8em]' />
-          <span className='overflow-ellipsis whitespace-nowrap'>{truncatedName}</span>
+          <span
+            className='overflow-ellipsis whitespace-nowrap cursor-pointer'
+            onClick={() => navigate(`/admin/products/detail/${id}`)}>
+            {truncatedName}
+          </span>
         </li>
         <li className='hidden lg:flex items-center w-[1em]'>
-          <span className='overflow-ellipsis whitespace-nowrap'>{truncatedBrand}</span>
+          <span
+            className='overflow-ellipsis whitespace-nowrap cursor-pointer'
+            onClick={() => navigate(`/admin/products/detail/${id}`)}>
+            {truncatedBrand}
+          </span>
         </li>
         <li className='flex items-center w-[1em]'>
           {disabled ? (

@@ -92,6 +92,10 @@ const AdminProductDetail = () => {
                   <span className='bg-[#2ba9727e] text-[#2BA972] rounded-md  px-2'>Activo</span>
                 )}
               </li>
+              <li className='flex mb-1 text-start'>
+                <span className='opacity-70 mr-1'>Descripción: </span>
+                <span className='font-semibold'>{limitAndEllipsis(product.description, 30)}</span>
+              </li>
             </ul>
           </div>
           <div className='flex lg:flex-col justify-center lg:justify-start items-center space-x-2 lg:space-x-0 lg:space-y-3 mt-2 lg:mt-0'>
