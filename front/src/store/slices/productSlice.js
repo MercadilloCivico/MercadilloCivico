@@ -14,13 +14,14 @@ import {
 export const productSlice = createSlice({
   name: 'products',
   initialState: {
+    allItems: [],
     items: [],
     status: 'idle',
     error: null,
     filters: {
       id: '',
       filtroEstado: '',
-      filtroPrecio: '',
+      filtroMarca: '',
       name: '',
     },
   },
@@ -45,8 +46,8 @@ export const productSlice = createSlice({
     setFilterEstado: (state, action) => {
       state.filters.filtroEstado = action.payload;
     },
-    setFilterPrecio: (state, action) => {
-      state.filters.filtroPrecio = action.payload;
+    setFilterMarca: (state, action) => {
+      state.filters.filtroMarca = action.payload;
     },
     setName: (state, action) => {
       state.filters.name = action.payload;
@@ -55,7 +56,7 @@ export const productSlice = createSlice({
       state.filters = {
         ...state.filters,
         filtroEstado: '',
-        filtroPrecio: '',
+        filtroMarca: '',
       };
     },
   },
@@ -113,6 +114,7 @@ export const productSlice = createSlice({
       .addCase(fetchProductsAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items = action.payload;
+        state.allItems = action.payload;
       })
       .addCase(fetchProductsAsync.rejected, (state, action) => {
         state.status = 'failed';
@@ -185,7 +187,7 @@ export const {
   setStatus,
   setError,
   setFilterEstado,
-  setFilterPrecio,
+  setFilterMarca,
   setName,
   resetFilters,
 } = productSlice.actions;

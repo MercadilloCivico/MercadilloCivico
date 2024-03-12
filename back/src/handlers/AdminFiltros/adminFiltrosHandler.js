@@ -3,9 +3,19 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 class AdminFiltrosHandler {
-  static async filtrarProductos(filtroPrecio, filtroEstado, name) {
+  static async filtrarProductos(filtroMarca, filtroEstado, name) {
     try {
+      let whereConditions = {};
+
+      if (filtroMarca) {
+        whereConditions = {
+          ...whereConditions,
+          marca: filtroMarca,
+        };
+      }
+
       const productos = await prisma.producto.findMany({
+        where: whereConditions,
         include: {
           inventario: true,
           resenas: true,
@@ -14,42 +24,8 @@ class AdminFiltrosHandler {
         },
       });
 
-      const preciosOnly = productos.map((p) => p.inventario.precio_final);
-
-      const precioMin = Math.min(...preciosOnly);
-      const precioMax = Math.max(...preciosOnly);
-
-      const rango = (precioMax - precioMin) / 3;
-      const bajoLimite = precioMin + rango;
-      const medioLimite = bajoLimite + rango;
-
-      const productosBajos = productos.filter((p) => p.inventario.precio_final <= bajoLimite);
-      const productosMedios = productos.filter(
-        (p) => p.inventario.precio_final > bajoLimite && p.inventario.precio_final <= medioLimite
-      );
-      const productosAltos = productos.filter((p) => p.inventario.precio_final > medioLimite);
-
-      if (name && !filtroEstado && !filtroPrecio) {
+      if (name && !filtroEstado) {
         return productos.filter((p) => p.name.startsWith(name));
-      }
-
-      if (filtroPrecio === 'bajo') {
-        if (name) {
-          return productosBajos.filter((p) => p.name.startsWith(name));
-        }
-        return productosBajos;
-      }
-      if (filtroPrecio === 'medio') {
-        if (name) {
-          return productosBajos.filter((p) => p.name.startsWith(name));
-        }
-        return productosMedios;
-      }
-      if (filtroPrecio === 'alto') {
-        if (name) {
-          return productosBajos.filter((p) => p.name.startsWith(name));
-        }
-        return productosAltos;
       }
 
       if (filtroEstado === 'activo') {
@@ -59,6 +35,7 @@ class AdminFiltrosHandler {
         }
         return filtrados;
       }
+
       if (filtroEstado === 'inactivo') {
         const filtrados = productos.filter((p) => p.disabled);
         if (name) {
