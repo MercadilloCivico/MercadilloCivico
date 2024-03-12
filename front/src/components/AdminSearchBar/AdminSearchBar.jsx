@@ -16,6 +16,7 @@ const AdminSearchBar = () => {
   const [searchValue, setSearchValue] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const isAdminProducts = useMatch('/admin/products');
+  const isAdminProviders = useMatch('/admin/provider');
 
   const handleFilters = () => {
     setShowFilters(!showFilters);
@@ -67,7 +68,7 @@ const AdminSearchBar = () => {
           <input
             className='bg-pearl-bush-100 w-full text-tuscany-950 outline-none border-none'
             type='text'
-            placeholder='Buscar...'
+            placeholder={`Buscar ${isAdminProducts ? 'Productos...' : isAdminProviders ? 'Proveedores...' : 'Usuarios...'}`}
             value={searchValue}
             onChange={handleSearch}
           />
@@ -78,25 +79,25 @@ const AdminSearchBar = () => {
             />
           )}
         </div>
-        <div className='flex md:p-2 space-x-1'>
-          <div className='flex flex-col justify-center items-center'>
-            <button
-              onClick={handleFilters}
-              className={`flex items-center text-center bg-pearl-bush-100 text-[.6em] sm:text-[.7em] md:text-[.9em] p-1 sm:p-2 hover:shadow-lg transition duration-300 ${
-                showFilters ? 'text-tuscany-500 border-tuscany-500' : 'text-tuscany-950'
-              } border-none rounded-md cursor-pointer hover:custom-border-2 focus:custom-border-2 focus:text-tuscany-600 relative`}>
-              Filtros <CiFilter className='text-[.6em] sm:text-[.7em] md:text-[.9em]' />
-            </button>
-            {showFilters && (
-              <div className='absolute flex items-center justify-center mt-[3em] font-semibold px-1 rounded-md'>
-                <div className='flex justify-center w-[.5em] h-[.5em] items-center bg-pearl-bush-100 clip-polygon'>
-                  {''}
+        {isAdminProducts && (
+          <div className='flex md:p-2 space-x-1'>
+            <div className='flex flex-col justify-center items-center'>
+              <button
+                onClick={handleFilters}
+                className={`flex items-center text-center bg-pearl-bush-100 text-[.6em] sm:text-[.7em] md:text-[.9em] p-1 sm:p-2 hover:shadow-lg transition duration-300 ${
+                  showFilters ? 'text-tuscany-500 border-tuscany-500' : 'text-tuscany-950'
+                } border-none rounded-md cursor-pointer hover:custom-border-2 focus:custom-border-2 focus:text-tuscany-600 relative`}>
+                Filtros <CiFilter className='text-[.6em] sm:text-[.7em] md:text-[.9em]' />
+              </button>
+              {showFilters && (
+                <div className='absolute flex items-center justify-center mt-[3em] font-semibold px-1 rounded-md'>
+                  <div className='flex justify-center w-[.5em] h-[.5em] items-center bg-pearl-bush-100 clip-polygon'>
+                    {''}
+                  </div>
+                  <AdminFilterDropdown handleFilters={handleFilters} />
                 </div>
-                <AdminFilterDropdown handleFilters={handleFilters} />
-              </div>
-            )}
-          </div>
-          {isAdminProducts && (
+              )}
+            </div>
             <div className='flex md:p-2 space-x-1'>
               <button
                 className={`flex items-center text-center bg-pearl-bush-100 text-[.6em] sm:text-[.7em] md:text-[.9em] p-1 sm:p-2 hover:shadow-lg transition duration-300 ${
@@ -113,8 +114,8 @@ const AdminSearchBar = () => {
                 <IoGridOutline className='text-[.7em] sm:text-[.8em] md:text-[1em]' />
               </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
