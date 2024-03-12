@@ -38,7 +38,11 @@ class usuariosHandler {
         include: {
           resenas: true,
           carrito: true,
-          compras: true,
+          compras: {
+            orderBy: {
+              fecha: 'desc',
+            },
+          },
           proveedor: true,
           favorites: true,
         },

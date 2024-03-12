@@ -3,7 +3,7 @@ import { FaHistory } from 'react-icons/fa';
 import style from './historyAnim.module.css';
 import { useState } from 'react';
 
-export default function ProfileHistoryCard({ lazyImg, name, price, compra, date, className }) {
+export default function ProfileHistoryCard({ name, price, compra, date, className }) {
   // Recibe por props: img, name, price, amount, date y eventualmente recibirá el id de producto
   // lazyImg será un downscale de la img real, se mostrará de fondo mientras carga la imágen real
   const [detail, setDetail] = useState(false);
@@ -20,8 +20,8 @@ export default function ProfileHistoryCard({ lazyImg, name, price, compra, date,
       }>
       <div className='flex h-full'>
         <div
-          style={{ backgroundImage: `url(${lazyImg})`, backgroundPosition: 'center' }}
-          className='max-h-[100px] max-w-[100px] aspect-square flex-shrink-0 mr-[12px]'>
+          // style={{ backgroundImage: `url(${lazyImg})`, backgroundPosition: 'center' }}
+          className='max-h-[70px] max-w-[70px] aspect-square flex-shrink-0 mr-[12px]'>
           <img
             className='w-full h-full object-cover rounded-lg'
             // src={img}
@@ -32,15 +32,15 @@ export default function ProfileHistoryCard({ lazyImg, name, price, compra, date,
 
         <div className='w-full h-full flex-shrink relative text-xl'>
           <div className='flex justify-between items-end'>
-            <span className='line-clamp-1 text-left'>{name}</span>
-            <span onClick={handleDetail} className=' text-xs ml-2 w-40'>
+            <span className='line-clamp-1 text-left w-32'>{name}</span>
+            <span onClick={handleDetail} className=' cursor-pointer text-xs ml-2 w-40'>
               Detalles de compra{detail ? '...' : ''}
             </span>
           </div>
 
           <div className='flex justify-between items-center'>
             <span className='text-2xl text-tuscany-600 font-semibold'>{price}</span>
-            <FaHistory />
+            <FaHistory className=' mr-1 mt-2' />
           </div>
 
           <div className='flex text-sm items-center space-x-1'>
