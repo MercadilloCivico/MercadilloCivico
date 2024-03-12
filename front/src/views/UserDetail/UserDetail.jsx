@@ -20,9 +20,11 @@ const UserDetail = () => {
 
   const { items } = useSelector((state) => state.user);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [usuario, setUsuario] = useState({});
 
-  const usuario = items?.find((item) => item.id === id);
-
+  useEffect(() => {
+    setUsuario(items?.find((item) => item.id === id));
+  }, [dispatch]);
   useEffect(() => {
     (async () => {
       await dispatch(fetchUsersAsync(id));
@@ -32,7 +34,21 @@ const UserDetail = () => {
   const openModal = () => {
     setModalOpen(true);
   };
-
+  const handleDelete = async () => {
+    try {
+      const { payload } = await dispatch(trueDeleteUsersAsync(usuario.id));
+      console.log(payload);
+      dispatch(createToast(`El usuario ${usuario?.first_name} ha sido eliminado con éxito!`));
+      navigate('/admin/users');
+      setModalOpen(false);
+    } catch (error) {
+      dispatch(
+        createToast(
+          `Error al eliminar el usuario ${usuario?.first_name}, por favor intente nuevamente.`
+        )
+      );
+    }
+  };
   return (
     <>
       <header className='flex h-[55px] w-full fixed text-tuscany-950 bg-pearl-bush-200 items-center justify-center shadow-md z-10'>
@@ -62,11 +78,11 @@ const UserDetail = () => {
         <div className='flex flex-col'>
           <ul className='flex justify-center items-center space-x-10'>
             <li className='flex flex-col p-2 text-[1.2em] text-center rounded-md hover:bg-pearl-bush-200 cursor-pointer'>
-              <span className='font-bold  text-tuscany-500'>{usuario?.resenas.length}</span>
+              <span className='font-bold  text-tuscany-500'>{usuario?.resenas?.length}</span>
               <small className='text-tuscany-950 opacity-50'>Compras</small>
             </li>
             <li className='flex flex-col p-2 text-[1.2em] text-center rounded-md hover:bg-pearl-bush-200 cursor-pointer'>
-              <span className='font-bold  text-tuscany-500'>{usuario?.compras.length}</span>
+              <span className='font-bold  text-tuscany-500'>{usuario?.compras?.length}</span>
               <small className='text-tuscany-950 opacity-50'>Reseñas</small>
             </li>
           </ul>
@@ -141,23 +157,8 @@ const UserDetail = () => {
               <div className='flex justify-between'>
                 <button
                   className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em]'
-                  onClick={async () => {
-                    try {
-                      await dispatch(trueDeleteUsersAsync(usuario?.id));
-                      dispatch(
-                        createToast(
-                          `El usuario ${usuario?.first_name} ha sido eliminado con éxito!`
-                        )
-                      );
-                      navigate('/admin/users');
-                      setModalOpen(false);
-                    } catch (error) {
-                      dispatch(
-                        createToast(
-                          `Error al eliminar el usuario ${usuario?.first_name}, por favor intente nuevamente.`
-                        )
-                      );
-                    }
+                  onClick={() => {
+                    handleDelete();
                   }}>
                   Eliminar
                 </button>
