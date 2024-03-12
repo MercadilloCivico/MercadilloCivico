@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  fetchUsersAsync,
-  logicDeleteUsersAsync,
-  trueDeleteUsersAsync,
-} from '../../store/thunks/userThunks';
+import { logicDeleteUsersAsync, trueDeleteUsersAsync } from '../../store/thunks/userThunks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoCloseSharp } from 'react-icons/io5';
@@ -24,20 +20,14 @@ const UserDetail = () => {
 
   useEffect(() => {
     setUsuario(items?.find((item) => item.id === id));
-  }, [dispatch]);
-  useEffect(() => {
-    (async () => {
-      await dispatch(fetchUsersAsync(id));
-    })();
-  }, [id, dispatch]);
+  }, [dispatch, id]);
 
   const openModal = () => {
     setModalOpen(true);
   };
   const handleDelete = async () => {
     try {
-      const { payload } = await dispatch(trueDeleteUsersAsync(usuario.id));
-      console.log(payload);
+      await dispatch(trueDeleteUsersAsync(usuario.id));
       dispatch(createToast(`El usuario ${usuario?.first_name} ha sido eliminado con éxito!`));
       navigate('/admin/users');
       setModalOpen(false);
