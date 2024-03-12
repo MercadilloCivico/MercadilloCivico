@@ -36,6 +36,10 @@ function Login() {
       dispatch(googleErrorChecker());
       dispatch(createToast('Ya estás registrado, ingresa tu contraseña'));
     }
+    if (id === 'userSuspended') {
+      dispatch(googleErrorChecker());
+      dispatch(createToast('El usuario está suspendido, contacte a un administrador'));
+    }
   }, [dispatch, id]);
 
   const navigate = useNavigate();
