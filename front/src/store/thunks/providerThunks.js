@@ -28,6 +28,7 @@ export const addProvider = createAsyncThunk(
       formData.append('tel', dataForm.tel);
       formData.append('camaraDeComercio', dataForm.camaraDeComercio);
       formData.append('certificadoBancario', dataForm.certificadoBancario);
+
       const { data } = await axios.post(`${VITE_API_URL}/proveedor`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',

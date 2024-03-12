@@ -112,7 +112,7 @@ class usuariosHandler {
       }
       if (secureUrl === undefined) {
         secureUrl =
-          'https://previews.123rf.com/images/jpgon/jpgon1411/jpgon141100514/33774342-ilustraci%C3%B3n-de-un-avatar-de-manzana-que-llevaba-gafas.jpg';
+          'https://res.cloudinary.com/dkewon763/image/upload/v1710204829/https:/cdn.discordapp.com/attachments/1204518792105828403/1216910708889882674/wkrhw47xameor0q2la2b.jpg';
       }
 
       const newUser = await prisma.usuario.create({
