@@ -2,18 +2,27 @@ import { useState } from 'react';
 import { TextField } from '@mui/material';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { MdEdit } from 'react-icons/md';
-import { LuStore } from 'react-icons/lu';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice';
 import { putPuntoDeVenta } from '../../store/thunks/salesPointThunks';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks';
 import { Skeleton } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+
+import {
+  validateEmail,
+  validateCompany,
+  validatePostalCode,
+  validateAddress,
+  validatePhone,
+} from './formControl';
 
 export default function UpdatePointModal({ handleClose, modal }) {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const { status } = useSelector((state) => state.salesPoint);
 
   const [formData, setFormData] = useState({
     companyName: '',
@@ -26,11 +35,65 @@ export default function UpdatePointModal({ handleClose, modal }) {
   });
 
   const [currentData, setCurrentData] = useState({});
+  const [errors, setErrors] = useState({
+    companyName: '',
+    address: '',
+    postalCode: '',
+    contactTel: '',
+    contactEmail: '',
+    image: '',
+    imgPreview: '',
+  });
+
+  function checkErrors() {
+    setErrors({
+      address: validateAddress(formData.address),
+      contactEmail: validateEmail(formData.contactEmail),
+      contactTel: validatePhone(formData.contactTel.slice(4)), // verificar sin el +57
+      companyName: validateCompany(formData.companyName),
+      postalCode: validatePostalCode(formData.postalCode),
+    });
+  }
+
+  useEffect(() => {
+    if (formData.address) {
+      checkErrors();
+    }
+    console.log(formData);
+    console.log(hasErrors());
+    console.log(errors);
+  }, [formData]);
+
+  function hasErrors() {
+    // verifica si hay algún error
+    return Object.values(errors).some((error) => {
+      return error !== '';
+    });
+  }
 
   useEffect(() => {
     (async function () {
       const response = await dispatch(fetchSalesPointsAsync(id));
-      setCurrentData(response.payload);
+      setCurrentData({
+        ...currentData,
+        company_name: response.payload.company_name,
+        address: response.payload.address,
+        postal_code: response.payload.postal_code,
+        contact_tel: response.payload.contact_tel.slice(4),
+        contact_email: response.payload.contact_email,
+        image: response.payload.image,
+        imgPreview: '',
+      });
+      setFormData({
+        ...formData,
+        companyName: response.payload.company_name,
+        address: response.payload.address,
+        postalCode: response.payload.postal_code,
+        contactTel: response.payload.contact_tel,
+        contactEmail: response.payload.contact_email,
+        image: response.payload.image,
+        imgPreview: '',
+      });
     })();
   }, [dispatch]);
 
@@ -59,15 +122,22 @@ export default function UpdatePointModal({ handleClose, modal }) {
         };
         reader.readAsDataURL(imgFile);
       }
+    } else if (e.target.name === 'contactTel') {
+      setFormData({ ...formData, [e.target.name]: `+57 ${e.target.value}` });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
+    console.log(formData);
   }
   const handleSubmit = async (e) => {
     e.preventDefault;
 
-    await dispatch(putPuntoDeVenta({ id, formData }));
-    dispatch(createToast('Punto de venta actualizado exitosamente.'));
+    try {
+      await dispatch(putPuntoDeVenta({ id, formData }));
+      dispatch(createToast('Punto de venta actualizado exitosamente.'));
+    } catch (err) {
+      dispatch(createToast('Error al actualizar el punto'));
+    }
   };
 
   return (
@@ -79,39 +149,46 @@ export default function UpdatePointModal({ handleClose, modal }) {
             <div className='flex flex-wrap justify-around py-4'>
               {/* IMG CONTAINER */}
 
-              <div>
-                <div className='mb-[45px] outline outline-2 relative outline-tuscany-950 mx-auto w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 object-cover overflow-hidden'>
-                  <>
-                    <input
-                      name='image'
-                      id='image'
-                      onChange={handleChange}
-                      type='file'
-                      accept='image/*'
-                      className='hidden absolute'
-                    />
-                    <label
-                      htmlFor='image'
-                      className='text-tuscany-100 absolute m-[5px] bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
-                      <MdEdit className='w-full h-full' />
-                    </label>
-                  </>
+              {currentData.image ? (
+                <div>
+                  <div className='mb-[45px] outline outline-2 relative outline-tuscany-950 mx-auto w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 object-cover overflow-hidden'>
+                    <>
+                      <input
+                        name='image'
+                        id='image'
+                        onChange={handleChange}
+                        type='file'
+                        accept='image/*'
+                        className='hidden absolute'
+                      />
+                      <label
+                        htmlFor='image'
+                        className='text-tuscany-100 absolute m-[5px] bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer'>
+                        <MdEdit className='w-full h-full' />
+                      </label>
+                    </>
 
-                  {formData.image && !formData.imgPreview ? (
-                    <img
-                      className='w-full h-full object-cover'
-                      src={formData.image}
-                      alt='foto de perfil'></img>
-                  ) : formData.imgPreview ? (
-                    <img
-                      className='w-full h-full object-cover'
-                      src={formData.imgPreview}
-                      alt='foto de perfil'></img>
-                  ) : (
-                    <LuStore className='w-full h-full p-2 text-tuscany-950' />
-                  )}
+                    {formData.imgPreview ? (
+                      <img
+                        className='w-full h-full object-cover'
+                        src={formData.imgPreview}
+                        alt='foto de perfil'></img>
+                    ) : (
+                      <img
+                        className='w-full h-full object-cover'
+                        src={currentData.image}
+                        alt='foto de perfil'></img>
+                    )}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <Skeleton
+                  variant='rectangular'
+                  animation={'wave'}
+                  width={150}
+                  className='mb-[45px] mx-auto w-[150px] h-[150px] rounded-xl overflow-hidden'
+                />
+              )}
 
               {/* TITULO */}
               <span className='text-tuscany-950 w-full italic h-0 translate-y-[-45px] bottom-0'>
@@ -128,40 +205,53 @@ export default function UpdatePointModal({ handleClose, modal }) {
                     onChange={handleChange}
                     name='companyName'
                     label='Nombre de empresa'
-                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    className='max-w-[250px] m-2 bg-tuscany-50 w-full'
                     defaultValue={currentData.company_name}
+                    helperText={errors.companyName}
+                    error={errors.companyName}
                   />
 
                   <TextField
                     onChange={handleChange}
                     name='address'
                     label='Dirección'
-                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    className='max-w-[250px] m-2 bg-tuscany-50 w-full'
                     defaultValue={currentData.address}
+                    helperText={errors.address}
+                    error={errors.address}
                   />
 
                   <TextField
                     onChange={handleChange}
                     name='postalCode'
                     label='Código postal'
-                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    className='max-w-[250px] m-2 bg-tuscany-50 w-full'
                     defaultValue={currentData.postal_code}
+                    helperText={errors.postalCode}
+                    error={errors.postalCode}
                   />
 
                   <TextField
                     onChange={handleChange}
                     name='contactTel'
                     label='Teléfono de contacto'
-                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    className='max-w-[250px] m-2 bg-tuscany-50 w-full'
                     defaultValue={currentData.contact_tel}
+                    helperText={errors.contactTel}
+                    error={errors.contactTel}
+                    InputProps={{
+                      startAdornment: <InputAdornment position='start'>+57</InputAdornment>,
+                    }}
                   />
 
                   <TextField
                     onChange={handleChange}
                     name='contactEmail'
                     label='Correo de contacto'
-                    className='max-w-[250px] m-2 bg-tuscany-50'
+                    className='max-w-[250px] m-2 bg-tuscany-50 w-full'
                     defaultValue={currentData.contact_email}
+                    helperText={errors.contactEmail}
+                    error={errors.contactEmail}
                   />
                 </div>
               ) : (
@@ -169,38 +259,58 @@ export default function UpdatePointModal({ handleClose, modal }) {
                   <Skeleton
                     variant='rectangular'
                     animation={'wave'}
-                    width={225}
+                    width={250}
                     className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
                   />
                   <Skeleton
                     variant='rectangular'
                     animation={'wave'}
-                    width={225}
+                    width={250}
                     className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
                   />
                   <Skeleton
                     variant='rectangular'
                     animation={'wave'}
-                    width={225}
+                    width={250}
                     className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
                   />
                   <Skeleton
                     variant='rectangular'
                     animation={'wave'}
-                    width={225}
+                    width={250}
                     className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
                   />
                   <Skeleton
                     variant='rectangular'
                     animation={'wave'}
-                    width={225}
+                    width={250}
                     className='mx-2 my-2 h-[55px] max-w-[250px] w-full rounded-sm'
                   />
                 </div>
               )}
             </div>
 
-            <CustomButton text='Actualizar punto' onClick={handleSubmit} className='my-4 mx-2' />
+            {status === 'loading' && (
+              <div className='relative'>
+                <p className='text-tuscany-950'>Cargando...</p>
+              </div>
+            )}
+
+            {hasErrors() && (
+              <div className='relative'>
+                <p className='text-crown-of-thorns-700'>Corrige los errores antes de continuar</p>
+              </div>
+            )}
+
+            {!hasErrors() ? (
+              <CustomButton text='Actualizar punto' onClick={handleSubmit} className='my-4 mx-2' />
+            ) : (
+              <CustomButton
+                disabled={true}
+                text='Actualizar punto'
+                className='my-4 mx-2 text-tuscany-900 cursor-default'
+              />
+            )}
 
             <CustomButton text='Cancelar' className='my-4 mx-2' onClick={handleClose} />
           </div>

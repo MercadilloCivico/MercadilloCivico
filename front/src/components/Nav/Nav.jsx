@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import LogoMC from '../../assets/images/LogoMC.png';
 import NavMenu from '../NavMenu/NavMenu.jsx';
 import SearchBar from '../SearchBar/SearchBar.jsx';
@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 
 const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   function toggleMenu(bool) {
     if (bool === false)
@@ -77,11 +78,13 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
           </ul>
 
           {/* NAV MIDDLE */}
-          <SearchBar
-            filtrosActivos={filtrosActivos}
-            setFiltrosActivos={setFiltrosActivos}
-            className='flex max-w-[500px] w-full items-center justify-center py-[5px] mx-[15px] sm:hidden max-sm:hidden lg:flex max-xl:flex'
-          />
+          {location.pathname.slice(1).substring(0, 5) === 'store' && (
+            <SearchBar
+              filtrosActivos={filtrosActivos}
+              setFiltrosActivos={setFiltrosActivos}
+              className='flex max-w-[500px] w-full items-center justify-center py-[5px] mx-[15px] sm:hidden max-sm:hidden lg:flex max-xl:flex'
+            />
+          )}
 
           {/* Logo centrado en mobile */}
           <div

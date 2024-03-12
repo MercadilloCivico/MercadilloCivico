@@ -29,12 +29,14 @@ export default function AdminPoints() {
 
   return (
     <div className='px-2'>
-      <CreatePointModal modal={modal} handleOpen={handleOpen} handleClose={handleClose} />
+      {modal && (
+        <CreatePointModal modal={modal} handleOpen={handleOpen} handleClose={handleClose} />
+      )}
 
       <CustomButton
         text='Crear un punto'
         onClick={handleOpen}
-        className='fixed bottom-0 right-0 m-4'
+        className='fixed z-[2] bottom-0 right-0 m-4'
       />
 
       {status === 'loading' ? (
