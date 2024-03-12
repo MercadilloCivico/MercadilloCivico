@@ -292,7 +292,7 @@ export default function UpdatePointModal({ handleClose, modal }) {
 
             {status === 'loading' && (
               <div className='relative'>
-                <p className='text-tuscany-950'>Guardando...</p>
+                <p className='text-tuscany-950'>Cargando...</p>
               </div>
             )}
 
