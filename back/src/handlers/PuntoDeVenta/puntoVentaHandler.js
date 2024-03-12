@@ -41,7 +41,7 @@ class PuntoDeVentaHandlers {
   static async generateQr(id) {
     try {
       // Generar el código QR como una imagen en formato base64
-      const qrDataUrl = await qr.toDataURL(`https://mer-civ.vercel.app/`);
+      const qrDataUrl = await qr.toDataURL(`https://mer-civ.onrender.com/store/${id}`);
       // Guardar el código QR en la base de datos
       const qrCodeBase64 = qrDataUrl.replace(/^data:image\/png;base64,/, '');
       await prisma.punto_De_Venta.update({

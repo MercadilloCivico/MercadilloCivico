@@ -1,6 +1,6 @@
 const onlyLetters = /^[A-Za-zÁáÉéÍíÓóÚúÑñ]{1,15}$/;
 const onlyNumbers = /^[0-9+]+$/;
-const onlyLettersAndSpaces = /^[A-Za-z\s]+$/;
+// const onlyLettersAndSpaces = /^[A-Za-z\s]+$/;
 
 const strongPassword =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&°|,;.:{[\]}/+\\\-_"#()='¿¡<>])[A-Za-z\d@$!%*?&°|,;.:{[\]}/+\\\-_"#()='¿¡<>]{6,15}$/;
@@ -107,8 +107,6 @@ export const validacionProveedor = (data) => {
     errors.nameProv = 'Nombre de proveedor obligatorio';
   } else if (data.nameProv.length < 3) {
     errors.nameProv = 'Nombre de proveedor debe tener al menos 3 caracteres';
-  } else if (!onlyLettersAndSpaces.test(data.nameProv)) {
-    errors.nameProv = 'Nombre de proveedor solo puede contener letras';
   }
 
   // validar el telefono

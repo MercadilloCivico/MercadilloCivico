@@ -112,7 +112,7 @@ class usuariosHandler {
       }
       if (secureUrl === undefined) {
         secureUrl =
-          'https://res.cloudinary.com/dkewon763/image/upload/v1710204829/https:/cdn.discordapp.com/attachments/1204518792105828403/1216910708889882674/wkrhw47xameor0q2la2b.jpg';
+          'https://res.cloudinary.com/dkewon763/image/upload/f_auto,q_auto/kzi7o9healhcvgqibegc';
       }
 
       const newUser = await prisma.usuario.create({
