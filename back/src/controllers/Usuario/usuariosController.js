@@ -65,10 +65,13 @@ class usuarios {
   static async recuperarContrasenia(req, res) {
     try {
       const { email, password } = req.query;
+      console.log('🚀 ~ usuarios ~ recuperarContrasenia ~ req:', req);
       const { token } = await usuariosHandler.authHandler(email, password);
+      console.log('🚀 ~ usuarios ~ recuperarContrasenia ~ token:', token);
       if (token) {
         res.cookie('sessionToken', token, {
-          httpOnly: true,
+          // httpOnly: true,
+          httpOnly: false,
           maxAge: 3600000,
           sameSite: COOKIE_SAMESITE_CONFIG,
           secure: true,
