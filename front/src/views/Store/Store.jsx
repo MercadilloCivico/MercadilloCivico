@@ -7,12 +7,12 @@ import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
-import { getGoogleToken } from '../../store/slices/authSlice.js';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
 import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
 import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
+
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks.js';
@@ -24,9 +24,7 @@ const Store = () => {
   const { puntos } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
   const { allItems, filteredItems } = useSelector((state) => state.card);
-  const { token } = useParams();
   const { puntoId } = useParams();
-  const query = useLocation().search;
 
   const [pointData, setPointData] = useState();
   // Info del punto que se carga si hay un id de punto en params
@@ -49,14 +47,6 @@ const Store = () => {
       await dispatch(getCartDBThunk());
     }
   };
-
-  useEffect(() => {
-    (() => {
-      if (query === '?auth=google') {
-        return dispatch(getGoogleToken(token));
-      }
-    })();
-  }, [dispatch, token]);
 
   useEffect(() => {
     firstRenderDispatch();

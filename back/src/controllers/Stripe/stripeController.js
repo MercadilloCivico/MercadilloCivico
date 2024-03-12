@@ -1,4 +1,6 @@
-const { FRONT_URL } = require('../../../config/env.config');
+const jwt = require('jsonwebtoken');
+const { FRONT_URL, SECRET_JWT } = require('../../../config/env.config');
+const prisma = require('../../../db_connection');
 const stripe = require('../../../stripe/stripe');
 
 class StripeController {
@@ -6,6 +8,12 @@ class StripeController {
     try {
       const { price } = req.query;
       const precioFinal = Number(`${price.toString()}00`);
+      const token = req.cookies.sessionToken;
+      const decoded = jwt.verify(token, SECRET_JWT);
+      if (!decoded) {
+        return res.status(401).json({ message: 'Acceso no autorizado' });
+      }
+      const user = await prisma.usuario.findUnique({ where: { id: decoded.id } });
 
       const session = await stripe.checkout.sessions.create({
         success_url: `${FRONT_URL}/payment_success`,
@@ -24,6 +32,7 @@ class StripeController {
             quantity: 1,
           },
         ],
+        customer_email: user.email,
         // De esta forma vamos a pasarle a Stripe solo el monto final que debe abonar el cliente(ya que contamos con un carrito de compras donde se encuentran todas las especificaciones de cada producto, me resulta innecesario pasarle otra vez esos datos a stripe asi que solo se le va a pasar el precio final que se renderiza en el front)
         mode: 'payment',
       });

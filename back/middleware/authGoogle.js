@@ -12,6 +12,10 @@ function authenticateGoogleCallback(req, res, next) {
     if (err || !user) {
       return res.redirect(`${FRONT_URL}/login/alreadyRegistered`);
     }
+    if (user.disabled) {
+      return res.redirect(`${FRONT_URL}/login/userSuspended`);
+    }
+
     const token = jwt.sign({ id: user.id }, SECRET_JWT, { expiresIn: '1h' });
     res.cookie('sessionToken', token, {
       httpOnly: true,
@@ -19,7 +23,7 @@ function authenticateGoogleCallback(req, res, next) {
       sameSite: COOKIE_SAMESITE_CONFIG,
       secure: true,
     });
-    return res.redirect(`${FRONT_URL}/store/${token}/?auth=google`);
+    return res.redirect(`${FRONT_URL}/${token}/?auth=google`);
   })(req, res, next);
 }
 

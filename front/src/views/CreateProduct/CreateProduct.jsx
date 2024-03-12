@@ -361,7 +361,7 @@ const CreateProduct = () => {
                 key={producto.id}
                 name={producto.name}
                 supplier={producto.marca}
-                img={producto.photo}
+                img={producto.imgPreview}
                 price={producto.costo}
                 rating={5}
                 className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'

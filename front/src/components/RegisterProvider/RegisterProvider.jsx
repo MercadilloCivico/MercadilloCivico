@@ -1,18 +1,18 @@
 import Logo from '../../assets/img/logo-full.svg';
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { useDispatch } from 'react-redux';
 import Footer from '../../components/Footer/Footer.jsx';
-// import { createToast } from '../../store/slices/toastSlice.js';
-
+import { createToast } from '../../store/slices/toastSlice.js';
+import { useNavigate } from 'react-router-dom';
 import { LuLogIn } from 'react-icons/lu';
 import { validacionProveedor } from '../../utils/validation.js';
 import { addProvider } from '../../store/thunks/providerThunks.js';
 import municipiosPrincipales from '../../utils/departamentos.js';
 
 function RegisterProvider() {
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [selectedDept, setSelectedDept] = useState('');
   const [selectedMuni, setSelectedMuni] = useState('');
@@ -53,28 +53,48 @@ function RegisterProvider() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      ubicacion: [selectedDept, selectedMuni, direccion],
-    }));
-    await dispatch(addProvider(formData));
+    try {
+      e.preventDefault();
+
+      const payload = await dispatch(addProvider(formData));
+      if (payload.error?.message === 'Rejected') {
+        throw new Error(payload.payload.message);
+      } else {
+        dispatch(createToast('Registro exitoso'));
+        navigate('/store');
+      }
+    } catch (error) {
+      dispatch(createToast(error));
+    }
   };
 
   const handleDepartmentChange = (e) => {
     const selectedDept = e.target.value;
     setSelectedDept(selectedDept);
     setDeptSelected(true);
+    setFormData({
+      ...formData,
+      ubicacion: [selectedDept],
+    });
     // Actualizar formData.ubicacion al nombre del departamento seleccionado
   };
   const handleMunicipalityChange = (e) => {
     const selectedMuni = e.target.value;
     setSelectedMuni(selectedMuni);
+    setFormData({
+      ...formData,
+      ubicacion: [selectedDept, selectedMuni],
+    });
   };
   const handleDirection = (e) => {
     const value = e.target.value;
     setDireccion(value);
+    setFormData({
+      ...formData,
+      ubicacion: [selectedDept, selectedMuni, value],
+    });
   };
+
   return (
     <div>
       <form
@@ -119,8 +139,7 @@ function RegisterProvider() {
               name='departamento'
               defaultValue={''}
               className='border-tuscany-950 hover:custom-border-2 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer p-3'
-              onChange={handleDepartmentChange}
-              disabled={deptSelected}>
+              onChange={handleDepartmentChange}>
               <option value='' disabled>
                 Seleccione un departamento
               </option>

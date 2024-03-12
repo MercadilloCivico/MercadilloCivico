@@ -44,6 +44,7 @@ export const addProductAsync = createAsyncThunk(
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       });
       return response.data;
     } catch (error) {
@@ -57,7 +58,9 @@ export const logicDeleteProductAsync = createAsyncThunk(
   'products/logicDeleteProductAsync',
   async (pid, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`${VITE_API_URL}/productoLogic/${pid}`);
+      const response = await axios.delete(`${VITE_API_URL}/productoLogic/${pid}`, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -115,7 +118,9 @@ export const trueDeleteProductAsync = createAsyncThunk(
   'products/trueDeleteProductAsync',
   async (pid, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`${VITE_API_URL}/productoTrue/${pid}`);
+      const response = await axios.delete(`${VITE_API_URL}/productoTrue/${pid}`, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -138,6 +143,7 @@ export const editProductAsync = createAsyncThunk(
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       });
       return response.data;
     } catch (error) {
@@ -149,13 +155,13 @@ export const editProductAsync = createAsyncThunk(
 // Thunk para filtrar productos
 export const fetchFilteredProducts = createAsyncThunk(
   'products/fetchFilteredProducts',
-  async ({ filtroPrecio, filtroEstado, name }, { rejectWithValue }) => {
+  async ({ filtroMarca, filtroEstado, name }, { rejectWithValue }) => {
     try {
       let url = `${VITE_API_URL}/productos/filtro`;
       let querys = {};
 
-      if (filtroPrecio) {
-        querys.filtroPrecio = filtroPrecio;
+      if (filtroMarca) {
+        querys.filtroMarca = filtroMarca;
       }
       if (filtroEstado) {
         querys.filtroEstado = filtroEstado;

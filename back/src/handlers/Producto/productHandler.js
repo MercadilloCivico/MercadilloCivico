@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 const uploadToCloudinary = require('../uploadToCloudinary');
 const validationImage = require('../../utils/validations/validationImage');
 const eliminaPhotoUtil = require('../../utils/eliminarPhoto');
+const deleteFromCloudinaryByUrl = require('../deleteCloudinary');
 
 class ProductHandler {
   static async post(name, description, marca, proveedoresCostos, photo) {
@@ -85,6 +86,10 @@ class ProductHandler {
       });
 
       if (!producto) throw new Error('El producto no se encuentra en la base de datos');
+
+      if (producto.image) {
+        await deleteFromCloudinaryByUrl(producto.image);
+      }
 
       await prisma.producto.delete({
         where: {

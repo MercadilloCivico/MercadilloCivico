@@ -56,7 +56,7 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
               <li>Inicio</li>
             </Link>
             {rol === 'proveedor' ? (
-              <Link to='/supplier' className='text-tuscany-800 hover:text-tuscany-950 transition'>
+              <Link to='/profile' className='text-tuscany-800 hover:text-tuscany-950 transition'>
                 <li>Proveedor</li>
               </Link>
             ) : rol === 'admin' ? (

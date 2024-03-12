@@ -8,6 +8,7 @@ const { SECRET_JWT } = require('../../../config/env.config');
 
 const validTokens = new Set();
 const { sendRecoveryEmail, registerEmail } = require('../../utils/mails');
+const deleteFromCloudinaryByUrl = require('../deleteCloudinary');
 
 class usuariosHandler {
   static async getAll() {
@@ -37,7 +38,11 @@ class usuariosHandler {
         include: {
           resenas: true,
           carrito: true,
-          compras: true,
+          compras: {
+            orderBy: {
+              fecha: 'desc',
+            },
+          },
           proveedor: true,
           favorites: true,
         },
@@ -107,7 +112,7 @@ class usuariosHandler {
       }
       if (secureUrl === undefined) {
         secureUrl =
-          'https://previews.123rf.com/images/jpgon/jpgon1411/jpgon141100514/33774342-ilustraci%C3%B3n-de-un-avatar-de-manzana-que-llevaba-gafas.jpg';
+          'https://res.cloudinary.com/dkewon763/image/upload/v1710204829/https:/cdn.discordapp.com/attachments/1204518792105828403/1216910708889882674/wkrhw47xameor0q2la2b.jpg';
       }
 
       const newUser = await prisma.usuario.create({
@@ -143,6 +148,10 @@ class usuariosHandler {
         throw new Error('El usuario no está registrado. Por favor, regístrese primero.');
       }
 
+      if (user.disabled) {
+        throw new Error('El usuario está suspendido, contacte a un administrador.');
+      }
+
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (!passwordMatch) {
@@ -165,6 +174,10 @@ class usuariosHandler {
 
       if (!user) {
         return { usuarioEliminadoCorrectamente: false, mensaje: 'Usuario no encontrado' };
+      }
+
+      if (user.photo) {
+        await deleteFromCloudinaryByUrl(user.photo);
       }
 
       await prisma.usuario.delete({
