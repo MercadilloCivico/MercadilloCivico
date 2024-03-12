@@ -61,10 +61,16 @@ function Login() {
     const validationErrors = loginValidation(loginData);
     if (Object.keys(validationErrors).length === 0) {
       const { payload } = await dispatch(login(loginData));
+      console.log(payload);
 
       if (payload.access === true) {
-        dispatch(createToast('Inicio de sesión exitoso'));
-        navigate('/store');
+        if (payload.rol === 'admin') {
+          dispatch(createToast('Inicio de sesión exitoso'));
+          navigate('/admin');
+        } else {
+          dispatch(createToast('Inicio de sesión exitoso'));
+          navigate('/store');
+        }
       }
 
       if (payload.message) {
