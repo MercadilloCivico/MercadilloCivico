@@ -12,7 +12,10 @@ const AdminUserCard = ({ id, name, lastName, img, rol, disabled }) => {
 
   return (
     <article className=' m-2 flex flex-col justify-center items-center bg-pearl-bush-200 rounded-lg relative p-3 w-[180px] md:w-[200px] lg:w-[240px] shadow-md '>
-      <div className='rounded-full overflow-hidden w-[6em] h-[6em] relative'>
+      <div
+        className={`rounded-full overflow-hidden w-[6em] h-[6em] relative ${
+          disabled ? 'opacity-70' : ''
+        }`}>
         {img ? (
           <img
             src={img}
@@ -21,6 +24,11 @@ const AdminUserCard = ({ id, name, lastName, img, rol, disabled }) => {
           />
         ) : (
           <FaUserCircle className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full' />
+        )}
+        {disabled && (
+          <div className='w-full h-full bg-[#00000056] backdrop-blur-[5px] flex items-center justify-center'>
+            <span className='text-pearl-bush-50 font-semibold'>INACTIVO</span>
+          </div>
         )}
       </div>
       <ul className='flex flex-col space-y-0'>
