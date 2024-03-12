@@ -6,6 +6,7 @@ const providersSlice = createSlice({
   name: 'providers',
   initialState: {
     providerArray: [],
+    providersByName: [],
     status: 'idle',
     error: null,
   },

@@ -9,7 +9,7 @@ import { useMatch } from 'react-router-dom';
 import { switchAdminCard, switchView } from '../../store/slices/adminSlice';
 import AdminFilterDropdown from '../AdminFilterDropdown/AdminFilterDropdown';
 
-const AdminSearchBar = () => {
+const AdminSearchBar = ({ setSearchProviders }) => {
   const dispatch = useDispatch();
   const { view } = useSelector((state) => state.admin);
   const { filters } = useSelector((state) => state.products);
@@ -25,17 +25,19 @@ const AdminSearchBar = () => {
   const handleSearch = async (e) => {
     const { value } = e.target;
     setSearchValue(value);
-    dispatch(setName(value));
-    if (!isAdminProducts) await dispatch(fetchUsersAsync(value));
-    else {
+    if (isAdminProducts) {
+      dispatch(setName(value));
       await dispatch(fetchFilteredProducts(filters));
+    } else if (isAdminProviders) {
+      setSearchProviders(value);
+    } else {
+      await dispatch(fetchUsersAsync(value));
     }
   };
 
   const handleClearSearch = async () => {
     setSearchValue('');
-    if (!isAdminProducts) await dispatch(fetchUsersAsync(''));
-    else {
+    if (isAdminProducts) {
       dispatch(setName(''));
       await dispatch(
         fetchFilteredProducts({
@@ -43,6 +45,10 @@ const AdminSearchBar = () => {
           name: '',
         })
       );
+    } else if (isAdminProviders) {
+      setSearchProviders('');
+    } else {
+      await dispatch(fetchUsersAsync(''));
     }
   };
 
