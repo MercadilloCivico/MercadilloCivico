@@ -97,33 +97,31 @@ const Store = () => {
       <StoreFilters />
 
       <div className='flex flex-row w-full max-w-[1500px] mx-auto'>
-        {allItems?.length > 0 ? (
-          <>
-            <div className='w-full max-w-[200px] hidden md:inline sticky h-full top-[55px]'>
-              <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
-              <FilterMenu
-                expanded={true}
-                activeFilterMenu={true}
-                className={
-                  'hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 sticky'
-                }
-              />
-            </div>
+        <>
+          <div className='w-full max-w-[200px] hidden md:inline sticky h-full top-[55px]'>
+            <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
+            <FilterMenu
+              expanded={true}
+              activeFilterMenu={true}
+              className={'hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 sticky'}
+            />
+          </div>
+          {allItems?.length > 0 ? (
             <Cards
               allItems={allItems}
               filteredItems={filteredItems}
               className='w-full max-w-[1300px]'
             />
-          </>
-        ) : (
-          <div className='mx-auto'>
-            <p className='text-tuscany-950'>Parece que no hay resultados...</p>
+          ) : (
+            <div className='mx-auto items-center my-20 '>
+              <p className='text-tuscany-950 text-lg'>Parece que no hay resultados...</p>
 
-            <p className='text-tuscany-950'>
-              Intenta eliminar filtros, actualizar la página o seleccionar un punto.
-            </p>
-          </div>
-        )}
+              <p className='text-tuscany-950 text-lg'>
+                Intenta eliminar filtros, actualizar la página o seleccionar un punto.
+              </p>
+            </div>
+          )}
+        </>
       </div>
 
       <Footer />

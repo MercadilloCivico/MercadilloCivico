@@ -5,6 +5,8 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useDispatch } from 'react-redux';
 
+import { styled } from '@mui/material/styles';
+
 import { setOrderCalificacion, setOrderPrecio } from '../../store/slices/cardsSlice';
 
 export default function OrderSelect() {
@@ -27,17 +29,18 @@ export default function OrderSelect() {
     }
   }
 
+  const CustomSelect = styled(Select)`
+    &::after {
+      border-bottom-color: #c55d38; /* Cambia el color del underline aquí */
+    }
+  `;
+
   return (
     <div className='mx-1'>
-      <FormControl variant='standard' className='my-[10px]'>
+      <FormControl variant='standard'>
         <InputLabel id='sort-select'>Ordenamiento</InputLabel>
-        <Select
+        <CustomSelect
           multiple={false}
-          inputProps={{
-            classes: {
-              underline: '#c55d38',
-            },
-          }}
           labelId='sort-select'
           id='sort-select'
           value={sortValue}
@@ -57,7 +60,7 @@ export default function OrderSelect() {
           <MenuItem name='price' value='price,asc'>
             Menor precio
           </MenuItem>
-        </Select>
+        </CustomSelect>
       </FormControl>
     </div>
   );
