@@ -2,6 +2,7 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCards } from '../../store/thunks/cardsThunks';
 import { setFilterName } from '../../store/slices/cardsSlice';
+
 export default function SearchBar({ className }) {
   const dispatch = useDispatch();
   const { filters } = useSelector((state) => state.card);

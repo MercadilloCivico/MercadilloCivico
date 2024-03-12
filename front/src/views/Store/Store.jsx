@@ -13,12 +13,14 @@ import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js';
 import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
 import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks.js';
+import { createToast } from '../../store/slices/toastSlice.js';
 
 const Store = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { puntos } = useSelector((state) => state.card);
   const { idCarrito } = useSelector((state) => state.carrito);
   const { allItems, filteredItems } = useSelector((state) => state.card);
@@ -31,8 +33,12 @@ const Store = () => {
   useEffect(() => {
     (async function () {
       const { payload } = await dispatch(fetchSalesPointsAsync(puntoId));
-      console.log(payload);
-      setPointData(payload);
+      if (!payload.address && puntoId) {
+        navigate('/store');
+        dispatch(createToast('No se encontró el punto al que estás intentando ingresar'));
+      } else {
+        setPointData(payload);
+      }
     })();
   }, [dispatch]);
 
@@ -77,8 +83,8 @@ const Store = () => {
         </Box>
       </div>
 
-      <div className='bg-hippie-green-950'>
-        <SearchBar className='max-w-64 mx-auto lg:hidden my-2' />
+      <div className='bg-hippie-green-950 px-4'>
+        <SearchBar className='max-w-[380px] mx-auto lg:hidden my-2' />
       </div>
 
       {/* Div eparador con color verde de fondo, altura del div usado como margin top y bottom */}
