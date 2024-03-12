@@ -13,6 +13,7 @@ export const cartSlice = createSlice({
   name: 'carrito',
   initialState: {
     idCarrito: null,
+    proceso: false,
     items: [],
     totalPrice: 0,
     error: null,
@@ -28,6 +29,9 @@ export const cartSlice = createSlice({
     },
     setTotalPrice: (state, action) => {
       state.totalPrice = action.payload;
+    },
+    setProceso: (state, action) => {
+      state.proceso = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -112,6 +116,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { clearCart, setTotalPrice } = cartSlice.actions;
+export const { clearCart, setTotalPrice, setProceso } = cartSlice.actions;
 
 export default cartSlice.reducer;

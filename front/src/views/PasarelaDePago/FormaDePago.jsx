@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { stripePaymentMethod } from '../../store/thunks/cartThunks';
 import { createToast } from '../../store/slices/toastSlice';
+import { setProceso } from '../../store/slices/cartSlice';
 
 export default function FormaDePago({ nextStep }) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -16,6 +17,7 @@ export default function FormaDePago({ nextStep }) {
   const handleStripe = async () => {
     try {
       const { payload } = await dispatch(stripePaymentMethod(totalPrice));
+      setProceso(true);
       window.location.href = payload;
     } catch (error) {
       dispatch(createToast(error));

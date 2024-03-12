@@ -8,6 +8,7 @@ const { SECRET_JWT } = require('../../../config/env.config');
 
 const validTokens = new Set();
 const { sendRecoveryEmail, registerEmail } = require('../../utils/mails');
+const deleteFromCloudinaryByUrl = require('../deleteCloudinary');
 
 class usuariosHandler {
   static async getAll() {
@@ -37,7 +38,11 @@ class usuariosHandler {
         include: {
           resenas: true,
           carrito: true,
-          compras: true,
+          compras: {
+            orderBy: {
+              fecha: 'desc',
+            },
+          },
           proveedor: true,
           favorites: true,
         },
@@ -165,6 +170,10 @@ class usuariosHandler {
 
       if (!user) {
         return { usuarioEliminadoCorrectamente: false, mensaje: 'Usuario no encontrado' };
+      }
+
+      if (user.photo) {
+        await deleteFromCloudinaryByUrl(user.photo);
       }
 
       await prisma.usuario.delete({

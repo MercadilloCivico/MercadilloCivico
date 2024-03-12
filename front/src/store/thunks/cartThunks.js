@@ -88,7 +88,9 @@ export const stripePaymentMethod = createAsyncThunk(
   'cart/stripePaymentMethod',
   async (price, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${VITE_API_URL}/session/payment?price=${price}`);
+      const { data } = await axios.get(`${VITE_API_URL}/session/payment?price=${price}`, {
+        withCredentials: true,
+      });
       return data.url;
     } catch (error) {
       return rejectWithValue(error.response.data);
