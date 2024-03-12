@@ -148,6 +148,10 @@ class usuariosHandler {
         throw new Error('El usuario no está registrado. Por favor, regístrese primero.');
       }
 
+      if (user.disabled) {
+        throw new Error('El usuario está suspendido, contacte a un administrador.');
+      }
+
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (!passwordMatch) {

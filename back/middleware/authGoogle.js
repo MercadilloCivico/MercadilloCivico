@@ -12,6 +12,10 @@ function authenticateGoogleCallback(req, res, next) {
     if (err || !user) {
       return res.redirect(`${FRONT_URL}/login/alreadyRegistered`);
     }
+    if (user.disabled) {
+      return res.redirect(`${FRONT_URL}/login/userSuspended`);
+    }
+
     const token = jwt.sign({ id: user.id }, SECRET_JWT, { expiresIn: '1h' });
     res.cookie('sessionToken', token, {
       httpOnly: true,

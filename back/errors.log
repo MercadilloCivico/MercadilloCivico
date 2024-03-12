@@ -822,3 +822,11 @@
 2024-03-09 19:40:28 error: POST /api/login 500 129ms
 2024-03-09 20:17:08 error: POST /api/login 500 351ms
 2024-03-09 20:17:17 error: POST /api/login 500 114ms
+2024-03-10 18:04:34 error: POST /api/login 500 1629ms
+2024-03-10 23:59:53 error: POST /api/login 500 1058ms
+2024-03-11 20:04:20 error: GET /api/productos/filtro?filtroMarca=Coquitas 500 3693ms
+2024-03-11 20:12:41 error: GET /api/product 500 6551ms
+2024-03-11 19:22:02 error: POST /api/login 500 288ms
+2024-03-11 19:22:12 error: POST /api/login 500 116ms
+2024-03-11 19:29:21 error: POST /api/login 500 1270ms
+
