@@ -59,9 +59,6 @@ export default function UpdatePointModal({ handleClose, modal }) {
     if (formData.address) {
       checkErrors();
     }
-    console.log(formData);
-    console.log(hasErrors());
-    console.log(errors);
   }, [formData]);
 
   function hasErrors() {
@@ -135,6 +132,7 @@ export default function UpdatePointModal({ handleClose, modal }) {
     try {
       await dispatch(putPuntoDeVenta({ id, formData }));
       dispatch(createToast('Punto de venta actualizado exitosamente.'));
+      handleClose();
     } catch (err) {
       dispatch(createToast('Error al actualizar el punto'));
     }

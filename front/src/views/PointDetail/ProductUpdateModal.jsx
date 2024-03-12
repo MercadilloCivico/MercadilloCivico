@@ -2,12 +2,20 @@ import { TextField } from '@mui/material';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { validatePrecio, validateStock } from './productControl';
 import { useState, useEffect } from 'react';
-import { updateInventoryThunk } from '../../store/thunks/inventoryThunks';
+import { fetchInventoryThunk, updateInventoryThunk } from '../../store/thunks/inventoryThunks';
 import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
+import { Skeleton } from '@mui/material';
+import { createToast } from '../../store/slices/toastSlice';
 
 import { useDispatch } from 'react-redux';
 
-export default function ProductUpdateModal({ inventarioId, productoId, handleClose, modal }) {
+export default function ProductUpdateModal({
+  inventarioId,
+  productoId,
+  handleClose,
+  modal,
+  handleRefreshAllProducts,
+}) {
   const dispatch = useDispatch();
   const [providers, setProviders] = useState();
   const [errors, setErrors] = useState({
@@ -24,6 +32,22 @@ export default function ProductUpdateModal({ inventarioId, productoId, handleClo
     stockMin: '',
     stockMax: '',
   });
+
+  const [currentData, setCurrentData] = useState({});
+
+  useEffect(() => {
+    (async function () {
+      const { payload } = await dispatch(fetchInventoryThunk(inventarioId));
+      setCurrentData(payload);
+      setFormData({
+        inventarioId,
+        cantidad: payload.stock,
+        price: payload.precio_final,
+        stockMin: payload.stock_min,
+        stockMax: payload.stock_max,
+      });
+    })();
+  }, []);
 
   useEffect(() => {
     checkErrors();
@@ -55,8 +79,11 @@ export default function ProductUpdateModal({ inventarioId, productoId, handleClo
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const response = await dispatch(updateInventoryThunk(formData));
-    console.log(response);
+    const { payload } = await dispatch(updateInventoryThunk(formData));
+    if (payload) {
+      dispatch(createToast(payload.message));
+      handleRefreshAllProducts();
+    } else dispatch(createToast('Error al actualizar el inventario'));
   }
 
   function checkErrors() {
@@ -85,7 +112,9 @@ export default function ProductUpdateModal({ inventarioId, productoId, handleClo
             <div className='flex flex-col'>
               <div className='text-tuscany-950 mt-4'>
                 <h2>Modificar este producto</h2>
-                <p className='text-tuscany-950'>Modifica este producto </p>
+                <p className='text-tuscany-950 mb-8'>
+                  Actualiza el stock o otros valores de este producto
+                </p>
               </div>
 
               <form className='text-tuscany-950 flex flex-col mx-4' onSubmit={handleSubmit}>
@@ -109,40 +138,75 @@ export default function ProductUpdateModal({ inventarioId, productoId, handleClo
 
                 {/* Input precio */}
 
-                <TextField
-                  className='bg-tuscany-50 my-4'
-                  name='price'
-                  placeholder='Precio'
-                  onChange={handleOnChange}
-                  label='Precio'
-                  helperText={errors.price}
-                />
+                {!currentData.stock ? (
+                  <>
+                    <Skeleton
+                      variant='rectangular'
+                      animation={'wave'}
+                      width={'full'}
+                      className=' my-4 h-[55px] w-full rounded-sm'
+                    />
+                    <Skeleton
+                      variant='rectangular'
+                      animation={'wave'}
+                      width={'full'}
+                      className=' my-4 h-[55px] w-full rounded-sm'
+                    />
+                    <Skeleton
+                      variant='rectangular'
+                      animation={'wave'}
+                      width={'full'}
+                      className=' my-4 h-[55px] w-full rounded-sm'
+                    />
+                    <Skeleton
+                      variant='rectangular'
+                      animation={'wave'}
+                      width={'full'}
+                      className=' my-4 h-[55px] w-full rounded-sm'
+                    />
+                  </>
+                ) : (
+                  <>
+                    <TextField
+                      className='bg-tuscany-50 my-4'
+                      name='price'
+                      placeholder='Precio'
+                      onChange={handleOnChange}
+                      label='Precio'
+                      helperText={errors.price}
+                      defaultValue={currentData.precio_final}
+                    />
 
-                <TextField
-                  className='bg-tuscany-50 my-4'
-                  name='cantidad'
-                  placeholder='Stock'
-                  onChange={handleOnChange}
-                  label='Stock'
-                  helperText={errors.cantidad}
-                />
+                    <TextField
+                      className='bg-tuscany-50 my-4'
+                      name='cantidad'
+                      placeholder='Stock'
+                      onChange={handleOnChange}
+                      label='Stock'
+                      helperText={errors.cantidad}
+                      defaultValue={currentData.stock}
+                    />
 
-                <TextField
-                  className='bg-tuscany-50 my-4'
-                  name='stockMin'
-                  placeholder='stockMin'
-                  onChange={handleOnChange}
-                  label='Stock mínimo'
-                  helperText={errors.stockMin}
-                />
-                <TextField
-                  className='bg-tuscany-50 my-4'
-                  name='stockMax'
-                  placeholder='stockMax'
-                  onChange={handleOnChange}
-                  label='Stock máximo'
-                  helperText={errors.stockMax}
-                />
+                    <TextField
+                      className='bg-tuscany-50 my-4'
+                      name='stockMin'
+                      placeholder='stockMin'
+                      onChange={handleOnChange}
+                      label='Stock mínimo'
+                      helperText={errors.stockMin}
+                      defaultValue={currentData.stock_min}
+                    />
+                    <TextField
+                      className='bg-tuscany-50 my-4'
+                      name='stockMax'
+                      placeholder='stockMax'
+                      onChange={handleOnChange}
+                      label='Stock máximo'
+                      helperText={errors.stockMax}
+                      defaultValue={currentData.stock_max}
+                    />
+                  </>
+                )}
 
                 <div className='my-4 flex justify-around'>
                   {!hasErrors() ? (

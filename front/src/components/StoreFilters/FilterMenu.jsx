@@ -48,7 +48,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
         style={{ scrollbarWidth: 'thin' }}
         ref={menuRef}
         className={
-          'max-w-[calc(100vw)] w-full h-[calc(100vh-55px)] bg-pearl-bush-100 fixed z-[9] overflow-auto flex flex-col ' +
+          'max-w-[calc(100vw)] w-full h-[calc(100dvh-55px)] bg-pearl-bush-100 fixed z-[9] overflow-auto flex flex-col ' +
           className
         }>
         <div className='w-full'>
@@ -161,7 +161,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
           </div>
         </div>
         <button
-          className='md:hidden border-none bg-tuscany-600 shadow-sm w-[40px] h-[40px] text-tuscany-100 rounded-xl mt-auto mx-auto mb-2 cursor-pointer hover:bg-tuscany-700 active:bg-tuscany-800 transition pr-[2px]'
+          className='md:hidden border-none bg-tuscany-600 shadow-sm w-[80px] h-[50px] text-tuscany-100 rounded-xl mt-auto mx-auto mb-2 cursor-pointer hover:bg-tuscany-700 active:bg-tuscany-800 transition pr-[2px]'
           onClick={toggleFilterMenu}>
           <IoIosArrowBack className='p-1 w-full h-full' />
         </button>

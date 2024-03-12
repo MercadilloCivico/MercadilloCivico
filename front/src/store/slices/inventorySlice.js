@@ -26,7 +26,7 @@ export const inventorySlice = createSlice({
       })
       .addCase(createInventoryThunk.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items.push(action.payload);
+        if (Array.isArray(state.items)) state.items.push(action.payload);
       })
       .addCase(createInventoryThunk.rejected, (state, action) => {
         state.status = 'failed';
@@ -52,9 +52,11 @@ export const inventorySlice = createSlice({
       })
       .addCase(updateInventoryThunk.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        const index = state.items.findIndex((item) => item.id === action.meta.arg.id);
-        if (index !== -1) {
-          state.items[index] = { ...state.items[index], ...action.meta.arg };
+        if (Array.isArray(state.items) && action.payload.stock) {
+          const index = state.items.findIndex((item) => item.id === action.meta.arg.id);
+          if (index !== -1) {
+            state.items[index] = { ...state.items[index], ...action.meta.arg };
+          }
         }
       })
       .addCase(updateInventoryThunk.rejected, (state, action) => {
@@ -68,7 +70,9 @@ export const inventorySlice = createSlice({
       })
       .addCase(deleteInventoryThunk.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = state.items.filter((item) => item.id !== action.meta.arg);
+        if (Array.isArray(state.items)) {
+          state.items = state.items.filter((item) => item.id !== action.meta.arg);
+        }
       })
       .addCase(deleteInventoryThunk.rejected, (state, action) => {
         state.status = 'failed';
