@@ -29,10 +29,15 @@ export default function OrderSelect() {
 
   return (
     <div className='mx-1'>
-      <FormControl variant='outlined' className='my-[10px]'>
+      <FormControl variant='standard' className='my-[10px]'>
         <InputLabel id='sort-select'>Ordenamiento</InputLabel>
         <Select
           multiple={false}
+          inputProps={{
+            classes: {
+              underline: '#c55d38',
+            },
+          }}
           labelId='sort-select'
           id='sort-select'
           value={sortValue}

@@ -9,6 +9,15 @@ import { createToast } from '../../store/slices/toastSlice.js';
 import UpdatePointModal from './UpdatePointModal.jsx';
 import PointDetailSkeleton from './PointDetailSkeleton.jsx';
 
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from '@mui/material';
+
 export default function PointDetail() {
   const { id } = useParams();
 
@@ -17,6 +26,14 @@ export default function PointDetail() {
   const [point, setPoint] = useState({});
   const [modal, setModal] = useState(false);
   const [qrBase64, setQrBase64] = useState();
+  const [confirmDialog, setConfirmDialog] = useState(false);
+
+  function handleDialogClose() {
+    setConfirmDialog(false);
+  }
+  function handleDialogOpen() {
+    setConfirmDialog(true);
+  }
 
   const { status } = useSelector((state) => state.salesPoint);
 
@@ -32,9 +49,14 @@ export default function PointDetail() {
     // fetch de la información del punto de venta
     (async function () {
       if (!point.id) {
-        const response = await dispatch(fetchSalesPointsAsync());
-        setPoint(response.payload.filter((item) => item.id === id)[0]);
-        console.log(response);
+        const response = await dispatch(fetchSalesPointsAsync(id));
+
+        if (response.error) {
+          dispatch(createToast('Error en la carga o punto inexistente'));
+          navigate('/admin/points');
+        } else {
+          setPoint(response.payload);
+        }
       }
     })();
   }, [dispatch, id]);
@@ -60,9 +82,14 @@ export default function PointDetail() {
 
   function handleDelete() {
     (async function () {
-      const { payload } = await dispatch(deletePuntoDeVenta(id));
-      dispatch(createToast(payload.message));
-      navigate(-1);
+      try {
+        await dispatch(deletePuntoDeVenta(id));
+        dispatch(createToast('Se eliminó el punto de venta'));
+        navigate('/admin/points');
+      } catch (err) {
+        dispatch(createToast(err));
+        handleDialogClose();
+      }
     })();
   }
 
@@ -139,7 +166,7 @@ export default function PointDetail() {
             <h3 className='text-tuscany-600'>Acciones para este punto</h3>
             <CustomButton className='mx-2' onClick={handleOpen} text='editar' />
 
-            <CustomButton className='mx-2' text='Borrar punto' onClick={handleDelete} />
+            <CustomButton className='mx-2' text='Borrar punto' onClick={handleDialogOpen} />
           </div>
         </div>
 
@@ -151,6 +178,44 @@ export default function PointDetail() {
           className='bg-pearl-bush-200 rounded-b-xl w-full px-2'
         />
       </div>
+
+      {/* DIALOGO DE CONFIRMACION DE BORRADO */}
+
+      <Dialog
+        open={confirmDialog}
+        onClose={handleDialogClose}
+        aria-describedby='delete-point-confirm'>
+        <DialogTitle sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
+          {'¿Borrar este punto?'}
+        </DialogTitle>
+        <DialogContent sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
+          <DialogContentText id='alert-dialog-slide-description'>
+            ¡Se borrarán los datos de forma permanente y no podrás restaurarlos!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
+          <Button
+            sx={{
+              color: '#c55d38',
+              '&:hover': {
+                backgroundColor: '#c55d3810',
+              },
+            }}
+            onClick={handleDialogClose}>
+            Cancelar
+          </Button>
+          <Button
+            sx={{
+              color: '#c55d38',
+              '&:hover': {
+                backgroundColor: '#c55d3810',
+              },
+            }}
+            onClick={handleDelete}>
+            Borrar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

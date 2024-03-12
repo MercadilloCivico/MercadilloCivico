@@ -23,7 +23,9 @@ const salesPointSlice = createSlice({
       })
       .addCase(fetchSalesPointsAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload;
+        if (Array.isArray(action.payload)) {
+          state.items = action.payload;
+        }
       })
       .addCase(fetchSalesPointsAsync.rejected, (state, action) => {
         state.status = 'failed';
@@ -48,6 +50,7 @@ const salesPointSlice = createSlice({
       .addCase(deletePuntoDeVenta.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const idToRemove = action.meta.arg;
+
         state.items = state.items.filter((product) => product.id !== idToRemove);
       })
       .addCase(deletePuntoDeVenta.rejected, (state) => {

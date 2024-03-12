@@ -9,6 +9,15 @@ import { LuPenSquare } from 'react-icons/lu';
 import { LuTrash2 } from 'react-icons/lu';
 import { Skeleton } from '@mui/material';
 
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from '@mui/material';
+
 export default function PointProduct({ cantidad, stockMin, stockMax, productoId, inventarioId }) {
   const dispatch = useDispatch();
   const [contador, setContador] = useState(0);
@@ -19,6 +28,15 @@ export default function PointProduct({ cantidad, stockMin, stockMax, productoId,
 
   const [providers, setProviders] = useState();
   const [producto, setProducto] = useState();
+
+  const [confirmDialog, setConfirmDialog] = useState(false);
+
+  function handleDialogClose() {
+    setConfirmDialog(false);
+  }
+  function handleDialogOpen() {
+    setConfirmDialog(true);
+  }
 
   useEffect(() => {
     // CARGAR AL ABRIR MODAL
@@ -242,7 +260,7 @@ export default function PointProduct({ cantidad, stockMin, stockMax, productoId,
 
             <button
               className='w-[40px] h-[40px] rounded-xl border-none bg-tuscany-600 hover:bg-tuscany-700 active:bg-tuscany-800 transition'
-              onClick={handleDelete}>
+              onClick={handleDialogOpen}>
               <LuTrash2 className='w-full h-full text-tuscany-100 p-2' />
             </button>
           </div>
@@ -256,6 +274,43 @@ export default function PointProduct({ cantidad, stockMin, stockMax, productoId,
           animation='wave'
         />
       )}
+
+      <Dialog
+        open={confirmDialog}
+        onClose={handleDialogClose}
+        aria-describedby='delete-point-confirm'>
+        <DialogTitle sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
+          {'¿Desasociar este producto?'}
+        </DialogTitle>
+        <DialogContent sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
+          <DialogContentText id='alert-dialog-slide-description'>
+            Se quitará este producto de la lista de productos de este punto. Podrás volverlo a
+            agregar más adelante.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
+          <Button
+            sx={{
+              color: '#c55d38',
+              '&:hover': {
+                backgroundColor: '#c55d3810',
+              },
+            }}
+            onClick={handleDialogClose}>
+            Cancelar
+          </Button>
+          <Button
+            sx={{
+              color: '#c55d38',
+              '&:hover': {
+                backgroundColor: '#c55d3810',
+              },
+            }}
+            onClick={handleDelete}>
+            Quitar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
