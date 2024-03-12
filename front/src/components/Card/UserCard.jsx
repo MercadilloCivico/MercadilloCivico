@@ -3,7 +3,7 @@ import { TbShoppingBagPlus } from 'react-icons/tb';
 import { TiStarFullOutline, TiHeartOutline, TiHeartFullOutline } from 'react-icons/ti';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProductToCartDBThunk } from '../../store/thunks/cartThunks';
+import { addProductToCartDBThunk, getCartDBThunk } from '../../store/thunks/cartThunks';
 import { createToast } from '../../store/slices/toastSlice';
 import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
 
@@ -37,6 +37,7 @@ const UserCard = ({
           cantidad,
         })
       );
+      await dispatch(getCartDBThunk());
       dispatch(createToast('Producto agregado al carrito'));
     } catch (error) {
       dispatch(createToast('Error agregando al carrito'));
