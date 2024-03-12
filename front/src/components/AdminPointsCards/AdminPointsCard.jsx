@@ -15,7 +15,7 @@ export default function AdminPointsCard({
   const navigate = useNavigate();
 
   function goToDetail() {
-    navigate(`/point/detail/${id}`);
+    navigate(`/admin/point/detail/${id}`);
   }
 
   return (

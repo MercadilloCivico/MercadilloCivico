@@ -13,6 +13,23 @@ export default function PointProducts({ className, pointId, address, name }) {
   const [punto, setPunto] = useState([]);
   const pointIdRef = useRef(pointId);
 
+  const [refreshAllProducts, setRefreshAllProducts] = useState(false);
+
+  function handleRefreshAllProducts() {
+    setRefreshAllProducts(true);
+  }
+
+  useEffect(() => {
+    console.log(refreshAllProducts);
+    setPunto();
+    (async function () {
+      const { payload } = await dispatch(fetchSalesPointsAsync(pointIdRef.current));
+      setPunto(payload);
+    })();
+
+    setRefreshAllProducts(false);
+  }, [dispatch, refreshAllProducts]);
+
   useEffect(() => {
     pointIdRef.current = pointId;
   }, [pointId]);
@@ -43,6 +60,7 @@ export default function PointProducts({ className, pointId, address, name }) {
           id={pointId}
           address={address}
           name={name}
+          handleRefreshAllProducts={handleRefreshAllProducts}
         />
       )}
       <div className={className}>
@@ -60,6 +78,7 @@ export default function PointProducts({ className, pointId, address, name }) {
               cantidad={item.stock}
               stockMin={item.stock_min}
               stockMax={item.stock_max}
+              handleRefreshAllProducts={handleRefreshAllProducts}
             />
           ))
         ) : (

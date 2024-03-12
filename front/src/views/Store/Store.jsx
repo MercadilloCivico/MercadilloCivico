@@ -13,7 +13,7 @@ import { getCartDBThunk, getCartIdThunk } from '../../store/thunks/cartThunks.js
 import FilterTags from '../../components/StoreFilters/FilterTags.jsx';
 import FilterMenu from '../../components/StoreFilters/FilterMenu.jsx';
 
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks.js';
 import { createToast } from '../../store/slices/toastSlice.js';
@@ -109,10 +109,12 @@ const Store = () => {
               className='w-full max-w-[1300px]'
             />
           ) : (
-            <div className='mx-auto items-center my-20 '>
-              <p className='text-tuscany-950 text-lg'>Parece que no hay resultados...</p>
+            <div className='mx-auto items-center my-20 px-2 md:pr-[210px] '>
+              <p className='text-tuscany-950 text-xl font-semibold'>
+                Parece que no hay resultados...
+              </p>
 
-              <p className='text-tuscany-950 text-lg'>
+              <p className='text-tuscany-950 text-lg '>
                 Intenta eliminar filtros, actualizar la página o seleccionar un punto.
               </p>
             </div>

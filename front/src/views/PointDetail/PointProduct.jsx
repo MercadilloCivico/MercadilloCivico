@@ -19,13 +19,20 @@ import {
   DialogTitle,
   Button,
 } from '@mui/material';
+import { createToast } from '../../store/slices/toastSlice';
 
-export default function PointProduct({ cantidad, stockMin, stockMax, productoId, inventarioId }) {
+export default function PointProduct({
+  cantidad,
+  stockMin,
+  stockMax,
+  productoId,
+  inventarioId,
+  handleRefreshAllProducts,
+}) {
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
 
   const [producto, setProducto] = useState();
-
   const [confirmDialog, setConfirmDialog] = useState(false);
 
   function handleClose() {
@@ -52,8 +59,11 @@ export default function PointProduct({ cantidad, stockMin, stockMax, productoId,
   }, []);
 
   async function handleDelete() {
-    const response = await dispatch(deleteInventoryThunk(inventarioId));
-    console.log(response);
+    const { payload } = await dispatch(deleteInventoryThunk(inventarioId));
+
+    dispatch(createToast(payload.message));
+    handleRefreshAllProducts();
+    handleDialogClose();
   }
 
   return (
@@ -65,9 +75,19 @@ export default function PointProduct({ cantidad, stockMin, stockMax, productoId,
           modal={modal}
           inventarioId={inventarioId}
           productoId={productoId}
+          handleRefreshAllProducts={handleRefreshAllProducts}
         />
       )}
-      {producto ? (
+
+      {!producto ? (
+        <Skeleton
+          className='w-full h-[80px] mt-2 mb-[30px] rounded-xl'
+          variant='rectangular'
+          height={80}
+          width={'full'}
+          animation='wave'
+        />
+      ) : (
         <div className='w-full h-[80px] bg-pearl-bush-300 mt-2 mb-[30px] flex items-center px-2 relative border-[1px] border-tuscany-600 border-solid rounded-lg'>
           <div className='h-[65px] w-[65px] bg-pearl-bush-600 rounded-lg flex-shrink-0 overflow-hidden'>
             <img className='w-full h-full object-cover' src={producto.image}></img>
@@ -109,14 +129,6 @@ export default function PointProduct({ cantidad, stockMin, stockMax, productoId,
             </button>
           </div>
         </div>
-      ) : (
-        <Skeleton
-          className='w-full h-[80px] mt-2 mb-[30px] rounded-xl'
-          variant='rectangular'
-          height={80}
-          width={'full'}
-          animation='wave'
-        />
       )}
 
       <Dialog

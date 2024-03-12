@@ -253,7 +253,7 @@ function App() {
           />
           <Route path='/admin/points' element={<AdminProtectedRoute Component={AdminPoints} />} />
           <Route
-            path='/point/detail/:id'
+            path='/admin/point/detail/:id'
             element={<AdminProtectedRoute Component={PointDetail} />}
           />
 

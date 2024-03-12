@@ -8,7 +8,13 @@ import { createInventoryThunk } from '../../store/thunks/inventoryThunks';
 import { createToast } from '../../store/slices/toastSlice';
 import { validatePrecio, validateStock } from './productControl';
 
-export default function NewInventoryModal({ closeModal, id, address, name }) {
+export default function NewInventoryModal({
+  closeModal,
+  id,
+  address,
+  name,
+  handleRefreshAllProducts,
+}) {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     puntoDeVentaId: id,
@@ -104,7 +110,18 @@ export default function NewInventoryModal({ closeModal, id, address, name }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await dispatch(createInventoryThunk(formData));
+
+    const response = await dispatch(createInventoryThunk(formData));
+    if (response.error) {
+      dispatch(createToast('Error al crear el inventario: ' + response.payload.message));
+      return 0;
+    }
+    console.log(response);
+    if (!response.error) {
+      dispatch(createToast('Inventario creado correctamente'));
+      handleRefreshAllProducts();
+      closeModal();
+    }
   }
 
   return (
@@ -212,11 +229,11 @@ export default function NewInventoryModal({ closeModal, id, address, name }) {
               <div className='flex flex-row justify-evenly'>
                 <div>
                   {!hasErrors() ? (
-                    <CustomButton text='Actualizar punto' onClick={handleSubmit} className='' />
+                    <CustomButton text='Añadir' onClick={handleSubmit} className='' />
                   ) : (
                     <CustomButton
                       disabled={true}
-                      text='Actualizar punto'
+                      text='Añadir'
                       className='text-tuscany-900 cursor-default'
                     />
                   )}

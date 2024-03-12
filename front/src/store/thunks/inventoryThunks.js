@@ -23,7 +23,7 @@ export const fetchInventoryThunk = createAsyncThunk(
   'inventory/fetch',
   async (id, { rejectWithValue }) => {
     try {
-      const url = id ? `${VITE_API_URL}/${id}` : VITE_API_URL;
+      const url = id ? `${VITE_API_URL}/inventario/${id}` : VITE_API_URL;
       const response = await axios.get(url);
       return response.data;
     } catch (error) {
@@ -42,7 +42,6 @@ export const updateInventoryThunk = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }

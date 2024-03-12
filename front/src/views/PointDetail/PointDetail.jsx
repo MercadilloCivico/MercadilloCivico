@@ -190,7 +190,8 @@ export default function PointDetail() {
         </DialogTitle>
         <DialogContent sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
           <DialogContentText id='alert-dialog-slide-description'>
-            ¡Se borrarán los datos de forma permanente y no podrás restaurarlos!
+            ¡Se borrarán los datos de forma permanente! Se perderá toda la información de este punto
+            de venta y no podrá ser restaurarada.
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
