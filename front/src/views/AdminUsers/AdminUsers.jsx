@@ -1,16 +1,17 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { fetchUsersAsync } from '../../store/thunks/userThunks';
 import AdminSearchBar from '../../components/AdminSearchBar/AdminSearchBar';
 import AdminUserCards from '../../components/AdminUserCards/AdminUserCards';
 import CustomBreadcrumbs from '../../components/CustomBreadcrumbs/CustomBreadcrumbs';
 
 const AdminUsers = () => {
-  const { items } = useSelector((state) => state.user);
+  const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
-      await dispatch(fetchUsersAsync());
+      const { payload } = await dispatch(fetchUsersAsync());
+      setUsers(payload);
     })();
   }, [dispatch]);
   return (
@@ -22,7 +23,7 @@ const AdminUsers = () => {
         <AdminSearchBar />
       </div>
       <div>
-        <AdminUserCards users={items} />
+        <AdminUserCards users={users} />
       </div>
     </div>
   );

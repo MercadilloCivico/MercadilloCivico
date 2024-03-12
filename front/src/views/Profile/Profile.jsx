@@ -186,7 +186,7 @@ export default function Profile() {
     ) {
       dispatch(createToast('Ocurrio un error. Intenta actualizar la página.'));
     }
-  }, [currentData]);
+  }, [dispatch, currentData]);
 
   function checkNull(value) {
     if (value && value.toLowerCase() === 'null') return '';
@@ -217,7 +217,7 @@ export default function Profile() {
           ubicacion: perfilP.data.ubicacion.split('-'),
           tel: perfilP.data.tel,
         };
-        console.log(dataProveedor);
+
         const dataExtra = {
           productos: perfilP.data.productos,
           puntos_de_venta: perfilP.data.puntos_de_venta,
@@ -377,7 +377,7 @@ export default function Profile() {
         ) : (
           <div className='px-2 mt-2'>
             <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
-              {!editMode && (
+              {!editMode && perfilProveedor && (
                 <button
                   className={
                     'absolute right-0 z-1 text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +

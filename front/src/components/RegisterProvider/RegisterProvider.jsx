@@ -5,11 +5,11 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import { useDispatch } from 'react-redux';
 import Footer from '../../components/Footer/Footer.jsx';
 import { createToast } from '../../store/slices/toastSlice.js';
-import { useNavigate } from 'react-router-dom';
 import { LuLogIn } from 'react-icons/lu';
 import { validacionProveedor } from '../../utils/validation.js';
 import { addProvider } from '../../store/thunks/providerThunks.js';
 import municipiosPrincipales from '../../utils/departamentos.js';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterProvider() {
   const navigate = useNavigate();
