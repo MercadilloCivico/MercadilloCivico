@@ -74,7 +74,7 @@ export default function Profile() {
     certificadoBancario: null,
     nameProv: '',
     ubicacion: [],
-    tel: '+57',
+    tel: currentDataProveedor.tel,
   });
   /* eslint-disable */
   const [dataExtraProveedor, setDataExtraProveedor] = useState({
@@ -217,6 +217,7 @@ export default function Profile() {
           ubicacion: perfilP.data.ubicacion.split('-'),
           tel: perfilP.data.tel,
         };
+        console.log(dataProveedor);
         const dataExtra = {
           productos: perfilP.data.productos,
           puntos_de_venta: perfilP.data.puntos_de_venta,
