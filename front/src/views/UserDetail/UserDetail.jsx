@@ -123,6 +123,9 @@ const UserDetail = () => {
               onClick={() => {
                 dispatch(logicDeleteUsersAsync(usuario?.id));
                 navigate('/admin/users');
+                dispatch(
+                  createToast(`El usuario ${usuario?.first_name} ha sido activado con éxito!`)
+                );
               }}>
               Activar
             </button>
@@ -132,6 +135,9 @@ const UserDetail = () => {
               onClick={async () => {
                 await dispatch(logicDeleteUsersAsync(usuario?.id));
                 navigate('/admin/users');
+                dispatch(
+                  createToast(`El usuario ${usuario?.first_name} ha sido suspendido con éxito!`)
+                );
               }}>
               Suspender
             </button>

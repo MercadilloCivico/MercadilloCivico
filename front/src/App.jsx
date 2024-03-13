@@ -259,7 +259,7 @@ function App() {
             path='/admin/point/detail/:id'
             element={<AdminProtectedRoute Component={PointDetail} />}
           />
-          <Route path='/admin/company' element={<AdminFaqs />} />
+          <Route path='/admin/faqs' element={<AdminFaqs />} />
 
           <Route
             path='/supplier'
