@@ -156,16 +156,20 @@ const Cart = () => {
               )}
             </div>
             <div className='flex flex-col items-center justify-center'>
-              <Link
-                to='/pasarela_de_pago'
-                className='text-pearl-bush-700 hover:text-pearl-bush-900 transition'>
+              {precioTotal ? (
+                <Link
+                  to='/pasarela_de_pago'
+                  className='text-pearl-bush-700 hover:text-pearl-bush-900 transition'>
+                  <CustomButton text={'Comprar'} className='mt-5 w-[150px]' onClick={comprar} />
+                </Link>
+              ) : (
                 <CustomButton
                   text={'Comprar'}
-                  className='mt-5 w-[150px]'
+                  disabled
+                  className='mt-5 w-[150px] cursor-default text-tuscany-950 bg-tuscany-800 opacity-80 hover:bg-tuscany-800'
                   onClick={comprar}
-                  disabled={!precioTotal}
                 />
-              </Link>
+              )}
             </div>
           </div>
         </div>

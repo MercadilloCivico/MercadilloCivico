@@ -135,8 +135,8 @@ export default function Card({
                   await handleFavorite();
                 }
               }}
-              className='absolute bottom-0 m-1 w-[25px] h-[25px]'>
-              <TiHeartFullOutline className='w-full h-full' />
+              className='absolute bg-[#00000062] backdrop-blur-[3px] rounded-lg bottom-0 m-1 w-[25px] h-[25px]'>
+              <TiHeartFullOutline className='w-full h-full text-tuscany-50' />
             </div>
           ) : (
             <div
@@ -148,8 +148,8 @@ export default function Card({
                   await handleFavorite();
                 }
               }}
-              className='absolute bottom-0 m-1 w-[25px] h-[25px]'>
-              <TiHeartOutline className='w-full h-full' />
+              className='absolute bg-[#00000062] backdrop-blur-[3px] rounded-lg bottom-0 m-1 w-[25px] h-[25px]'>
+              <TiHeartOutline className='w-full h-full text-tuscany-50' />
             </div>
           )}
         </div>

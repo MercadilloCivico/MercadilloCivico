@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 import OrderSelect from '../StoreFilters/OrderSelect.jsx';
 import SkeletonCards from './SkeletonCards.jsx';
+import SkeletonDropdownCards from './SkeletonDropdownCards.jsx';
 
 function Cards({ filteredItems, cardType, className }) {
   const { showDropdownCard } = useSelector((state) => state.store);
@@ -23,7 +24,11 @@ function Cards({ filteredItems, cardType, className }) {
       {/*  */}
 
       {status === 'loading' ? (
-        <SkeletonCards />
+        showDropdownCard ? (
+          <SkeletonDropdownCards />
+        ) : (
+          <SkeletonCards />
+        )
       ) : filteredItems.length > 0 ? (
         filteredItems.map((product) => {
           if (showDropdownCard && cardType !== 'Admin' && filteredItems.length > 0) {

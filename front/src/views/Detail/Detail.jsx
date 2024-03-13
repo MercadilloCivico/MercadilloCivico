@@ -38,8 +38,13 @@ const Detail = () => {
   }, [id, userFavorites]);
 
   const handleFavorite = async () => {
-    if (isFav) await dispatch(removeFavorite(id));
-    else await dispatch(addFavorite(id));
+    if (token) {
+      if (isFav) await dispatch(removeFavorite(id));
+      else await dispatch(addFavorite(id));
+    } else {
+      dispatch(createToast('Función desactivada. Por favor inicia sesión.'));
+      setIsFav(false);
+    }
   };
 
   const [isLoading, setIsLoading] = useState(true);
@@ -102,17 +107,24 @@ const Detail = () => {
   const [cantidad, setCantidad] = useState(1);
 
   const agregarAlCarrito = async () => {
-    await dispatch(
-      addProductToCartDBThunk({
-        carritoId: idCarrito,
-        inventarioId: producto.inventario.id,
-        cantidad,
-      })
-    );
-    if (statusCarrito === 'rejected') {
+    if (token) {
+      await dispatch(
+        addProductToCartDBThunk({
+          carritoId: idCarrito,
+          inventarioId: producto.inventario.id,
+          cantidad,
+        })
+      );
+    }
+
+    if (token && statusCarrito === 'rejected') {
       dispatch(createToast('El producto ya se encuentra en el carrito'));
     } else {
       dispatch(createToast('Producto agregado al carrito'));
+    }
+
+    if (!token) {
+      dispatch(createToast('Inicia sesión para agregar al carrito'));
     }
   };
   const agregarProducto = () => {
