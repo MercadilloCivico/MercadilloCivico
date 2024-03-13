@@ -203,10 +203,11 @@ function App() {
           </Route>
 
           <Route path='/faqs' element={<Faqs />} />
-          <Route path='/faqs/:category/page?/:page?' element={<CategoryFaqs />} />
           <Route path='/faqs/detail/:id' element={<DetailFaq />} />
-          <Route path='/admin' element={<AdminProtectedRoute Component={AdminDashboard} />} />
+          <Route path='/faqs/detail' element={<Navigate replace to='/faqs' />} />
+          <Route path='/faqs/:category/page?/:page?' element={<CategoryFaqs />} />
 
+          <Route path='/admin' element={<AdminProtectedRoute Component={AdminDashboard} />} />
           <Route
             path='/admin/products'
             element={
