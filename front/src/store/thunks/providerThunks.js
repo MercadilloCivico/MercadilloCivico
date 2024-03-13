@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { trueDeleteUsersAsync } from './userThunks';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchProvidersAsync = createAsyncThunk(
@@ -96,6 +97,19 @@ export const putProvider = createAsyncThunk(
         withCredentials: true,
       });
       return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteProvider = createAsyncThunk(
+  'providers/deleteProvider',
+  async ({ pid, userId }, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await axios.delete(`${VITE_API_URL}/proveedor/${pid}`);
+      await dispatch(trueDeleteUsersAsync(userId));
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
