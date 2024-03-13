@@ -67,14 +67,18 @@ const AdminNav = () => {
               <li>Puntos de venta</li>
             </Link>
 
-            <Link to='/admin/orders' className='text-tuscany-800 hover:text-tuscany-950 transition'>
+            {/* <Link to='/admin/orders' className='text-tuscany-800 hover:text-tuscany-950 transition'>
               <li>Pedidos</li>
-            </Link>
+            </Link> */}
+
             <Link to='/admin/users' className='text-tuscany-800 hover:text-tuscany-950 transition'>
               <li>Usuarios</li>
             </Link>
             <Link to='/admin/faqs' className='text-tuscany-800 hover:text-tuscany-950 transition'>
               <li> FAQs</li>
+            </Link>
+            <Link to='/' className='text-tuscany-800 hover:text-tuscany-950 transition'>
+              <li>Salir</li>
             </Link>
           </ul>
         </header>

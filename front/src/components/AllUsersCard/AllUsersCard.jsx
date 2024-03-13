@@ -17,13 +17,13 @@ const AllUsersCard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className='w-[90%] sm:w-[40%] xl:w-[20%] m-2 flex flex-col justify-center items-center bg-pearl-bush-200 rounded-md shadow-md'>
+    <div className='w-[90%] sm:w-[40%] xl:w-[20%] m-2 flex flex-col justify-center items-center bg-pearl-bush-200 rounded-md overflow-hidden shadow-md'>
       <div className='w-full flex justify-between items-center p-2'>
         <div className='flex flex-col text-start text-tuscany-950'>
           <h4>{items?.length}</h4>
           <span className='opacity-70 text-[.8em] md:text-[.9em]'>Total de Usuarios</span>
         </div>
-        <FaUser className='text-[2.3em] md:text-[2.5em] text-tuscany-500 bg-pearl-bush-100 rounded-lg p-2' />
+        <FaUser className='text-[2.3em] md:text-[2.5em] text-tuscany-500 bg-pearl-bush-100 rounded-lg  p-2' />
       </div>
       <div
         className='w-full flex justify-between items-center p-2 bg-pearl-bush-100 cursor-pointer'

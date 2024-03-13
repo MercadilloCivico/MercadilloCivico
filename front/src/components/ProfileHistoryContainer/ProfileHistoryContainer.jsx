@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { fetchUserProfileAsync } from '../../store/thunks/profileThunks';
 import { createToast } from '../../store/slices/toastSlice';
 import { LuArchive } from 'react-icons/lu';
+import style from './historyAnim.module.css';
 
 export default function ProfileHistoryContainer() {
   // Debe recibir un array de objetos por props
@@ -35,7 +36,10 @@ export default function ProfileHistoryContainer() {
   });
 
   return (
-    <div className='max-w-[1280px] mx-auto flex flex-wrap justify-center mt-2 px-2'>
+    <div
+      className={
+        'max-w-[1280px] mx-auto flex flex-wrap justify-center mt-2 px-2 ' + style.historyAnim
+      }>
       {info.length < 0 ? (
         info.map((item) => {
           return (

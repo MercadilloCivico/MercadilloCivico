@@ -68,7 +68,9 @@ const ProviderDetail = () => {
               filter: 'blur(15px)',
               transform: 'scaleX(1.1)',
             }}
-            className={'w-full h-[100svh] fixed top-10 bg-cover z-[-2] ' + style.bgAnim}></div>
+            className={
+              'w-full h-[100svh] fixed left-0 top-10 bg-cover z-[-2] ' + style.bgAnim
+            }></div>
 
           <div className='bg-pearl-bush-200 flex flex-col items-center my-5 rounded-lg p-4 shadow-hippie-green-950 shadow-2xl'>
             <ul className='flex items-center space-x-4'>
@@ -100,7 +102,7 @@ const ProviderDetail = () => {
                 </li>
                 <li className='my-3'>
                   <label className='text-tuscany-950 my-3'>
-                    <strong>Rol :</strong> {userInfo.rol}
+                    <strong>Rol:</strong> {userInfo.rol}
                   </label>
                 </li>
                 <li>
@@ -132,13 +134,13 @@ const ProviderDetail = () => {
               <a
                 href={providerArray.certificadoBancario}
                 target='_blank'
-                className='bg-tuscany-800 text-pearl-bush-100 hover:bg-tuscany-600 focus:ring-2 focus:ring-tuscany-300 p-3 rounded-lg my-3'>
+                className='transition bg-tuscany-600 text-pearl-bush-100 hover:bg-tuscany-700 focus:ring-2 focus:ring-tuscany-300 p-3 rounded-lg my-3'>
                 Certificado Bancario
               </a>
               <a
                 href={providerArray.camaraDeComercio}
                 target='_blank'
-                className='bg-tuscany-800 text-pearl-bush-100 hover:bg-tuscany-600 focus:ring-2 focus:ring-tuscany-300 p-3 rounded-lg '>
+                className='transition bg-tuscany-600 text-pearl-bush-100 hover:bg-tuscany-700 focus:ring-2 focus:ring-tuscany-300 p-3 rounded-lg '>
                 Certificado de comercio
               </a>
             </div>
@@ -178,7 +180,6 @@ const ProviderDetail = () => {
           </div>
         </div>
       )}
-      ;
     </>
   );
 };

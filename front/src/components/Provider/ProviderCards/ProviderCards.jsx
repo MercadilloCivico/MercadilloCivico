@@ -2,7 +2,7 @@ import ProviderCard from '../ProviderCard/ProviderCard';
 
 const ProviderCards = ({ providers }) => {
   return (
-    <div className='w-full p-4 mt-5 flex flex-wrap justify-center sm:justify-between items-center'>
+    <div className='w-full max-w-[1280px] mx-auto p-4 mt-5 flex flex-wrap justify-around items-center'>
       {providers?.map((user) => (
         <ProviderCard
           key={user.userInfo.id}

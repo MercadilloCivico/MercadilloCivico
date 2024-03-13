@@ -5,7 +5,7 @@ import AllOrdersCard from '../AllOrdersCard/AllOrdersCard';
 
 const CardsAdminDashboard = () => {
   return (
-    <div className='flex flex-wrap justify-center xl:justify-between items-center'>
+    <div className='flex flex-wrap justify-center xl:justify-between items-center w-full max-w-[1366px] mx-auto '>
       <AllUsersCard />
       <AllProvidersCard />
       <AllProductsCard />

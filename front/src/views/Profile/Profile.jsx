@@ -185,6 +185,7 @@ export default function Profile() {
       !isLoading
     ) {
       dispatch(createToast('Ocurrio un error. Intenta actualizar la página.'));
+      navigate(-1);
     }
   }, [dispatch, currentData]);
 
@@ -376,11 +377,11 @@ export default function Profile() {
           <Loading />
         ) : (
           <div className='px-2 mt-2'>
-            <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
+            <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[#b3ddb0] to-[#f7c096]'>
               {!editMode && perfilProveedor && (
                 <button
                   className={
-                    'absolute right-0 z-1 text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
+                    'absolute right-0 z-[2] text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
                     style.editBtnAnim
                   }
                   onClick={() => {

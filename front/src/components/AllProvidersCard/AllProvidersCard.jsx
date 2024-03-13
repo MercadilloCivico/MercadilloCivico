@@ -17,7 +17,7 @@ const AllProvidersCard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className='w-[90%] sm:w-[40%] xl:w-[20%] m-2 flex flex-col justify-center items-center bg-pearl-bush-200 rounded-md shadow-md'>
+    <div className='w-[90%] sm:w-[40%] xl:w-[20%] m-2 flex flex-col justify-center items-center bg-pearl-bush-200 rounded-md overflow-hidden shadow-md'>
       <div className='w-full flex justify-between items-center p-2'>
         <div className='flex flex-col text-start text-tuscany-950'>
           <h4>{providerArray?.length}</h4>

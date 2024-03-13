@@ -21,9 +21,9 @@ const AdminProducts = () => {
     <div className='mx-2 mt-1'>
       <CustomBreadcrumbs />
       <AdminSearchBar />
-      <AdminCards items={items} />
+      <AdminCards items={items} className='mb-[50px]' />
 
-      <div className='flex justify-end mt-2'>
+      <div className='flex justify-end m-4 fixed bottom-0 z-[2] right-0'>
         <Link to='/admin/products/create'>
           <CustomButton text='Crear un producto' />
         </Link>
