@@ -75,7 +75,6 @@ const CustomSelect = ({ label, options, className }) => {
   const handleChange = async (e) => {
     e.target.value && dispatch(setFilterId(e.target.value));
     await dispatch(fetchCards());
-    await dispatch(fetchFilteredCards(filters));
   };
 
   return (

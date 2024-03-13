@@ -25,6 +25,7 @@ const Detail = () => {
   const { id } = useParams();
   const { allItems, filters } = useSelector((state) => state.card);
   const { status, userFavorites } = useSelector((state) => state.favorites);
+  const { token } = useSelector((state) => state.auth);
 
   function isFavLoading() {
     if (status === 'loading') return true;
@@ -70,20 +71,22 @@ const Detail = () => {
 
   const [userCompras, setUserCompras] = useState([]);
   useEffect(() => {
-    const userInfo = async () => {
-      const { payload } = await dispatch(fetchUserProfileAsync());
-      const mapeo = payload.compras.map((c) => {
-        const p = c.info_compra.split('-')[1];
-        const names = p.split(':')[1];
-        const onlyNames = names.split(',');
-        const splitN = onlyNames.map((n) => {
-          return n.split('X')[0].trim();
+    if (token) {
+      const userInfo = async () => {
+        const { payload } = await dispatch(fetchUserProfileAsync());
+        const mapeo = payload.compras.map((c) => {
+          const p = c.info_compra.split('-')[1];
+          const names = p.split(':')[1];
+          const onlyNames = names.split(',');
+          const splitN = onlyNames.map((n) => {
+            return n.split('X')[0].trim();
+          });
+          return splitN;
         });
-        return splitN;
-      });
-      setUserCompras(mapeo.flat());
-    };
-    userInfo();
+        setUserCompras(mapeo.flat());
+      };
+      userInfo();
+    }
   }, []);
   console.log('Compras: ', userCompras);
 
@@ -122,7 +125,7 @@ const Detail = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || !producto ? (
         <Loading />
       ) : (
         <>
