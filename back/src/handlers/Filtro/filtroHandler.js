@@ -98,26 +98,33 @@ class FiltroHandler {
         const bajoLimite = precioMin + rango;
         const medioLimite = bajoLimite + rango;
 
-        // Filtrar productos según los límites
-        const productosBajos = arrayFilteredProducts.filter(
-          (p) => p.inventario.precio_final <= bajoLimite
-        );
-        const productosMedios = arrayFilteredProducts.filter(
-          (p) => p.inventario.precio_final > bajoLimite && p.inventario.precio_final <= medioLimite
-        );
-        const productosAltos = arrayFilteredProducts.filter(
-          (p) => p.inventario.precio_final > medioLimite
-        );
+        // // Filtrar productos según los límites
+        // const productosBajos = arrayFilteredProducts.filter(
+        //   (p) => p.inventario.precio_final <= bajoLimite
+        // );
+        // const productosMedios = arrayFilteredProducts.filter(
+        //   (p) => p.inventario.precio_final > bajoLimite && p.inventario.precio_final <= medioLimite
+        // );
+        // const productosAltos = arrayFilteredProducts.filter(
+        //   (p) => p.inventario.precio_final > medioLimite
+        // );
 
         // Según el filtro de precio, devolver el array correspondiente
         if (filtroPrecio === 'bajo') {
-          return productosBajos;
+          arrayFilteredProducts = arrayFilteredProducts.filter(
+            (p) => p.inventario.precio_final <= bajoLimite
+          );
         }
         if (filtroPrecio === 'medio') {
-          return productosMedios;
+          arrayFilteredProducts = arrayFilteredProducts.filter(
+            (p) =>
+              p.inventario.precio_final > bajoLimite && p.inventario.precio_final <= medioLimite
+          );
         }
         if (filtroPrecio === 'alto') {
-          return productosAltos;
+          arrayFilteredProducts = arrayFilteredProducts.filter(
+            (p) => p.inventario.precio_final > medioLimite
+          );
         }
       }
 

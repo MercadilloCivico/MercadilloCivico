@@ -37,6 +37,7 @@ export default function Card({
 
   const { idCarrito } = useSelector((state) => state.carrito);
   const { status } = useSelector((state) => state.favorites);
+  const { token } = useSelector((state) => state.auth);
   const {
     items: { productoEnCarrito },
   } = useSelector((state) => state.carrito);
@@ -47,24 +48,33 @@ export default function Card({
   //#############################################################
 
   const agregarAlCarrito = async () => {
-    await dispatch(
-      addProductToCartDBThunk({
-        carritoId: idCarrito,
-        inventarioId,
-        cantidad,
-      })
-    );
-    await dispatch(getCartDBThunk());
-    dispatch(createToast('Producto agregado al carrito'));
+    if (token) {
+      await dispatch(
+        addProductToCartDBThunk({
+          carritoId: idCarrito,
+          inventarioId,
+          cantidad,
+        })
+      );
+      await dispatch(getCartDBThunk());
+      dispatch(createToast('Producto agregado al carrito'));
+    } else {
+      dispatch(createToast('Función desactivada. Por favor inicia sesión.'));
+    }
   };
 
   const [cantidad, setCantidad] = useState(1);
 
   const handleFavorite = async () => {
-    if (isFav) {
-      await dispatch(removeFavorite(id));
+    if (token) {
+      if (isFav) {
+        await dispatch(removeFavorite(id));
+      } else {
+        await dispatch(addFavorite(id));
+      }
     } else {
-      await dispatch(addFavorite(id));
+      dispatch(createToast('Función desactivada. Por favor inicia sesión.'));
+      setIsFav(false);
     }
   };
 

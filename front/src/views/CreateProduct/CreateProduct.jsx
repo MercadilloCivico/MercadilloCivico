@@ -44,13 +44,17 @@ const CreateProduct = () => {
     setModalOpen(true);
   };
 
-  const providersOptions = providerArray?.map((provider) => {
-    return (
-      <option key={provider.id} value={provider.id}>
-        {provider.name_prov}
-      </option>
-    );
-  });
+  const providersOptions = providerArray ? (
+    providerArray.map((provider) => {
+      return (
+        <option key={provider.id} value={provider.id}>
+          {provider.name_prov}
+        </option>
+      );
+    })
+  ) : (
+    <option>No hay proveedores</option>
+  );
 
   const handleInput = (e) => {
     const { name, value } = e.target;

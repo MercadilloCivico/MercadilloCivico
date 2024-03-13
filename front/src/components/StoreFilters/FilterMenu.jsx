@@ -31,7 +31,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        () => toggleFilterMenu;
+        toggleFilterMenu && toggleFilterMenu();
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -79,6 +79,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
                 <li
                   onClick={() => {
                     dispatch(setFilterPrecio('bajo'));
+                    toggleFilterMenu();
                   }}
                   className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
                   Precios bajos
@@ -86,6 +87,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
                 <li
                   onClick={() => {
                     dispatch(setFilterPrecio('medio'));
+                    toggleFilterMenu();
                   }}
                   className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
                   Precios medios
@@ -93,6 +95,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
                 <li
                   onClick={() => {
                     dispatch(setFilterPrecio('alto'));
+                    toggleFilterMenu();
                   }}
                   className='text-tuscany-100 mb-2 pl-2 cursor-pointer underline underline-offset-2'>
                   Precios altos
@@ -121,7 +124,10 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
                 {uniqueBrands.map((brand) => (
                   <li
                     key={brand}
-                    onClick={() => dispatch(setFilterMarca(brand))}
+                    onClick={() => {
+                      dispatch(setFilterMarca(brand));
+                      toggleFilterMenu();
+                    }}
                     className='text-tuscany-100 mb-2 line-clamp-1 pl-2 cursor-pointer underline underline-offset-2'>
                     {brand}
                   </li>

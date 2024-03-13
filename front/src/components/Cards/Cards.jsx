@@ -6,15 +6,10 @@ import CardSwitch from '../../components/CardSwitch/CardSwitch.jsx';
 import OrderSelect from '../StoreFilters/OrderSelect.jsx';
 import SkeletonCards from './SkeletonCards.jsx';
 
-function Cards({ allItems, filteredItems, cardType, className }) {
+function Cards({ filteredItems, cardType, className }) {
   const { showDropdownCard } = useSelector((state) => state.store);
   const { userFavorites } = useSelector((state) => state.favorites);
   const { status } = useSelector((state) => state.card);
-
-  function checkFiltered() {
-    if (filteredItems.length > 0) return filteredItems;
-    else return allItems;
-  }
 
   return (
     <div
@@ -25,63 +20,72 @@ function Cards({ allItems, filteredItems, cardType, className }) {
           <CardSwitch />
         </div>
       </div>
+      {/*  */}
 
       {status === 'loading' ? (
         <SkeletonCards />
-      ) : showDropdownCard && cardType !== 'Admin' ? (
-        checkFiltered().map((product) => (
-          <DropdownCard
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            description={product.description}
-            supplier={product.marca}
-            img={product.image}
-            price={product.inventario.precio_final}
-            rating={product.calification}
-            stock={product.inventario.stock}
-            inventarioId={product.inventario.id}
-            // agregarProducto={() => agregarProducto(product.id)}
-            // quitarProducto={() => quitarProducto(product.id)}
-            className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
-            userFavorites={userFavorites}
-          />
-        ))
-      ) : cardType === 'Admin' ? (
-        checkFiltered().map((product) => (
-          <AdminCard
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            description={product.description}
-            supplier={product.marca}
-            img={product.image}
-            price={product.precio}
-            rating={product.calification}
-            stock={15}
-            cantidad={1}
-            // agregarProducto={() => agregarProducto(product.id)}
-            // quitarProducto={() => quitarProducto(product.id)}
-            className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
-          />
-        ))
+      ) : filteredItems.length > 0 ? (
+        filteredItems.map((product) => {
+          if (showDropdownCard && cardType !== 'Admin' && filteredItems.length > 0) {
+            return (
+              <DropdownCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                description={product.description}
+                supplier={product.marca}
+                img={product.image}
+                price={product.inventario.precio_final}
+                rating={product.calification}
+                stock={product.inventario.stock}
+                inventarioId={product.inventario.id}
+                className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
+                userFavorites={userFavorites}
+              />
+            );
+          } else if (cardType === 'Admin') {
+            return (
+              <AdminCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                description={product.description}
+                supplier={product.marca}
+                img={product.image}
+                price={product.precio}
+                rating={product.calification}
+                stock={15}
+                cantidad={1}
+                className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
+              />
+            );
+          } else {
+            return (
+              <UserCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                description={product.description}
+                supplier={product.marca}
+                img={product.image}
+                price={product.inventario.precio_final}
+                rating={product.calification}
+                stock={product.inventario.stock}
+                inventarioId={product.inventario.id}
+                className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
+                userFavorites={userFavorites}
+              />
+            );
+          }
+        })
       ) : (
-        checkFiltered().map((product) => (
-          <UserCard
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            description={product.description}
-            supplier={product.marca}
-            img={product.image}
-            price={product.inventario.precio_final}
-            rating={product.calification}
-            stock={product.inventario.stock}
-            inventarioId={product.inventario.id}
-            className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
-            userFavorites={userFavorites}
-          />
-        ))
+        <div className='mx-auto items-center my-20 px-2 md:pr-[210px] '>
+          <p className='text-tuscany-950 text-xl font-semibold'>Parece que no hay resultados...</p>
+
+          <p className='text-tuscany-950 text-lg '>
+            Intenta eliminar filtros, actualizar la página o seleccionar un punto.
+          </p>
+        </div>
       )}
     </div>
   );

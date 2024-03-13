@@ -91,7 +91,11 @@ const ProviderDetail = () => {
               <ul className='text-start'>
                 <li className='my-3'>
                   <label className='text-tuscany-950 my-3'>
-                    <strong>Nombre:</strong> {userInfo.first_name} {userInfo.second_name}{' '}
+                    <strong>Nombre:</strong> {userInfo.first_name}{' '}
+                    {userInfo.second_name &&
+                      (userInfo.second_name.toLowerCase() === 'null' || !userInfo.second_name
+                        ? ''
+                        : userInfo.second_name)}{' '}
                     {userInfo.last_name}
                   </label>
                 </li>

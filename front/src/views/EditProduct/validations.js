@@ -5,8 +5,8 @@ const validate = (data) => {
     errors.name = 'El nombre del producto es obligatorio';
   } else if (/^\s/.test(data.name)) {
     errors.name = 'El nombre no puede comenzar con un espacio en blanco';
-  } else if (data.name.length > 15) {
-    errors.name = 'El nombre no puede tener más de 15 caracteres';
+  } else if (data.name.length > 40) {
+    errors.name = 'El nombre no puede tener más de 40 caracteres';
   }
 
   if (!data.marca.trim()) {

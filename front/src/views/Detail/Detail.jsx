@@ -31,6 +31,7 @@ const Detail = () => {
   } = useSelector((state) => state.carrito);
 
   const isInCart = productoEnCarrito?.some((p) => p.inventarioId === producto?.inventario.id);
+  const { token } = useSelector((state) => state.auth);
 
   function isFavLoading() {
     if (status === 'loading') return true;
@@ -80,24 +81,26 @@ const Detail = () => {
   const [userCompras, setUserCompras] = useState([]);
 
   useEffect(() => {
-    const userInfo = async () => {
-      if (!isLoading) return;
+    if (token) {
+      const userInfo = async () => {
+        if (!isLoading) return;
 
-      const { payload } = await dispatch(fetchUserProfileAsync());
-      const mapeo = payload.compras?.map((c) => {
-        const p = c.info_compra.split('-')[1];
-        const names = p.split(':')[1];
-        const onlyNames = names.split(',');
-        const splitN = onlyNames.map((n) => {
-          return n.split('X')[0].trim();
+        const { payload } = await dispatch(fetchUserProfileAsync());
+        const mapeo = payload.compras?.map((c) => {
+          const p = c.info_compra.split('-')[1];
+          const names = p.split(':')[1];
+          const onlyNames = names.split(',');
+          const splitN = onlyNames.map((n) => {
+            return n.split('X')[0].trim();
+          });
+          return splitN;
         });
-        return splitN;
-      });
-      setUserCompras(mapeo.flat());
-      setIsLoading(false);
-    };
+        setUserCompras(mapeo.flat());
+        setIsLoading(false);
+      };
 
-    userInfo();
+      userInfo();
+    }
   }, [dispatch, isLoading]);
 
   const handleResena = () => {
@@ -136,7 +139,7 @@ const Detail = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || !producto ? (
         <Loading />
       ) : (
         <>
