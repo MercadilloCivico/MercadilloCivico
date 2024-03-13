@@ -7,7 +7,7 @@ const AdminDashboard = () => {
       <div className='m-2'>
         <CustomBreadcrumbs />
       </div>
-      <CardsAdminDashboard />
+      <CardsAdminDashboard className='max-w-[1280px] w-full mx-auto' />
     </div>
   );
 };

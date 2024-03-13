@@ -18,7 +18,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
 
   const [activePrices, setActivePrices] = useState(expanded);
   const [activeBrands, setActiveBrands] = useState(expanded);
-  const [activeDeals, setActiveDeals] = useState(expanded);
+  // const [activeDeals, setActiveDeals] = useState(expanded);
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
             )}
           </div>
 
-          {/* DESCUENTOS */}
+          {/* DESCUENTOS 
           <div className='rounded-xl overflow-hidden mx-1 my-2 bg-tuscany-400 drop-shadow-sm '>
             <div
               onClick={() => {
@@ -157,8 +157,8 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
                   Hasta un 25%
                 </li>
               </ul>
-            )}
-          </div>
+            )}  
+          </div>*/}
         </div>
         <button
           className='md:hidden border-none bg-tuscany-600 shadow-sm w-[80px] h-[50px] text-tuscany-100 rounded-xl mt-auto mx-auto mb-2 cursor-pointer hover:bg-tuscany-700 active:bg-tuscany-800 transition pr-[2px]'
