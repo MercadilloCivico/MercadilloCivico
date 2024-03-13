@@ -31,7 +31,7 @@ const UserCard = ({
   const [cantidad, setCantidad] = useState(1);
   const navigate = useNavigate();
 
-  const isInCart = productoEnCarrito.some((producto) => producto.inventarioId === inventarioId);
+  const isInCart = productoEnCarrito?.some((producto) => producto.inventarioId === inventarioId);
 
   const agregarAlCarrito = async () => {
     try {

@@ -41,7 +41,7 @@ export default function Card({
     items: { productoEnCarrito },
   } = useSelector((state) => state.carrito);
 
-  const isInCart = productoEnCarrito.some((producto) => producto.inventarioId === inventarioId);
+  const isInCart = productoEnCarrito?.some((producto) => producto.inventarioId === inventarioId);
 
   // Traído de CartItem
   //#############################################################
