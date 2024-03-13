@@ -23,7 +23,7 @@ const CartItem = ({ className, p }) => {
   const producto = productos[0];
 
   const sumarProducto = async () => {
-    if (p.cantidad > producto.inventario.stock) alert('Stock Agotado');
+    if (p.cantidad > producto.inventario.stock) dispatch(createToast('Stock Agotado'));
     await dispatch(
       updateProductQtyDBThunk({
         inventarioId: p.inventarioId,

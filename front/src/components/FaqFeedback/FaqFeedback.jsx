@@ -3,11 +3,15 @@ import { useState } from 'react';
 import CustomButton from '../CustomButton/CustomButton';
 import CustomInput from '../CustomInput/CustomInput';
 import Modal from '../Modal/Modal';
+import { useDispatch } from 'react-redux';
+import { createToast } from '../../store/slices/toastSlice';
 
 const FaqFeedback = ({ selectedFaq }) => {
   const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [opinion, setOpinion] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleFeedback = (type) => {
     if (type === 'like') {
@@ -83,7 +87,7 @@ const FaqFeedback = ({ selectedFaq }) => {
                   <CustomButton
                     text={'Enviar'}
                     onClick={() => {
-                      alert('Comentarios enviados con exito!');
+                      dispatch(createToast('Comentarios enviados con exito!'));
                       setModalOpen(false);
                     }}
                     className='text-[.7em] sm:text-[.9em] md:text-[1em]'

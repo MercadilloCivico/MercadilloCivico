@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProvidersAsync } from '../../store/thunks/providerThunks.js';
 import { addProductAsync } from '../../store/thunks/productThunks.js';
 import { IoIosArrowBack } from 'react-icons/io';
+import { createToast } from '../../store/slices/toastSlice.js';
 
 const CreateProduct = () => {
   const [producto, setProducto] = useState({
@@ -95,9 +96,9 @@ const CreateProduct = () => {
       const newProduct = producto;
       try {
         dispatch(addProductAsync(newProduct));
-        alert(`El producto ${producto.name} ha sido creado con exito!`);
+        dispatch(createToast(`El producto ${producto.name} ha sido creado con exito!`));
       } catch (error) {
-        alert('Error al crear product: ' + error.message);
+        dispatch(createToast('Error al crear product: ' + error.message));
       }
       setHasChanges(false);
 
@@ -116,7 +117,7 @@ const CreateProduct = () => {
 
       navigate('/admin/products');
     } else {
-      alert('Por favor, complete todos los campos correctamente.');
+      dispatch(createToast('Por favor, complete todos los campos correctamente.'));
     }
   };
 
@@ -129,31 +130,50 @@ const CreateProduct = () => {
   };
 
   const handleAddProveedorCosto = () => {
-    if (proveedor && costo) {
-      const existentProvider = producto.proveedoresCostos.find(
-        (prov) => prov.proveedor_id === proveedor
-      );
-
-      if (!existentProvider) {
-        setProducto((prevProducto) => ({
-          ...prevProducto,
-          proveedoresCostos: [
-            ...prevProducto.proveedoresCostos,
-            {
-              proveedor_id: proveedor,
-              costo: costo,
-            },
-          ],
-        }));
-
-        setProveedor('');
-        setCosto('');
-      } else {
-        alert('Proveedor ya seleccionado. Por favor, elige otro proveedor.');
-      }
-    } else {
-      alert('Por favor, selecciona un proveedor y un costo antes de agregar.');
+    if (!proveedor) {
+      dispatch(createToast('Por favor, selecciona un proveedor antes de agregar.'));
+      return;
     }
+
+    if (!costo) {
+      dispatch(createToast('Por favor, ingresa un costo antes de agregar.'));
+      return;
+    }
+
+    if (costo.startsWith('0')) {
+      dispatch(createToast('El costo no puede empezar con 0.'));
+      return;
+    }
+
+    const costoNumber = parseFloat(costo);
+
+    if (isNaN(costoNumber) || costoNumber < 0) {
+      dispatch(createToast('El costo debe ser un número positivo.'));
+      return;
+    }
+
+    const existentProvider = producto.proveedoresCostos.find(
+      (prov) => prov.proveedor_id === proveedor
+    );
+
+    if (existentProvider) {
+      dispatch(createToast('Proveedor ya seleccionado. Por favor, elige otro proveedor.'));
+      return;
+    }
+
+    setProducto((prevProducto) => ({
+      ...prevProducto,
+      proveedoresCostos: [
+        ...prevProducto.proveedoresCostos,
+        {
+          proveedor_id: proveedor,
+          costo: costo,
+        },
+      ],
+    }));
+
+    setProveedor('');
+    setCosto('');
   };
 
   const handleRemoveProveedorCosto = (proveedorId) => {
