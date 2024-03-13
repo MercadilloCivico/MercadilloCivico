@@ -17,6 +17,7 @@ const AdminSearchBar = ({ setSearchProviders }) => {
   const [showFilters, setShowFilters] = useState(false);
   const isAdminProducts = useMatch('/admin/products');
   const isAdminProviders = useMatch('/admin/provider');
+  const isAdminFaqs = useMatch('/admin/faqs');
 
   const handleFilters = () => {
     setShowFilters(!showFilters);
@@ -74,7 +75,7 @@ const AdminSearchBar = ({ setSearchProviders }) => {
           <input
             className='bg-pearl-bush-100 w-full text-tuscany-950 outline-none border-none'
             type='text'
-            placeholder={`Buscar ${isAdminProducts ? 'Productos...' : isAdminProviders ? 'Proveedores...' : 'Usuarios...'}`}
+            placeholder={`Buscar ${isAdminProducts ? 'Productos...' : isAdminProviders ? 'Proveedores...' : isAdminFaqs ? 'FAQs...' : 'Usuarios...'}`}
             value={searchValue}
             onChange={handleSearch}
           />

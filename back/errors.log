@@ -829,6 +829,7 @@
 2024-03-11 19:22:02 error: POST /api/login 500 288ms
 2024-03-11 19:22:12 error: POST /api/login 500 116ms
 2024-03-11 19:29:21 error: POST /api/login 500 1270ms
+<<<<<<< Updated upstream
 2024-03-12 14:00:36 error: POST /api/login 500 1341ms
 2024-03-12 16:31:20 error: POST /api/login 500 9430ms
 2024-03-12 16:31:34 error: POST /api/login 500 490ms
@@ -839,3 +840,8 @@
 2024-03-13 14:14:09 error: POST /api/login 500 623ms
 2024-03-13 14:08:50 error: POST /api/login 500 1462ms
 2024-03-13 14:08:55 error: POST /api/login 500 258ms
+=======
+
+2024-03-13 13:54:43 error: POST /api/login 500 1387ms
+2024-03-13 13:54:48 error: POST /api/login 500 190ms
+>>>>>>> Stashed changes

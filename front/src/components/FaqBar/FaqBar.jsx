@@ -3,7 +3,7 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 const FaqBar = ({ faqs }) => {
-  const questions = faqs[0].faqs.slice(0, 3);
+  const questions = faqs.slice(0, 3);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 

@@ -52,6 +52,7 @@ import PaymentSuccess from './views/PasarelaDePago/PaymentSuccess.jsx';
 import PaymentError from './views/PasarelaDePago/PaymentError.jsx';
 import PointDetail from './views/PointDetail/PointDetail.jsx';
 import ProviderDetail from './views/ProviderDetail/ProviderDetail.jsx';
+import AdminFaqs from './views/AdminFaqs/AdminFaqs.jsx';
 
 function ProtectedRoute({ Component }) {
   const { token } = useSelector((state) => state.auth);
@@ -258,6 +259,7 @@ function App() {
             path='/admin/point/detail/:id'
             element={<AdminProtectedRoute Component={PointDetail} />}
           />
+          <Route path='/admin/faqs' element={<AdminFaqs />} />
 
           <Route
             path='/supplier'

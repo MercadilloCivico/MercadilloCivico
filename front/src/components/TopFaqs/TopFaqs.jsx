@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 const TopFaqs = ({ faqs }) => {
   const topFaqs = [
     {
-      id: faqs[1]?.faqs[2]?.id,
-      pregunta: faqs[1]?.faqs[2]?.pregunta,
-      respuesta: faqs[1]?.faqs[2]?.respuesta,
+      id: faqs[2]?.id,
+      pregunta: faqs[2]?.pregunta,
+      respuesta: faqs[2]?.respuesta,
     },
     {
-      id: faqs[0]?.faqs[5]?.id,
-      pregunta: faqs[0]?.faqs[5]?.pregunta,
-      respuesta: faqs[0]?.faqs[5]?.respuesta,
+      id: faqs[5]?.id,
+      pregunta: faqs[5]?.pregunta,
+      respuesta: faqs[5]?.respuesta,
     },
     {
-      id: faqs[1]?.faqs[0]?.id,
-      pregunta: faqs[1]?.faqs[0]?.pregunta,
-      respuesta: faqs[1]?.faqs[0]?.respuesta,
+      id: faqs[0]?.id,
+      pregunta: faqs[0]?.pregunta,
+      respuesta: faqs[0]?.respuesta,
     },
   ];
 

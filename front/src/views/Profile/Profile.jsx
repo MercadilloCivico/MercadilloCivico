@@ -36,7 +36,7 @@ export default function Profile() {
   let [editMode, setEditMode] = useState(false);
   const { rol } = useSelector((state) => state.auth);
   const [perfilProveedor, setPerfilProveedor] = useState(false);
-
+  const [complete, setComplete] = useState(true);
   const [currentData, setCurrentData] = useState({
     firstName: '',
     secondName: '',
@@ -210,6 +210,9 @@ export default function Profile() {
       const perfilP = await axios.get(`${VITE_API_URL}/proveedor/profile`, {
         withCredentials: true,
       });
+      if (perfilP.data === null) {
+        setComplete(false);
+      }
       if (perfilP.data) {
         const dataProveedor = {
           camaraDeComercio: perfilP.data.camaraDeComercio,
@@ -224,6 +227,7 @@ export default function Profile() {
           puntos_de_venta: perfilP.data.puntos_de_venta,
           pedidos: perfilP.data.pedidos,
         };
+
         setPerfilProveedor(true);
         setDataExtraProveedor(dataExtra);
         setCurrentDataProveedor(dataProveedor);
@@ -377,8 +381,8 @@ export default function Profile() {
           <Loading />
         ) : (
           <div className='px-2 mt-2'>
-            <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[#b3ddb0] to-[#f7c096]'>
-              {!editMode && perfilProveedor && (
+            <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
+              {!editMode && complete && (
                 <button
                   className={
                     'absolute right-0 z-[2] text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +

@@ -70,7 +70,7 @@ class usuarios {
         res.cookie('sessionToken', token, {
           httpOnly: true,
           maxAge: 3600000,
-          sameSite: COOKIE_SAMESITE_CONFIG,
+          sameSite: 'None',
           secure: true,
         });
         console.log('🚀 ~ usuarios ~ recuperarContrasenia ~ res:', res);
@@ -84,7 +84,9 @@ class usuarios {
   static async putUsuario(req, res) {
     try {
       let token = req.cookies.sessionToken;
+
       const decoded = jwt.verify(token, SECRET_JWT);
+
       if (!decoded) {
         return res.status(401).json({ message: 'Acceso no autorizado' });
       }

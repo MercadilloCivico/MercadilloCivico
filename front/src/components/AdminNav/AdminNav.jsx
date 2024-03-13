@@ -74,9 +74,7 @@ const AdminNav = () => {
             <Link to='/admin/users' className='text-tuscany-800 hover:text-tuscany-950 transition'>
               <li>Usuarios</li>
             </Link>
-            <Link
-              to='/admin/company'
-              className='text-tuscany-800 hover:text-tuscany-950 transition'>
+            <Link to='/admin/faqs' className='text-tuscany-800 hover:text-tuscany-950 transition'>
               <li> FAQs</li>
             </Link>
             <Link to='/' className='text-tuscany-800 hover:text-tuscany-950 transition'>
