@@ -181,11 +181,7 @@ function App() {
 
           <Route path='/register' element={<CheckAlreadyLoggedIn Component={Register} />} />
           <Route path='/login/:id?' element={<CheckAlreadyLoggedIn Component={Login} />} />
-          <Route
-            path='/recover_password'
-            element={<CheckAlreadyLoggedIn Component={RecoveryPassword} />}
-          />
-          <Route path='/new_password' element={<CheckAlreadyLoggedIn Component={NewPassword} />} />
+
           <Route
             path='/recover_password'
             element={<CheckAlreadyLoggedIn Component={RecoveryPassword} />}
