@@ -30,7 +30,7 @@ function validateCompany(data) {
 function validateAddress(data) {
   if (!data) return '';
   if (data.trim().length < 1) return 'El campo no puede estar vacío';
-  if (data.length > 20) return 'No puede tener más de 20 caracteres';
+  if (data.length > 40) return 'No puede tener más de 40 caracteres';
   if (data.length < 3) return 'No puede tener menos de 3 caracteres';
   if (!/^[a-zA-Z\u00C0-\u00FF\s,.()ñ\d ]+$/.test(data)) {
     return 'Se admiten letras (A-Z), números, y los caracteres , . ()';

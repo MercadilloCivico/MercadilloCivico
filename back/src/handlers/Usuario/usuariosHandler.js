@@ -112,7 +112,7 @@ class usuariosHandler {
       }
       if (secureUrl === undefined) {
         secureUrl =
-          'https://res.cloudinary.com/dkewon763/image/upload/f_auto,q_auto/kzi7o9healhcvgqibegc';
+          'https://res.cloudinary.com/dkewon763/image/upload/v1710355288/tuzf51jc8pmyuqfdz6hu.jpg';
       }
 
       const newUser = await prisma.usuario.create({

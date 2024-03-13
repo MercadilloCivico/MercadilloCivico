@@ -7,18 +7,16 @@ export default function PointDetailSkeleton({ className }) {
         className={
           ' flex flex-col items-center max-w-[1280px] mx-auto my-4 shadow-sm ' + className
         }>
-        <div className='bg-pearl-bush-200 rounded-t-xl w-full px-2'>
-          <div className=' mt-4 mx-auto rounded-t-xl overflow-hidden w-[200px] h-[200px] bg-pearl-bush-200 relative'>
-            <Skeleton
-              className='mb-4 max-w-[800px] w-full mx-auto rounded-xl'
-              variant='rectangular'
-              height={200}
-              width={200}
-            />
-          </div>
+        <div className=' rounded-t-xl w-full px-2'>
+          <Skeleton
+            className='mt-[35px] mb-4 max-w-[800px] w-full mx-auto rounded-xl'
+            variant='rectangular'
+            height={150}
+            width={150}
+          />
 
           <Skeleton
-            className='my-4 h-[30px] max-w-[800px] w-full mx-auto rounded-md'
+            className='mb-4 mt-12 h-[40px] max-w-[600px] w-full mx-auto rounded-md'
             variant='h1'
           />
 

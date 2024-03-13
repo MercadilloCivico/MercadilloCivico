@@ -102,14 +102,15 @@ export default function PointDetail() {
       />
 
       <div
-        className={`mt-4 relative shadow-sm flex flex-col items-center max-w-[1280px] mx-auto my-4 ${status === 'loading' && !point.id && 'hidden'}`}>
-        <div className='bg-pearl-bush-200 rounded-t-xl w-full px-2 '>
-          <div className='mt-4 mx-auto rounded-xl overflow-hidden w-[200px] h-[200px] p-6 relative bg-pearl-bush-300 '>
+        className={`my-2 relative shadow-sm flex flex-col items-center max-w-[1280px] mx-auto px-2 ${status === 'loading' && !point.id && 'hidden'}`}>
+        <div className='rounded-xl w-[calc(100%-15px)] absolute max-w-[1280px] mx-auto h-[150px] bg-gradient-to-l from-[#b3ddb0] to-[#f7c096]'></div>
+        <div className=' rounded-t-xl w-full px-2 '>
+          <div className='mt-4 mx-auto rounded-xl overflow-hidden w-[200px] h-[200px] p-6 relative '>
             <img
               src={point.image}
-              className='w-full h-full object-cover rounded-xl'
-              alt='Imagen de punto de venta'></img>
-            <p className='absolute bottom-[-1px] text-sm italic opacity-60 left-0 right-0 mx-auto w-[200px] text-tuscany-800'>
+              className='w-full h-full aspect-square object-cover rounded-xl outline outline-tuscany-600 outline-2'
+              alt={point.address}></img>
+            <p className='absolute bottom-[-1px] text-sm italic opacity-60 left-0 right-0 mx-auto w-[200px] text-tuscany-800 '>
               Presiona para ver el QR
             </p>
           </div>
@@ -164,9 +165,9 @@ export default function PointDetail() {
 
           <div className='my-4'>
             <h3 className='text-tuscany-600'>Acciones para este punto</h3>
-            <CustomButton className='mx-2' onClick={handleOpen} text='editar' />
+            <CustomButton className='m-2' onClick={handleOpen} text='editar' />
 
-            <CustomButton className='mx-2' text='Borrar punto' onClick={handleDialogOpen} />
+            <CustomButton className='m-2' text='Borrar punto' onClick={handleDialogOpen} />
           </div>
         </div>
 
@@ -175,7 +176,7 @@ export default function PointDetail() {
           address={point.address}
           inventario={point.inventario}
           name={point.company_name}
-          className='bg-pearl-bush-200 rounded-b-xl w-full px-2'
+          className='bg-pearl-bush-200 rounded-xl w-full px-2 pt-3'
         />
       </div>
 
