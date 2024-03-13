@@ -55,12 +55,16 @@ export default function PointDetail() {
           dispatch(createToast('Error en la carga o punto inexistente'));
           navigate('/admin/points');
         } else {
+          let set = new Set();
+          response.payload.inventario.forEach((e) => {
+            set.add(e.proveedor_id);
+          });
+          response.payload.provedores = Array.from(set).length;
           setPoint(response.payload);
         }
       }
     })();
   }, [dispatch, id]);
-
   /* eslint-disable */
   useEffect(() => {
     // carga de la imágen del código QR
@@ -155,10 +159,8 @@ export default function PointDetail() {
                 productos en el inventario
               </li>
               <li>
-                <span className='font-bold text-tuscany-600'>
-                  {!point.provedores || point.provedores.length < 1 ? '0' : point.provedores.length}
-                </span>{' '}
-                proveedores en este punto
+                <span className='font-bold text-tuscany-600'>{point.provedores}</span> proveedores
+                en este punto
               </li>
             </ul>
           </div>
