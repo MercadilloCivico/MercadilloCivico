@@ -48,7 +48,9 @@ const Detail = () => {
     setModalOpen(true);
   };
   useEffect(() => {
-    (async () => {
+    const fetchInfo = async () => {
+      if (!isLoading) return;
+
       await dispatch(fetchCards({ id: filters.id }));
       await axios
         .get(`${VITE_API_URL}/product/${id}`)
@@ -61,16 +63,21 @@ const Detail = () => {
           console.error(error);
           setIsLoading(false);
         });
-    })();
-  }, [dispatch, filters.id, id, allItems]);
+    };
+
+    fetchInfo();
+  }, [dispatch, isLoading]);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
 
   const [userCompras, setUserCompras] = useState([]);
+
   useEffect(() => {
     const userInfo = async () => {
+      if (!isLoading) return;
+
       const { payload } = await dispatch(fetchUserProfileAsync());
       const mapeo = payload.compras.map((c) => {
         const p = c.info_compra.split('-')[1];
@@ -83,8 +90,9 @@ const Detail = () => {
       });
       setUserCompras(mapeo.flat());
     };
+
     userInfo();
-  }, []);
+  }, [dispatch, isLoading]);
   console.log('Compras: ', userCompras);
 
   const handleResena = () => {
