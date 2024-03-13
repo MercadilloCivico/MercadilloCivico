@@ -116,7 +116,7 @@ export default function AdminNavMenu({ menuOpen, toggleMenu }) {
 
           <li>
             <Link
-              to='/admin/company'
+              to='/admin/faqs'
               onClick={waitAndToggle}
               className='text-tuscany-900 text-3xl hover:text-tuscany-950 transition'>
               FAQs

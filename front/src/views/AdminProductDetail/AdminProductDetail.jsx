@@ -110,8 +110,9 @@ const AdminProductDetail = () => {
               <button
                 className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#599d64] text-pearl-bush-100 font-semibold hover:bg-[#3a8651] cursor-pointer'
                 onClick={async () => {
-                  await dispatch(logicDeleteProductAsync(product.id));
                   navigate(-1);
+                  await dispatch(logicDeleteProductAsync(product.id));
+                  dispatch(createToast(`El producto ${product.name} ha sido activado con éxito!`));
                 }}>
                 Activar
               </button>
@@ -119,8 +120,11 @@ const AdminProductDetail = () => {
               <button
                 className='w-[5.4em] sm:w-[7em] p-1 sm:p-2 border-none rounded-md bg-[#59719d] text-tuscany-950 font-semibold hover:bg-[#cccccc] cursor-pointer'
                 onClick={async () => {
-                  await dispatch(logicDeleteProductAsync(product.id));
                   navigate(-1);
+                  await dispatch(logicDeleteProductAsync(product.id));
+                  dispatch(
+                    createToast(`El producto ${product.name} ha sido suspendido con éxito!`)
+                  );
                 }}>
                 Suspender
               </button>

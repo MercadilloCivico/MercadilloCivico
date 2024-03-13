@@ -3,7 +3,7 @@ import CardCategoryFaqs from '../CardCategoryFaqs/CardCategoryFaqs';
 const CardsCategoryFaqs = ({ objCategory }) => {
   return (
     <div className='mx-2'>
-      {objCategory.faqs?.map((faq) => (
+      {objCategory?.map((faq) => (
         <CardCategoryFaqs
           key={faq.id}
           id={faq.id}

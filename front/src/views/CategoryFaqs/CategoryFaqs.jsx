@@ -1,23 +1,30 @@
 import { useParams } from 'react-router-dom';
 import CustomBreadcrumbs from '../../components/CustomBreadcrumbs/CustomBreadcrumbs';
 import SearchBarFaq from '../../components/SearchBarFaq/SearchBarFaq';
-import faqs from '../Faqs/faqs';
 import ContactFooter from '../../components/ContactFooter/ContactFooter';
 import Footer from '../../components/Footer/Footer';
 import CardsCategoryFaqs from '../../components/CardsCategoryFaqs/CardsCategoryFaqs';
 import FaqsPagination from '../../components/FaqsPagination/FaqsPagination';
+import { useSelector } from 'react-redux';
 
 const CategoryFaqs = () => {
   const { category, page = '1' } = useParams();
   const decodedCategory = decodeURIComponent(category);
   const currentPage = parseInt(page, 10);
+  const { categorias, faqs } = useSelector((state) => state.faqs);
 
-  const objCategory = faqs.find((faq) => faq.categoria === decodedCategory);
+  const objCategory = categorias.find((c) => c.categoria === decodedCategory);
 
   const faqsPerPage = 5;
   const startIndex = (currentPage - 1) * faqsPerPage;
   const endIndex = startIndex + faqsPerPage;
-  const paginatedFaqs = objCategory.faqs.slice(startIndex, endIndex);
+
+  const faqsCategory = objCategory?.faqsId.flatMap((faqId) => {
+    const faq = faqs.find((faq) => faq.id === faqId);
+    return faq ? [faq] : [];
+  });
+
+  const paginatedFaqs = faqsCategory.slice(startIndex, endIndex);
 
   return (
     <div className='min-h-[calc(100vh-55px)] flex flex-col'>
@@ -31,11 +38,11 @@ const CategoryFaqs = () => {
         <div className='mx-4 flex items-start'>
           <span className='text-xl text-tuscany-500 font-bold'>{objCategory.categoria}</span>
         </div>
-        <CardsCategoryFaqs objCategory={{ ...objCategory, faqs: paginatedFaqs }} />
+        <CardsCategoryFaqs objCategory={paginatedFaqs} />
         <div className='flex justify-end'>
           <FaqsPagination
             currentPage={currentPage}
-            totalPages={Math.ceil(objCategory.faqs.length / faqsPerPage)}
+            totalPages={Math.ceil(objCategory.faqsId.length / faqsPerPage)}
             category={category}
           />
         </div>
