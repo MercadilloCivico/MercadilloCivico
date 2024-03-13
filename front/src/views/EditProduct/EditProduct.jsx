@@ -127,13 +127,17 @@ const EditProduct = () => {
   };
   const { providerArray } = useSelector((state) => state.providers);
 
-  const providersOptions = providerArray?.map((provider) => {
-    return (
-      <option key={provider.id} value={provider.id}>
-        {provider.name_prov}
-      </option>
-    );
-  });
+  const providersOptions = providerArray ? (
+    providerArray?.map((provider) => {
+      return (
+        <option key={provider.id} value={provider.id}>
+          {provider.name_prov}
+        </option>
+      );
+    })
+  ) : (
+    <option>Sin proveedores</option>
+  );
 
   const handleAddProveedorCosto = () => {
     if (!proveedor) {

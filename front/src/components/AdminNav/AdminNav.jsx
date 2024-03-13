@@ -31,7 +31,7 @@ const AdminNav = () => {
 
           {/* Agregar estilos a links activos más adelante */}
           <div className='hidden mt-2 lg:flex justify-start items-center w-full h-full'>
-            <Link className='ml-5' to={'/admin'}>
+            <Link className='ml-5' to={'/'}>
               <img className='h-[55px] w-[55px] object-contain' src={LogoMC} alt='Logo' />
             </Link>
           </div>

@@ -30,22 +30,27 @@ const UserCard = ({
   const { status } = useSelector((state) => state.favorites);
   const [cantidad, setCantidad] = useState(1);
   const navigate = useNavigate();
+  const { token } = useSelector((state) => state.auth);
 
   const isInCart = productoEnCarrito?.some((producto) => producto.inventarioId === inventarioId);
 
   const agregarAlCarrito = async () => {
-    try {
-      await dispatch(
-        addProductToCartDBThunk({
-          carritoId: idCarrito,
-          inventarioId,
-          cantidad,
-        })
-      );
-      await dispatch(getCartDBThunk());
-      dispatch(createToast('Producto agregado al carrito'));
-    } catch (error) {
-      dispatch(createToast('Error agregando al carrito'));
+    if (token) {
+      try {
+        await dispatch(
+          addProductToCartDBThunk({
+            carritoId: idCarrito,
+            inventarioId,
+            cantidad,
+          })
+        );
+        await dispatch(getCartDBThunk());
+        dispatch(createToast('Producto agregado al carrito'));
+      } catch (error) {
+        dispatch(createToast('Error agregando al carrito'));
+      }
+    } else {
+      dispatch(createToast('Función desactivada. Por favor inicia sesión.'));
     }
   };
 
@@ -57,16 +62,21 @@ const UserCard = ({
     setCantidad((prev) => prev - 1);
   };
   const handleFavorite = async () => {
-    try {
-      if (isFav) {
-        await dispatch(removeFavorite(id));
-        dispatch(createToast('Producto eliminado de favoritos'));
-      } else {
-        await dispatch(addFavorite(id));
-        dispatch(createToast('Producto agregado a favoritos'));
+    if (token) {
+      try {
+        if (isFav) {
+          await dispatch(removeFavorite(id));
+          dispatch(createToast('Producto eliminado de favoritos'));
+        } else {
+          await dispatch(addFavorite(id));
+          dispatch(createToast('Producto agregado a favoritos'));
+        }
+      } catch (error) {
+        dispatch(createToast('Error al agregar a favoritos'));
       }
-    } catch (error) {
-      dispatch(createToast('Error al agregar a favoritos'));
+    } else {
+      dispatch(createToast('Función desactivada. Por favor inicia sesión.'));
+      setIsFav(false);
     }
   };
 
