@@ -151,11 +151,11 @@ const AdminProductDetail = () => {
                   className='p-1 mx-[.2em] flex items-center text-tuscany-900 border-none rounded-md bg-pearl-bush-200 hover:bg-pearl-bush-300 hover:text-tuscany-950 cursor-pointer text-[.9em] md:text-[1.2em] lg:text-[1.5em]'
                   onClick={async () => {
                     try {
+                      navigate(-1);
                       await dispatch(trueDeleteProductAsync(product.id));
                       dispatch(
                         createToast(`El producto ${product.name} ha sido eliminado con éxito!`)
                       );
-                      navigate(-1);
                       setModalOpen(false);
                     } catch (error) {
                       dispatch(createToast(`Error eliminando el producto`));
