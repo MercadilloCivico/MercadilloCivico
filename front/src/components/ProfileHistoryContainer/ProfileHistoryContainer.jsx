@@ -36,7 +36,7 @@ export default function ProfileHistoryContainer() {
 
   return (
     <div className='max-w-[1280px] mx-auto flex flex-wrap justify-center mt-2 px-2'>
-      {info.length < 0 ? (
+      {info.length > 0 ? (
         info.map((item) => {
           return (
             <ProfileHistoryCard
