@@ -6,13 +6,13 @@ const ProviderCards = ({ providers }) => {
       {providers?.map((user) => (
         <ProviderCard
           key={user.userInfo.id}
-          id={user.userInfo.id}
-          name={user.name_prov}
-          userInfo={user.userInfo}
-          email={user.userInfo.email}
+          id={user.id}
           img={user.userInfo.photo}
+          name={user.name_prov}
+          email={user.userInfo.email}
           rol={user.userInfo.rol}
           disabled={user.userInfo.disabled}
+          userInfo={user.userInfo}
         />
       ))}
     </div>

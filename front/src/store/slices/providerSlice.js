@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchProvidersAsync, addProvider, putProvider } from '../thunks/providerThunks.js';
+import {
+  fetchProvidersAsync,
+  addProvider,
+  putProvider,
+  deleteProvider,
+} from '../thunks/providerThunks.js';
 
 const providersSlice = createSlice({
   name: 'providers',
@@ -43,6 +48,16 @@ const providersSlice = createSlice({
         state.status = 'succeeded';
       })
       .addCase(putProvider.rejected, (state) => {
+        state.status = 'failed';
+      });
+    builder
+      .addCase(deleteProvider.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteProvider.fulfilled, (state) => {
+        state.status = 'succeeded';
+      })
+      .addCase(deleteProvider.rejected, (state) => {
         state.status = 'failed';
       });
   },
