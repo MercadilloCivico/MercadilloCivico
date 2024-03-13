@@ -73,6 +73,7 @@ class usuarios {
           sameSite: COOKIE_SAMESITE_CONFIG,
           secure: true,
         });
+        console.log('🚀 ~ usuarios ~ recuperarContrasenia ~ res:', res);
         res.redirect(`${FRONT_URL}/new_password`);
       }
     } catch (error) {
