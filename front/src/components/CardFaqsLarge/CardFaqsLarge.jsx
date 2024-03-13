@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getIconComponent } from '../../store/slices/faqsSlice';
 
-const CardFaqsLarge = ({ categoria, icon: IconComponent, faqsId }) => {
+const CardFaqsLarge = ({ categoria, icon, faqsId }) => {
   const [hovered, setHovered] = useState(false);
   const isXlScreen = window.innerWidth >= 1280;
   const is2XlScreen = window.innerWidth >= 1535;
   const { faqs } = useSelector((state) => state.faqs);
+
+  const IconComponent = getIconComponent(icon);
 
   return (
     <div
@@ -54,7 +57,7 @@ const CardFaqsLarge = ({ categoria, icon: IconComponent, faqsId }) => {
         </>
       ) : (
         <div className='flex flex-col items-center justify-center'>
-          {<IconComponent size={80} />}
+          {IconComponent && <IconComponent size={80} />}
           <span className='mt-2 font-bold text-[1em] text-tuscany-950'>{categoria}</span>
         </div>
       )}

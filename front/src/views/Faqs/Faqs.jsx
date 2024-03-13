@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 
 const Faqs = () => {
   const { faqs, categorias } = useSelector((state) => state.faqs);
-  console.log(faqs);
 
   return (
     <div className='min-h-[calc(100vh-55px)] flex flex-col'>
