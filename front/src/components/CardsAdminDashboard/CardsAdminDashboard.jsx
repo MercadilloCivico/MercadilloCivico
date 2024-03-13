@@ -1,7 +1,7 @@
 import AllUsersCard from '../AllUsersCard/AllUsersCard';
 import AllProvidersCard from '../AllProvidersCard/AllProvidersCard';
 import AllProductsCard from '../AllProductsCard/AllProductsCard';
-import AllOrdersCard from '../AllOrdersCard/AllOrdersCard';
+import AllPointsCard from '../AllPointsCard/AllPointsCard';
 
 const CardsAdminDashboard = () => {
   return (
@@ -9,7 +9,7 @@ const CardsAdminDashboard = () => {
       <AllUsersCard />
       <AllProvidersCard />
       <AllProductsCard />
-      <AllOrdersCard />
+      <AllPointsCard />
     </div>
   );
 };
