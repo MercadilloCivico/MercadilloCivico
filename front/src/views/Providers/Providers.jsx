@@ -38,6 +38,7 @@ const Providers = () => {
     (async function () {
       try {
         const { payload } = await dispatch(fetchProvidersAsync(searchProviders));
+        console.log('🚀 ~ payload:', payload);
         let providerUser = await Promise.all(
           payload.map(async (e) => {
             try {

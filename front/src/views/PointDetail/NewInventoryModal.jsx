@@ -6,7 +6,12 @@ import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
 import { TextField } from '@mui/material';
 import { createInventoryThunk } from '../../store/thunks/inventoryThunks';
 import { createToast } from '../../store/slices/toastSlice';
-import { validatePrecio, validateStock } from './productControl';
+import {
+  validatePrecio,
+  validateStock,
+  validateStockMax,
+  validateStockMin,
+} from './productControl';
 
 export default function NewInventoryModal({
   closeModal,
@@ -24,6 +29,7 @@ export default function NewInventoryModal({
     precio: '',
     stockMin: '',
     stockMax: '',
+    costo: 0,
   });
 
   const [productoSeleccionado, setProductoSeleccionado] = useState('all');
@@ -38,9 +44,9 @@ export default function NewInventoryModal({
   function checkErrors() {
     setErrors({
       cantidad: validateStock(formData.cantidad),
-      precio: validatePrecio(formData.precio),
-      stockMin: validateStock(formData.stockMin),
-      stockMax: validateStock(formData.stockMax),
+      precio: validatePrecio(formData.precio, formData.costo),
+      stockMin: validateStockMin(formData.cantidad, formData.stockMin),
+      stockMax: validateStockMax(formData.cantidad, formData.stockMax),
       productoId: !formData.productoId ? 'Seleccionar' : '',
       proveedorId: !formData.proveedorId ? 'Seleccionar' : '',
     });
@@ -96,9 +102,13 @@ export default function NewInventoryModal({
     }
   };
   const handleProvider = (e) => {
+    const prod = fetchData.productos.find((element) => element.name === productoSeleccionado);
+
     if (e.target.value !== 'all') {
+      const idProv = selectProveedor.filter((element) => element.name_prov === e.target.value);
       const filter = selectProveedor.filter((element) => element.name_prov === e.target.value);
-      setFormData({ ...formData, proveedorId: filter[0].id });
+      const costo = prod.proveedor.filter((element) => element.proveedor_id === idProv[0].id);
+      setFormData({ ...formData, proveedorId: filter[0].id, costo: costo[0].costo });
     } else {
       setFormData({ ...formData, proveedorId: '' });
     }
@@ -192,7 +202,7 @@ export default function NewInventoryModal({
                   onChange={handleChange}
                   name='precio'
                   label='Precio'
-                  placeholder='Precio'
+                  placeholder={`el costo actual del producto es de: ${formData.costo}`}
                   className='mx-4'
                   type='number'
                   helperText={errors.precio}

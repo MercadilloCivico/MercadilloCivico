@@ -3,10 +3,15 @@ import { useSelector } from 'react-redux/es/hooks/useSelector.js';
 
 export default function AdminPointsCards({ className }) {
   const { items } = useSelector((state) => state.salesPoint);
+
   return (
     <div className={`${className} mt-4 w-full max-w-[1280px] flex flex-wrap justify-center`}>
       {items && items.length > 0 ? (
         items.map((point) => {
+          let set = new Set();
+          point.inventario.forEach((element) => {
+            set.add(element.proveedor_id);
+          });
           return (
             <AdminPoint
               className='mb-4 max-w-[800px] w-full'
@@ -18,7 +23,7 @@ export default function AdminPointsCards({ className }) {
               contact_email={point.contact_email}
               contact_tel={point.contact_tel}
               id={point.id}
-              proveedores={point.proveedores}
+              proveedores={Array.from(set).length}
               inventario={point.inventario}
             />
           );
