@@ -3,6 +3,7 @@ import ProfileHistoryCard from '../ProfileHistoryCard/ProfileHistoryCard';
 import { useEffect, useState } from 'react';
 import { fetchUserProfileAsync } from '../../store/thunks/profileThunks';
 import { createToast } from '../../store/slices/toastSlice';
+import { LuArchive } from 'react-icons/lu';
 
 export default function ProfileHistoryContainer() {
   // Debe recibir un array de objetos por props
@@ -35,18 +36,24 @@ export default function ProfileHistoryContainer() {
 
   return (
     <div className='max-w-[1280px] mx-auto flex flex-wrap justify-center mt-2 px-2'>
-      {info.map((item) => {
-        return (
-          <ProfileHistoryCard
-            key={item.id}
-            name={item.PuntoDeVenta}
-            compra={item.Compra}
-            price={item.Total}
-            date={item.date}
-            className='mb-2'
-          />
-        );
-      })}
+      {info.length < 0 ? (
+        info.map((item) => {
+          return (
+            <ProfileHistoryCard
+              key={item.id}
+              name={item.PuntoDeVenta}
+              compra={item.Compra}
+              price={item.Total}
+              date={item.date}
+              className='mb-2'
+            />
+          );
+        })
+      ) : (
+        <p className='text-tuscany-950 flex items-center justify-center mx-auto text-lg mt-12'>
+          <LuArchive className='flex items-center h-5 w-5 mr-1' /> No has hecho ninguna compra aún.
+        </p>
+      )}
     </div>
   );
 }
