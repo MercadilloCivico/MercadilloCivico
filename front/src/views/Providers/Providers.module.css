@@ -1,0 +1,11 @@
+.providerAnime {
+  animation-name: landing-appear;
+  animation-duration: 0.9s;
+}
+
+@keyframes landing-appear {
+  0% {
+    transform: translateX(100vh);
+    opacity: 0;
+  }
+}

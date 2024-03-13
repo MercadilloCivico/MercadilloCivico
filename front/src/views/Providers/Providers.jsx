@@ -15,6 +15,8 @@ import { loginValidation } from '../../utils/validation.js';
 import { useEffect } from 'react';
 import { fetchProvidersAsync } from '../../store/thunks/providerThunks.js';
 import { fetchUsersAsync } from '../../store/thunks/userThunks.js';
+import Loading from '../../views/Loading/Loading.jsx';
+import style from './Providers.module.css';
 
 const Providers = () => {
   const [loginData, setLoginData] = useState({
@@ -27,16 +29,15 @@ const Providers = () => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  // const { providerArray } = useSelector((state) => state.providers);
   const [isModalOpen, setModalOpen] = useState(false);
   const [providers, setProviders] = useState([]);
   const [searchProviders, setSearchProviders] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async function () {
       try {
         const { payload } = await dispatch(fetchProvidersAsync(searchProviders));
-        console.log(payload);
         let providerUser = await Promise.all(
           payload.map(async (e) => {
             try {
@@ -50,6 +51,7 @@ const Providers = () => {
         );
 
         setProviders(providerUser);
+        setIsLoading(false);
       } catch (error) {
         console.log('error', error);
       }
@@ -157,15 +159,20 @@ const Providers = () => {
                 text='Crear Proveedor'
                 icon={LuLogIn}
                 onClick={closeModal}
+                className='p-3 rounded-lg '
               />
             </div>
           </div>
           <br />
         </form>
       </Modal>
-      <div>
-        <ProviderCards providers={providers} />
-      </div>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className={`${style.providerAnime} `}>
+          <ProviderCards providers={providers} />
+        </div>
+      )}
     </div>
   );
 };

@@ -29,7 +29,7 @@ const ProviderCard = ({ id, name, img, rol, disabled, email }) => {
         <small className='text-pearl-bush-800'>{rol}</small>
       )}
       <div className='mt-2'>
-        <Link to={`/admin/users/detail/${id}`}>
+        <Link to={`/admin/provider/${id}`}>
           <CustomButton text='Ver más...' className='text-[.8em] shadow-lg' />
         </Link>
       </div>
