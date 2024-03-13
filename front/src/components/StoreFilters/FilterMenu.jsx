@@ -31,7 +31,7 @@ export default function FilterMenu({ className, activeFilterMenu, toggleFilterMe
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        toggleFilterMenu();
+        () => toggleFilterMenu;
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
