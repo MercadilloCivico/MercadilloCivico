@@ -3,12 +3,15 @@ import FaqBar from '../../components/FaqBar/FaqBar';
 import SearchBarFaq from '../../components/SearchBarFaq/SearchBarFaq';
 import TopFaqs from '../../components/TopFaqs/TopFaqs';
 import CardsMiniFaqs from '../../components/CardsMiniFaqs/CardsMiniFaqs';
-import faqs from './faqs';
 import CardFaqsLarge from '../../components/CardFaqsLarge/CardFaqsLarge';
 import ContactFooter from '../../components/ContactFooter/ContactFooter';
 import Footer from '../../components/Footer/Footer';
+import { useSelector } from 'react-redux';
 
 const Faqs = () => {
+  const { faqs, categorias } = useSelector((state) => state.faqs);
+  console.log(faqs);
+
   return (
     <div className='min-h-[calc(100vh-55px)] flex flex-col'>
       <div>
@@ -25,15 +28,15 @@ const Faqs = () => {
           <TopFaqs faqs={faqs} />
         </div>
         <div>
-          <CardsMiniFaqs faqs={faqs} />
+          <CardsMiniFaqs faqs={categorias} />
         </div>
         <div className='hidden lg:flex flex-wrap justify-between m-4'>
-          {faqs.map((categoria) => (
+          {categorias.map((categoria) => (
             <CardFaqsLarge
               key={categoria.id}
               categoria={categoria.categoria}
               icon={categoria.icon}
-              faqs={categoria.faqs}
+              faqsId={categoria.faqsId}
             />
           ))}
         </div>

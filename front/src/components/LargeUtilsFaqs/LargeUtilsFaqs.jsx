@@ -1,11 +1,11 @@
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import faqs from '../../views/Faqs/faqs';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const LargeUtilsFaqs = () => {
-  const allFaqs = faqs.reduce((acc, category) => acc.concat(category.faqs), []);
+  const { faqs } = useSelector((state) => state.faqs);
 
-  const sortedFaqsByLikes = allFaqs.sort((a, b) => b.likes - a.likes);
+  const sortedFaqsByLikes = [...faqs].sort((a, b) => b.likes - a.likes);
 
   const top5FaqsByLikes = sortedFaqsByLikes.slice(0, 5);
 

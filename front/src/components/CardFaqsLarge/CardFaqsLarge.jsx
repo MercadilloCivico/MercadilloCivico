@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const CardFaqsLarge = ({ categoria, icon: IconComponent, faqs }) => {
+const CardFaqsLarge = ({ categoria, icon: IconComponent, faqsId }) => {
   const [hovered, setHovered] = useState(false);
   const isXlScreen = window.innerWidth >= 1280;
   const is2XlScreen = window.innerWidth >= 1535;
+  const { faqs } = useSelector((state) => state.faqs);
 
   return (
     <div
@@ -23,18 +25,25 @@ const CardFaqsLarge = ({ categoria, icon: IconComponent, faqs }) => {
             </Link>
           </div>
           <ul className='text-[.9em] text-start text-tuscany-950'>
-            {faqs.slice(0, 4).map((faq) => (
-              <Link key={faq.id} to={`/faqs/detail/${faq.id}`}>
-                <li className='my-1 ml-1 text-tuscany-950 hover:text-tuscany-500 cursor-pointer overflow-hidden'>
-                  {`> ${
-                    faq.pregunta.length > (is2XlScreen ? 50 : isXlScreen ? 40 : 30)
-                      ? `${faq.pregunta.substring(0, is2XlScreen ? 50 : isXlScreen ? 40 : 30)}...`
-                      : faq.pregunta
-                  }`}
-                </li>
-              </Link>
-            ))}
-            {faqs.length > 4 && (
+            {faqsId.slice(0, 4).map((faqId) => {
+              const faq = faqs.find((faq) => faq.id === faqId);
+              if (faq) {
+                return (
+                  <Link key={faq.id} to={`/faqs/detail/${faq.id}`}>
+                    <li className='my-1 ml-1 text-tuscany-950 hover:text-tuscany-500 cursor-pointer overflow-hidden'>
+                      {`> ${
+                        faq.pregunta.length > (is2XlScreen ? 50 : isXlScreen ? 40 : 30)
+                          ? `${faq.pregunta.substring(0, is2XlScreen ? 50 : isXlScreen ? 40 : 30)}...`
+                          : faq.pregunta
+                      }`}
+                    </li>
+                  </Link>
+                );
+              } else {
+                return null;
+              }
+            })}
+            {faqsId.length > 4 && (
               <Link to={`/faqs/${encodeURIComponent(categoria)}`}>
                 <li className='my-1 ml-1 text-tuscany-950 hover:text-tuscany-500 cursor-pointer'>
                   {'> Mostrar todo'}

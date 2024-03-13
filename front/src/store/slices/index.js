@@ -11,6 +11,7 @@ import favoritesReducer from './favoritesSlice';
 import adminReducer from './adminSlice';
 import salesPointReducer from './salesPointSlice';
 import salesReducer from './salesSlice';
+import faqsReducer from './faqsSlice';
 
 export {
   authReducer,
@@ -26,4 +27,5 @@ export {
   adminReducer,
   salesPointReducer,
   salesReducer,
+  faqsReducer,
 };

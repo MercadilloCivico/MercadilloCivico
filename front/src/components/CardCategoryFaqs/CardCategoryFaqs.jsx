@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const CardCategoryFaqs = ({ pregunta, respuesta, id }) => {
   const shortenText = (text, maxLength) => {
-    if (text.length > maxLength) {
+    if (text?.length > maxLength) {
       return `${text.slice(0, maxLength)}...`;
     }
     return text;
@@ -20,7 +20,7 @@ const CardCategoryFaqs = ({ pregunta, respuesta, id }) => {
       <div className=' flex items-start text-start'>
         <span className=' text-tuscany-950 text-opacity-80'>
           {shortenText(respuesta, 100)}
-          {respuesta.length > 100 && (
+          {respuesta?.length > 100 && (
             <Link to={`/faqs/detail/${id}`}>
               <span className='text-tuscany-500 hover:text-tuscany-950 cursor-pointer'>
                 ver más

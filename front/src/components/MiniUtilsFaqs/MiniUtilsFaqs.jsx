@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import faqs from '../../views/Faqs/faqs';
 import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
+import { useSelector } from 'react-redux';
 
 const MiniUtilsFaqs = () => {
-  const allFaqs = faqs.reduce((acc, category) => acc.concat(category.faqs), []);
+  const { faqs } = useSelector((state) => state.faqs);
 
-  const sortedFaqsByLikes = allFaqs.sort((a, b) => b.likes - a.likes);
+  const sortedFaqsByLikes = [...faqs].sort((a, b) => b.likes - a.likes);
 
   const top5FaqsByLikes = sortedFaqsByLikes.slice(0, 5);
 

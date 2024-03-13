@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import faqs from '../Faqs/faqs';
 import SearchBarFaq from '../../components/SearchBarFaq/SearchBarFaq';
 import CustomBreadcrumbs from '../../components/CustomBreadcrumbs/CustomBreadcrumbs';
 import MiniUtilsFaqs from '../../components/MiniUtilsFaqs/MiniUtilsFaqs';
@@ -7,14 +6,14 @@ import LargeUtilsFaqs from '../../components/LargeUtilsFaqs/LargeUtilsFaqs';
 import ContactFooter from '../../components/ContactFooter/ContactFooter';
 import Footer from '../../components/Footer/Footer';
 import FaqFeedback from '../../components/FaqFeedback/FaqFeedback';
+import { useSelector } from 'react-redux';
 
 const DetailFaq = () => {
   const { id } = useParams();
+  const { faqs, categorias } = useSelector((state) => state.faqs);
 
-  const selectedFaq = faqs.reduce((selected, category) => {
-    const foundFaq = category.faqs.find((faq) => faq.id === parseInt(id, 10));
-    return foundFaq ? foundFaq : selected;
-  }, null);
+  const faq = faqs.find((f) => f.id == id);
+  const categoria = categorias.find((c) => c.id == faq.categoriaId);
 
   return (
     <div className='min-h-[calc(100vh-55px)] flex flex-col'>
@@ -26,24 +25,22 @@ const DetailFaq = () => {
           <CustomBreadcrumbs />
         </div>
         <div className='flex items-start px-4 text-start'>
-          <span className='text-tuscany-500  text-xl font-bold'>{selectedFaq.pregunta}</span>
+          <span className='text-tuscany-500  text-xl font-bold'>{faq.pregunta}</span>
         </div>
         <div className='flex items-start px-3 text-start'>
-          <p className='text-tuscany-950 text-start font-semibold max-w-[900px]'>
-            {selectedFaq.respuesta}
-          </p>
+          <p className='text-tuscany-950 text-start font-semibold max-w-[900px]'>{faq.respuesta}</p>
         </div>
         <div className='mx-4 my-2 flex text-start items-start text-sm font-semibold '>
           <Link
-            to={`/faqs/${encodeURIComponent(selectedFaq.categoria)}`}
+            to={`/faqs/${encodeURIComponent(categoria.categoria)}`}
             className='text-tuscany-950 cursor-default'>
-            {`Todo sobre ${selectedFaq.categoria} `}
+            {`Todo sobre ${categoria.categoria} `}
             <span className='text-tuscany-500 hover:text-tuscany-950 cursor-pointer underline'>
               puedes encontrarlo aqui!
             </span>
           </Link>
         </div>
-        <FaqFeedback selectedFaq={selectedFaq} />
+        <FaqFeedback />
         <div>
           <MiniUtilsFaqs />
         </div>
