@@ -6,7 +6,6 @@ import { cleanCartDBThunk } from '../../store/thunks/cartThunks';
 import { completedSale } from '../../store/thunks/salesThunks';
 import { updateInventoryThunk } from '../../store/thunks/inventoryThunks';
 import { createToast } from '../../store/slices/toastSlice';
-import { setProceso } from '../../store/slices/cartSlice';
 
 function PaymentSuccess() {
   const { items, totalPrice, idCarrito } = useSelector((state) => state.carrito);
@@ -14,7 +13,6 @@ function PaymentSuccess() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setProceso(false);
     const productosComprados = allItems.filter((p) => {
       return items.productoEnCarrito.some((producto) => producto.inventarioId === p.inventario.id);
     });
@@ -72,7 +70,9 @@ function PaymentSuccess() {
       <p className='text-lg text-center mt-4 text-pearl-bush-700'>
         Tu pago se ha procesado correctamente. ¡Gracias por tu compra!
       </p>
-
+      <p className='text-lg text-center mt-4 text-pearl-bush-700'>
+        Ya puedes calificar los productos que comprasté en la tienda.
+      </p>
       <Link to='/store' className='mt-8'>
         <CustomButton text={'Continuar Comprando'} className='w-full' />
       </Link>

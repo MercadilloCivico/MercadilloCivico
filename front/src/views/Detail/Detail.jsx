@@ -12,6 +12,7 @@ import axios from 'axios';
 import { addProductToCartDBThunk } from '../../store/thunks/cartThunks';
 import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
 import { fetchCards } from '../../store/thunks/cardsThunks';
+import { fetchUserProfileAsync } from '../../store/thunks/profileThunks.js';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Detail = () => {
@@ -67,7 +68,36 @@ const Detail = () => {
     setShowFullDescription(!showFullDescription);
   };
 
+  const [userCompras, setUserCompras] = useState([]);
+  useEffect(() => {
+    const userInfo = async () => {
+      const { payload } = await dispatch(fetchUserProfileAsync());
+      const mapeo = payload.compras.map((c) => {
+        const p = c.info_compra.split('-')[1];
+        const names = p.split(':')[1];
+        const onlyNames = names.split(',');
+        const splitN = onlyNames.map((n) => {
+          return n.split('X')[0].trim();
+        });
+        return splitN;
+      });
+      setUserCompras(mapeo.flat());
+    };
+    userInfo();
+  }, []);
+  console.log('Compras: ', userCompras);
+
+  const handleResena = () => {
+    if (userCompras.includes(producto?.name)) {
+      openModal();
+      setIsOpenOnDetail(true);
+    } else {
+      dispatch(createToast('¡Compra el producto para poder calificarlo!'));
+    }
+  };
+
   const [cantidad, setCantidad] = useState(1);
+
   const agregarAlCarrito = async () => {
     await dispatch(
       addProductToCartDBThunk({
@@ -194,11 +224,11 @@ const Detail = () => {
                       <button
                         onClick={quitarProducto}
                         className={`${
-                          cantidad === 0
+                          cantidad === 1
                             ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                             : 'cursor-pointer'
                         } bg-tuscany-950 rounded-lg w-8 h-8 flex items-center justify-center border-none shadow-md text-pearl-bush-100 font-bold ml-4`}
-                        disabled={cantidad === 0}>
+                        disabled={cantidad === 1}>
                         -
                       </button>
                       <span className='mx-4 text-tuscany-950 font-bold'>{cantidad}</span>
@@ -251,22 +281,20 @@ const Detail = () => {
                 Reseñas
               </span>
               <button
-                onClick={() => {
-                  openModal(), setIsOpenOnDetail(true);
-                }}
+                onClick={handleResena}
                 className='text-tuscany-950 border-none custom-transparent-bg text-[0.8em] md:text-[1em] lg:text-[1.2em] font-bold cursor-pointer underline'>
                 {producto.resenas && producto.resenas
                   ? 'Escribe tu opinión'
                   : 'Este producto aun no tiene reseñas, se el primero en comentar!'}
               </button>
-              {producto.resenas?.length === 0 && (
-                <CreateReview
-                  productId={producto.id}
-                  isModalOpen={isModalOpen}
-                  setModalOpen={setModalOpen}
-                  isOpenOnDetail={isOpenOnDetail}
-                />
-              )}
+              {/* {producto.resenas?.length === 0 && ( */}
+              <CreateReview
+                productId={producto.id}
+                isModalOpen={isModalOpen}
+                setModalOpen={setModalOpen}
+                isOpenOnDetail={isOpenOnDetail}
+              />
+              {/* // )} */}
               <Reviews
                 reviews={producto.resenas && producto.resenas}
                 isModalOpen={isModalOpen}
