@@ -65,7 +65,7 @@ const Reviews = ({
   return (
     <div>
       <hr className='border-tuscany-950' />
-      {reviews.map((review) => (
+      {reviews?.map((review) => (
         <Review
           key={review.id}
           review={review}
