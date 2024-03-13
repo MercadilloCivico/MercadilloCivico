@@ -13,11 +13,9 @@ export default function AdminPointsCard({
   proveedores,
 }) {
   const navigate = useNavigate();
-
   function goToDetail() {
     navigate(`/admin/point/detail/${id}`);
   }
-
   return (
     <>
       <div
@@ -63,16 +61,12 @@ export default function AdminPointsCard({
                 {!inventario || inventario.length < 1 ? '0' : inventario.length} productos en
                 inventario
               </li>
-              <li>
-                {!proveedores || proveedores.length < 1 ? '0' : inventario.length} proveedores
-              </li>
+              <li>{proveedores} proveedores</li>
             </ul>
 
             <ul className='px-2 hidden xsm:block sm:hidden '>
               <li>Productos: {!inventario || inventario.length < 1 ? '0' : inventario.length}</li>
-              <li>
-                Proveedores: {!proveedores || proveedores.length < 1 ? '0' : inventario.length}
-              </li>
+              <li>Proveedores: {proveedores}</li>
             </ul>
           </div>
         </div>

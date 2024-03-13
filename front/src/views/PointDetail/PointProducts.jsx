@@ -20,7 +20,6 @@ export default function PointProducts({ className, pointId, address, name }) {
   }
 
   useEffect(() => {
-    console.log(refreshAllProducts);
     setPunto();
     (async function () {
       const { payload } = await dispatch(fetchSalesPointsAsync(pointIdRef.current));
