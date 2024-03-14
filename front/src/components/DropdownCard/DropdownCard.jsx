@@ -102,8 +102,8 @@ export default function Card({
     <div
       className={
         active
-          ? `relative w-full max-w-[500px] rounded-xl overflow-hidden bg-tuscany-300 text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.active}`
-          : `relative w-full max-w-[500px] rounded-xl overflow-hidden bg-tuscany-300 text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.hidden}`
+          ? `relative w-full  rounded-xl overflow-hidden bg-tuscany-300 text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.active}`
+          : `relative w-full  rounded-xl overflow-hidden bg-tuscany-300 text-pearl-bush-950 shadow-md shadow-[#00000030] outline outline-1 outline-tuscany-600 ${className} ${style.hidden}`
       }>
       <div className='flex'>
         <div

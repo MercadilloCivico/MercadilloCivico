@@ -44,7 +44,7 @@ function Cards({ filteredItems, cardType, className }) {
                 rating={product.calification}
                 stock={product.inventario.stock}
                 inventarioId={product.inventario.id}
-                className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
+                className='my-3 mx-3 md:mx-5 lg:mx-10 max-w-[450px] transition-all'
                 userFavorites={userFavorites}
               />
             );

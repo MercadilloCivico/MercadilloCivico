@@ -27,7 +27,7 @@ export default function ProfileFavoritesContainer() {
               rating={product.calification}
               // stock={product.inventario.stock}
               // inventarioId={product.inventario.id}
-              className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
+              className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all max-w-[500px]'
               userFavorites={userFavorites}
             />
           );

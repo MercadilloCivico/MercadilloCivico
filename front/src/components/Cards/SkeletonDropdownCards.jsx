@@ -6,56 +6,56 @@ export default function SkeletonCards() {
       <Skeleton
         className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all relative w-full max-w-[500px] overflow-hidden rounded-xl'
         variant='rectangular'
-        width={550}
+        width={450}
         height={120}
       />
 
       <Skeleton
         className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all relative w-full max-w-[500px] overflow-hidden rounded-xl'
         variant='rectangular'
-        width={550}
+        width={450}
         height={120}
       />
 
       <Skeleton
         className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all relative w-full max-w-[500px] overflow-hidden rounded-xl'
         variant='rectangular'
-        width={550}
+        width={450}
         height={120}
       />
 
       <Skeleton
         className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all relative w-full max-w-[500px] overflow-hidden rounded-xl'
         variant='rectangular'
-        width={550}
+        width={450}
         height={120}
       />
 
       <Skeleton
         className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all relative w-full max-w-[500px] overflow-hidden rounded-xl'
         variant='rectangular'
-        width={550}
+        width={450}
         height={120}
       />
 
       <Skeleton
         className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all relative w-full max-w-[500px] overflow-hidden rounded-xl'
         variant='rectangular'
-        width={550}
+        width={450}
         height={120}
       />
 
       <Skeleton
         className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all relative w-full max-w-[500px] overflow-hidden rounded-xl'
         variant='rectangular'
-        width={550}
+        width={450}
         height={120}
       />
 
       <Skeleton
         className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all relative w-full max-w-[500px] overflow-hidden rounded-xl'
         variant='rectangular'
-        width={550}
+        width={450}
         height={120}
       />
     </div>
