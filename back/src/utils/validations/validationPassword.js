@@ -1,7 +1,7 @@
 function ValidationPassword(inputs) {
   const pasMayus = /[A-Z]/;
   const pasNum = /\d/;
-  const pasCharterEs = /[@$!%*?&_-]/;
+  const pasCharterEs = /[@$!%*?&°|,;.:{[\]}/+\\\-_"#()='¿¡<>]/;
   let error = '';
 
   if (!pasMayus.test(inputs)) error += 'La contraseña debe tener al menos una Mayúscula.';
