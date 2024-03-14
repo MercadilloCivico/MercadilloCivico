@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchUsersAsync } from '../../store/thunks/userThunks';
-import AdminSearchBar from '../../components/AdminSearchBar/AdminSearchBar';
+// import AdminSearchBar from '../../components/AdminSearchBar/AdminSearchBar';
 import AdminUserCards from '../../components/AdminUserCards/AdminUserCards';
 import CustomBreadcrumbs from '../../components/CustomBreadcrumbs/CustomBreadcrumbs';
 
@@ -19,9 +19,9 @@ const AdminUsers = () => {
       <div className='mx-2 mt-1'>
         <CustomBreadcrumbs />
       </div>
-      <div>
+      {/* <div>
         <AdminSearchBar />
-      </div>
+      </div> */}
       <div>
         <AdminUserCards users={users} />
       </div>
