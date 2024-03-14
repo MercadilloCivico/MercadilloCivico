@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import { FaQuestionCircle, FaListAlt } from 'react-icons/fa';
 
-const AdminSpeedDial = () => {
+const AdminSpeedDial = ({ actions }) => {
   const [open, setOpen] = useState(false);
   const speedDialRef = useRef();
 
@@ -31,11 +30,6 @@ const AdminSpeedDial = () => {
     setOpen(true);
   };
 
-  const actions = [
-    { icon: <FaQuestionCircle />, name: 'Crear FAQ', link: '/admin/faqs/create/faq' },
-    { icon: <FaListAlt />, name: 'Crear Categoría', link: '/admin/faqs/create/category' },
-  ];
-
   return (
     <div ref={speedDialRef}>
       <SpeedDial
@@ -52,7 +46,10 @@ const AdminSpeedDial = () => {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
-            onClick={handleClose}
+            onClick={() => {
+              action.onClick();
+              handleClose();
+            }}
             component={Link}
             to={action.link}
             className='bg-pearl-bush-400'
