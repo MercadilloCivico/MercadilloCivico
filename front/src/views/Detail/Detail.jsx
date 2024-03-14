@@ -231,17 +231,18 @@ const Detail = () => {
                         </div> */}
 
                         {/* NOMBRE PRODUCTO */}
-                        {producto && producto?.name}
+                        {producto && producto.name}
                       </li>
                       <li className='text-tuscany-950 opacity-60 font-medium'>
-                        {producto?.proveedor.name}
+                        {producto.proveedor && producto.proveedor.name}
                       </li>
-                      {producto?.inventario.stock ? (
+                      {producto.inventario && producto.inventario.stock ? (
                         <span className='text-tuscany-950'>
-                          Stock Disponible: {producto?.inventario.stock}
+                          Stock Disponible: {producto.inventario.stock}
                         </span>
                       ) : (
-                        producto?.inventario.stock === 0 && (
+                        producto.inventario &&
+                        producto.inventario.stock === 0 && (
                           <span className='text-[#792823] text-[.8em] md:text-[1em]'>
                             NO DISPONIBLE
                           </span>
