@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { FaRegSmileBeam, FaShoppingCart, FaInfoCircle } from 'react-icons/fa';
+import { FaRegSmileBeam, FaShoppingCart, FaInfoCircle, FaQuestionCircle } from 'react-icons/fa';
 
 export const getIconComponent = (iconName) => {
   switch (iconName) {
@@ -9,6 +9,8 @@ export const getIconComponent = (iconName) => {
       return FaShoppingCart;
     case 'FaInfoCircle':
       return FaInfoCircle;
+    case 'FaQuestionCircle':
+      return FaQuestionCircle;
     default:
       return null;
   }
@@ -201,18 +203,24 @@ const initialState = {
   categorias: [
     {
       id: 1,
+      categoria: 'FAQs sin asignar',
+      icon: 'FaQuestionCircle',
+      faqsId: [],
+    },
+    {
+      id: 2,
       categoria: 'Experiencia de Usuario',
       icon: 'FaRegSmileBeam',
       faqsId: [1, 2, 3, 4, 5, 6],
     },
     {
-      id: 2,
+      id: 3,
       categoria: 'Funcionalidades del Ecommerce',
       icon: 'FaShoppingCart',
       faqsId: [7, 8, 9, 10, 11, 12],
     },
     {
-      id: 3,
+      id: 4,
       categoria: 'Detalles y Funcionalidades Adicionales',
       icon: 'FaInfoCircle',
       faqsId: [13, 14, 15, 16, 17, 18],
