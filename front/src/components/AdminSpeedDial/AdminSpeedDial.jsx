@@ -31,7 +31,7 @@ const AdminSpeedDial = ({ actions }) => {
   };
 
   return (
-    <div ref={speedDialRef}>
+    <div ref={speedDialRef} className='hidden'>
       <SpeedDial
         ariaLabel='SpeedDial example'
         icon={
