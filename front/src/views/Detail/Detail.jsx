@@ -19,7 +19,6 @@ const Detail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isFav, setIsFav] = useState(false);
-  const [showFullDescription, setShowFullDescription] = useState(false);
   const { idCarrito, status: statusCarrito } = useSelector((state) => state.carrito);
   const [producto, setProducto] = useState(null);
   const { id } = useParams();
@@ -78,10 +77,6 @@ const Detail = () => {
     };
     fetchInfo();
   }, [allItems, dispatch, filters.id, id, isLoading]);
-
-  const toggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
-  };
 
   const [userCompras, setUserCompras] = useState([]);
 
@@ -287,18 +282,9 @@ const Detail = () => {
 
                 <hr className='border-[#EEE3D6] mt-2 mb-2' />
                 <h4 className='text-tuscany-950 text-start text-lg'>Descripción</h4>
-                <p
-                  className={`text-tuscany-950 text-[0.8em] md:text-base 'line-clamp-3'${showFullDescription ? 'whitespace-pre-line' : 'line-clamp-3'} w-full`}>
+                <p className={`text-tuscany-950 text-[0.8em] md:text-base 'line-clamp-3' w-full`}>
                   {producto?.description}
                 </p>
-
-                {producto?.description?.length > 100 && (
-                  <button
-                    onClick={toggleDescription}
-                    className='text-tuscany-600 border-none custom-transparent-bg text-[0.8em] md:text-base font-bold cursor-pointer underline'>
-                    {showFullDescription ? 'Leer menos' : 'Leer más'}
-                  </button>
-                )}
 
                 <div className='flex justify-between items-center mt-3'>
                   <ul className='flex flex-col text-start'>
