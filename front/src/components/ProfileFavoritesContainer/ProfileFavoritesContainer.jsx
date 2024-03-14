@@ -13,7 +13,10 @@ export default function ProfileFavoritesContainer() {
   });
 
   return (
-    <div className={'max-w-[1280px] p-2 pb-0 flex flex-wrap  mx-auto ' + style.historyAnim}>
+    <div
+      className={
+        'max-w-[1280px] justify-center p-2 pb-0 flex flex-wrap mx-auto ' + style.historyAnim
+      }>
       {userFavorites.length > 0 ? (
         userFavorites.map((product) => {
           return (
@@ -26,9 +29,11 @@ export default function ProfileFavoritesContainer() {
               img={product.image}
               price={product.inventario.precio_final}
               rating={product.calification}
+              className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all max-w-[500px]'
               stock={product.inventario.stock}
               inventarioId={product.inventario.id}
-              className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
+              className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all max-w-[500px]'
+
               userFavorites={userFavorites}
             />
           );
