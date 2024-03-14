@@ -138,7 +138,7 @@ const CreateReview = ({ id, productId, isModalOpen, setModalOpen, isOpenOnDetail
               placeholder='Comentario'
               name='coment'
               label='Comentario (opcional)'
-              rows={3}
+              minRows={3}
               maxRows={4}
               multiline
             />
