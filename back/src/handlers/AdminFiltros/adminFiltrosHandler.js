@@ -57,13 +57,13 @@ class AdminFiltrosHandler {
       });
 
       if (name && !filtroEstado) {
-        return productos.filter((p) => p.name.startsWith(name));
+        return productos.filter((p) => p.name.toLowerCase().startsWith(name.toLowerCase()));
       }
 
       if (filtroEstado === 'activo') {
         const filtrados = productos.filter((p) => !p.disabled);
         if (name) {
-          return filtrados.filter((p) => p.name.startsWith(name));
+          return filtrados.filter((p) => p.name.toLowerCase().startsWith(name.toLowerCase()));
         }
         return filtrados;
       }
@@ -71,7 +71,7 @@ class AdminFiltrosHandler {
       if (filtroEstado === 'inactivo') {
         const filtrados = productos.filter((p) => p.disabled);
         if (name) {
-          return filtrados.filter((p) => p.name.startsWith(name));
+          return filtrados.filter((p) => p.name.toLowerCase().startsWith(name.toLowerCase()));
         }
         return filtrados;
       }

@@ -1,18 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaAppleAlt } from 'react-icons/fa';
 import { FaArrowAltCircleRight } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { fetchProductsAsync } from '../../store/thunks/productThunks';
 
-const AllProductsCard = () => {
-  const { items } = useSelector((state) => state.products);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
-      await dispatch(fetchProductsAsync());
-    })();
-  }, [dispatch]);
+const AllProductsCard = ({ items }) => {
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
 

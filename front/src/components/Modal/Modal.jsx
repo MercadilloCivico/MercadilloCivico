@@ -8,8 +8,8 @@ const Modal = ({ isOpen, onRequestClose, children }) => {
 
   return (
     <>
-      <div className={`${overlayStyles} z-50`} onClick={onRequestClose} aria-hidden='true'></div>
-      <div className={`${modalStyles} z-50`}>
+      <div className={`${overlayStyles} z-[24]`} onClick={onRequestClose} aria-hidden='true'></div>
+      <div className={`${modalStyles} z-[24]`}>
         <div className='bg-pearl-bush-100 w-3/4 md:w-3/4 lg:w-1/2 p-4 rounded-md shadow-md'>
           <button
             onClick={onRequestClose}
