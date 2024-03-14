@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { cleanCartDBThunk } from '../../store/thunks/cartThunks';
+import { cleanCartDBThunk, getCartDBThunk } from '../../store/thunks/cartThunks';
 import { completedSale } from '../../store/thunks/salesThunks';
 import { updateInventoryThunk } from '../../store/thunks/inventoryThunks';
 import { createToast } from '../../store/slices/toastSlice';
@@ -34,7 +34,6 @@ function PaymentSuccess() {
     });
     const acciones = async () => {
       try {
-        console.log('1');
         const { payload } = await dispatch(
           completedSale({
             precioFinal: totalPrice,
@@ -56,7 +55,7 @@ function PaymentSuccess() {
         );
 
         await dispatch(cleanCartDBThunk(idCarrito));
-        console.log('2');
+        await dispatch(getCartDBThunk());
       } catch (error) {
         dispatch(createToast(error));
       }
@@ -71,7 +70,7 @@ function PaymentSuccess() {
         Tu pago se ha procesado correctamente. ¡Gracias por tu compra!
       </p>
       <p className='text-lg text-center mt-4 text-pearl-bush-700'>
-        Ya puedes calificar los productos que comprasté en la tienda.
+        Ya puedes calificar los productos que compraste en la tienda.
       </p>
       <Link to='/store' className='mt-8'>
         <CustomButton text={'Continuar Comprando'} className='w-full' />
