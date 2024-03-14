@@ -28,6 +28,16 @@ import municipiosPrincipales from '../../utils/departamentos.js';
 import { putProvider } from '../../store/thunks/providerThunks.js';
 import { validacionProveedor } from '../../utils/validation.js';
 import CustomInput from '../../components/CustomInput/CustomInput.jsx';
+import { IoIosArrowBack } from 'react-icons/io';
+
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from '@mui/material';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -37,6 +47,7 @@ export default function Profile() {
   const { rol } = useSelector((state) => state.auth);
   const [perfilProveedor, setPerfilProveedor] = useState(false);
   const [complete, setComplete] = useState(true);
+  const [open, setOpen] = useState(false);
   const [currentData, setCurrentData] = useState({
     firstName: '',
     secondName: '',
@@ -356,7 +367,6 @@ export default function Profile() {
     // setEditMode(false);
     await dispatch(deleteUserProfileAsync());
     await dispatch(logout());
-    dispatch(createToast('Petición enviada'));
   }
 
   function hasErrors() {
@@ -375,360 +385,413 @@ export default function Profile() {
   }
 
   return (
-    <div className='text-pearl-bush-950'>
-      <div>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <div className='px-2 mt-2'>
-            <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
-              {!editMode && complete && (
-                <button
-                  className={
-                    'absolute right-0 z-[2] text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
-                    style.editBtnAnim
-                  }
-                  onClick={() => {
-                    setEditMode(true);
-                  }}
-                  type='text'>
-                  EDITAR PERFIL
-                </button>
-              )}
-              <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-600 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
-                {editMode && (
-                  <>
-                    <input
-                      name='img'
-                      id='img'
-                      onChange={handleChange}
-                      type='file'
-                      accept='image/png, image/gif, image/jpeg'
-                      className='hidden absolute'
-                    />
-                    <label
-                      htmlFor='img'
+    <>
+      <div className='text-pearl-bush-950'>
+        <div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className='px-2 mt-2'>
+              <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
+                {!editMode && complete && (
+                  <div>
+                    <div
+                      onClick={() => {
+                        navigate('/store');
+                      }}
+                      className='cursor-pointer absolute top-2 rounded-xl left-2 z-[3] bg-[#00000080] w-[40px] h-[40px] p-1'>
+                      <IoIosArrowBack className=' transition my-auto w-full h-full text-pearl-bush-100' />
+                    </div>
+
+                    <button
                       className={
-                        'text-tuscany-100 absolute m-1 bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
+                        'absolute right-0 z-[2] text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
                         style.editBtnAnim
-                      }>
-                      <MdEdit className='w-full h-full' />
-                    </label>
-                  </>
+                      }
+                      onClick={() => {
+                        setEditMode(true);
+                      }}
+                      type='text'>
+                      EDITAR PERFIL
+                    </button>
+                  </div>
                 )}
-
-                {/* 
-                Renderizado condicional de imágen de perfil.
-                Si hay una imagen existente se renderiza. Si se seleccionó una imágen para subir, se renderizará la preview en su lugar. Else, se renderiza un placeholder
-              */}
-                {currentData.imgUrl && !formData.imgPreview ? (
-                  <img className='w-full h-full object-cover' src={currentData.imgUrl}></img>
-                ) : formData.imgPreview ? (
-                  <img className='w-full h-full object-cover' src={formData.imgPreview}></img>
-                ) : (
-                  <FaUser className='w-full h-full p-2 text-tuscany-600 bg-tuscany-100' />
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-        {/* Info container */}
-
-        {editMode ? (
-          <div className={'mt-[calc(75px)] flex flex-col justify-center ' + style.profileFormAnim}>
-            <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
-              <TextField
-                onChange={handleChange}
-                name='firstName'
-                className='w-[300px] m-2'
-                color='success'
-                id='outlined-helperText-firstName'
-                label='Nombre'
-                defaultValue={currentData.firstName}
-                helperText={errors.firstName}
-                error={errors.firstName ? true : false}
-              />
-
-              <TextField
-                onChange={handleChange}
-                name='secondName'
-                className='w-[300px] m-2'
-                color='success'
-                id='outlined-helperText-secondName'
-                label='Segundo nombre'
-                defaultValue={currentData.secondName}
-                helperText={errors.secondName}
-                error={errors.secondName ? true : false}
-              />
-
-              <TextField
-                onChange={handleChange}
-                name='lastName'
-                className='w-[300px] m-2'
-                color='success'
-                id='outlined-helperText-lastName'
-                label='Apellido'
-                defaultValue={currentData.lastName}
-                helperText={errors.lastName}
-                error={errors.lastName ? true : false}
-              />
-
-              <TextField
-                onChange={handleChange}
-                className='w-[300px] m-2'
-                name='email'
-                color='success'
-                id='outlined-helperText-email'
-                label='Email'
-                defaultValue={currentData.email}
-                helperText={errors.email}
-                error={errors.email ? true : false}
-              />
-
-              <TextField
-                onChange={handleChange}
-                className='w-[300px] m-2'
-                type='password'
-                name='password'
-                color='success'
-                id='outlined-helperText-password'
-                label='Contraseña'
-                helperText={errors.password}
-                error={errors.password ? true : false}
-              />
-
-              <TextField
-                onChange={handleChange}
-                className='w-[300px] m-2'
-                name='confirm'
-                color='success'
-                id='outlined-helperText-confirm'
-                label='Confirma la contraseña'
-                helperText={errors.confirm}
-                error={errors.confirm ? true : false}
-              />
-            </ul>
-
-            {/* Botones al editar*/}
-            {perfilProveedor && (
-              <div>
-                <div className='p-4 m-4 text-pearl-bush-950 font-bold bg-tuscany-200 rounded-sm'>
-                  Información del Proveedor
-                </div>
-                <div className='flex flex-col justify-center '>
-                  <ul className='flex flex-wrap justify-around max-w-[800px] mx-auto rounded-md bg-tuscany-200'>
-                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto mt-5'>
-                      <label htmlFor='camaraDeComercio' className='text-pearl-bush-950 font-medium'>
-                        Ingrese PDF de la camara de comercio
-                      </label>
+                <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-600 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
+                  {editMode && (
+                    <>
                       <input
+                        name='img'
+                        id='img'
+                        onChange={handleChange}
                         type='file'
-                        name='camaraDeComercio'
-                        accept='application/pdf'
-                        onChange={handlePDFChange}
-                        className='w-[300px] m-2 bg-pearl-bush-100 p-2'
+                        accept='image/png, image/gif, image/jpeg'
+                        className='hidden absolute'
                       />
-                    </div>
-
-                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto mt-5'>
                       <label
-                        htmlFor='certificadoBancario'
-                        className='text-pearl-bush-950 font-medium'>
-                        Ingrese PDF del certificado bancario
+                        htmlFor='img'
+                        className={
+                          'text-tuscany-100 absolute m-1 bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
+                          style.editBtnAnim
+                        }>
+                        <MdEdit className='w-full h-full' />
                       </label>
-                      <input
-                        type='file'
-                        name='certificadoBancario'
-                        accept='application/pdf'
-                        onChange={handlePDFChange}
-                        className='w-[300px] m-2 bg-pearl-bush-100 p-2'
-                      />
-                    </div>
+                    </>
+                  )}
 
-                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mt-3'>
-                      <CustomInput
-                        onChange={handleNameProv}
-                        className='w-[300px] bg-pearl-bush-100'
-                        name='nameProv'
-                        color='success'
-                        id='outlined-helperText'
-                        label='Nombre del Proveedor'
-                        value={currentDataProveedor.nameProv}
-                        maxLength={30}
-                      />
-                      {errors.nameProv && (
-                        <span className='text-crown-of-thorns-600 text-xs'>{errors.nameProv}</span>
-                      )}
-                    </div>
-
-                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mt-3'>
-                      <CustomInput
-                        onChange={handleNameProv}
-                        className='w-[300px] bg-pearl-bush-100'
-                        name='tel'
-                        color='success'
-                        id='outlined-helperText'
-                        label='Telefono'
-                        value={currentDataProveedor.tel}
-                        maxLength={12}
-                      />
-                      {errors.tel && (
-                        <span className='text-crown-of-thorns-600 text-xs'>{errors.tel}</span>
-                      )}
-                    </div>
-
-                    <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
-                      <label htmlFor='departamento' className='text-pearl-bush-950 font-medium'>
-                        Departamento:
-                      </label>
-                      <select
-                        name='departamento'
-                        defaultValue={`${currentDataProveedor.ubicacion[0]}`}
-                        className='border-tuscany-950 hover:custom-border-2 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer p-3'
-                        onChange={handleDepartmentChange}>
-                        <option value=''>Seleccione un departamento</option>
-                        {Object.keys(municipiosPrincipales).map((departamento, index) => (
-                          <option key={index} value={departamento}>
-                            {departamento}
-                          </option>
-                        ))}
-                      </select>
-                      {currentDataProveedor.ubicacion[1] === 'sin dato' && (
-                        <span className='text-tuscany-200'>Por favor, seleccione un municipio</span>
-                      )}
-                    </div>
-
-                    <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
-                      <label htmlFor='municipio' className='text-pearl-bush-950 font-medium'>
-                        Municipio:
-                      </label>
-                      <select
-                        name='municipio'
-                        onChange={handleMunicipalityChange}
-                        defaultValue={currentDataProveedor.ubicacion[1]}
-                        className='border-tuscany-950 hover:custom-border-2 p-3 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer'>
-                        <option value=''>Seleccione un municipio</option>
-                        {municipiosPrincipales[currentDataProveedor.ubicacion[0]].map(
-                          (municipio, index) => (
-                            <option key={index} value={municipio}>
-                              {municipio}
-                            </option>
-                          )
-                        )}
-                      </select>
-                      {currentDataProveedor.ubicacion[1] === 'sin dato' && (
-                        <span className='text-crown-of-thorns-600'>
-                          Por favor, seleccione un municipio
-                        </span>
-                      )}
-                    </div>
-
-                    <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mb-5 mt-3'>
-                      <TextField
-                        label='Ubicacion'
-                        name='direccion'
-                        type='text'
-                        className='w-[300px] m-2 bg-pearl-bush-100'
-                        value={currentDataProveedor.ubicacion[2]}
-                        onChange={handleDirection}
-                        maxLength={30}
-                      />
-                    </div>
-                  </ul>
+                  {/* Renderizado condicional de imágen de perfil.
+              Si hay una imagen existente se renderiza. Si se seleccionó una imágen para subir, se renderizará la preview en su lugar. Else, se renderiza un placeholder
+            */}
+                  {currentData.imgUrl && !formData.imgPreview ? (
+                    <img className='w-full h-full object-cover' src={currentData.imgUrl}></img>
+                  ) : formData.imgPreview ? (
+                    <img className='w-full h-full object-cover' src={formData.imgPreview}></img>
+                  ) : (
+                    <FaUser className='w-full h-full p-2 text-tuscany-600 bg-tuscany-100' />
+                  )}
                 </div>
               </div>
-            )}
-            <div>
-              {hasChanged() && !hasErrors() ? (
-                <CustomButton onClick={handleSave} text='Guardar' className='my-5 mx-2' />
-              ) : (
-                <CustomButton
-                  text='Guardar'
-                  disabled='true'
-                  className='text-pearl-bush-800 my-5 mx-2'
+            </div>
+          )}
+          {/* Info container */}
+
+          {editMode ? (
+            <div
+              className={'mt-[calc(75px)] flex flex-col justify-center ' + style.profileFormAnim}>
+              <ul className='flex flex-wrap justify-around max-w-[900px] mx-auto'>
+                <TextField
+                  onChange={handleChange}
+                  name='firstName'
+                  className='w-[300px] m-2'
+                  color='success'
+                  id='outlined-helperText-firstName'
+                  label='Nombre'
+                  defaultValue={currentData.firstName}
+                  helperText={errors.firstName}
+                  error={errors.firstName ? true : false}
                 />
+
+                <TextField
+                  onChange={handleChange}
+                  name='secondName'
+                  className='w-[300px] m-2'
+                  color='success'
+                  id='outlined-helperText-secondName'
+                  label='Segundo nombre'
+                  defaultValue={currentData.secondName}
+                  helperText={errors.secondName}
+                  error={errors.secondName ? true : false}
+                />
+
+                <TextField
+                  onChange={handleChange}
+                  name='lastName'
+                  className='w-[300px] m-2'
+                  color='success'
+                  id='outlined-helperText-lastName'
+                  label='Apellido'
+                  defaultValue={currentData.lastName}
+                  helperText={errors.lastName}
+                  error={errors.lastName ? true : false}
+                />
+
+                <TextField
+                  onChange={handleChange}
+                  className='w-[300px] m-2'
+                  name='email'
+                  color='success'
+                  id='outlined-helperText-email'
+                  label='Email'
+                  defaultValue={currentData.email}
+                  helperText={errors.email}
+                  error={errors.email ? true : false}
+                />
+
+                <TextField
+                  onChange={handleChange}
+                  className='w-[300px] m-2'
+                  type='password'
+                  name='password'
+                  color='success'
+                  id='outlined-helperText-password'
+                  label='Contraseña'
+                  helperText={errors.password}
+                  error={errors.password ? true : false}
+                />
+
+                <TextField
+                  onChange={handleChange}
+                  className='w-[300px] m-2'
+                  name='confirm'
+                  color='success'
+                  id='outlined-helperText-confirm'
+                  label='Confirma la contraseña'
+                  helperText={errors.confirm}
+                  error={errors.confirm ? true : false}
+                />
+              </ul>
+
+              {/* Botones al editar*/}
+              {perfilProveedor && (
+                <div>
+                  <div className='p-4 m-4 text-pearl-bush-950 font-bold bg-tuscany-200 rounded-sm'>
+                    Información del Proveedor
+                  </div>
+                  <div className='flex flex-col justify-center '>
+                    <ul className='flex flex-wrap justify-around max-w-[800px] mx-auto rounded-md bg-tuscany-200'>
+                      <div className='self-center max-w-[350px] min-w-[250px] mx-auto mt-5'>
+                        <label
+                          htmlFor='camaraDeComercio'
+                          className='text-pearl-bush-950 font-medium'>
+                          Ingrese PDF de la camara de comercio
+                        </label>
+                        <input
+                          type='file'
+                          name='camaraDeComercio'
+                          accept='application/pdf'
+                          onChange={handlePDFChange}
+                          className='w-[300px] m-2 bg-pearl-bush-100 p-2'
+                        />
+                      </div>
+
+                      <div className='self-center max-w-[350px] min-w-[250px] mx-auto mt-5'>
+                        <label
+                          htmlFor='certificadoBancario'
+                          className='text-pearl-bush-950 font-medium'>
+                          Ingrese PDF del certificado bancario
+                        </label>
+                        <input
+                          type='file'
+                          name='certificadoBancario'
+                          accept='application/pdf'
+                          onChange={handlePDFChange}
+                          className='w-[300px] m-2 bg-pearl-bush-100 p-2'
+                        />
+                      </div>
+
+                      <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mt-3'>
+                        <CustomInput
+                          onChange={handleNameProv}
+                          className='w-[300px] bg-pearl-bush-100'
+                          name='nameProv'
+                          color='success'
+                          id='outlined-helperText'
+                          label='Nombre del Proveedor'
+                          value={currentDataProveedor.nameProv}
+                          maxLength={30}
+                        />
+                        {errors.nameProv && (
+                          <span className='text-crown-of-thorns-600 text-xs'>
+                            {errors.nameProv}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mt-3'>
+                        <CustomInput
+                          onChange={handleNameProv}
+                          className='w-[300px] bg-pearl-bush-100'
+                          name='tel'
+                          color='success'
+                          id='outlined-helperText'
+                          label='Telefono'
+                          value={currentDataProveedor.tel}
+                          maxLength={12}
+                        />
+                        {errors.tel && (
+                          <span className='text-crown-of-thorns-600 text-xs'>{errors.tel}</span>
+                        )}
+                      </div>
+
+                      <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
+                        <label htmlFor='departamento' className='text-pearl-bush-950 font-medium'>
+                          Departamento:
+                        </label>
+                        <select
+                          name='departamento'
+                          defaultValue={`${currentDataProveedor.ubicacion[0]}`}
+                          className='border-tuscany-950 hover:custom-border-2 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer p-3'
+                          onChange={handleDepartmentChange}>
+                          <option value=''>Seleccione un departamento</option>
+                          {Object.keys(municipiosPrincipales).map((departamento, index) => (
+                            <option key={index} value={departamento}>
+                              {departamento}
+                            </option>
+                          ))}
+                        </select>
+                        {currentDataProveedor.ubicacion[1] === 'sin dato' && (
+                          <span className='text-tuscany-200'>
+                            Por favor, seleccione un municipio
+                          </span>
+                        )}
+                      </div>
+
+                      <div className='flex flex-col self-center max-w-[600px] min-w-[300px] mx-auto mt-3'>
+                        <label htmlFor='municipio' className='text-pearl-bush-950 font-medium'>
+                          Municipio:
+                        </label>
+                        <select
+                          name='municipio'
+                          onChange={handleMunicipalityChange}
+                          defaultValue={currentDataProveedor.ubicacion[1]}
+                          className='border-tuscany-950 hover:custom-border-2 p-3 text-tuscany-950 hover:text-tuscany-600 font-semibold outline-none rounded-md custom-transparent-bg cursor-pointer'>
+                          <option value=''>Seleccione un municipio</option>
+                          {municipiosPrincipales[currentDataProveedor.ubicacion[0]].map(
+                            (municipio, index) => (
+                              <option key={index} value={municipio}>
+                                {municipio}
+                              </option>
+                            )
+                          )}
+                        </select>
+                        {currentDataProveedor.ubicacion[1] === 'sin dato' && (
+                          <span className='text-crown-of-thorns-600'>
+                            Por favor, seleccione un municipio
+                          </span>
+                        )}
+                      </div>
+
+                      <div className='self-center max-w-[350px] min-w-[250px] mx-auto p-2 mb-5 mt-3'>
+                        <TextField
+                          label='Ubicacion'
+                          name='direccion'
+                          type='text'
+                          className='w-[300px] m-2 bg-pearl-bush-100'
+                          value={currentDataProveedor.ubicacion[2]}
+                          onChange={handleDirection}
+                          maxLength={30}
+                        />
+                      </div>
+                    </ul>
+                  </div>
+                </div>
               )}
-
-              <CustomButton className='mx-2' onClick={handleCancel} text='Cancelar' />
-            </div>
-
-            <CustomButton
-              className='w-[175px] my-6 mx-auto bg-crown-of-thorns-600 hover:bg-crown-of-thorns-700'
-              onClick={handleDelete}
-              text='Borrar cuenta'
-            />
-          </div>
-        ) : (
-          <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
-            <ul>
-              <li className='my-3 font-bold text-3xl mx-2 text-tuscany-600'>
-                {currentData.secondName ? (
-                  <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
-                ) : (
-                  <span>{`${currentData.firstName} ${currentData.lastName}`}</span>
-                )}
-              </li>
-              <li className='my-3 font-semibold text-lg text-tuscany-800 opacity-80'>
-                <span>{currentData.email}</span>
-              </li>
-            </ul>
-          </div>
-        )}
-        {rol === 'proveedor' && !perfilProveedor ? (
-          <RegisterProvider />
-        ) : rol === 'proveedor' && !editMode ? (
-          <div className='w-full max-w-[900px] my-5 mx-auto'>
-            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
-              <span className='text-tuscany-950 font-bold'>Empresa</span>
-              <span>{currentDataProveedor.nameProv}</span>
-            </div>
-            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
-              <span className='text-tuscany-950 font-bold'>Telefono</span>
-              <span>{currentDataProveedor.tel}</span>
-            </div>
-            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
-              <span className='text-tuscany-950 font-bold'>Ubicacion</span>
-              <span>{currentDataProveedor.ubicacion}</span>
-            </div>
-            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
-              <span className='text-tuscany-950 font-bold'>Obtener camara de comercio</span>{' '}
               <div>
-                <CustomButton
-                  className='w-[150px] my-1 mx-auto'
-                  text={'Aqui'}
-                  onClick={() => {
-                    window.open(`${currentDataProveedor.camaraDeComercio}`, '_blank');
-                  }}
-                />
-              </div>
-            </div>
-            <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto'>
-              <span className='text-tuscany-950 font-bold'>Obtener certificado bancario</span>{' '}
-              <span>
-                <CustomButton
-                  text={'Aqui'}
-                  className='w-[150px] my-1 mx-auto'
-                  onClick={() => {
-                    window.open(`${currentDataProveedor.certificadoBancario}`, '_blank');
-                  }}
-                />
-              </span>
-            </div>
-          </div>
-        ) : (
-          <div>
-            {!editMode && (
-              <div className='mt-[50px]'>
-                {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
-                <LinkTags />
+                {hasChanged() && !hasErrors() ? (
+                  <CustomButton onClick={handleSave} text='Guardar' className='my-5 mx-2' />
+                ) : (
+                  <CustomButton
+                    text='Guardar'
+                    disabled='true'
+                    className='text-pearl-bush-800 my-5 mx-2'
+                  />
+                )}
 
-                {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
-                <Outlet />
+                <CustomButton className='mx-2' onClick={handleCancel} text='Cancelar' />
               </div>
-            )}
-          </div>
-        )}
+
+              <CustomButton
+                className='w-[175px] my-6 mx-auto bg-crown-of-thorns-600 hover:bg-crown-of-thorns-700'
+                onClick={() => {
+                  setOpen(true);
+                }}
+                text='Borrar cuenta'
+              />
+            </div>
+          ) : (
+            <div className='w-full max-w-[900px] mt-[75px] mx-auto'>
+              <ul>
+                <li className='my-3 font-bold text-3xl mx-2 text-tuscany-600'>
+                  {currentData.secondName ? (
+                    <span>{`${currentData.firstName} ${currentData.secondName} ${currentData.lastName}`}</span>
+                  ) : (
+                    <span>{`${currentData.firstName} ${currentData.lastName}`}</span>
+                  )}
+                </li>
+                <li className='my-3 font-semibold text-lg text-tuscany-800 opacity-80'>
+                  <span>{currentData.email}</span>
+                </li>
+              </ul>
+            </div>
+          )}
+          {rol === 'proveedor' && !perfilProveedor ? (
+            <RegisterProvider />
+          ) : rol === 'proveedor' && !editMode ? (
+            <div className='w-full max-w-[900px] my-5 mx-auto'>
+              <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
+                <span className='text-tuscany-950 font-bold'>Empresa</span>
+                <span>{currentDataProveedor.nameProv}</span>
+              </div>
+              <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
+                <span className='text-tuscany-950 font-bold'>Telefono</span>
+                <span>{currentDataProveedor.tel}</span>
+              </div>
+              <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
+                <span className='text-tuscany-950 font-bold'>Ubicacion</span>
+                <span>{currentDataProveedor.ubicacion}</span>
+              </div>
+              <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto rounded-md'>
+                <span className='text-tuscany-950 font-bold'>Obtener camara de comercio</span>{' '}
+                <div>
+                  <CustomButton
+                    className='w-[150px] my-1 mx-auto'
+                    text={'Aqui'}
+                    onClick={() => {
+                      window.open(`${currentDataProveedor.camaraDeComercio}`, '_blank');
+                    }}
+                  />
+                </div>
+              </div>
+              <div className='flex flex-col bg-pearl-bush-200 p-2 m-2 max-w-[600px] min-w-[300px] mx-auto'>
+                <span className='text-tuscany-950 font-bold'>Obtener certificado bancario</span>{' '}
+                <span>
+                  <CustomButton
+                    text={'Aqui'}
+                    className='w-[150px] my-1 mx-auto'
+                    onClick={() => {
+                      window.open(`${currentDataProveedor.certificadoBancario}`, '_blank');
+                    }}
+                  />
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div>
+              {!editMode && (
+                <div className='mt-[50px]'>
+                  {/* Tabs para navegar entre componentes dentro de la vista de perfil */}
+                  <LinkTags />
+
+                  {/* El componente outlet mostrará los Favoritos o Historial según la ruta */}
+                  <Outlet />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+
+      <Dialog open={open} aria-describedby='logout-confirm'>
+        <DialogTitle sx={{ color: '#381812', bgcolor: '#eee3d6' }}>{'¿Borrar cuenta?'}</DialogTitle>
+        <DialogContent sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
+          <DialogContentText id='alert-dialog-slide-description'>
+            Esta cuenta se borrará de forma y no podrás recuperar su información. ¿Deseas continuar?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ color: '#381812', bgcolor: '#eee3d6' }}>
+          <Button
+            sx={{
+              color: '#c55d38',
+              '&:hover': {
+                backgroundColor: '#c55d3810',
+              },
+            }}
+            onClick={() => {
+              setOpen(false);
+            }}>
+            Cancelar
+          </Button>
+          <Button
+            sx={{
+              color: '#c55d38',
+              '&:hover': {
+                backgroundColor: '#c55d3810',
+              },
+            }}
+            onClick={handleDelete}>
+            Borrar cuenta
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

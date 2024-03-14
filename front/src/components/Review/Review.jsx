@@ -31,22 +31,29 @@ const Review = ({
 
   useEffect(() => {
     const userData = async () => {
+      if (!isLoading) return;
+
       try {
         if (usuario_id) {
+          if (!isLoading) return;
           await dispatch(fetchUsersAsync());
           const user = items.filter((u) => u.id === usuario_id)[0];
           setUser(user);
           setIsLoading(false);
         } else {
+          if (!isLoading) return;
           dispatch(createToast('No se encuentra el usuario'));
+          setIsLoading(false);
         }
       } catch (error) {
+        if (!isLoading) return;
         setIsLoading(false);
         dispatch(createToast('Error al cargar el usuario'));
+        setIsLoading(false);
       }
     };
     userData();
-  }, [dispatch, items, usuario_id]);
+  }, [dispatch, isLoading, items, usuario_id]);
 
   const handleReport = () => {
     dispatch(createToast('Comentario Reportado'));

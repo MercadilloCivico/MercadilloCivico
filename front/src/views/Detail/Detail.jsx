@@ -4,15 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice';
 import { IoIosArrowBack } from 'react-icons/io';
 import { TiHeartOutline, TiHeartFullOutline, TiStarFullOutline } from 'react-icons/ti';
-import CustomButton from '../../components/CustomButton/CustomButton';
 import Reviews from '../../components/Reviews/Reviews';
 import CreateReview from '../../components/CreateReview/CreateReview';
 import Loading from '../Loading/Loading';
 import axios from 'axios';
-import { addProductToCartDBThunk } from '../../store/thunks/cartThunks';
+import { addProductToCartDBThunk, getCartDBThunk } from '../../store/thunks/cartThunks';
 import { addFavorite, removeFavorite } from '../../store/thunks/favoritesThuks';
 import { fetchCards } from '../../store/thunks/cardsThunks';
 import { fetchUserProfileAsync } from '../../store/thunks/profileThunks.js';
+import { Button } from '@mui/material';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Detail = () => {
@@ -25,6 +25,12 @@ const Detail = () => {
   const { id } = useParams();
   const { allItems, filters } = useSelector((state) => state.card);
   const { status, userFavorites } = useSelector((state) => state.favorites);
+
+  const {
+    items: { productoEnCarrito },
+  } = useSelector((state) => state.carrito);
+
+  const isInCart = productoEnCarrito?.some((p) => p.inventarioId === producto?.inventario.id);
   const { token } = useSelector((state) => state.auth);
 
   function isFavLoading() {
@@ -38,8 +44,13 @@ const Detail = () => {
   }, [id, userFavorites]);
 
   const handleFavorite = async () => {
-    if (isFav) await dispatch(removeFavorite(id));
-    else await dispatch(addFavorite(id));
+    if (token) {
+      if (isFav) await dispatch(removeFavorite(id));
+      else await dispatch(addFavorite(id));
+    } else {
+      dispatch(createToast('Función desactivada. Por favor inicia sesión.'));
+      setIsFav(false);
+    }
   };
 
   const [isLoading, setIsLoading] = useState(true);
@@ -49,7 +60,9 @@ const Detail = () => {
     setModalOpen(true);
   };
   useEffect(() => {
-    (async () => {
+    const fetchInfo = async () => {
+      if (!isLoading) return;
+
       await dispatch(fetchCards({ id: filters.id }));
       await axios
         .get(`${VITE_API_URL}/product/${id}`)
@@ -62,19 +75,23 @@ const Detail = () => {
           console.error(error);
           setIsLoading(false);
         });
-    })();
-  }, [dispatch, filters.id, id, allItems]);
+    };
+    fetchInfo();
+  }, [allItems, dispatch, filters.id, id, isLoading]);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
 
   const [userCompras, setUserCompras] = useState([]);
+
   useEffect(() => {
     if (token) {
       const userInfo = async () => {
+        if (!isLoading) return;
+
         const { payload } = await dispatch(fetchUserProfileAsync());
-        const mapeo = payload.compras.map((c) => {
+        const mapeo = payload.compras?.map((c) => {
           const p = c.info_compra.split('-')[1];
           const names = p.split(':')[1];
           const onlyNames = names.split(',');
@@ -84,11 +101,12 @@ const Detail = () => {
           return splitN;
         });
         setUserCompras(mapeo.flat());
+        setIsLoading(false);
       };
+
       userInfo();
     }
-  }, []);
-  console.log('Compras: ', userCompras);
+  }, [dispatch, isLoading]);
 
   const handleResena = () => {
     if (userCompras.includes(producto?.name)) {
@@ -102,17 +120,34 @@ const Detail = () => {
   const [cantidad, setCantidad] = useState(1);
 
   const agregarAlCarrito = async () => {
-    await dispatch(
-      addProductToCartDBThunk({
-        carritoId: idCarrito,
-        inventarioId: producto.inventario.id,
-        cantidad,
-      })
-    );
-    if (statusCarrito === 'rejected') {
-      dispatch(createToast('El producto ya se encuentra en el carrito'));
-    } else {
-      dispatch(createToast('Producto agregado al carrito'));
+    if (token) {
+      await dispatch(
+        addProductToCartDBThunk({
+          carritoId: idCarrito,
+          inventarioId: producto.inventario.id,
+          cantidad,
+        })
+      );
+    }
+
+    if (token && statusCarrito === 'rejected') {
+      await dispatch(
+        addProductToCartDBThunk({
+          carritoId: idCarrito,
+          inventarioId: producto.inventario.id,
+          cantidad,
+        })
+      );
+      await dispatch(getCartDBThunk());
+      if (statusCarrito === 'rejected') {
+        dispatch(createToast('El producto ya se encuentra en el carrito'));
+      } else {
+        dispatch(createToast('Producto agregado al carrito'));
+      }
+
+      if (!token) {
+        dispatch(createToast('Inicia sesión para agregar al carrito'));
+      }
     }
   };
   const agregarProducto = () => {
@@ -177,7 +212,7 @@ const Detail = () => {
               <div className='h-full w-full relative mx-auto p-4 max-w-[450px] overflow-hidden aspect-square'>
                 <img
                   className='h-full w-full object-cover rounded-xl bg-[#fff]'
-                  src={producto.image}
+                  src={producto?.image}
                   alt='product-image'
                 />
               </div>
@@ -191,22 +226,22 @@ const Detail = () => {
                         {/* <div className='flex flex-row justify-center mr-2'>
                           <TiStarFullOutline className='h-[1.2em] w-[1.2em] text-tuscany-500' />
                           <span className='text-tuscany-950 text-lg font-semibold my-2'>
-                            {producto.calification}
+                            {producto?.calification}
                           </span>
                         </div> */}
 
                         {/* NOMBRE PRODUCTO */}
-                        {producto && producto.name}
+                        {producto && producto?.name}
                       </li>
                       <li className='text-tuscany-950 opacity-60 font-medium'>
-                        {producto.proveedor.name}
+                        {producto?.proveedor.name}
                       </li>
-                      {producto.inventario.stock ? (
+                      {producto?.inventario.stock ? (
                         <span className='text-tuscany-950'>
-                          Stock Disponible: {producto.inventario.stock}
+                          Stock Disponible: {producto?.inventario.stock}
                         </span>
                       ) : (
-                        producto.inventario.stock === 0 && (
+                        producto?.inventario.stock === 0 && (
                           <span className='text-[#792823] text-[.8em] md:text-[1em]'>
                             NO DISPONIBLE
                           </span>
@@ -219,7 +254,7 @@ const Detail = () => {
                     <div className='flex flex-row justify-center self-end items-center gap-1 bottom-4 relative'>
                       <TiStarFullOutline className='h-[1.5em] w-[1.5em] text-[#ffe87f]' />
                       <span className='text-[#2F2D2C] text-lg font-semibold'>
-                        {producto.calification}
+                        {producto?.calification}
                       </span>
                     </div>
 
@@ -238,11 +273,11 @@ const Detail = () => {
                       <button
                         onClick={agregarProducto}
                         className={`${
-                          producto.inventario.stock === cantidad
+                          producto?.inventario.stock === cantidad
                             ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed'
                             : 'cursor-pointer'
                         } bg-tuscany-950 rounded-lg w-8 h-8 flex items-center justify-center border-none shadow-md text-pearl-bush-100 font-bold`}
-                        disabled={producto.inventario.stock === cantidad}>
+                        disabled={producto?.inventario.stock === cantidad}>
                         +
                       </button>
                     </div>
@@ -253,10 +288,10 @@ const Detail = () => {
                 <h4 className='text-tuscany-950 text-start text-lg'>Descripción</h4>
                 <p
                   className={`text-tuscany-950 text-[0.8em] md:text-base 'line-clamp-3'${showFullDescription ? 'whitespace-pre-line' : 'line-clamp-3'} w-full`}>
-                  {producto.description}
+                  {producto?.description}
                 </p>
 
-                {producto.description?.length > 100 && (
+                {producto?.description?.length > 100 && (
                   <button
                     onClick={toggleDescription}
                     className='text-tuscany-600 border-none custom-transparent-bg text-[0.8em] md:text-base font-bold cursor-pointer underline'>
@@ -268,14 +303,16 @@ const Detail = () => {
                   <ul className='flex flex-col text-start'>
                     <li className='text-tuscany-950 text-lg font-bold'>Precio</li>
                     <li className='text-tuscany-500 text-4xl  font-semibold'>
-                      ${producto ? producto.inventario.precio_final : producto.proveedor.costo}
+                      ${producto ? producto?.inventario.precio_final : producto?.proveedor.costo}
                     </li>
                   </ul>
-                  <CustomButton
+                  <Button
+                    disabled={isInCart}
                     text='Agregar al Carrito'
-                    className='max-h-[35px]'
-                    onClick={agregarAlCarrito}
-                  />
+                    className={` ${isInCart ? 'bg-[#a8a8a8] hover:bg-[#a8a8a8] active:bg-[#a8a8a8] cursor-not-allowed' : 'bg-tuscany-600 hover:bg-pearl-bush-900 active:bg-pearl-bush-800 cursor-pointer'} max-h-[35px] text-tuscany-50`}
+                    onClick={agregarAlCarrito}>
+                    Agregar al Carrito
+                  </Button>
                 </div>
               </div>
             </div>
@@ -286,23 +323,23 @@ const Detail = () => {
               <button
                 onClick={handleResena}
                 className='text-tuscany-950 border-none custom-transparent-bg text-[0.8em] md:text-[1em] lg:text-[1.2em] font-bold cursor-pointer underline'>
-                {producto.resenas && producto.resenas
+                {producto?.resenas && producto?.resenas
                   ? 'Escribe tu opinión'
                   : 'Este producto aun no tiene reseñas, se el primero en comentar!'}
               </button>
-              {/* {producto.resenas?.length === 0 && ( */}
+              {/* {producto?.resenas?.length === 0 && ( */}
               <CreateReview
-                productId={producto.id}
+                productId={producto?.id}
                 isModalOpen={isModalOpen}
                 setModalOpen={setModalOpen}
                 isOpenOnDetail={isOpenOnDetail}
               />
               {/* // )} */}
               <Reviews
-                reviews={producto.resenas && producto.resenas}
+                reviews={producto?.resenas && producto?.resenas}
                 isModalOpen={isModalOpen}
                 setModalOpen={setModalOpen}
-                productId={producto.id}
+                productId={producto?.id}
                 isOpenOnDetail={isOpenOnDetail}
                 setIsOpenOnDetail={setIsOpenOnDetail}
               />
