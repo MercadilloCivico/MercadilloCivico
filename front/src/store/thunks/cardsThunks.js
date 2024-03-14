@@ -31,7 +31,6 @@ export const fetchCards = createAsyncThunk(
 export const fetchFilteredCards = createAsyncThunk(
   'cards/fetchFilteredCards',
   async (info, { rejectWithValue }) => {
-    console.log(info);
     try {
       const { id, name, filtroPrecio, filtroMarca, precio, alfabetico, calificacion } = info;
       let url = `${VITE_API_URL}/filtro/${id}`;

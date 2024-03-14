@@ -15,6 +15,7 @@ import { Badge } from '@mui/material';
 const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const { token } = useSelector((state) => state.auth);
   const location = useLocation();
   function toggleMenu(bool) {
     if (bool === false)
@@ -106,21 +107,25 @@ const Nav = ({ filtrosActivos, setFiltrosActivos }) => {
 
           {/* NAV END */}
           <div className='flex justify-end items-center w-full h-full space-x-[15px]'>
-            {items && items.length > 0 && rol !== 'proveedor' && (
+            {items && items.length > 0 && rol !== 'proveedor' && token && (
               <Link
                 to={'/cart'}
                 className='custom-transparent-bg h-30px w-30px border-none cursor-pointer flex items-center'>
-                <Badge
-                  badgeContent={cartCount ? cartCount : 0}
-                  color='success'
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  max={99}
-                  showZero>
+                {cartCount && cartCount > 0 ? (
+                  <Badge
+                    badgeContent={cartCount ? cartCount : 0}
+                    color='error'
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    max={99}
+                    showZero>
+                    <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
+                  </Badge>
+                ) : (
                   <LuShoppingCart className='h-[30px] w-[30px] text-tuscany-800 hover:text-tuscany-950 transition' />
-                </Badge>
+                )}
               </Link>
             )}
             <div

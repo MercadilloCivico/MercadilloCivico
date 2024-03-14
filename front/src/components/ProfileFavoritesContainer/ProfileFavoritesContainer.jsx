@@ -6,7 +6,11 @@ import { useSelector } from 'react-redux';
 
 export default function ProfileFavoritesContainer() {
   // Debe recibir un array de objetos por props
-  const { userFavorites } = useSelector((state) => state.favorites);
+  const { userFavorites: favorites } = useSelector((state) => state.favorites);
+  const { allItems, filters } = useSelector((state) => state.card);
+  const userFavorites = allItems.filter((p) => {
+    return favorites.some((f) => f.id === p.id);
+  });
 
   return (
     <div className={'max-w-[1280px] p-2 pb-0 flex flex-wrap  mx-auto ' + style.historyAnim}>
@@ -20,10 +24,10 @@ export default function ProfileFavoritesContainer() {
               description={product.description}
               supplier={product.marca}
               img={product.image}
-              // price={product.inventario.precio_final}
+              price={product.inventario.precio_final}
               rating={product.calification}
-              // stock={product.inventario.stock}
-              // inventarioId={product.inventario.id}
+              stock={product.inventario.stock}
+              inventarioId={product.inventario.id}
               className='my-3 mx-3 md:mx-5 lg:mx-10 transition-all'
               userFavorites={userFavorites}
             />
@@ -31,7 +35,14 @@ export default function ProfileFavoritesContainer() {
         })
       ) : (
         <p className='text-tuscany-950 flex items-center justify-center mx-auto text-lg mt-12'>
-          <LuHeartCrack className='flex items-center h-5 w-5 mr-1' /> No tienes favoritos.
+          {filters.id ? (
+            <>
+              <LuHeartCrack className='flex items-center h-5 w-5 mr-1' />
+              No tienes favoritos en este punto de venta.
+            </>
+          ) : (
+            'Selecciona un punto de venta para ver tus favoritos'
+          )}
         </p>
       )}
     </div>
