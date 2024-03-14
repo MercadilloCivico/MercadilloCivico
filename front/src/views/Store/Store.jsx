@@ -69,7 +69,11 @@ const Store = () => {
             options={citiesOptions}
           />
 
-          <p className={!puntoId && 'hidden'}>Estas en {pointData && pointData.address}</p>
+          {pointData && (
+            <p className={`${!puntoId && 'hidden'} text-lg`}>
+              Estas en <span className='font-semibold'>{pointData.address}.</span>
+            </p>
+          )}
         </Box>
       </div>
 
