@@ -120,7 +120,6 @@ const Detail = () => {
   const [cantidad, setCantidad] = useState(1);
 
   const agregarAlCarrito = async () => {
-
     if (token) {
       await dispatch(
         addProductToCartDBThunk({
@@ -132,23 +131,23 @@ const Detail = () => {
     }
 
     if (token && statusCarrito === 'rejected') {
-    await dispatch(
-      addProductToCartDBThunk({
-        carritoId: idCarrito,
-        inventarioId: producto.inventario.id,
-        cantidad,
-      })
-    );
-    await dispatch(getCartDBThunk());
-    if (statusCarrito === 'rejected') {
+      await dispatch(
+        addProductToCartDBThunk({
+          carritoId: idCarrito,
+          inventarioId: producto.inventario.id,
+          cantidad,
+        })
+      );
+      await dispatch(getCartDBThunk());
+      if (statusCarrito === 'rejected') {
+        dispatch(createToast('El producto ya se encuentra en el carrito'));
+      } else {
+        dispatch(createToast('Producto agregado al carrito'));
+      }
 
-      dispatch(createToast('El producto ya se encuentra en el carrito'));
-    } else {
-      dispatch(createToast('Producto agregado al carrito'));
-    }
-
-    if (!token) {
-      dispatch(createToast('Inicia sesión para agregar al carrito'));
+      if (!token) {
+        dispatch(createToast('Inicia sesión para agregar al carrito'));
+      }
     }
   };
   const agregarProducto = () => {

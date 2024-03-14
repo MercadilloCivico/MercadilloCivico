@@ -385,57 +385,36 @@ export default function Profile() {
   }
 
   return (
-
     <>
-    <div className='text-pearl-bush-950'>
-      <div>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <div className='px-2 mt-2'>
-            <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
-              {!editMode && complete && (
-                <div>
-                  <IoIosArrowBack
-                    className='absolute cursor-pointer w-[25px] h-[25px] my-auto left-[10px] top-0 bottom-0 z-[3] hover:text-pearl-bush-100'
-                    onClick={() => {
-                      navigate('/store');
-                    }}
-                  />
+      <div className='text-pearl-bush-950'>
+        <div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className='px-2 mt-2'>
+              <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
+                {!editMode && complete && (
+                  <div>
+                    <div
+                      onClick={() => {
+                        navigate('/store');
+                      }}
+                      className='cursor-pointer absolute top-2 rounded-xl left-2 z-[3] bg-[#00000080] w-[40px] h-[40px] p-1'>
+                      <IoIosArrowBack className=' transition my-auto w-full h-full text-pearl-bush-100' />
+                    </div>
 
-                  <button
-                    className={
-                      'absolute right-0 z-[2] text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
-                      style.editBtnAnim
-                    }
-                    onClick={() => {
-                      setEditMode(true);
-                    }}
-                    type='text'>
-                    EDITAR PERFIL
-                  </button>
-                </div>
-              )}
-              <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-600 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
-                {editMode && (
-                  <>
-                    <input
-                      name='img'
-                      id='img'
-                      onChange={handleChange}
-                      type='file'
-                      accept='image/png, image/gif, image/jpeg'
-                      className='hidden absolute'
-                    />
-                    <label
-                      htmlFor='img'
+                    <button
                       className={
-                        'text-tuscany-100 absolute m-1 bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
+                        'absolute right-0 z-[2] text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
                         style.editBtnAnim
-                      }>
-                      <MdEdit className='w-full h-full' />
-                    </label>
-                  </>
+                      }
+                      onClick={() => {
+                        setEditMode(true);
+                      }}
+                      type='text'>
+                      EDITAR PERFIL
+                    </button>
+                  </div>
                 )}
                 <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-600 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
                   {editMode && (
@@ -459,10 +438,9 @@ export default function Profile() {
                     </>
                   )}
 
-                  {/* 
-                Renderizado condicional de imágen de perfil.
-                Si hay una imagen existente se renderiza. Si se seleccionó una imágen para subir, se renderizará la preview en su lugar. Else, se renderiza un placeholder
-              */}
+                  {/* Renderizado condicional de imágen de perfil.
+              Si hay una imagen existente se renderiza. Si se seleccionó una imágen para subir, se renderizará la preview en su lugar. Else, se renderiza un placeholder
+            */}
                   {currentData.imgUrl && !formData.imgPreview ? (
                     <img className='w-full h-full object-cover' src={currentData.imgUrl}></img>
                   ) : formData.imgPreview ? (
@@ -472,10 +450,6 @@ export default function Profile() {
                   )}
                 </div>
               </div>
-              <IoIosArrowBack
-                className='absolute cursor-pointer w-[25px] h-[25px] my-auto left-[10px] top-0 bottom-0 z-[1] hover:text-pearl-bush-100'
-                onClick={handleCancel}
-              />
             </div>
           )}
           {/* Info container */}
