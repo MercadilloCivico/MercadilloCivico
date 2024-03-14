@@ -10,6 +10,7 @@ const label = { inputProps: { 'aria-label': 'Size switch demo' } };
 export default function SwitchesSize() {
   const { showDropdownCard } = useSelector((state) => state.store);
   const dispatch = useDispatch();
+  console.log(showDropdownCard);
 
   function handleSwitch() {
     dispatch(switchCard());
@@ -26,7 +27,7 @@ export default function SwitchesSize() {
       />
       <Switch
         {...label}
-        isChecked={showDropdownCard}
+        defaultChecked={showDropdownCard ? true : false}
         onChange={handleSwitch}
         sx={{
           '& .MuiSwitch-switchBase': {
