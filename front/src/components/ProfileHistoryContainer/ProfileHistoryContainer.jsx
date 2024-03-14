@@ -38,9 +38,10 @@ export default function ProfileHistoryContainer() {
   return (
     <div
       className={
-        'max-w-[1280px] mx-auto flex flex-wrap justify-center mt-2 px-2 ' + style.historyAnim
+        'max-w-[1280px] mx-auto flex flex-wrap justify-center mt-2 px-2 flex-col place-content-center gap-2' +
+        style.historyAnim
       }>
-      {info.length < 0 ? (
+      {info.length > 0 ? (
         info.map((item) => {
           return (
             <ProfileHistoryCard
@@ -49,7 +50,7 @@ export default function ProfileHistoryContainer() {
               compra={item.Compra}
               price={item.Total}
               date={item.date}
-              className='mb-2'
+              className='mb-2 w-full'
             />
           );
         })
