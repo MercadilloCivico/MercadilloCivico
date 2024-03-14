@@ -1,15 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getIconComponent } from '../../store/slices/faqsSlice';
 
 const CardFaqsLarge = ({ categoria, icon, faqsId }) => {
   const [hovered, setHovered] = useState(false);
-  const isXlScreen = window.innerWidth >= 1280;
-  const is2XlScreen = window.innerWidth >= 1535;
+  const [textLimit, setTextLimit] = useState(20);
   const { faqs } = useSelector((state) => state.faqs);
 
   const IconComponent = getIconComponent(icon);
+
+  useEffect(() => {
+    const updateTextLimit = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 2400) setTextLimit(85);
+      else if (screenWidth >= 2000) setTextLimit(70);
+      else if (screenWidth >= 1700) setTextLimit(60);
+      else if (screenWidth >= 1535) setTextLimit(50);
+      else if (screenWidth >= 1280) setTextLimit(40);
+      else if (screenWidth >= 1024) setTextLimit(30);
+      else setTextLimit(20);
+    };
+
+    updateTextLimit();
+    window.addEventListener('resize', updateTextLimit);
+
+    return () => {
+      window.removeEventListener('resize', updateTextLimit);
+    };
+  }, []);
 
   return (
     <div
@@ -35,8 +54,8 @@ const CardFaqsLarge = ({ categoria, icon, faqsId }) => {
                   <Link key={faq.id} to={`/faqs/detail/${faq.id}`}>
                     <li className='my-1 ml-1 text-tuscany-950 hover:text-tuscany-500 cursor-pointer overflow-hidden'>
                       {`> ${
-                        faq.pregunta.length > (is2XlScreen ? 50 : isXlScreen ? 40 : 30)
-                          ? `${faq.pregunta.substring(0, is2XlScreen ? 50 : isXlScreen ? 40 : 30)}...`
+                        faq.pregunta.length > textLimit
+                          ? `${faq.pregunta.substring(0, textLimit)}...`
                           : faq.pregunta
                       }`}
                     </li>

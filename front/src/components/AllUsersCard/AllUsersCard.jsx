@@ -1,18 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { FaArrowAltCircleRight } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { fetchUsersAsync } from '../../store/thunks/userThunks';
 
-const AllUsersCard = () => {
-  const { items } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
-      await dispatch(fetchUsersAsync());
-    })();
-  }, [dispatch]);
+const AllUsersCard = ({ items }) => {
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
 
