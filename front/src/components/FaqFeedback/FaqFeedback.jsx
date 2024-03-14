@@ -5,23 +5,59 @@ import CustomInput from '../CustomInput/CustomInput';
 import Modal from '../Modal/Modal';
 import { useDispatch } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice';
+import validate from './validations';
 
-const FaqFeedback = ({ selectedFaq }) => {
+const FaqFeedback = () => {
   const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [opinion, setOpinion] = useState('');
+  const [comentarios, setComentarios] = useState({
+    opinion: '',
+    correo: '',
+  });
+  const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
 
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+
+    setComentarios({
+      ...comentarios,
+      [name]: value,
+    });
+    setErrors(validate({ ...comentarios, [name]: value }));
+  };
+
   const handleFeedback = (type) => {
     if (type === 'like') {
-      selectedFaq.likes += 1;
+      ('like');
     } else if (type === 'dislike') {
-      selectedFaq.dislikes += 1;
       setModalOpen(true);
     }
 
     setIsFeedbackSubmitted(true);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formErrors = validate(comentarios);
+    setErrors(formErrors);
+
+    if (Object.keys(formErrors).length === 0) {
+      try {
+        dispatch(createToast(`Los comentarios han sido enviados con exito!`));
+        setModalOpen(false);
+      } catch (error) {
+        dispatch(createToast('Error al enviar comentarios : ' + error.message));
+      }
+      setComentarios({
+        opinion: '',
+        correo: '',
+      });
+    } else {
+      dispatch(createToast('Por favor, complete todos los campos correctamente.'));
+    }
   };
 
   return (
@@ -65,43 +101,59 @@ const FaqFeedback = ({ selectedFaq }) => {
                 </span>
               </li>
             </ul>
-            <div className='my-2 flex flex-col w-full'>
-              <label htmlFor='opinion' className='text-tuscany-950'>
-                Tu opinión:
-              </label>
-              <CustomInput
-                type='text'
-                id='opinion'
-                name='opinion'
-                placeholder='Escribe tu opinión'
-                value={opinion}
-                onChange={(e) => setOpinion(e.target.value)}
-              />
-            </div>
-            <span className='my-1 flex flex-col justify-start items-center text-start text-tuscany-950'>
-              Si tienes cualquier duda o necesitas ayuda puedes contactar con nosotros desde aqui!
-            </span>
-            <div>
-              <ul className='my-1 flex space-x-1'>
-                <li>
-                  <CustomButton
-                    text={'Enviar'}
-                    onClick={() => {
-                      dispatch(createToast('Comentarios enviados con exito!'));
-                      setModalOpen(false);
-                    }}
-                    className='text-[.7em] sm:text-[.9em] md:text-[1em]'
-                  />
-                </li>
-                <li>
-                  <CustomButton
-                    text={'Omitir Comentario'}
-                    onClick={() => setModalOpen(false)}
-                    className='text-[.7em] sm:text-[.9em] md:text-[1em]'
-                  />
-                </li>
-              </ul>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className='my-2 flex flex-col w-full'>
+                <label htmlFor='opinion' className='text-tuscany-950'>
+                  Correo Electronico:
+                </label>
+                <CustomInput
+                  type='text'
+                  id='correo'
+                  name='correo'
+                  placeholder='Escribe tu correo electronico'
+                  value={comentarios.correo}
+                  onChange={handleInput}
+                />
+                <div className='text-crown-of-thorns-600 text-sm'>{errors.correo}</div>
+              </div>
+
+              <div className='my-2 flex flex-col w-full'>
+                <label htmlFor='opinion' className='text-tuscany-950'>
+                  Tu opinión:
+                </label>
+                <CustomInput
+                  type='text'
+                  id='opinion'
+                  name='opinion'
+                  placeholder='Escribe tu opinión'
+                  value={comentarios.opinion}
+                  onChange={handleInput}
+                />
+                <div className='text-crown-of-thorns-600 text-sm'>{errors.opinion}</div>
+              </div>
+
+              <span className='my-1 flex flex-col justify-start items-center text-start text-tuscany-950'>
+                Si tienes cualquier duda o necesitas ayuda puedes contactar con nosotros desde aqui!
+              </span>
+              <div>
+                <ul className='my-1 flex space-x-1'>
+                  <li>
+                    <CustomButton
+                      text={'Enviar'}
+                      type='submit'
+                      className='text-[.7em] sm:text-[.9em] md:text-[1em]'
+                    />
+                  </li>
+                  <li>
+                    <CustomButton
+                      text={'Omitir Comentario'}
+                      onClick={() => setModalOpen(false)}
+                      className='text-[.7em] sm:text-[.9em] md:text-[1em]'
+                    />
+                  </li>
+                </ul>
+              </div>
+            </form>
           </div>
         </Modal>
       </div>

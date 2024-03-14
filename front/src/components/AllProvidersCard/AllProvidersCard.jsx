@@ -1,18 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaTruck } from 'react-icons/fa';
 import { FaArrowAltCircleRight } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { fetchProvidersAsync } from '../../store/thunks/providerThunks';
 
-const AllProvidersCard = () => {
-  const { providerArray } = useSelector((state) => state.providers);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
-      await dispatch(fetchProvidersAsync());
-    })();
-  }, [dispatch]);
+const AllProvidersCard = ({ providerArray }) => {
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
 

@@ -9,7 +9,7 @@ import { useMatch } from 'react-router-dom';
 import { switchAdminCard, switchView } from '../../store/slices/adminSlice';
 import AdminFilterDropdown from '../AdminFilterDropdown/AdminFilterDropdown';
 
-const AdminSearchBar = ({ setSearchProviders }) => {
+const AdminSearchBar = ({ setSearchProviders, setSearchProducts }) => {
   const dispatch = useDispatch();
   const { view } = useSelector((state) => state.admin);
   const { filters } = useSelector((state) => state.products);
@@ -28,7 +28,7 @@ const AdminSearchBar = ({ setSearchProviders }) => {
     setSearchValue(value);
     if (isAdminProducts) {
       dispatch(setName(value));
-      await dispatch(fetchFilteredProducts(filters));
+      setSearchProducts(value);
     } else if (isAdminProviders) {
       setSearchProviders(value);
     } else {
@@ -40,6 +40,7 @@ const AdminSearchBar = ({ setSearchProviders }) => {
     setSearchValue('');
     if (isAdminProducts) {
       dispatch(setName(''));
+      setSearchProducts('');
       await dispatch(
         fetchFilteredProducts({
           ...filters,

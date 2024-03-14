@@ -1,17 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaArrowAltCircleRight, FaStore } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks';
 
-const AllPointsCard = () => {
-  const { items } = useSelector((state) => state.salesPoint);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
-      await dispatch(fetchSalesPointsAsync());
-    })();
-  }, [dispatch]);
+const AllPointsCard = ({ items }) => {
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
 
