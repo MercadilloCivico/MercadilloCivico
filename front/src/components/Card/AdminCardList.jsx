@@ -3,14 +3,27 @@ import { FaTrash, FaEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 import { trueDeleteProductAsync } from '../../store/thunks/productThunks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createToast } from '../../store/slices/toastSlice';
+import { setName } from '../../store/slices/productSlice';
+import { fetchFilteredProducts } from '../../store/thunks/productThunks';
 
 const AdminCardList = ({ id, name, image, marca, disabled, ventas }) => {
   const [charLimit, setCharLimit] = useState(50);
   const [isModalOpen, setModalOpen] = useState(false);
+  const { filters } = useSelector((state) => state.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  async function clearFilters() {
+    dispatch(setName(''));
+    await dispatch(
+      fetchFilteredProducts({
+        ...filters,
+        name: '',
+      })
+    );
+  }
 
   useEffect(() => {
     const charLimits = {
@@ -57,14 +70,20 @@ const AdminCardList = ({ id, name, image, marca, disabled, ventas }) => {
           <img src={image} alt='ImgProduct' className='w-[.8em] h-[.8em]' />
           <span
             className='overflow-ellipsis whitespace-nowrap cursor-pointer'
-            onClick={() => navigate(`/admin/products/detail/${id}`)}>
+            onClick={() => {
+              navigate(`/admin/products/detail/${id}`);
+              clearFilters();
+            }}>
             {truncatedName}
           </span>
         </li>
         <li className='hidden lg:flex items-center w-[1em]'>
           <span
             className='overflow-ellipsis whitespace-nowrap cursor-pointer'
-            onClick={() => navigate(`/admin/products/detail/${id}`)}>
+            onClick={() => {
+              navigate(`/admin/products/detail/${id}`);
+              clearFilters();
+            }}>
             {truncatedBrand}
           </span>
         </li>
@@ -83,6 +102,7 @@ const AdminCardList = ({ id, name, image, marca, disabled, ventas }) => {
             className='w-[1.5em] text-[1em] mr-1 p-1 border-none rounded-sm flex justify-center cursor-pointer bg-[#2BA972] hover:bg-[#2e8a62]'
             onClick={() => {
               navigate(`/admin/products/edit/${id}`);
+              clearFilters();
             }}>
             <FaEdit className='text-pearl-bush-100' />
           </button>

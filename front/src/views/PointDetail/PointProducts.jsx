@@ -20,11 +20,13 @@ export default function PointProducts({ className, pointId, address, name }) {
   }
 
   useEffect(() => {
-    setPunto();
-    (async function () {
-      const { payload } = await dispatch(fetchSalesPointsAsync(pointIdRef.current));
-      setPunto(payload);
-    })();
+    if (refreshAllProducts) {
+      setPunto();
+      (async function () {
+        const { payload } = await dispatch(fetchSalesPointsAsync(pointIdRef.current));
+        setPunto(payload);
+      })();
+    }
 
     setRefreshAllProducts(false);
   }, [dispatch, refreshAllProducts]);
