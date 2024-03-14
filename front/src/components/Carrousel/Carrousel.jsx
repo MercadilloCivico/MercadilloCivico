@@ -46,7 +46,7 @@ const Carrousel = () => {
       border: 'none',
       textIndent: '-99999px',
       overflow: 'hidden',
-      background: '#374151',
+      background: '#c55d38',
       width: '12px',
       height: '12px',
       borderRadius: '50%',
