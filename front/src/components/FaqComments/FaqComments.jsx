@@ -15,7 +15,9 @@ const FaqComments = ({ comments }) => {
           ))}
         </div>
       ) : (
-        <span>Esta FAQ aún no tiene comentarios...</span>
+        <span className='text-center text-tuscany-950 font-semibold text-[1em]'>
+          Esta FAQ aún no tiene comentarios...
+        </span>
       )}
     </div>
   );
