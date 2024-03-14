@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPuntosSelector } from '../../store/thunks/cardsThunks.js';
 import { Box } from '@mui/material';
 import CustomSelect from '../../components/CustomBlurSelect/CustomBlurSelect';
-import BannerItem from '../../components/BannerItem/BannerItem';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import StoreFilters from '../../components/StoreFilters/StoreFilters';
@@ -17,6 +16,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { fetchSalesPointsAsync } from '../../store/thunks/salesPointThunks.js';
 import { createToast } from '../../store/slices/toastSlice.js';
+import Carrousel from '../../components/Carrousel/Carrousel.jsx';
 
 const Store = () => {
   const dispatch = useDispatch();
@@ -86,44 +86,45 @@ const Store = () => {
 
       <div className='relative'>
         <div className='w-screen h-[50%] position absolute bg-hippie-green-950'></div>
-        <BannerItem
+        {/* <BannerItem
           className='sm:rounded-none md:rounded-2xl lg:rounded-2xl sm-w-full md:max-w-[500px] lg:max-w-[500px] h-[100px] w-full mx-auto pb-0 transition-all'
           backgroundImage='https://picsum.photos/300'
           chipLabel='Promo'
           description='¡Compra uno y llévate el otro gratis!'
-        />
+        /> */}
+        <div>
+          <Carrousel />
+        </div>
       </div>
 
       <StoreFilters />
 
       <div className='flex flex-row w-full max-w-[1500px] mx-auto'>
-        <>
-          <div className='w-full max-w-[200px] hidden md:inline sticky h-full top-[55px]'>
-            <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
-            <FilterMenu
-              expanded={true}
-              activeFilterMenu={true}
-              className={'hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 sticky'}
-            />
-          </div>
-          {allItems?.length > 0 ? (
-            <Cards
-              allItems={allItems}
-              filteredItems={filteredItems}
-              className='w-full max-w-[1300px]'
-            />
-          ) : (
-            <div className='mx-auto items-center my-20 px-2 md:pr-[210px] '>
-              <p className='text-tuscany-950 text-xl font-semibold'>
-                Parece que no hay resultados...
-              </p>
+        <div className='w-full max-w-[200px] hidden md:inline sticky h-full top-[55px]'>
+          <FilterTags className='hidden md:flex flex-wrap justify-center ' tagMargin='m-1' />
+          <FilterMenu
+            expanded={true}
+            activeFilterMenu={true}
+            className={'hidden md:flex md:relative w-full md:h-max md:z-[1] flex-shrink-0 sticky'}
+          />
+        </div>
+        {allItems?.length > 0 ? (
+          <Cards
+            allItems={allItems}
+            filteredItems={filteredItems}
+            className='w-full max-w-[1300px]'
+          />
+        ) : (
+          <div className='mx-auto items-center my-20 px-2 md:pr-[210px] '>
+            <p className='text-tuscany-950 text-xl font-semibold'>
+              Parece que no hay resultados...
+            </p>
 
-              <p className='text-tuscany-950 text-lg '>
-                Intenta eliminar filtros, actualizar la página o seleccionar un punto.
-              </p>
-            </div>
-          )}
-        </>
+            <p className='text-tuscany-950 text-lg '>
+              Intenta eliminar filtros, actualizar la página o seleccionar un punto.
+            </p>
+          </div>
+        )}
       </div>
 
       <Footer />
