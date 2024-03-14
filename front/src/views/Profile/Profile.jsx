@@ -28,6 +28,7 @@ import municipiosPrincipales from '../../utils/departamentos.js';
 import { putProvider } from '../../store/thunks/providerThunks.js';
 import { validacionProveedor } from '../../utils/validation.js';
 import CustomInput from '../../components/CustomInput/CustomInput.jsx';
+import { IoIosArrowBack } from 'react-icons/io';
 
 import {
   Dialog,
@@ -384,15 +385,24 @@ export default function Profile() {
   }
 
   return (
+
     <>
-      <div className='text-pearl-bush-950'>
-        <div>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <div className='px-2 mt-2'>
-              <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
-                {!editMode && complete && (
+    <div className='text-pearl-bush-950'>
+      <div>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className='px-2 mt-2'>
+            <div className='rounded-xl max-w-[1280px] mx-auto h-[150px] relative bg-gradient-to-l from-[rgba(145,223,140,1)] to-[rgba(255,142,58,1)]'>
+              {!editMode && complete && (
+                <div>
+                  <IoIosArrowBack
+                    className='absolute cursor-pointer w-[25px] h-[25px] my-auto left-[10px] top-0 bottom-0 z-[3] hover:text-pearl-bush-100'
+                    onClick={() => {
+                      navigate('/store');
+                    }}
+                  />
+
                   <button
                     className={
                       'absolute right-0 z-[2] text-tuscany-100 m-2 w-max h-[40px] backdrop-blur-[3px] rounded-xl p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
@@ -404,6 +414,28 @@ export default function Profile() {
                     type='text'>
                     EDITAR PERFIL
                   </button>
+                </div>
+              )}
+              <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-600 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
+                {editMode && (
+                  <>
+                    <input
+                      name='img'
+                      id='img'
+                      onChange={handleChange}
+                      type='file'
+                      accept='image/png, image/gif, image/jpeg'
+                      className='hidden absolute'
+                    />
+                    <label
+                      htmlFor='img'
+                      className={
+                        'text-tuscany-100 absolute m-1 bottom-0 right-0 w-[40px] h-[40px] backdrop-blur-[3px] rounded-full p-2 bg-[#00000080] hover:bg-[#00000090] transition border-none hover:cursor-pointer ' +
+                        style.editBtnAnim
+                      }>
+                      <MdEdit className='w-full h-full' />
+                    </label>
+                  </>
                 )}
                 <div className='bottom-[calc(-75px+15%)] outline outline-2 outline-tuscany-600 mx-auto left-0 right-0 w-[150px] h-[150px] rounded-xl bg-pearl-bush-50 absolute object-cover overflow-hidden'>
                   {editMode && (
@@ -440,6 +472,10 @@ export default function Profile() {
                   )}
                 </div>
               </div>
+              <IoIosArrowBack
+                className='absolute cursor-pointer w-[25px] h-[25px] my-auto left-[10px] top-0 bottom-0 z-[1] hover:text-pearl-bush-100'
+                onClick={handleCancel}
+              />
             </div>
           )}
           {/* Info container */}
