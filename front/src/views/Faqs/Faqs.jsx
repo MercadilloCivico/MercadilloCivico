@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 const Faqs = () => {
   const { faqs, categorias } = useSelector((state) => state.faqs);
 
+  const filteredCategorias = categorias.filter((categoria) => categoria.id !== 1);
+
   return (
     <div className='min-h-[calc(100vh-55px)] flex flex-col'>
       <div>
@@ -27,10 +29,10 @@ const Faqs = () => {
           <TopFaqs faqs={faqs} />
         </div>
         <div>
-          <CardsMiniFaqs faqs={categorias} />
+          <CardsMiniFaqs faqs={filteredCategorias} />
         </div>
         <div className='hidden lg:flex flex-wrap justify-between m-4'>
-          {categorias.map((categoria) => (
+          {filteredCategorias.map((categoria) => (
             <CardFaqsLarge
               key={categoria.id}
               categoria={categoria.categoria}

@@ -41,7 +41,6 @@ const AdminDetailCategory = () => {
     {
       icon: <MdModeEdit />,
       name: 'Editar Categoria',
-      link: `/admin/faqs/edit/${category}`,
     },
     {
       icon: <MdDelete />,

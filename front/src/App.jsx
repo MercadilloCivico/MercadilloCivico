@@ -54,6 +54,7 @@ import PointDetail from './views/PointDetail/PointDetail.jsx';
 import ProviderDetail from './views/ProviderDetail/ProviderDetail.jsx';
 import AdminFaqs from './views/AdminFaqs/AdminFaqs.jsx';
 import AdminDetailCategory from './views/AdminDetailCategory/AdminDetailCategory.jsx';
+import AdminFaqDetail from './views/AdminFaqDetail/AdminFaqDetail.jsx';
 
 function ProtectedRoute({ Component }) {
   const { token } = useSelector((state) => state.auth);
@@ -261,7 +262,8 @@ function App() {
             element={<AdminProtectedRoute Component={PointDetail} />}
           />
           <Route path='/admin/faqs' element={<AdminFaqs />} />
-          <Route path='/admin/faqs/:category/:faq?' element={<AdminDetailCategory />} />
+          <Route path='/admin/faqs/:category' element={<AdminDetailCategory />} />
+          <Route path='/admin/faqs/:category/:faq' element={<AdminFaqDetail />} />
 
           <Route
             path='/supplier'
